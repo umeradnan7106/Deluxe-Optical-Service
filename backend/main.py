@@ -39,6 +39,8 @@ from routes.admin.products import router as admin_products_router
 from routes.admin.inventory import router as admin_inventory_router
 from routes.admin.dashboard import router as admin_dashboard_router
 from routes.admin.orders import router as admin_orders_router
+from routes.reviews import router as reviews_router
+from routes.admin.reviews import router as admin_reviews_router
 
 app.include_router(auth_router, prefix="/api")
 app.include_router(products_router, prefix="/api")
@@ -46,7 +48,9 @@ app.include_router(cart_router, prefix="/api")
 app.include_router(upload_router, prefix="/api")
 app.include_router(orders_router, prefix="/api")
 app.include_router(wishlist_router, prefix="/api")
+app.include_router(reviews_router, prefix="/api")
 app.include_router(admin_products_router, prefix="/api")
 app.include_router(admin_inventory_router, prefix="/api")
 app.include_router(admin_dashboard_router, prefix="/api")
 app.include_router(admin_orders_router, prefix="/api")
+app.include_router(admin_reviews_router, prefix="/api")

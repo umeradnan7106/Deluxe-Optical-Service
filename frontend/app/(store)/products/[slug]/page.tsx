@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { productsApi } from "@/lib/api";
+import Image from "next/image";
+import { productsApi, reviewsApi } from "@/lib/api";
 import type { Product } from "@/types";
 import { formatPrice, getDiscountPercent } from "@/lib/utils";
 import { WHATSAPP_URL } from "@/lib/constants";
@@ -18,28 +19,68 @@ import useCartStore from "@/store/cartStore";
 
 type Tab = "features" | "description" | "lenses";
 
+interface ReviewData {
+  id: number;
+  customer_name: string;
+  rating: number;
+  title: string;
+  body: string;
+  images: string[];
+  order_id: number | null;
+  created_at: string;
+}
+
 export default function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
   const addItem = useCartStore((s) => s.addItem);
 
   const [product, setProduct] = useState<Product | null>(null);
-  const [related, setRelated] = useState<Product["variants"]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState<Tab>("features");
 
+  // Reviews state
+  const [reviews, setReviews] = useState<ReviewData[]>([]);
+  const [reviewTotal, setReviewTotal] = useState(0);
+  const [reviewPage, setReviewPage] = useState(1);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewForm, setReviewForm] = useState({ name: "", email: "", rating: 5, title: "", body: "" });
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewSuccess, setReviewSuccess] = useState(false);
+
   useEffect(() => {
     async function load() {
-      const [pRes, rRes] = await Promise.all([
-        productsApi.detail(slug),
-        productsApi.list({ category: undefined, page: 1, per_page: 4 }),
-      ]);
-      setProduct(pRes.data);
+      const pRes = await productsApi.detail(slug);
+      setProduct(pRes.data as Product);
     }
     load().catch(() => {}).finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    if (!product) return;
+    reviewsApi.forProduct(product.id, reviewPage).then(({ data }) => {
+      const d = data as { items: ReviewData[]; total: number };
+      setReviews((prev) => reviewPage === 1 ? d.items : [...prev, ...d.items]);
+      setReviewTotal(d.total);
+    }).catch(() => {});
+  }, [product, reviewPage]);
+
+  async function submitReview() {
+    if (!product) return;
+    setReviewSubmitting(true);
+    try {
+      await reviewsApi.create({ ...reviewForm, product_id: product.id });
+      setReviewSuccess(true);
+      setReviewForm({ name: "", email: "", rating: 5, title: "", body: "" });
+      setTimeout(() => { setShowReviewModal(false); setReviewSuccess(false); }, 2000);
+    } catch {
+      //
+    } finally {
+      setReviewSubmitting(false);
+    }
+  }
 
   if (loading) {
     return <div className="flex items-center justify-center min-h-screen text-gray-400">Loading…</div>;
@@ -254,7 +295,120 @@ export default function ProductDetailPage() {
             <p className="text-gray-400">Explore lens options tailored for this frame in the "Select Lenses" flow above.</p>
           )}
         </div>
+
+        {/* Reviews Section */}
+        <div className="mt-12 border-t border-[#2a2a2a] pt-10">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="font-['Cormorant_Garamond'] text-2xl text-white font-semibold">Customer Reviews</h2>
+              {reviewTotal > 0 && product.average_rating !== null && (
+                <div className="flex items-center gap-2 mt-1">
+                  <StarRating rating={product.average_rating} size="md" />
+                  <span className="text-gray-400 text-sm">{product.average_rating.toFixed(1)} out of 5 ({reviewTotal} reviews)</span>
+                </div>
+              )}
+            </div>
+            <Button variant="outline" size="md" onClick={() => setShowReviewModal(true)}>Write a Review</Button>
+          </div>
+
+          {reviews.length === 0 ? (
+            <p className="text-gray-500 text-sm">No reviews yet. Be the first to review this product!</p>
+          ) : (
+            <div className="space-y-6">
+              {reviews.map((r) => (
+                <div key={r.id} className="border-b border-[#2a2a2a] pb-6">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <span className="text-white font-medium text-sm">{r.customer_name}</span>
+                      {r.order_id && (
+                        <span className="ml-2 text-[10px] bg-green-500/20 text-green-400 border border-green-500/30 px-1.5 py-0.5 rounded">Verified Purchase</span>
+                      )}
+                    </div>
+                    <span className="text-gray-500 text-xs">{new Date(r.created_at).toLocaleDateString("en-PK", { year: "numeric", month: "short", day: "numeric" })}</span>
+                  </div>
+                  <StarRating rating={r.rating} size="sm" />
+                  <p className="text-white font-medium text-sm mt-2">{r.title}</p>
+                  <p className="text-gray-300 text-sm mt-1 leading-relaxed">{r.body}</p>
+                  {r.images?.length > 0 && (
+                    <div className="flex gap-2 mt-3">
+                      {r.images.map((url, i) => (
+                        <a key={i} href={url} target="_blank" rel="noopener noreferrer">
+                          <Image src={url} alt="" width={64} height={64} className="rounded object-cover border border-[#2a2a2a]" />
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              {reviews.length < reviewTotal && (
+                <button onClick={() => setReviewPage((p) => p + 1)}
+                  className="text-[#E8670A] text-sm hover:underline">
+                  Load more reviews ({reviewTotal - reviews.length} remaining)
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Review Modal */}
+      {showReviewModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#1a1a1a] rounded w-full max-w-md p-6">
+            <h3 className="font-['Cormorant_Garamond'] text-xl text-white font-semibold mb-4">Write a Review</h3>
+            {reviewSuccess ? (
+              <div className="text-center py-6">
+                <p className="text-green-400 font-medium">Review submitted!</p>
+                <p className="text-gray-400 text-sm mt-1">It will appear after approval.</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-gray-400 block mb-1">Your Name *</label>
+                    <input value={reviewForm.name} onChange={(e) => setReviewForm((f) => ({ ...f, name: e.target.value }))}
+                      className="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]" />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-400 block mb-1">Email *</label>
+                    <input type="email" value={reviewForm.email} onChange={(e) => setReviewForm((f) => ({ ...f, email: e.target.value }))}
+                      className="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]" />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs text-gray-400 block mb-1">Rating *</label>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <button key={s} type="button" onClick={() => setReviewForm((f) => ({ ...f, rating: s }))}>
+                        <span className={`text-xl ${s <= reviewForm.rating ? "text-[#E8670A]" : "text-gray-600"}`}>★</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs text-gray-400 block mb-1">Title *</label>
+                  <input value={reviewForm.title} onChange={(e) => setReviewForm((f) => ({ ...f, title: e.target.value }))}
+                    className="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]"
+                    placeholder="Summarize your experience" />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-400 block mb-1">Review *</label>
+                  <textarea value={reviewForm.body} onChange={(e) => setReviewForm((f) => ({ ...f, body: e.target.value }))}
+                    rows={4}
+                    className="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] resize-none"
+                    placeholder="Share your experience…" />
+                </div>
+                <div className="flex gap-2 pt-2">
+                  <Button variant="primary" size="md" onClick={submitReview} disabled={reviewSubmitting || !reviewForm.name || !reviewForm.email || !reviewForm.title || !reviewForm.body}>
+                    {reviewSubmitting ? "Submitting…" : "Submit Review"}
+                  </Button>
+                  <Button variant="outline" size="md" onClick={() => setShowReviewModal(false)}>Cancel</Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <StickyBar
         productSlug={product.slug}

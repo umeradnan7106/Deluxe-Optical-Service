@@ -125,12 +125,12 @@ export const wishlistApi = {
 // ── Reviews ───────────────────────────────────────────────────────────────────
 
 export const reviewsApi = {
-  forProduct: (productId: number) =>
-    api.get<Review[]>(`/api/reviews/${productId}`),
+  forProduct: (productId: number, page = 1, perPage = 10) =>
+    api.get(`/api/reviews/product/${productId}`, { params: { page, per_page: perPage } }),
   create: (data: unknown) =>
-    api.post<Review>("/api/reviews", data),
+    api.post("/api/reviews", data),
   featured: () =>
-    api.get<Review[]>("/api/reviews/featured"),
+    api.get("/api/reviews/featured"),
 };
 
 // ── Blogs ─────────────────────────────────────────────────────────────────────
@@ -243,8 +243,9 @@ export const adminApi = {
   reviews: {
     list: (params?: Record<string, string | number | undefined>) =>
       api.get<PaginatedResponse<Review>>("/api/admin/reviews", { params }),
-    approve: (id: number) => api.patch(`/api/admin/reviews/${id}/approve`),
-    feature: (id: number) => api.patch(`/api/admin/reviews/${id}/feature`),
+    approve: (id: number) => api.put(`/api/admin/reviews/${id}/approve`),
+    reject: (id: number) => api.put(`/api/admin/reviews/${id}/reject`),
+    feature: (id: number) => api.put(`/api/admin/reviews/${id}/feature`),
     delete: (id: number) => api.delete(`/api/admin/reviews/${id}`),
   },
 
