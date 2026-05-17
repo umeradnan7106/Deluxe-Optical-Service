@@ -41,6 +41,8 @@ from routes.admin.dashboard import router as admin_dashboard_router
 from routes.admin.orders import router as admin_orders_router
 from routes.reviews import router as reviews_router
 from routes.admin.reviews import router as admin_reviews_router
+from routes.blogs import router as blogs_router
+from routes.admin.blogs import router as admin_blogs_router
 
 app.include_router(auth_router, prefix="/api")
 app.include_router(products_router, prefix="/api")
@@ -54,3 +56,5 @@ app.include_router(admin_inventory_router, prefix="/api")
 app.include_router(admin_dashboard_router, prefix="/api")
 app.include_router(admin_orders_router, prefix="/api")
 app.include_router(admin_reviews_router, prefix="/api")
+app.include_router(blogs_router, prefix="/api")
+app.include_router(admin_blogs_router, prefix="/api")

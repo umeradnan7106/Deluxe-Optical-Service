@@ -252,10 +252,13 @@ export const adminApi = {
   // Blogs
   blogs: {
     list: (params?: Record<string, string | number | undefined>) =>
-      api.get<PaginatedResponse<Blog>>("/api/admin/blogs", { params }),
-    create: (data: unknown) => api.post<Blog>("/api/admin/blogs", data),
-    update: (id: number, data: unknown) => api.patch<Blog>(`/api/admin/blogs/${id}`, data),
+      api.get("/api/admin/blogs", { params }),
+    detail: (id: number) => api.get(`/api/admin/blogs/${id}`),
+    create: (data: unknown) => api.post<{ id: number; slug: string }>("/api/admin/blogs", data),
+    update: (id: number, data: unknown) => api.patch(`/api/admin/blogs/${id}`, data),
     delete: (id: number) => api.delete(`/api/admin/blogs/${id}`),
+    publish: (id: number) => api.post(`/api/admin/blogs/${id}/publish`),
+    unpublish: (id: number) => api.post(`/api/admin/blogs/${id}/unpublish`),
     uploadCover: (file: File) => {
       const form = new FormData();
       form.append("file", file);
