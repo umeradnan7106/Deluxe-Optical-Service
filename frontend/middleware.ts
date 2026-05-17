@@ -15,8 +15,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (pathname.startsWith("/admin") && (!token || !isAdmin)) {
-    return NextResponse.redirect(new URL("/auth/login", request.url));
+  if (pathname.startsWith("/admin") && !token) {
+    const loginUrl = new URL("/auth/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  if (pathname.startsWith("/admin") && !isAdmin) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();

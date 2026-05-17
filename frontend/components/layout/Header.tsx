@@ -20,6 +20,8 @@ export default function Header() {
   const [query, setQuery] = useState("");
   const itemCount = useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const isAdmin = useAuthStore((s) => s.isAdmin);
+  const accountHref = !isAuthenticated ? "/auth/login" : isAdmin ? "/admin" : "/account/orders";
 
   return (
     <header className="bg-[#0F0F0F] border-b-2 border-[#E8670A] sticky top-0 z-50">
@@ -97,9 +99,19 @@ export default function Header() {
             <HeartIcon className="w-6 h-6" />
           </Link>
 
+          {/* Admin Panel shortcut */}
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="hidden md:inline-flex items-center gap-1.5 text-xs font-medium text-[#E8670A] border border-[#E8670A]/40 px-3 py-1.5 rounded hover:bg-[#E8670A]/10 transition-colors"
+            >
+              Admin Panel
+            </Link>
+          )}
+
           {/* Account */}
           <Link
-            href={isAuthenticated ? "/account" : "/auth/login"}
+            href={accountHref}
             className="text-white hover:text-[#E8670A] transition-colors"
             aria-label="Account"
           >

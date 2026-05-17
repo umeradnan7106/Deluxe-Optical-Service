@@ -23,25 +23,40 @@ const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isAdmin: false,
 
-      login: (user, accessToken, refreshToken) =>
+      login: (user, accessToken, refreshToken) => {
+        if (typeof document !== "undefined") {
+          document.cookie = `auth-token=${accessToken}; path=/; max-age=1800; SameSite=Lax`;
+          document.cookie = `is-admin=${user.is_admin}; path=/; max-age=1800; SameSite=Lax`;
+        }
         set({
           user,
           accessToken,
           refreshToken,
           isAuthenticated: true,
           isAdmin: user.is_admin,
-        }),
+        });
+      },
 
-      logout: () =>
+      logout: () => {
+        if (typeof document !== "undefined") {
+          document.cookie = "auth-token=; path=/; max-age=0";
+          document.cookie = "is-admin=; path=/; max-age=0";
+        }
         set({
           user: null,
           accessToken: null,
           refreshToken: null,
           isAuthenticated: false,
           isAdmin: false,
-        }),
+        });
+      },
 
-      setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken }),
+      setTokens: (accessToken, refreshToken) => {
+        if (typeof document !== "undefined") {
+          document.cookie = `auth-token=${accessToken}; path=/; max-age=1800; SameSite=Lax`;
+        }
+        set({ accessToken, refreshToken });
+      },
 
       setUser: (user) => set({ user, isAdmin: user.is_admin }),
     }),
