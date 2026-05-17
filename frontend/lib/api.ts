@@ -174,22 +174,32 @@ export const uploadApi = {
 export const adminApi = {
   // Dashboard
   stats: () => api.get("/api/admin/stats"),
+  dashboard: {
+    stats: () => api.get("/api/admin/stats"),
+    recentOrders: () => api.get("/api/admin/recent-orders"),
+    pendingReviews: () => api.get("/api/admin/pending-reviews"),
+    lowStock: () => api.get("/api/admin/low-stock"),
+  },
 
   // Products
   products: {
     list: (params?: Record<string, string | number | undefined>) =>
       api.get<PaginatedResponse<ProductListItem>>("/api/admin/products", { params }),
-    create: (data: unknown) => api.post<Product>("/api/admin/products", data),
-    update: (id: number, data: unknown) => api.patch<Product>(`/api/admin/products/${id}`, data),
+    detail: (id: number) => api.get(`/api/admin/products/${id}`),
+    create: (data: unknown) => api.post<{ id: number; slug: string }>("/api/admin/products", data),
+    update: (id: number, data: unknown) => api.patch(`/api/admin/products/${id}`, data),
     delete: (id: number) => api.delete(`/api/admin/products/${id}`),
-    uploadImage: (productId: number, file: File) => {
+    uploadImage: (productId: number, file: File, variantId?: number) => {
       const form = new FormData();
       form.append("file", file);
-      return api.post(`/api/admin/products/${productId}/images`, form, {
+      const params = variantId ? `?variant_id=${variantId}` : "";
+      return api.post<{ id: number; url: string }>(`/api/admin/products/${productId}/images${params}`, form, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     },
     deleteImage: (imageId: number) => api.delete(`/api/admin/products/images/${imageId}`),
+    assignLensOptions: (productId: number, lensOptionIds: number[]) =>
+      api.put(`/api/admin/products/${productId}/lens-options`, { lens_option_ids: lensOptionIds }),
   },
 
   // Variants
@@ -221,12 +231,12 @@ export const adminApi = {
   // Orders
   orders: {
     list: (params?: Record<string, string | number | undefined>) =>
-      api.get<PaginatedResponse<Order>>("/api/admin/orders", { params }),
-    detail: (id: number) => api.get<Order>(`/api/admin/orders/${id}`),
+      api.get("/api/admin/orders", { params }),
+    detail: (id: number) => api.get(`/api/admin/orders/${id}`),
     updateStatus: (id: number, status: string) =>
-      api.patch(`/api/admin/orders/${id}/status`, { status }),
+      api.put(`/api/admin/orders/${id}/status`, { status }),
     updateTracking: (id: number, tracking_number: string) =>
-      api.patch(`/api/admin/orders/${id}/tracking`, { tracking_number }),
+      api.put(`/api/admin/orders/${id}/tracking`, { tracking_number }),
   },
 
   // Reviews

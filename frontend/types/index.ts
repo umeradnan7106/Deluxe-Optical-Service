@@ -9,7 +9,11 @@ export interface ProductVariant {
   id: number;
   color_name: string;
   color_hex: string | null;
+  size_label: string | null;
+  sku_variant: string | null;
+  price: number | null;
   stock: number;
+  is_active: boolean;
   images: ProductImage[];
 }
 

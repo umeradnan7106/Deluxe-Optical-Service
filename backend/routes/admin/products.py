@@ -132,14 +132,56 @@ def delete_variant(variant_id: int, db: Session = Depends(get_db), _=Depends(get
     return {"message": "Deleted"}
 
 
+@router.get("/{product_id}")
+def get_product_admin(product_id: int, db: Session = Depends(get_db), _=Depends(get_current_admin)):
+    import json as _json
+    product = db.query(Product).filter(Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Not found")
+    variants = []
+    for v in product.variants:
+        images = [
+            {"id": img.id, "url": img.url, "public_id": img.public_id, "sort_order": img.sort_order}
+            for img in sorted(v.images, key=lambda x: x.sort_order)
+        ]
+        variants.append({
+            "id": v.id, "color_name": v.color_name, "color_hex": v.color_hex,
+            "size_label": v.size_label, "sku_variant": v.sku_variant,
+            "price": v.price, "stock": v.stock, "is_active": v.is_active, "images": images,
+        })
+    lens_option_ids = [
+        plo.lens_option_id for plo in
+        db.query(ProductLensOption).filter(ProductLensOption.product_id == product_id).all()
+    ]
+    return {
+        "id": product.id, "name": product.name, "slug": product.slug, "sku": product.sku,
+        "brand": product.brand, "category": product.category.value, "gender": product.gender.value,
+        "frame_shape": product.frame_shape, "rim_type": product.rim_type, "material": product.material,
+        "base_price": product.base_price, "sale_price": product.sale_price,
+        "bullets": _json.loads(product.bullets or "[]"),
+        "description": product.description or "",
+        "is_prescription_required": product.is_prescription_required,
+        "is_active": product.is_active, "is_featured": product.is_featured,
+        "meta_title": product.meta_title, "meta_description": product.meta_description,
+        "frame_width_mm": product.frame_width_mm, "lens_width_mm": product.lens_width_mm,
+        "bridge_mm": product.bridge_mm, "temple_mm": product.temple_mm, "lens_height_mm": product.lens_height_mm,
+        "variants": variants, "lens_option_ids": lens_option_ids,
+    }
+
+
 @router.post("/{product_id}/images", status_code=status.HTTP_201_CREATED)
 async def upload_product_image(
     product_id: int,
-    variant_id: int,
+    variant_id: Optional[int] = None,
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
     _=Depends(get_current_admin),
 ):
+    if variant_id is None:
+        first_variant = db.query(ProductVariant).filter(ProductVariant.product_id == product_id).first()
+        if not first_variant:
+            raise HTTPException(status_code=400, detail="Create a variant before uploading images")
+        variant_id = first_variant.id
     result = await upload_image(file, "products")
     sort_order = db.query(ProductImage).filter(ProductImage.variant_id == variant_id).count()
     img = ProductImage(
