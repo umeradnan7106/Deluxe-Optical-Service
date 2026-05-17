@@ -70,18 +70,14 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="relative aspect-square rounded-xl overflow-hidden bg-[#1a1a1a]">
+            <div className="relative aspect-square rounded-xl overflow-hidden bg-[#1a1a1a] flex items-center justify-center text-gray-600 text-sm">
               <Image
                 src="/images/about-store.jpg"
                 alt="Deluxe Opt Service store"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
               />
-              <div className="absolute inset-0 flex items-center justify-center text-gray-600 text-sm">
-                Store image
-              </div>
             </div>
           </div>
         </div>

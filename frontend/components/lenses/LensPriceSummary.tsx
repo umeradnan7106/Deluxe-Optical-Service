@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
 import Button from "@/components/ui/Button";

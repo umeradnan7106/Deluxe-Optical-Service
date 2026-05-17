@@ -1,101 +1,163 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { TruckIcon, ArrowPathIcon, ShieldCheckIcon, MapPinIcon } from "@heroicons/react/24/outline";
+
+import HeroSlider from "@/components/home/HeroSlider";
+import GenderCards from "@/components/home/GenderCards";
+import CategoryGrid from "@/components/home/CategoryGrid";
+import LensCollectionSection from "@/components/home/LensCollectionSection";
+import ReviewsStrip from "@/components/home/ReviewsStrip";
+import ProductCard from "@/components/product/ProductCard";
+import Button from "@/components/ui/Button";
+import { productsApi } from "@/lib/api";
+import type { ProductListItem } from "@/types";
+
+const TRUST_ITEMS = [
+  { Icon: TruckIcon, label: "Free Delivery", sub: "Orders over Rs. 3,000" },
+  { Icon: ArrowPathIcon, label: "15-Day Returns", sub: "Hassle-free returns" },
+  { Icon: ShieldCheckIcon, label: "Secure Payments", sub: "EasyPaisa, JazzCash, Bank" },
+  { Icon: MapPinIcon, label: "Pakistan-Wide", sub: "Delivery to all cities" },
+];
+
+export default function HomePage() {
+  const [featured, setFeatured] = useState<ProductListItem[]>([]);
+  const [newArrivals, setNewArrivals] = useState<ProductListItem[]>([]);
+
+  useEffect(() => {
+    productsApi.featured()
+      .then((res) => setFeatured(res.data.slice(0, 4)))
+      .catch(() => {});
+    productsApi.list({ per_page: 4 })
+      .then((res) => setNewArrivals(res.data.items))
+      .catch(() => {});
+  }, []);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      {/* 1. Hero Slider */}
+      <HeroSlider />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* 2. Trust Strip */}
+      <section className="bg-[#1a1a1a] border-y border-[#2a2a2a]">
+        <div className="max-w-[1500px] mx-auto px-6 py-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {TRUST_ITEMS.map(({ Icon, label, sub }) => (
+              <div key={label} className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#E8670A]/10 flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-[#E8670A]" />
+                </div>
+                <div>
+                  <p className="text-white text-sm font-medium">{label}</p>
+                  <p className="text-gray-500 text-xs">{sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* 3. Shop by Gender */}
+      <GenderCards />
+
+      {/* 4. Shop by Category */}
+      <CategoryGrid />
+
+      {/* 5. Bestsellers */}
+      {featured.length > 0 && (
+        <section className="max-w-[1500px] mx-auto px-6 py-12">
+          <div className="flex items-end justify-between mb-6">
+            <div>
+              <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-1">Top Picks</p>
+              <h2 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold">Bestsellers</h2>
+            </div>
+            <Link href="/products?featured=true">
+              <Button variant="outline" size="sm">View All</Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 6. Prescription CTA Banner */}
+      <section className="bg-[#111111] py-12">
+        <div className="max-w-[1500px] mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-[#1a1a1a] rounded-xl p-8 border border-[#2a2a2a]">
+            <div>
+              <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-1">Prescription Eyewear</p>
+              <h2 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-2">Got a Prescription?</h2>
+              <p className="text-gray-400 max-w-lg text-sm leading-relaxed">
+                Upload your prescription or enter it manually during checkout. Our optical team verifies every order for your comfort and safety.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <Link href="/products?category=eyeglasses">
+                <Button variant="primary" size="lg">Shop Prescription Frames</Button>
+              </Link>
+              <Link href="/lens-guide">
+                <Button variant="outline" size="lg">Lens Guide</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. New Arrivals */}
+      {newArrivals.length > 0 && (
+        <section className="max-w-[1500px] mx-auto px-6 py-12">
+          <div className="flex items-end justify-between mb-6">
+            <div>
+              <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-1">Just Landed</p>
+              <h2 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold">New Arrivals</h2>
+            </div>
+            <Link href="/products">
+              <Button variant="outline" size="sm">Shop All</Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {newArrivals.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 8. Lens Collection Section */}
+      <LensCollectionSection />
+
+      {/* 9. Customer Reviews Strip */}
+      <ReviewsStrip />
+
+      {/* 10. Newsletter / Final CTA */}
+      <section className="bg-[#E8670A] py-16">
+        <div className="max-w-[1500px] mx-auto px-6 text-center">
+          <h2 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold mb-2">Stay in the Loop</h2>
+          <p className="text-orange-100 mb-8 max-w-md mx-auto text-sm">
+            Get the latest styles, exclusive offers, and optical tips delivered to your inbox.
+          </p>
+          <form
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 rounded text-white bg-white/20 placeholder:text-orange-200 border border-orange-300/50 focus:outline-none focus:border-white"
+            />
+            <button
+              type="submit"
+              className="bg-white text-[#E8670A] font-semibold px-6 py-3 rounded hover:bg-orange-50 transition-colors"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </section>
+    </>
   );
 }
