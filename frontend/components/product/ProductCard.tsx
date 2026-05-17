@@ -47,9 +47,9 @@ export default function ProductCard({ product, wishlisted = false, onWishlistTog
   }
 
   return (
-    <Link href={`/products/${product.slug}`} className="group block bg-[#1a1a1a] rounded overflow-hidden hover:shadow-lg transition-shadow">
+    <Link href={`/products/${product.slug}`} className="group block bg-white border border-gray-200 rounded overflow-hidden hover:shadow-md transition-shadow">
       {/* Image */}
-      <div className="relative aspect-[4/3] bg-[#2a2a2a]">
+      <div className="relative aspect-[4/3] bg-gray-100">
         {!imgError && product.thumbnail_url ? (
           <Image
             src={product.thumbnail_url}
@@ -72,14 +72,14 @@ export default function ProductCard({ product, wishlisted = false, onWishlistTog
 
         {/* Wishlist */}
         <button
-          className="absolute top-2 right-2 bg-[#0F0F0F]/70 rounded-full p-1.5 hover:bg-[#0F0F0F] transition-colors"
+          className="absolute top-2 right-2 bg-white/80 rounded-full p-1.5 hover:bg-white transition-colors shadow-sm"
           onClick={(e) => { e.preventDefault(); onWishlistToggle?.(product.id); }}
           aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
         >
           {wishlisted ? (
             <HeartSolidIcon className="w-4 h-4 text-[#E8670A]" />
           ) : (
-            <HeartIcon className="w-4 h-4 text-white" />
+            <HeartIcon className="w-4 h-4 text-gray-500" />
           )}
         </button>
 
@@ -91,8 +91,8 @@ export default function ProductCard({ product, wishlisted = false, onWishlistTog
 
       {/* Body */}
       <div className="p-3">
-        <p className="text-gray-500 text-[10px] mb-0.5">{product.sku}</p>
-        <h3 className="text-white text-sm font-medium leading-snug line-clamp-2 mb-1">
+        <p className="text-gray-400 text-[10px] mb-0.5">{product.sku}</p>
+        <h3 className="text-gray-900 text-sm font-medium leading-snug line-clamp-2 mb-1">
           {product.name}
         </h3>
 

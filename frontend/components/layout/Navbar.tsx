@@ -45,7 +45,7 @@ export default function Navbar() {
         </ul>
 
         <Link
-          href="/track-order"
+          href="/tracking"
           className="text-sm text-gray-400 hover:text-[#E8670A] transition-colors"
         >
           Track Order

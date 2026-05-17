@@ -42,7 +42,7 @@ const SECTIONS = [
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="bg-[#0F0F0F] min-h-screen">
+    <div className="min-h-screen">
       <section className="bg-[#111111] border-b border-[#2a2a2a] py-16">
         <div className="max-w-[1500px] mx-auto px-6 text-center">
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Legal</p>
@@ -55,8 +55,8 @@ export default function PrivacyPolicyPage() {
         <div className="max-w-3xl mx-auto px-6 space-y-10">
           {SECTIONS.map(({ title, body }) => (
             <div key={title}>
-              <h2 className="text-white font-semibold text-lg mb-3">{title}</h2>
-              <p className="text-gray-400 text-sm leading-relaxed">{body}</p>
+              <h2 className="text-gray-900 font-semibold text-lg mb-3">{title}</h2>
+              <p className="text-gray-600 text-sm leading-relaxed">{body}</p>
             </div>
           ))}
         </div>

@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#0F0F0F] text-white font-['Outfit'];
+    @apply bg-white text-[#111111] font-['Outfit'];
   }
 }
 

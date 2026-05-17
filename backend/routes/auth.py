@@ -1,3 +1,4 @@
+import traceback
 from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 from sqlalchemy.orm import Session
 
@@ -32,29 +33,43 @@ def register(body: UserCreate, background_tasks: BackgroundTasks, db: Session = 
     if db.query(User).filter(User.email == body.email).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
 
-    user = User(
-        email=body.email,
-        hashed_password=hash_password(body.password),
-        full_name=body.full_name,
-        phone=body.phone,
-    )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+    try:
+        user = User(
+            email=body.email,
+            hashed_password=hash_password(body.password),
+            full_name=body.full_name,
+            phone=body.phone,
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
 
-    access_token = create_access_token({"sub": str(user.id)})
-    refresh_token = create_refresh_token({"sub": str(user.id)})
-    user.refresh_token = refresh_token
-    db.commit()
+        access_token = create_access_token({"sub": str(user.id)})
+        refresh_token = create_refresh_token({"sub": str(user.id)})
+        user.refresh_token = refresh_token
+        db.commit()
 
-    from services.email import send_welcome_email
-    background_tasks.add_task(send_welcome_email, user.full_name, user.email)
+        try:
+            from services.email import send_welcome_email
+            background_tasks.add_task(send_welcome_email, user.full_name, user.email)
+        except Exception as email_err:
+            print(f"[register] Welcome email setup failed (non-fatal): {email_err}")
 
-    return TokenResponse(
-        access_token=access_token,
-        refresh_token=refresh_token,
-        user=_user_response(user),
-    )
+        return TokenResponse(
+            access_token=access_token,
+            refresh_token=refresh_token,
+            user=_user_response(user),
+        )
+    except HTTPException:
+        raise
+    except Exception as exc:
+        db.rollback()
+        print(f"[register] ERROR: {exc}")
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Registration failed: {exc}",
+        )
 
 
 @router.post("/login", response_model=TokenResponse)

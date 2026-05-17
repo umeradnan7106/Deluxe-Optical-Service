@@ -70,7 +70,7 @@ export default function HomePage() {
           <div className="flex items-end justify-between mb-6">
             <div>
               <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-1">Top Picks</p>
-              <h2 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold">Bestsellers</h2>
+              <h2 className="font-['Cormorant_Garamond'] text-4xl text-gray-900 font-semibold">Bestsellers</h2>
             </div>
             <Link href="/products?featured=true">
               <Button variant="outline" size="sm">View All</Button>
@@ -113,7 +113,7 @@ export default function HomePage() {
           <div className="flex items-end justify-between mb-6">
             <div>
               <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-1">Just Landed</p>
-              <h2 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold">New Arrivals</h2>
+              <h2 className="font-['Cormorant_Garamond'] text-4xl text-gray-900 font-semibold">New Arrivals</h2>
             </div>
             <Link href="/products">
               <Button variant="outline" size="sm">Shop All</Button>

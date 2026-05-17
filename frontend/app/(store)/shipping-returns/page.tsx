@@ -16,7 +16,7 @@ const DELIVERY_STEPS = [
 
 export default function ShippingReturnsPage() {
   return (
-    <div className="bg-[#0F0F0F] min-h-screen">
+    <div className="min-h-screen">
       {/* Hero */}
       <section className="bg-[#111111] border-b border-[#2a2a2a] py-20">
         <div className="max-w-[1500px] mx-auto px-6 text-center">
@@ -47,35 +47,35 @@ export default function ShippingReturnsPage() {
           </div>
 
           {/* Delivery Policy */}
-          <div className="bg-[#1a1a1a] rounded-xl p-8 border border-[#2a2a2a]">
+          <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
               <TruckIcon className="w-6 h-6 text-[#E8670A]" />
-              <h2 className="text-white text-xl font-semibold">Delivery Policy</h2>
+              <h2 className="text-gray-900 text-xl font-semibold">Delivery Policy</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Standard Delivery</p>
-                <p className="text-white font-medium">3–5 Business Days</p>
+                <p className="text-gray-500 text-sm mb-1">Standard Delivery</p>
+                <p className="text-gray-900 font-medium">3–5 Business Days</p>
               </div>
               <div>
-                <p className="text-gray-400 text-sm mb-1">Shipping Fee</p>
-                <p className="text-white font-medium">Rs. 200 (Free over Rs. 3,000)</p>
+                <p className="text-gray-500 text-sm mb-1">Shipping Fee</p>
+                <p className="text-gray-900 font-medium">Rs. 200 (Free over Rs. 3,000)</p>
               </div>
               <div>
-                <p className="text-gray-400 text-sm mb-1">Coverage</p>
-                <p className="text-white font-medium">All cities across Pakistan</p>
+                <p className="text-gray-500 text-sm mb-1">Coverage</p>
+                <p className="text-gray-900 font-medium">All cities across Pakistan</p>
               </div>
               <div>
-                <p className="text-gray-400 text-sm mb-1">Order Tracking</p>
-                <p className="text-white font-medium">Via email + /track-order page</p>
+                <p className="text-gray-500 text-sm mb-1">Order Tracking</p>
+                <p className="text-gray-900 font-medium">Via email + tracking page</p>
               </div>
             </div>
 
             {/* Timeline */}
-            <h3 className="text-white font-medium mb-4">Your Order Journey</h3>
+            <h3 className="text-gray-900 font-medium mb-4">Your Order Journey</h3>
             <div className="relative">
-              <div className="absolute left-5 top-6 bottom-0 w-0.5 bg-[#2a2a2a]" />
+              <div className="absolute left-5 top-6 bottom-0 w-0.5 bg-gray-200" />
               <div className="space-y-6">
                 {DELIVERY_STEPS.map(({ step, title, desc }) => (
                   <div key={step} className="flex gap-4 relative">
@@ -83,7 +83,7 @@ export default function ShippingReturnsPage() {
                       {step}
                     </div>
                     <div className="pt-2">
-                      <p className="text-white font-medium text-sm">{title}</p>
+                      <p className="text-gray-900 font-medium text-sm">{title}</p>
                       <p className="text-gray-500 text-xs mt-0.5 leading-relaxed">{desc}</p>
                     </div>
                   </div>
@@ -93,14 +93,14 @@ export default function ShippingReturnsPage() {
           </div>
 
           {/* Returns Policy */}
-          <div className="bg-[#1a1a1a] rounded-xl p-8 border border-[#2a2a2a]">
+          <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
               <ArrowPathIcon className="w-6 h-6 text-[#E8670A]" />
-              <h2 className="text-white text-xl font-semibold">Returns & Exchanges</h2>
+              <h2 className="text-gray-900 text-xl font-semibold">Returns & Exchanges</h2>
             </div>
-            <div className="space-y-4 text-sm text-gray-400 leading-relaxed">
+            <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
               <p>
-                We offer a <span className="text-white font-medium">15-day return window</span> from the date of delivery. If your order arrives damaged, defective, or incorrect, we will arrange a full replacement or refund at no cost to you.
+                We offer a <span className="text-gray-900 font-medium">15-day return window</span> from the date of delivery. If your order arrives damaged, defective, or incorrect, we will arrange a full replacement or refund at no cost to you.
               </p>
               <p>
                 For prescription orders, returns are accepted if the lenses were manufactured incorrectly according to your prescription. Frame-only exchanges are accepted for unworn, undamaged items in their original packaging.
@@ -116,10 +116,10 @@ export default function ShippingReturnsPage() {
                 { Icon: CurrencyDollarIcon, label: "Full Refund", sub: "For defective items" },
                 { Icon: ShieldCheckIcon, label: "Free Exchange", sub: "Incorrect prescriptions" },
               ].map(({ Icon, label, sub }) => (
-                <div key={label} className="bg-[#252525] rounded-lg p-4 flex items-center gap-3">
+                <div key={label} className="bg-gray-50 rounded-lg p-4 flex items-center gap-3 border border-gray-200">
                   <Icon className="w-5 h-5 text-[#E8670A] shrink-0" />
                   <div>
-                    <p className="text-white text-sm font-medium">{label}</p>
+                    <p className="text-gray-900 text-sm font-medium">{label}</p>
                     <p className="text-gray-500 text-xs">{sub}</p>
                   </div>
                 </div>
