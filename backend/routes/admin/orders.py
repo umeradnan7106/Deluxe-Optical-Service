@@ -114,6 +114,23 @@ def update_order_status(
 
     o.status = body.status
     db.commit()
+
+    from services.email import (
+        send_order_processing, send_order_shipped,
+        send_order_delivered,
+    )
+    if body.status == "processing":
+        background_tasks.add_task(
+            send_order_processing, o.order_number, o.customer_name, o.customer_email
+        )
+    elif body.status == "shipped":
+        background_tasks.add_task(
+            send_order_shipped, o.order_number, o.customer_name, o.customer_email, o.tracking_number
+        )
+    elif body.status == "delivered":
+        background_tasks.add_task(
+            send_order_delivered, o.order_number, o.customer_name, o.customer_email
+        )
     return {"message": "Status updated", "status": body.status}
 
 

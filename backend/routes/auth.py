@@ -28,7 +28,7 @@ def _user_response(user: User) -> UserResponse:
 
 
 @router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
-def register(body: UserCreate, db: Session = Depends(get_db)):
+def register(body: UserCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     if db.query(User).filter(User.email == body.email).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
 
@@ -46,6 +46,9 @@ def register(body: UserCreate, db: Session = Depends(get_db)):
     refresh_token = create_refresh_token({"sub": str(user.id)})
     user.refresh_token = refresh_token
     db.commit()
+
+    from services.email import send_welcome_email
+    background_tasks.add_task(send_welcome_email, user.full_name, user.email)
 
     return TokenResponse(
         access_token=access_token,

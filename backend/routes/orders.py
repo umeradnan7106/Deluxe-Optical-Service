@@ -1,7 +1,7 @@
 import json
 from datetime import datetime, timezone
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status, Query, BackgroundTasks
 from sqlalchemy.orm import Session
 
 from database import get_db
@@ -39,7 +39,7 @@ def _build_timeline(order: Order) -> list[dict]:
 
 
 @router.post("", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
-def create_order(body: OrderCreate, db: Session = Depends(get_db), current_user=Depends(get_optional_user)):
+def create_order(body: OrderCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db), current_user=Depends(get_optional_user)):
     # Validate payment method
     valid_methods = {"cod", "easypaisa", "jazzcash", "bank_transfer"}
     if body.payment_method not in valid_methods:
@@ -136,6 +136,12 @@ def create_order(body: OrderCreate, db: Session = Depends(get_db), current_user=
 
     db.commit()
     db.refresh(order)
+
+    from services.email import send_order_confirmation
+    background_tasks.add_task(
+        send_order_confirmation, order.order_number, order.customer_name,
+        order.customer_email, order.total,
+    )
 
     return OrderResponse(
         id=order.id,
