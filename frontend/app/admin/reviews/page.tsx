@@ -37,12 +37,12 @@ export default function AdminReviewsPage() {
   async function load() {
     setLoading(true);
     try {
-      const params: Record<string, boolean | number> = {};
-      if (tab === "pending") params.is_approved = false;
-      if (tab === "approved") params.is_approved = true;
+      const params: Record<string, string | number | undefined> = {};
+      if (tab === "pending") params.is_approved = 0;
+      if (tab === "approved") params.is_approved = 1;
       const { data } = await adminApi.reviews.list(params);
-      setReviews((data as { items: AdminReview[] }).items);
-      setTotal((data as { total: number }).total);
+      setReviews((data as unknown as { items: AdminReview[] }).items);
+      setTotal((data as unknown as { total: number }).total);
     } catch {
       //
     } finally {

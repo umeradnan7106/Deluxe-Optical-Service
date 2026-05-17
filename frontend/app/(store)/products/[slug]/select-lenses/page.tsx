@@ -67,7 +67,7 @@ export default function SelectLensesPage() {
   }
 
   function handleAddToCart() {
-    if (!variant) return;
+    if (!product || !variant) return;
     const lensOptionsPrice =
       (selectedLensType?.price ?? 0) +
       (selectedCoating?.price ?? 0) +

@@ -34,10 +34,12 @@ export interface LensOptionGroup {
 export interface LensCollection {
   id: number;
   name: string;
-  slug: string;
+  video_url: string;
   description: string | null;
-  hero_image_url: string | null;
-  is_active: boolean;
+  bullets: string[];
+  price_from: number;
+  color_dot: string;
+  sort_order: number;
 }
 
 export interface Product {
@@ -55,6 +57,11 @@ export interface Product {
   sale_price: number | null;
   bullets: string[];
   description: string;
+  frame_width_mm: number | null;
+  lens_width_mm: number | null;
+  bridge_mm: number | null;
+  temple_mm: number | null;
+  lens_height_mm: number | null;
   is_prescription_required: boolean;
   is_featured: boolean;
   is_active: boolean;
@@ -68,6 +75,7 @@ export interface ProductListItem {
   id: number;
   name: string;
   slug: string;
+  sku: string;
   category: string;
   gender: string;
   base_price: number;

@@ -43,6 +43,12 @@ from routes.reviews import router as reviews_router
 from routes.admin.reviews import router as admin_reviews_router
 from routes.blogs import router as blogs_router
 from routes.admin.blogs import router as admin_blogs_router
+from routes.admin.promo_codes import router as admin_promo_codes_router
+from routes.admin.faqs import router as admin_faqs_router
+from routes.admin.lens_options import router as admin_lens_options_router
+from routes.admin.lens_collection import router as admin_lens_collection_router
+from routes.lens_collection import router as lens_collection_router
+from routes.faqs import router as faqs_router
 
 app.include_router(auth_router, prefix="/api")
 app.include_router(products_router, prefix="/api")
@@ -58,3 +64,9 @@ app.include_router(admin_orders_router, prefix="/api")
 app.include_router(admin_reviews_router, prefix="/api")
 app.include_router(blogs_router, prefix="/api")
 app.include_router(admin_blogs_router, prefix="/api")
+app.include_router(admin_promo_codes_router, prefix="/api")
+app.include_router(admin_faqs_router, prefix="/api")
+app.include_router(admin_lens_options_router, prefix="/api")
+app.include_router(admin_lens_collection_router, prefix="/api")
+app.include_router(lens_collection_router, prefix="/api")
+app.include_router(faqs_router, prefix="/api")

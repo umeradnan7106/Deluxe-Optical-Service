@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Deluxe Opt — Complete Website Wireframe</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --or:#E8670A;--or-l:#FFF0E6;--or-d:#C45408;
+  --dk:#0F0F0F;--dk2:#1a1a1a;--dk3:#2a2a2a;
+  --tx:#1a1a1a;--mu:#6b7280;--bd:#e5e7eb;--bg:#f9fafb;
+  --wh:#fff;--gn:#059669;--rd:#dc2626;--yw:#d97706;
+  --wrap:1500px;
+}
+body{font-family:'Outfit',sans-serif;background:#F1F5F9;color:var(--tx);font-size:14px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,h5{font-family:'Cormorant Garamond',serif;letter-spacing:.01em}
+
+/* TOOLBAR */
+.toolbar{background:#0a0a0a;color:#64748b;font-size:11px;padding:8px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:1000;border-bottom:1px solid #1e293b}
+.toolbar strong{color:#fff;font-family:'Outfit',sans-serif;font-size:13px;letter-spacing:.04em}
+.tb-tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tb-tag{padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600}
+.tt-or{background:var(--or);color:#fff}
+.tt-dk{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+.tt-gn{background:#059669;color:#fff}
+.mob-btn{background:var(--or);color:#fff;border:none;padding:5px 14px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;letter-spacing:.03em}
+.mob-btn.active{background:#fff;color:var(--dk)}
+
+/* TAB NAV */
+.tab-nav{background:#111;display:flex;overflow-x:auto;position:sticky;top:39px;z-index:999;border-bottom:2px solid var(--or)}
+.tab-nav::-webkit-scrollbar{height:3px}.tab-nav::-webkit-scrollbar-thumb{background:#333}
+.tab-nav button{background:none;border:none;color:#64748b;padding:10px 14px;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab-nav button:hover{color:#fff;background:#1a1a1a}
+.tab-nav button.active{color:#fff;background:#1a1a1a;border-bottom-color:var(--or)}
+.tab-nav .tab-group{padding:0 4px 0 14px;font-size:9px;font-weight:600;letter-spacing:.1em;color:#334155;display:flex;align-items:center;text-transform:uppercase}
+
+/* PAGE */
+.page{display:none;background:#fff}
+.page.active{display:block}
+
+/* MOBILE WRAPPER */
+.mob-wrap{max-width:390px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.15)}
+body.mobile-mode .page{background:#f1f5f9}
+body.mobile-mode .page.active{display:block}
+
+/* WRAP */
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+body.mobile-mode .wrap{padding:0 16px}
+
+/* PLACEHOLDER */
+.ph{background:#f3f4f6;border:1px dashed #d1d5db;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:11px;font-weight:500;text-align:center;padding:12px}
+.ph-icon{font-size:28px;display:block;margin-bottom:6px;opacity:.4}
+
+/* ANNOUNCE BAR */
+.announce{background:var(--or);color:#fff;padding:8px 24px;text-align:center;font-size:12px;font-weight:500;letter-spacing:.02em}
+body.mobile-mode .announce{font-size:10px;padding:6px 12px}
+
+/* HEADER */
+.site-header{background:var(--dk);border-bottom:2px solid var(--or)}
+.hdr-inner{max-width:var(--wrap);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px}
+.logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#fff;text-decoration:none}
+.logo span{color:var(--or)}
+.hdr-search{flex:1;max-width:420px;position:relative}
+.hdr-search input{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:8px 14px 8px 36px;border-radius:5px;font-size:13px;font-family:'Outfit',sans-serif}
+.hdr-search input::placeholder{color:rgba(255,255,255,.35)}
+.hdr-search .s-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);font-size:16px}
+.hdr-actions{display:flex;align-items:center;gap:10px}
+.hdr-btn{background:#25d366;color:#fff;border:none;padding:7px 14px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.hdr-icon{width:36px;height:36px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:16px;position:relative;cursor:pointer}
+.hdr-badge{position:absolute;top:-5px;right:-5px;background:var(--or);color:#fff;width:16px;height:16px;border-radius:50%;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center}
+
+/* NAV */
+.site-nav{background:var(--dk2);border-bottom:1px solid #333}
+.nav-inner{max-width:var(--wrap);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.nav-links{display:flex;gap:0}
+.nav-link{color:rgba(255,255,255,.7);font-size:13px;font-weight:400;text-decoration:none;padding:11px 14px;display:block;border-bottom:2px solid transparent;transition:all .15s;cursor:pointer;white-space:nowrap}
+.nav-link:hover{color:#fff;border-bottom-color:var(--or)}
+.nav-link.sale{color:var(--or);font-weight:500}
+.nav-track{color:rgba(255,255,255,.5);font-size:12px;padding:11px 0;cursor:pointer}
+.nav-track:hover{color:#fff}
+
+/* MOB HEADER */
+.mob-header{background:var(--dk);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.mob-menu-btn{color:#fff;font-size:20px;background:none;border:none;cursor:pointer;padding:2px}
+.mob-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff}
+.mob-logo span{color:var(--or)}
+.mob-header-icons{display:flex;gap:8px}
+.mob-ic{width:32px;height:32px;background:rgba(255,255,255,.08);border-radius:5px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;position:relative}
+
+/* HERO */
+.hero{position:relative;background:var(--dk);min-height:480px;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%);z-index:0}
+.hero-content{position:relative;z-index:1;max-width:var(--wrap);margin:0 auto;padding:60px 24px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(232,103,10,.15);border:1px solid rgba(232,103,10,.3);color:var(--or);font-size:11px;font-weight:500;padding:5px 14px;border-radius:3px;letter-spacing:.08em;margin-bottom:16px;text-transform:uppercase;font-family:'Outfit',sans-serif}
+.hero-h1{font-size:clamp(28px,3.5vw,52px);color:#fff;line-height:1.05;margin-bottom:14px;font-weight:600}
+.hero-h1 em{color:var(--or);font-style:normal}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:28px;font-family:'Outfit',sans-serif;max-width:440px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+.hero-stats{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.08);padding-top:20px;flex-wrap:wrap}
+.hero-stat{flex:1;min-width:80px;padding:0 20px 0 0}
+.hero-stat .n{font-size:28px;font-weight:600;color:#fff;line-height:1;font-family:'Cormorant Garamond',serif}
+.hero-stat .l{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;font-family:'Outfit',sans-serif}
+.hero-stat+.hero-stat{border-left:1px solid rgba(255,255,255,.08);padding-left:20px}
+.hero-img-side{display:flex;flex-direction:column;gap:12px}
+.hero-img-main{height:300px}
+.hero-img-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:'Outfit',sans-serif;font-weight:500;cursor:pointer;border-radius:5px;transition:opacity .15s;border:none;text-decoration:none;white-space:nowrap}
+.btn:hover{opacity:.88}
+.btn-or{background:var(--or);color:#fff;padding:10px 22px;font-size:14px}
+.btn-dk{background:var(--dk);color:#fff;padding:10px 22px;font-size:14px}
+.btn-wh{background:#fff;color:var(--dk);padding:10px 22px;font-size:14px;border:1px solid #e5e7eb}
+.btn-or-ol{background:none;color:var(--or);padding:9px 20px;font-size:13px;border:1.5px solid var(--or)}
+.btn-wa{background:#25d366;color:#fff;padding:10px 20px;font-size:13px}
+.btn-sm{padding:6px 14px!important;font-size:12px!important}
+.btn-lg{padding:14px 32px!important;font-size:15px!important}
+.btn-full{width:100%;justify-content:center}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600;letter-spacing:.04em}
+.b-or{background:var(--or-l);color:var(--or-d)}
+.b-gn{background:#d1fae5;color:#065f46}
+.b-rd{background:#fee2e2;color:#991b1b}
+.b-gy{background:#f3f4f6;color:#374151}
+.b-dk{background:rgba(0,0,0,.6);color:#fff}
+
+/* SECTIONS */
+.section{padding:60px 0}
+.section.compact{padding:36px 0}
+.section.bg-wh{background:#fff}
+.section.bg-off{background:#f9fafb}
+.section.bg-dk{background:var(--dk)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--or);margin-bottom:6px;font-family:'Outfit',sans-serif}
+.sec-title{font-size:clamp(22px,3vw,34px);font-weight:600;color:var(--tx);margin-bottom:8px}
+.sec-sub{font-size:14px;color:var(--mu);line-height:1.6;max-width:560px}
+.sec-hd{margin-bottom:36px}
+.sec-hd.center{text-align:center}.sec-hd.center .sec-sub{margin:0 auto}
+.sec-hd.light .sec-title{color:#fff}.sec-hd.light .sec-sub{color:rgba(255,255,255,.5)}
+
+/* TRUST STRIP */
+.trust-strip{background:#fff;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:18px 0}
+.trust-row{display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px}
+.t-icon-box{width:32px;height:32px;background:var(--or-l);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.t-label{font-size:12px;font-weight:600;color:var(--tx)}
+.t-sub{font-size:10px;color:var(--mu)}
+
+/* PRODUCT CARDS */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+body.mobile-mode .prod-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+.prod-card{background:#fff;border:1px solid var(--bd);border-radius:8px;overflow:hidden;transition:box-shadow .2s,border-color .2s;cursor:pointer}
+.prod-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);border-color:#d1d5db}
+.prod-img{background:#f9fafb;position:relative;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--bd);overflow:hidden}
+.prod-img-ph{font-size:40px;color:#d1d5db}
+.prod-badge-tl{position:absolute;top:8px;left:8px}
+.prod-badge-tr{position:absolute;top:8px;right:8px;width:28px;height:28px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.1);font-size:13px}
+.prod-badge-bl{position:absolute;bottom:8px;left:8px}
+.prod-body{padding:12px}
+.prod-sku{font-size:10px;color:#9ca3af;margin-bottom:2px;font-family:'Outfit',sans-serif}
+.prod-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;color:var(--tx);margin-bottom:4px;line-height:1.3}
+.prod-stars{display:flex;align-items:center;gap:4px;margin-bottom:5px}
+.stars{color:var(--or);font-size:11px}
+.prod-sizes{display:flex;gap:3px;margin-bottom:8px;flex-wrap:wrap}
+.size-pill{padding:2px 7px;border:1px solid var(--bd);border-radius:4px;font-size:10px;color:var(--mu)}
+.size-pill.active{border-color:var(--or);background:var(--or-l);color:var(--or-d)}
+.prod-price{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.price-main{font-size:15px;font-weight:600;color:var(--or)}
+.price-old{font-size:12px;color:var(--mu);text-decoration:line-through}
+.prod-add-btn{width:100%;background:var(--dk);color:#fff;border:none;padding:8px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif}
+
+/* CATEGORY CARDS */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+body.mobile-mode .cat-grid{grid-template-columns:repeat(3,1fr)}
+.cat-card{border:1px solid var(--bd);border-radius:8px;overflow:hidden;cursor:pointer;background:#fff;text-align:center;padding:14px 10px}
+.cat-card:hover{border-color:var(--or);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cat-img{width:60px;height:60px;margin:0 auto 8px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:24px;color:#d1d5db}
+.cat-name{font-size:12px;font-weight:500;color:var(--tx)}
+.cat-count{font-size:10px;color:var(--mu);margin-top:2px}
+
+/* GENDER CARDS */
+.gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+body.mobile-mode .gender-grid{gap:10px}
+.gender-card{position:relative;border-radius:10px;overflow:hidden;min-height:280px;display:flex;align-items:flex-end;cursor:pointer}
+body.mobile-mode .gender-card{min-height:180px}
+.gender-bg{position:absolute;inset:0;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:12px;color:#555}
+.gender-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%)}
+.gender-content{position:relative;z-index:1;padding:20px}
+.gender-content h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:6px}
+.gender-content p{font-size:12px;color:rgba(255,255,255,.65);margin-bottom:12px}
+
+/* LENS COLLECTION */
+.lens-section{background:#fff}
+.lens-inner{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+body.mobile-mode .lens-inner{grid-template-columns:1fr}
+.lens-video{background:#111;border-radius:10px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;margin-bottom:12px}
+.lens-video-ph{font-size:36px;color:#444}
+.lens-video-label{font-size:11px;color:#555}
+.lens-pills{display:flex;gap:6px;flex-wrap:wrap}
+.lens-pill{padding:5px 14px;border-radius:20px;font-size:12px;border:1px solid var(--bd);cursor:pointer;color:var(--mu);background:#fff}
+.lens-pill.active{background:var(--or);color:#fff;border-color:var(--or)}
+.lens-detail-active{border:1px solid var(--or);background:var(--or-l);border-radius:8px;padding:16px;margin-bottom:8px}
+.lens-detail-active h4{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--or-d);margin-bottom:6px}
+.lens-detail-active p{font-size:13px;color:var(--mu);margin-bottom:8px;line-height:1.6}
+.lens-detail-active ul{list-style:none;padding:0}
+.lens-detail-active ul li{font-size:12px;color:var(--mu);padding:2px 0}
+.lens-detail-active ul li::before{content:"✓ ";color:var(--gn);font-weight:600}
+.lens-detail-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--bd);border-radius:6px;cursor:pointer;margin-bottom:6px}
+.lens-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.lens-detail-row h5{font-size:13px;font-weight:500;color:var(--tx)}
+.lens-detail-row p{font-size:11px;color:var(--mu)}
+
+/* TESTIMONIALS */
+.review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.review-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:18px}
+.rev-stars{color:var(--or);font-size:13px;margin-bottom:8px}
+.rev-text{font-size:13px;color:var(--mu);line-height:1.65;margin-bottom:12px}
+.rev-author{display:flex;align-items:center;gap:8px}
+.rev-avatar{width:32px;height:32px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--mu);flex-shrink:0}
+.rev-name{font-size:12px;font-weight:600;color:var(--tx)}
+.rev-date{font-size:10px;color:var(--mu)}
+.rev-verified{font-size:10px;color:var(--gn);font-weight:500}
+
+/* FOOTER */
+.site-footer{background:var(--dk);padding:52px 0 0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px;max-width:var(--wrap);margin-left:auto;margin-right:auto;padding:0 24px}
+body.mobile-mode .footer-grid{grid-template-columns:1fr 1fr;gap:20px;padding:0 16px}
+.footer-col h5{font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#475569;margin-bottom:12px}
+.footer-col a{display:block;color:#475569;font-size:13px;text-decoration:none;margin-bottom:7px}
+.footer-col a:hover{color:#94a3b8}
+.footer-brand p{font-size:13px;color:#475569;line-height:1.65;margin-top:8px}
+.footer-bottom{border-top:1px solid #1e293b;padding:18px 24px;max-width:var(--wrap);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-copy{font-size:12px;color:#334155}
+.pay-row{display:flex;gap:6px;flex-wrap:wrap}
+.pay-badge{background:#1e293b;color:#475569;padding:4px 10px;border-radius:3px;font-size:10px;font-weight:600}
+.social-row{display:flex;gap:8px;margin-top:12px}
+.social-btn{width:30px;height:30px;background:#1e293b;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#475569;text-decoration:none}
+
+/* LISTING PAGE */
+.listing-layout{display:flex;gap:24px;align-items:flex-start;padding:32px 0}
+body.mobile-mode .listing-layout{flex-direction:column}
+.filter-sidebar{width:220px;flex-shrink:0}
+body.mobile-mode .filter-sidebar{width:100%;display:none}
+body.mobile-mode .filter-sidebar.open{display:block}
+.listing-main{flex:1;min-width:0}
+.filter-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:12px}
+.filter-title{font-size:12px;font-weight:600;color:var(--tx);display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;font-family:'Outfit',sans-serif}
+.filter-item{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:13px;cursor:pointer}
+.filter-item input{accent-color:var(--or)}
+.active-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filter-tag{display:flex;align-items:center;gap:4px;background:var(--or-l);color:var(--or-d);padding:3px 8px;border-radius:3px;font-size:11px;font-weight:500}
+.filter-tag span{cursor:pointer;font-size:13px}
+.listing-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.result-count{font-size:13px;color:var(--mu)}
+.sort-select{border:1px solid var(--bd);border-radius:5px;padding:6px 10px;font-size:13px;font-family:'Outfit',sans-serif;color:var(--tx);background:#fff}
+
+/* PDP */
+.pdp-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;padding:32px 0;align-items:start}
+body.mobile-mode .pdp-layout{grid-template-columns:1fr;gap:0}
+.pdp-gallery{position:sticky;top:80px}
+body.mobile-mode .pdp-gallery{position:static}
+.pdp-main-img{aspect-ratio:4/3;background:#f9fafb;border:1px solid var(--bd);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:50px;color:#d1d5db;margin-bottom:10px;overflow:hidden;cursor:zoom-in}
+.pdp-thumbs{display:flex;gap:6px}
+.pdp-thumb{width:70px;height:60px;background:#f3f4f6;border:2px solid transparent;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#d1d5db;cursor:pointer}
+.pdp-thumb.active{border-color:var(--or)}
+.pdp-info{}
+.pdp-cat{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--or);margin-bottom:4px;font-family:'Outfit',sans-serif}
+.pdp-stars{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.pdp-h1{font-size:28px;font-weight:600;line-height:1.2;margin-bottom:6px}
+.pdp-meta{font-size:11px;color:#9ca3af;margin-bottom:14px}
+.pdp-price{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.pdp-price-main{font-size:24px;font-weight:600;color:var(--or)}
+.pdp-price-old{font-size:14px;color:var(--mu);text-decoration:line-through}
+.pdp-divider{height:1px;background:var(--bd);margin:14px 0}
+.variant-label{font-size:12px;color:var(--mu);margin-bottom:6px;font-family:'Outfit',sans-serif}
+.color-swatches{display:flex;gap:6px;margin-bottom:12px}
+.color-sw{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+.color-sw.active{outline:2px solid var(--or);outline-offset:2px}
+.size-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.size-btn{padding:7px 14px;border:1px solid var(--bd);border-radius:5px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;background:#fff;color:var(--tx)}
+.size-btn.active{border-color:var(--or);background:var(--or-l);color:var(--or-d);font-weight:500}
+.size-guide-link{font-size:11px;color:var(--or);text-decoration:underline;cursor:pointer;margin-left:8px}
+.select-lenses-btn{width:100%;background:var(--or);color:#fff;border:none;padding:13px;border-radius:5px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
+.no-lens-note{text-align:center;font-size:11px;color:var(--mu);margin-bottom:10px}
+.payment-info-box{background:var(--or-l);border:1px solid #fddbb4;border-radius:5px;padding:10px 14px;font-size:12px;margin-bottom:10px}
+.payment-info-box div{display:flex;align-items:center;gap:6px;margin-bottom:3px}
+.payment-info-box div:last-child{margin-bottom:0}
+.qty-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.qty-ctrl{display:flex;align-items:center;border:1px solid var(--bd);border-radius:5px;overflow:hidden}
+.qty-btn{padding:6px 12px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--tx)}
+.qty-val{padding:6px 16px;font-size:14px;font-weight:500;border-left:1px solid var(--bd);border-right:1px solid var(--bd)}
+.add-cart-btn{width:100%;background:var(--dk);color:#fff;border:none;padding:13px;border-radius:5px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
+.wa-btn{width:100%;background:none;color:#1a7340;border:1.5px solid #25d366;padding:10px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px}
+.usp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.usp-item{border:1px solid var(--bd);border-radius:8px;padding:10px 8px;text-align:center}
+.usp-ic{width:32px;height:32px;background:var(--or-l);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:14px}
+.usp-t{font-size:11px;font-weight:500;color:var(--tx)}
+.usp-s{font-size:10px;color:var(--mu)}
+
+/* WIDTH GUIDE */
+.width-guide{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:16px;margin-top:12px}
+.wg-title{font-size:13px;font-weight:500;margin-bottom:10px}
+.wg-title span{color:var(--or)}
+.wg-tabs{display:flex;gap:4px;margin-bottom:12px}
+.wg-tab{padding:5px 12px;border:1px solid var(--bd);border-radius:4px;font-size:11px;cursor:pointer;background:#fff;color:var(--mu)}
+.wg-tab.active{background:var(--dk);color:#fff;border-color:var(--dk)}
+.wg-frame-img{height:80px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:#f9fafb;border:1px dashed var(--bd);margin-bottom:10px;font-size:11px;color:var(--mu)}
+.wg-table{width:100%;border-collapse:collapse;font-size:12px}
+.wg-table th{background:#f9fafb;padding:6px 10px;text-align:left;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);border-bottom:1px solid var(--bd)}
+.wg-table td{padding:6px 10px;border-bottom:1px solid #f3f4f6}
+.wg-table td.active-col{color:var(--or);font-weight:600}
+.wg-measure-link{font-size:11px;color:var(--or);text-decoration:underline;cursor:pointer;margin-top:8px;display:inline-block}
+
+/* PRODUCT TABS */
+.pdp-tabs-nav{display:flex;border-bottom:1px solid var(--bd);margin:32px 0 24px;overflow-x:auto}
+body.mobile-mode .pdp-tabs-nav{margin:20px 0 16px}
+.pdp-tab{padding:10px 16px;font-size:13px;font-weight:500;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:'Outfit',sans-serif}
+.pdp-tab.active{color:var(--or);border-bottom-color:var(--or)}
+.pdp-tab-content{}
+.feat-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+body.mobile-mode .feat-layout{grid-template-columns:1fr}
+.spec-rows{font-size:13px}
+.spec-row{display:flex;padding:7px 0;border-bottom:1px solid #f3f4f6}
+.spec-key{width:120px;color:var(--mu);flex-shrink:0}
+.spec-val{font-weight:500;color:var(--tx)}
+.spec-frame-img{background:#f9fafb;border:1px dashed var(--bd);border-radius:8px;height:180px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mu);flex-direction:column;gap:6px}
+.desc-layout{display:grid;grid-template-columns:3fr 2fr;gap:24px}
+body.mobile-mode .desc-layout{grid-template-columns:1fr}
+.desc-content{font-size:13px;color:var(--mu);line-height:1.7}
+.desc-content h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--tx);margin-bottom:10px}
+.desc-content ul{padding-left:16px;margin:8px 0}
+.desc-content li{margin-bottom:4px}
+.desc-img{border-radius:8px;overflow:hidden;background:#f9fafb;border:1px dashed var(--bd);display:flex;align-items:center;justify-content:center;min-height:200px;font-size:11px;color:var(--mu)}
+.lens-rec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+body.mobile-mode .lens-rec-grid{grid-template-columns:1fr 1fr}
+.lens-rec-card{border:1px solid var(--bd);border-radius:8px;overflow:hidden;cursor:pointer}
+.lens-rec-card:hover{border-color:var(--or);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.lens-rec-img{height:110px;background:#f9fafb;display:flex;align-items:center;justify-content:center;font-size:24px;color:#d1d5db;border-bottom:1px solid var(--bd)}
+.lens-rec-body{padding:10px}
+.lens-rec-body h5{font-size:13px;font-weight:500;color:var(--tx);margin-bottom:3px}
+.lens-rec-body p{font-size:11px;color:var(--mu);line-height:1.5}
+.lens-rec-body a{font-size:11px;color:var(--or);text-decoration:underline;margin-top:4px;display:inline-block}
+
+/* REVIEWS SECTION */
+.reviews-section{padding:40px 0;border-top:1px solid var(--bd)}
+.reviews-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.reviews-overall{display:flex;align-items:center;gap:16px}
+.rev-big-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:500;line-height:1;color:var(--tx)}
+.rev-bars{flex:1;max-width:200px}
+.rev-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:11px}
+.rev-bar-track{flex:1;height:6px;background:#f3f4f6;border-radius:3px;overflow:hidden}
+.rev-bar-fill{height:100%;background:var(--or);border-radius:3px}
+.rev-bar-pct{width:24px;text-align:right;color:var(--mu)}
+.write-rev-btn{background:var(--or);color:#fff;border:none;padding:10px 20px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif}
+.review-item{border-top:1px solid var(--bd);padding:16px 0}
+.rev-item-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.rev-item-name{font-size:13px;font-weight:600;color:var(--tx)}
+.rev-verified-badge{font-size:10px;color:var(--gn);background:#d1fae5;padding:2px 6px;border-radius:3px;font-weight:500}
+.rev-item-title{font-size:13px;font-weight:500;color:var(--tx);margin-bottom:4px}
+.rev-item-text{font-size:13px;color:var(--mu);line-height:1.65}
+.rev-imgs{display:flex;gap:6px;margin-top:8px}
+.rev-img-thumb{width:56px;height:56px;background:#f3f4f6;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#9ca3af;border:1px solid var(--bd)}
+
+/* STICKY BOTTOM BAR */
+.sticky-bar{background:var(--dk);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #333;margin-top:32px;border-radius:8px}
+body.mobile-mode .sticky-bar{position:fixed;bottom:0;left:0;right:0;border-radius:0;z-index:100;margin-top:0}
+.sticky-bar-left{display:flex;align-items:center;gap:12px}
+.sticky-bar-thumb{width:40px;height:40px;background:#2a2a2a;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#555}
+.sticky-bar-name{font-size:13px;font-weight:500;color:#fff}
+.sticky-bar-price{font-size:16px;font-weight:600;color:var(--or)}
+.sticky-bar-btns{display:flex;gap:8px}
+.sticky-bar-btns .btn-or{padding:8px 16px;font-size:13px}
+.sticky-bar-btns .btn-wh{padding:8px 16px;font-size:13px;border-color:#333;background:#2a2a2a;color:#fff}
+
+/* SELECT LENSES PAGE */
+.lens-page-layout{display:grid;grid-template-columns:320px 1fr;gap:0;min-height:calc(100vh - 80px)}
+body.mobile-mode .lens-page-layout{grid-template-columns:1fr}
+.lens-sidebar{border-right:1px solid var(--bd);padding:24px;background:#fff;position:sticky;top:80px;max-height:calc(100vh - 80px);overflow-y:auto}
+body.mobile-mode .lens-sidebar{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--bd);padding:16px}
+.lens-back{font-size:13px;color:var(--or);cursor:pointer;display:flex;align-items:center;gap:4px;margin-bottom:16px;text-decoration:underline;background:none;border:none;font-family:'Outfit',sans-serif}
+.lens-frame-img{background:#f9fafb;border:1px solid var(--bd);border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#d1d5db;margin-bottom:12px}
+body.mobile-mode .lens-frame-img{height:120px}
+.lens-frame-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;text-align:center;margin-bottom:2px}
+.lens-frame-sub{font-size:12px;color:var(--mu);text-align:center;margin-bottom:16px}
+.price-summary-box{background:#f9fafb;border:1px solid var(--bd);border-radius:8px;padding:14px}
+.ps-title{font-size:13px;font-weight:600;margin-bottom:10px}
+.ps-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.ps-row .ps-key{color:var(--mu)}
+.ps-row .ps-val{font-weight:500}
+.ps-total{display:flex;justify-content:space-between;font-size:14px;font-weight:600;border-top:1px solid var(--bd);padding-top:10px;margin-top:6px}
+.ps-total .ps-val{color:var(--or)}
+.ps-add-btn{width:100%;background:var(--dk);color:#fff;border:none;padding:11px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px}
+.lens-main{padding:32px 40px;background:#fff}
+body.mobile-mode .lens-main{padding:16px}
+.lens-step-tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:24px;overflow-x:auto}
+.lst{padding:10px 16px;font-size:13px;font-weight:500;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:'Outfit',sans-serif}
+.lst.active{color:var(--or);border-bottom-color:var(--or)}
+.lst.done{color:var(--gn)}
+.step-heading{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;margin-bottom:16px}
+.lens-option{border:1px solid var(--bd);border-radius:8px;padding:14px;display:flex;gap:12px;cursor:pointer;align-items:flex-start;margin-bottom:8px;transition:border-color .15s,background .15s}
+.lens-option:hover{border-color:#d1d5db}
+.lens-option.active{border-color:var(--or);background:var(--or-l)}
+.lens-option.has-sub.expanded{border-bottom-left-radius:0;border-bottom-right-radius:0}
+.lens-opt-icon{width:44px;height:44px;background:#f3f4f6;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.lens-option.active .lens-opt-icon{background:rgba(232,103,10,.12)}
+.lens-opt-body{}
+.lens-opt-name{font-size:14px;font-weight:500;color:var(--tx)}
+.lens-opt-desc{font-size:12px;color:var(--mu);margin-top:2px;line-height:1.5}
+.lens-opt-price{font-size:12px;font-weight:600;color:var(--or);margin-top:4px}
+.lens-sub-opts{border:1px solid var(--or);border-top:none;border-radius:0 0 8px 8px;background:#fff;padding:12px}
+.lens-sub-opt{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border:1px solid var(--bd);border-radius:5px;cursor:pointer;margin-bottom:6px;font-size:13px}
+.lens-sub-opt.active{border-color:var(--or);background:var(--or-l)}
+.lens-sub-opt:last-child{margin-bottom:0}
+.lso-rec{font-size:10px;color:var(--gn);background:#d1fae5;padding:1px 6px;border-radius:3px;font-weight:600;margin-left:6px}
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--bd)}
+.step-counter{font-size:12px;color:var(--mu)}
+.rx-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+body.mobile-mode .rx-options{grid-template-columns:1fr}
+.rx-opt-card{border:1px solid var(--bd);border-radius:8px;padding:16px;cursor:pointer;text-align:center;transition:border-color .15s}
+.rx-opt-card:hover{border-color:var(--or)}
+.rx-opt-card.active{border-color:var(--or);background:var(--or-l)}
+.rx-opt-card .rx-icon{font-size:28px;margin-bottom:8px}
+.rx-opt-card h4{font-size:14px;font-weight:500;margin-bottom:4px}
+.rx-opt-card p{font-size:12px;color:var(--mu)}
+.rx-form{background:#f9fafb;border:1px solid var(--bd);border-radius:8px;padding:16px;margin-top:16px}
+.rx-form h4{font-size:15px;font-weight:500;margin-bottom:12px;font-family:'Cormorant Garamond',serif}
+.rx-grid{display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:10px;align-items:center;font-size:12px;margin-bottom:8px}
+body.mobile-mode .rx-grid{grid-template-columns:60px 1fr 1fr 1fr}
+.rx-label{font-weight:600;color:var(--tx)}
+.rx-col-header{font-weight:600;color:var(--mu);text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.rx-select{width:100%;border:1px solid var(--bd);border-radius:4px;padding:5px 8px;font-size:12px;font-family:'Outfit',sans-serif;background:#fff;color:var(--tx)}
+.rx-error{background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:12px 14px;font-size:12px;color:#991b1b;margin-top:12px}
+.rx-error strong{font-weight:600}
+
+/* CART */
+.cart-layout{display:flex;gap:24px;padding:32px 0;align-items:flex-start;flex-wrap:wrap}
+body.mobile-mode .cart-layout{flex-direction:column}
+.cart-items{flex:1.6;min-width:0}
+.cart-sidebar{width:300px;flex-shrink:0}
+body.mobile-mode .cart-sidebar{width:100%}
+.cart-item{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:12px}
+.cart-item-row{display:flex;gap:12px;align-items:flex-start}
+.cart-img{width:80px;height:70px;background:#f9fafb;border:1px solid var(--bd);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;color:#d1d5db}
+.cart-meta h4{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:500;margin-bottom:3px}
+.cart-meta .cart-variant{font-size:12px;color:var(--mu);margin-bottom:4px}
+.cart-lens-info{background:#f9fafb;border:1px solid var(--bd);border-radius:4px;padding:6px 10px;font-size:11px;color:var(--mu);margin-top:6px;line-height:1.6}
+.cart-lens-info strong{color:var(--tx)}
+.cart-item-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6}
+.cart-qty{display:flex;align-items:center;border:1px solid var(--bd);border-radius:4px;overflow:hidden}
+.cq-btn{padding:4px 10px;background:none;border:none;font-size:16px;cursor:pointer}
+.cq-val{padding:4px 12px;font-size:13px;border-left:1px solid var(--bd);border-right:1px solid var(--bd)}
+.cart-item-price{font-size:15px;font-weight:600;color:var(--or)}
+.cart-remove{font-size:11px;color:#9ca3af;text-decoration:underline;cursor:pointer;margin-top:4px}
+.cart-summary-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px;position:sticky;top:80px}
+body.mobile-mode .cart-summary-card{position:static}
+.cs-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:16px}
+.cs-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px;color:var(--mu)}
+.cs-row strong{color:var(--tx)}
+.cs-row.total{font-size:15px;font-weight:600;color:var(--tx);border-top:1px solid var(--bd);padding-top:10px;margin-top:4px}
+.cs-row.total .price{color:var(--or)}
+.coupon-row{display:flex;gap:8px;margin:12px 0}
+.coupon-row input{flex:1;border:1px solid var(--bd);border-radius:5px;padding:8px 12px;font-size:13px;font-family:'Outfit',sans-serif}
+.payment-method-list{margin-bottom:16px}
+.pm-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--bd);border-radius:6px;margin-bottom:6px;cursor:pointer;font-size:13px}
+.pm-item.active{border-color:var(--or);background:var(--or-l)}
+.pm-icon{width:30px;height:24px;background:#f3f4f6;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.pm-discount{font-size:11px;color:var(--gn);font-weight:600;margin-left:auto}
+.shipping-note{background:#f0fdf4;border:1px solid #86efac;border-radius:5px;padding:8px 12px;font-size:12px;color:#065f46;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.checkout-btn{width:100%;background:var(--dk);color:#fff;border:none;padding:13px;border-radius:5px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif}
+
+/* CHECKOUT */
+.checkout-layout{display:flex;gap:24px;padding:32px 0;align-items:flex-start;flex-wrap:wrap}
+body.mobile-mode .checkout-layout{flex-direction:column}
+.ck-form{flex:1.4;min-width:0}
+.ck-sidebar{width:340px;flex-shrink:0}
+body.mobile-mode .ck-sidebar{width:100%}
+.ck-steps{display:flex;margin-bottom:24px;border-bottom:1px solid var(--bd)}
+.ck-step{padding:8px 16px;font-size:12px;font-weight:500;color:#9ca3af;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;font-family:'Outfit',sans-serif}
+.ck-step.active{color:var(--tx);border-bottom-color:var(--or)}
+.ck-step.done{color:var(--gn)}
+.ck-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px;margin-bottom:14px}
+.ck-card h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;margin-bottom:16px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+body.mobile-mode .form-row{grid-template-columns:1fr}
+.form-grp{margin-bottom:14px}
+.form-lbl{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin-bottom:5px;font-family:'Outfit',sans-serif}
+.form-inp{width:100%;border:1px solid var(--bd);border-radius:5px;padding:9px 12px;font-size:13px;font-family:'Outfit',sans-serif;color:var(--tx)}
+.form-inp:focus{border-color:var(--or);outline:none}
+.form-sel{width:100%;border:1px solid var(--bd);border-radius:5px;padding:9px 12px;font-size:13px;font-family:'Outfit',sans-serif;color:var(--tx);background:#fff}
+.ck-order-summary{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px;position:sticky;top:80px}
+body.mobile-mode .ck-order-summary{position:static}
+.ck-order-item{display:flex;gap:10px;margin-bottom:12px}
+.ck-order-img{width:56px;height:48px;background:#f9fafb;border:1px solid var(--bd);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#d1d5db;flex-shrink:0}
+.ck-order-meta h5{font-size:13px;font-weight:500;color:var(--tx)}
+.ck-order-meta p{font-size:11px;color:var(--mu)}
+.ck-order-meta .price{font-size:13px;font-weight:600;color:var(--or);margin-top:2px}
+.place-order-btn{width:100%;background:var(--or);color:#fff;border:none;padding:14px;border-radius:5px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:12px}
+
+/* ORDER CONFIRMATION */
+.order-confirm{max-width:620px;margin:40px auto;padding:0 24px}
+body.mobile-mode .order-confirm{margin:24px auto;padding:0 16px}
+.confirm-icon{width:64px;height:64px;background:#d1fae5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px}
+.confirm-h1{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;text-align:center;margin-bottom:6px}
+.confirm-sub{font-size:14px;color:var(--mu);text-align:center;margin-bottom:8px}
+.order-id{background:var(--dk);color:#fff;padding:12px 20px;border-radius:8px;font-family:'Courier New',monospace;font-size:18px;letter-spacing:.08em;text-align:center;margin:20px 0}
+.order-id span{color:var(--or)}
+.confirm-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px;margin-bottom:12px}
+.confirm-card h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;margin-bottom:14px}
+.confirm-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid #f3f4f6}
+.confirm-row:last-child{border-bottom:none}
+.confirm-row .key{color:var(--mu)}
+.confirm-row .val{font-weight:500;color:var(--tx)}
+
+/* ORDER TRACKING */
+.tracking-page{max-width:700px;margin:40px auto;padding:0 24px}
+body.mobile-mode .tracking-page{margin:24px auto;padding:0 16px}
+.tracking-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:24px;margin-bottom:16px}
+.tracking-card h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;margin-bottom:16px}
+.track-search{display:flex;gap:8px;margin-bottom:0}
+.track-search input{flex:1;border:1px solid var(--bd);border-radius:5px;padding:10px 14px;font-size:13px;font-family:'Outfit',sans-serif}
+.track-search button{background:var(--or);color:#fff;border:none;padding:10px 20px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif}
+.timeline{margin:20px 0}
+.tl-item{display:flex;gap:16px;margin-bottom:0}
+.tl-left{display:flex;flex-direction:column;align-items:center}
+.tl-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.tl-dot.done{background:var(--gn)}
+.tl-dot.active{background:var(--or);box-shadow:0 0 0 3px var(--or-l)}
+.tl-dot.pending{background:#e5e7eb}
+.tl-line{width:2px;flex:1;background:#e5e7eb;margin:4px 0;min-height:30px}
+.tl-line.done{background:var(--gn)}
+.tl-content{padding:0 0 24px}
+.tl-content h4{font-size:14px;font-weight:500;color:var(--tx)}
+.tl-content p{font-size:12px;color:var(--mu);margin-top:2px}
+.tl-content .tl-time{font-size:11px;color:#9ca3af;margin-top:3px}
+
+/* ACCOUNT */
+.account-layout{display:flex;gap:24px;padding:32px 0;align-items:flex-start}
+body.mobile-mode .account-layout{flex-direction:column}
+.acc-sidebar{width:220px;flex-shrink:0}
+body.mobile-mode .acc-sidebar{width:100%}
+.acc-sidebar-card{background:#fff;border:1px solid var(--bd);border-radius:8px;overflow:hidden}
+.acc-profile{padding:16px;background:#f9fafb;border-bottom:1px solid var(--bd);text-align:center}
+.acc-avatar{width:48px;height:48px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff;margin:0 auto 8px;font-family:'Cormorant Garamond',serif}
+.acc-name{font-size:14px;font-weight:500;color:var(--tx)}
+.acc-email{font-size:11px;color:var(--mu)}
+.acc-nav a{display:flex;align-items:center;gap:8px;padding:10px 16px;font-size:13px;color:var(--mu);text-decoration:none;border-bottom:1px solid #f3f4f6;cursor:pointer}
+.acc-nav a:hover,.acc-nav a.active{background:var(--or-l);color:var(--or)}
+.acc-main{flex:1;min-width:0}
+.acc-orders-table{width:100%;border-collapse:collapse;font-size:13px}
+body.mobile-mode .acc-orders-table{font-size:12px}
+.acc-orders-table th{background:#f9fafb;padding:10px 12px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);border-bottom:1px solid var(--bd)}
+.acc-orders-table td{padding:12px;border-bottom:1px solid #f3f4f6;vertical-align:top}
+.order-num-link{font-weight:600;color:var(--or);cursor:pointer;text-decoration:underline}
+.status-pill{display:inline-block;padding:3px 8px;border-radius:3px;font-size:11px;font-weight:500}
+.sp-processing{background:var(--or-l);color:var(--or-d)}
+.sp-delivered{background:#d1fae5;color:#065f46}
+.sp-pending{background:#fef3c7;color:#92400e}
+.sp-cancelled{background:#fee2e2;color:#991b1b}
+
+/* ADMIN */
+.admin-layout{display:flex;min-height:100vh}
+.admin-sidebar{width:220px;background:var(--dk);flex-shrink:0;padding:0}
+body.mobile-mode .admin-sidebar{display:none}
+.admin-logo{padding:20px 16px;border-bottom:1px solid #1e293b}
+.admin-logo span:first-child{font-family:'Cormorant Garamond',serif;font-size:18px;color:#fff}
+.admin-logo span:last-child{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--or)}
+.admin-logo small{display:block;font-size:9px;color:#475569;letter-spacing:.1em;text-transform:uppercase;margin-top:2px;font-family:'Outfit',sans-serif}
+.admin-nav-section{padding:12px 16px 4px;font-size:9px;font-weight:600;letter-spacing:.1em;color:#334155;text-transform:uppercase;font-family:'Outfit',sans-serif}
+.admin-nav-link{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:12.5px;color:#64748b;cursor:pointer;text-decoration:none;position:relative;font-family:'Outfit',sans-serif}
+.admin-nav-link:hover{background:#1a1a1a;color:#fff}
+.admin-nav-link.active{background:#1a1a1a;color:#fff;border-left:2px solid var(--or)}
+.admin-nav-link .nav-ico{font-size:15px;width:16px;text-align:center}
+.admin-nav-badge{margin-left:auto;background:var(--rd);color:#fff;width:18px;height:18px;border-radius:9px;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.admin-content{flex:1;background:#f1f5f9;min-width:0}
+.admin-topbar{background:#fff;border-bottom:1px solid var(--bd);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.admin-topbar h1{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500}
+.admin-topbar-actions{display:flex;gap:8px;align-items:center}
+.admin-page{padding:24px}
+.admin-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+body.mobile-mode .admin-stat-grid{grid-template-columns:repeat(2,1fr)}
+.admin-stat{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:16px}
+.admin-stat .as-label{font-size:11px;color:var(--mu);margin-bottom:4px;font-family:'Outfit',sans-serif}
+.admin-stat .as-val{font-size:26px;font-weight:600;font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:2px}
+.admin-stat .as-sub{font-size:11px;font-family:'Outfit',sans-serif}
+.admin-stat .as-sub.up{color:var(--gn)}
+.admin-stat .as-sub.warn{color:var(--yw)}
+.admin-stat .as-sub.danger{color:var(--rd)}
+.admin-chart-area{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px;margin-bottom:16px}
+.admin-chart-area h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;margin-bottom:16px}
+.chart-ph{background:#f9fafb;border:1px dashed var(--bd);border-radius:6px;height:180px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--mu)}
+.admin-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+body.mobile-mode .admin-grid-2{grid-template-columns:1fr}
+.admin-table-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px}
+.admin-table-card h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;margin-bottom:14px}
+.admin-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.admin-table th{background:#f9fafb;padding:8px 10px;text-align:left;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);border-bottom:1px solid var(--bd)}
+.admin-table td{padding:9px 10px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-action-btns{display:flex;gap:4px}
+.aa-btn{padding:3px 8px;border:1px solid var(--bd);border-radius:3px;font-size:11px;cursor:pointer;background:#fff;font-family:'Outfit',sans-serif;color:var(--tx)}
+.aa-btn.approve{border-color:var(--gn);color:var(--gn)}
+.aa-btn.reject{border-color:var(--rd);color:var(--rd)}
+.aa-btn.edit{border-color:var(--or);color:var(--or)}
+.quick-actions{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+
+/* ADMIN PRODUCT FORM */
+.admin-form-layout{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+body.mobile-mode .admin-form-layout{grid-template-columns:1fr}
+.admin-form-main{}
+.admin-form-sidebar{}
+.admin-form-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px;margin-bottom:16px}
+.admin-form-card h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #f3f4f6}
+.admin-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+body.mobile-mode .admin-form-row{grid-template-columns:1fr}
+.admin-form-row.cols3{grid-template-columns:1fr 1fr 1fr}
+body.mobile-mode .admin-form-row.cols3{grid-template-columns:1fr}
+.variants-table{width:100%;border-collapse:collapse;font-size:12px}
+.variants-table th{background:#f9fafb;padding:7px 8px;text-align:left;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);border-bottom:1px solid var(--bd)}
+.variants-table td{padding:6px 8px;border-bottom:1px solid #f3f4f6}
+.variants-table input[type="text"],.variants-table input[type="number"]{width:100%;border:1px solid var(--bd);border-radius:3px;padding:4px 7px;font-size:12px;font-family:'Outfit',sans-serif}
+.variants-table input[type="checkbox"]{accent-color:var(--or)}
+.add-variant-btn{font-size:12px;color:var(--or);background:none;border:1px dashed var(--or);border-radius:4px;padding:4px 12px;cursor:pointer;margin-top:8px;font-family:'Outfit',sans-serif}
+.rich-editor{border:1px solid var(--bd);border-radius:5px;overflow:hidden}
+.rich-toolbar{background:#f9fafb;border-bottom:1px solid var(--bd);padding:6px 10px;display:flex;gap:6px;flex-wrap:wrap}
+.rich-toolbar button{padding:3px 8px;border:1px solid var(--bd);border-radius:3px;font-size:12px;cursor:pointer;background:#fff;font-family:'Outfit',sans-serif}
+.rich-area{padding:12px;min-height:120px;font-size:13px;color:var(--mu);line-height:1.6;font-family:'Outfit',sans-serif}
+.img-upload-area{border:2px dashed var(--bd);border-radius:8px;padding:24px;text-align:center;font-size:13px;color:var(--mu);cursor:pointer}
+.img-upload-area:hover{border-color:var(--or);background:var(--or-l)}
+.uploaded-imgs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.up-img{width:72px;height:64px;background:#f3f4f6;border:1px solid var(--bd);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#9ca3af;position:relative}
+.up-img-rm{position:absolute;top:-6px;right:-6px;width:16px;height:16px;background:var(--rd);color:#fff;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lens-checkboxes{display:flex;flex-wrap:wrap;gap:8px}
+.lens-check-item{display:flex;align-items:center;gap:5px;font-size:12px;background:#f9fafb;border:1px solid var(--bd);border-radius:4px;padding:4px 10px;cursor:pointer}
+.lens-check-item input{accent-color:var(--or)}
+
+/* BLOG EDITOR */
+.blog-editor-layout{display:grid;grid-template-columns:1fr 280px;gap:20px}
+body.mobile-mode .blog-editor-layout{grid-template-columns:1fr}
+
+/* STATIC PAGES */
+.page-hero-inner{background:var(--dk);padding:40px 0;border-bottom:2px solid var(--or)}
+.page-hero-inner h1{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#fff;margin-bottom:6px}
+.page-hero-inner p{font-size:14px;color:rgba(255,255,255,.5)}
+.about-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+body.mobile-mode .about-stats-grid{grid-template-columns:repeat(2,1fr)}
+.about-stat{background:#f9fafb;border:1px solid var(--bd);border-radius:8px;padding:18px;text-align:center}
+.about-stat .n{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:var(--or);line-height:1}
+.about-stat .l{font-size:11px;color:var(--mu);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
+.contact-layout{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;padding:40px 0}
+body.mobile-mode .contact-layout{grid-template-columns:1fr}
+.contact-form-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:24px}
+.contact-form-card h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;margin-bottom:16px}
+.contact-info-block{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px;padding:14px;background:#f9fafb;border:1px solid var(--bd);border-radius:8px}
+.ci-icon{width:36px;height:36px;background:var(--or-l);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ci-title{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:2px}
+.ci-text{font-size:12px;color:var(--mu);line-height:1.5}
+.faq-layout{display:grid;grid-template-columns:220px 1fr;gap:32px;padding:40px 0}
+body.mobile-mode .faq-layout{grid-template-columns:1fr}
+.faq-nav a{display:block;padding:8px 12px;font-size:13px;color:var(--mu);cursor:pointer;border-left:2px solid transparent;margin-bottom:3px;text-decoration:none;font-family:'Outfit',sans-serif}
+.faq-nav a.active,.faq-nav a:hover{color:var(--or);border-left-color:var(--or);background:var(--or-l)}
+.faq-item{border:1px solid var(--bd);border-radius:6px;margin-bottom:8px;background:#fff}
+.faq-q{padding:13px 16px;font-size:13px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--tx)}
+.faq-q::after{content:"+";font-size:18px;font-weight:300;color:var(--mu)}
+.faq-q.open{color:var(--or)}.faq-q.open::after{content:"−"}
+.faq-a{padding:0 16px 13px;font-size:13px;color:var(--mu);line-height:1.65}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+body.mobile-mode .blog-grid{grid-template-columns:1fr}
+.blog-card{background:#fff;border:1px solid var(--bd);border-radius:8px;overflow:hidden;cursor:pointer}
+.blog-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);border-color:#d1d5db}
+.blog-card-img{height:160px;background:#f9fafb;display:flex;align-items:center;justify-content:center;font-size:30px;color:#d1d5db;border-bottom:1px solid var(--bd)}
+.blog-card-body{padding:14px}
+.blog-card-cat{font-size:11px;font-weight:600;color:var(--or);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.blog-card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;margin-bottom:6px;line-height:1.3}
+.blog-card-excerpt{font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:10px}
+.blog-card-meta{font-size:11px;color:#9ca3af;display:flex;align-items:center;gap:8px}
+.lens-guide-hero{background:var(--dk);padding:60px 0;border-bottom:2px solid var(--or)}
+.lens-guide-hero h1{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:#fff;margin-bottom:10px}
+.lens-guide-hero p{font-size:15px;color:rgba(255,255,255,.55);max-width:520px;line-height:1.7}
+.shipping-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:24px;margin-bottom:16px}
+.shipping-card h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.shipping-timeline{margin:16px 0}
+.stl-item{display:flex;gap:12px;margin-bottom:14px}
+.stl-num{width:28px;height:28px;background:var(--or);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;font-family:'Outfit',sans-serif}
+.stl-content h4{font-size:13px;font-weight:600;color:var(--tx)}
+.stl-content p{font-size:12px;color:var(--mu);margin-top:2px;line-height:1.5}
+
+/* CTA SECTION */
+.cta-full{background:var(--or);padding:52px 0;text-align:center}
+.cta-full h2{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:#fff;margin-bottom:10px}
+.cta-full p{font-size:14px;color:rgba(255,255,255,.75);margin-bottom:24px;max-width:460px;margin-left:auto;margin-right:auto;font-family:'Outfit',sans-serif}
+.cta-dk{background:var(--dk);padding:48px 0;text-align:center}
+.cta-dk h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:#fff;margin-bottom:8px}
+.cta-dk p{font-size:14px;color:rgba(255,255,255,.45);margin-bottom:22px;font-family:'Outfit',sans-serif}
+.newsletter-row{display:flex;gap:8px;justify-content:center;max-width:400px;margin:0 auto}
+.newsletter-row input{flex:1;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;padding:10px 14px;border-radius:5px;font-size:13px;font-family:'Outfit',sans-serif}
+.newsletter-row input::placeholder{color:rgba(255,255,255,.3)}
+.newsletter-row button{background:var(--or);color:#fff;border:none;padding:10px 20px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif}
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div><strong>DELUXE OPT SERVICE — COMPLETE WIREFRAME</strong></div>
+  <div class="tb-tags">
+    <span class="tb-tag tt-or">Eyewear E-Commerce</span>
+    <span class="tb-tag tt-dk">Next.js 14 + FastAPI</span>
+    <span class="tb-tag tt-gn">20 Pages</span>
+    <span style="color:#64748b;font-size:11px;">Cormorant + Outfit</span>
+  </div>
+  <button class="mob-btn" id="mob-toggle" onclick="toggleMobile()">Mobile View</button>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <span class="tab-group">FRONTEND</span>
+  <button class="active" onclick="showPage('home',this)">Home</button>
+  <button onclick="showPage('listing',this)">Product Listing</button>
+  <button onclick="showPage('product',this)">Product Detail</button>
+  <button onclick="showPage('select-lenses',this)">Select Lenses</button>
+  <button onclick="showPage('cart',this)">Cart</button>
+  <button onclick="showPage('checkout',this)">Checkout</button>
+  <button onclick="showPage('confirm',this)">Order Confirm</button>
+  <button onclick="showPage('tracking',this)">Order Tracking</button>
+  <button onclick="showPage('account',this)">My Account</button>
+  <span class="tab-group">INFO</span>
+  <button onclick="showPage('about',this)">About Us</button>
+  <button onclick="showPage('contact',this)">Contact Us</button>
+  <button onclick="showPage('faq',this)">FAQ</button>
+  <button onclick="showPage('blogs',this)">Blogs</button>
+  <button onclick="showPage('lens-guide',this)">Lens Guide</button>
+  <button onclick="showPage('shipping',this)">Shipping & Returns</button>
+  <span class="tab-group">ADMIN</span>
+  <button onclick="showPage('admin-dashboard',this)">Dashboard</button>
+  <button onclick="showPage('admin-products',this)">Products</button>
+  <button onclick="showPage('admin-orders',this)">Orders</button>
+  <button onclick="showPage('admin-reviews',this)">Reviews</button>
+  <button onclick="showPage('admin-blogs',this)">Blogs CMS</button>
+</div>
+
+<!-- ═══════════ PAGE: HOME ═══════════ -->
+<div class="page active" id="page-home">
+<div id="mob-home">
+
+<!-- ANNOUNCE -->
+<div class="announce">Free Delivery on Orders Above Rs. 3,000 &nbsp;|&nbsp; All Over Pakistan &nbsp;|&nbsp; Cash on Delivery Available</div>
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="hdr-inner">
+    <a class="logo" href="#">Deluxe<span>Opt</span></a>
+    <div class="hdr-search">
+      <span class="s-ico">&#9906;</span>
+      <input type="text" placeholder="Search glasses, sunglasses, frames..."/>
+    </div>
+    <div class="hdr-actions">
+      <button class="hdr-btn">&#9993; WhatsApp</button>
+      <div class="hdr-icon"><span>&#128722;</span><span class="hdr-badge">1</span></div>
+      <div class="hdr-icon">&#9825;</div>
+      <div class="hdr-icon">&#128100;</div>
+    </div>
+  </div>
+</div>
+<div class="site-nav">
+  <div class="nav-inner">
+    <div class="nav-links">
+      <span class="nav-link">All Products</span>
+      <span class="nav-link">Men</span>
+      <span class="nav-link">Women</span>
+      <span class="nav-link">Sunglasses</span>
+      <span class="nav-link">Prescription</span>
+      <span class="nav-link">Blue Cut</span>
+      <span class="nav-link">Screen</span>
+      <span class="nav-link">Transition</span>
+      <span class="nav-link sale">Sale &#128308;</span>
+    </div>
+    <span class="nav-track">Track Order</span>
+  </div>
+</div>
+
+<!-- HERO SLIDER -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-eyebrow">Pakistan's Premium Eyewear Store</div>
+      <h1 class="hero-h1">See the World<br/>in <em>Style</em></h1>
+      <p class="hero-sub">Premium frames with prescription lens customization. Delivered anywhere in Pakistan with Cash on Delivery.</p>
+      <div class="hero-btns">
+        <button class="btn btn-or btn-lg">Shop Frames</button>
+        <button class="btn btn-or-ol btn-lg" style="color:#fff;border-color:rgba(255,255,255,.3);">Build Your Lenses</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="n">2,400+</div><div class="l">Happy Customers</div></div>
+        <div class="hero-stat"><div class="n">500+</div><div class="l">Frame Styles</div></div>
+        <div class="hero-stat"><div class="n">3–5</div><div class="l">Day Delivery</div></div>
+        <div class="hero-stat"><div class="n">7-Day</div><div class="l">Easy Returns</div></div>
+      </div>
+    </div>
+    <div class="hero-img-side">
+      <div class="ph hero-img-main"><span class="ph-icon">&#128083;</span>Hero Banner Image 1 of 3<br/>(Admin se upload)</div>
+      <div class="hero-img-row">
+        <div class="ph" style="height:100px;font-size:10px;">Slide 2</div>
+        <div class="ph" style="height:100px;font-size:10px;">Slide 3</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="wrap">
+    <div class="trust-row">
+      <div class="trust-item"><div class="t-icon-box">&#128666;</div><div><div class="t-label">Free Delivery</div><div class="t-sub">On orders above Rs. 3,000</div></div></div>
+      <div class="trust-item"><div class="t-icon-box">&#10003;</div><div><div class="t-label">100% Authentic</div><div class="t-sub">Genuine frames only</div></div></div>
+      <div class="trust-item"><div class="t-icon-box">&#8635;</div><div><div class="t-label">7-Day Returns</div><div class="t-sub">Easy & hassle-free</div></div></div>
+      <div class="trust-item"><div class="t-icon-box">&#128172;</div><div><div class="t-label">WhatsApp Support</div><div class="t-sub">Chat anytime</div></div></div>
+      <div class="trust-item"><div class="t-icon-box">&#128179;</div><div><div class="t-label">Cash on Delivery</div><div class="t-sub">Pay when you receive</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOP BY GENDER -->
+<div class="section bg-wh compact">
+  <div class="wrap">
+    <div class="sec-hd center"><div class="sec-label">Collections</div><h2 class="sec-title">Shop by Gender</h2></div>
+    <div class="gender-grid">
+      <div class="gender-card">
+        <div class="gender-bg">[Men's Collection Image]</div>
+        <div class="gender-overlay"></div>
+        <div class="gender-content">
+          <h3>Men's Collection</h3>
+          <p>Bold frames for the modern man</p>
+          <button class="btn btn-or btn-sm">Shop Men</button>
+        </div>
+      </div>
+      <div class="gender-card">
+        <div class="gender-bg">[Women's Collection Image]</div>
+        <div class="gender-overlay"></div>
+        <div class="gender-content">
+          <h3>Women's Collection</h3>
+          <p>Elegant frames for every occasion</p>
+          <button class="btn btn-or btn-sm">Shop Women</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOP BY CATEGORY -->
+<div class="section bg-off compact">
+  <div class="wrap">
+    <div class="sec-hd center"><div class="sec-label">Browse</div><h2 class="sec-title">Shop by Category</h2></div>
+    <div class="cat-grid">
+      <div class="cat-card"><div class="cat-img">&#128083;</div><div class="cat-name">Sunglasses</div><div class="cat-count">120+ styles</div></div>
+      <div class="cat-card"><div class="cat-img">&#128083;</div><div class="cat-name">Prescription</div><div class="cat-count">85+ styles</div></div>
+      <div class="cat-card"><div class="cat-img">&#128083;</div><div class="cat-name">Blue Cut</div><div class="cat-count">60+ styles</div></div>
+      <div class="cat-card"><div class="cat-img">&#128083;</div><div class="cat-name">Screen</div><div class="cat-count">45+ styles</div></div>
+      <div class="cat-card"><div class="cat-img">&#128083;</div><div class="cat-name">Transition</div><div class="cat-count">30+ styles</div></div>
+      <div class="cat-card"><div class="cat-img">&#128083;</div><div class="cat-name">Kids</div><div class="cat-count">25+ styles</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BESTSELLERS -->
+<div class="section bg-wh">
+  <div class="wrap">
+    <div class="sec-hd" style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div><div class="sec-label">Best Sellers</div><h2 class="sec-title">Most Popular Frames</h2></div>
+      <a style="font-size:13px;color:var(--or);cursor:pointer;text-decoration:underline;">View All</a>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-rd">-20%</span></div><div class="prod-badge-tr">&#9825;</div><div class="prod-badge-bl"><span class="badge b-dk" style="font-size:9px;">SUNGLASSES</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-SG-001</div><div class="prod-name">Full Golden Frame</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (24)</span></div><div class="prod-sizes"><span class="size-pill">S</span><span class="size-pill active">M</span><span class="size-pill">L</span></div><div class="prod-price"><span class="price-main">Rs. 1,500</span><span class="price-old">Rs. 1,900</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-or">NEW</span></div><div class="prod-badge-tr" style="color:var(--or);">&#9825;</div><div class="prod-badge-bl"><span class="badge b-dk" style="font-size:9px;">PRESCRIPTION</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-PR-001</div><div class="prod-name">Black Rimless Frame</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span><span style="font-size:11px;color:var(--mu);"> (18)</span></div><div class="prod-sizes"><span class="size-pill active">M</span><span class="size-pill">L</span></div><div class="prod-price"><span class="price-main">Rs. 1,800</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-rd">-15%</span></div><div class="prod-badge-tr">&#9825;</div><div class="prod-badge-bl"><span class="badge b-dk" style="font-size:9px;">BLUE CUT</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-BC-001</div><div class="prod-name">Classic Aviator</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (31)</span></div><div class="prod-sizes"><span class="size-pill">S</span><span class="size-pill active">M</span><span class="size-pill">L</span><span class="size-pill">XL</span></div><div class="prod-price"><span class="price-main">Rs. 2,100</span><span class="price-old">Rs. 2,500</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><div class="prod-badge-bl"><span class="badge b-dk" style="font-size:9px;">TRANSITION</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-TR-001</div><div class="prod-name">Brown Cat Eye</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (12)</span></div><div class="prod-sizes"><span class="size-pill active">S</span><span class="size-pill">M</span></div><div class="prod-price"><span class="price-main">Rs. 2,800</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRESCRIPTION CTA BANNER -->
+<div style="background:var(--dk);padding:52px 0;">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+    <div>
+      <div class="sec-label" style="color:var(--or);">Custom Prescription</div>
+      <h2 class="sec-title" style="color:#fff;font-size:30px;">Prescription Lenses<br/><em style="color:var(--or);">Made Just for You</em></h2>
+      <p style="font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:20px;">Enter your prescription and select your frame. We craft custom lenses and deliver to your door. Single Vision, Bifocal, Progressive — all available.</p>
+      <button class="btn btn-or">Shop Prescription</button>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <div class="ph" style="flex:1;height:160px;background:#1a1a1a;border-color:#333;color:#555;">Frame Image 1</div>
+      <div style="display:flex;flex-direction:column;gap:12px;flex:1;">
+        <div class="ph" style="flex:1;height:72px;background:#1a1a1a;border-color:#333;color:#555;">Frame 2</div>
+        <div class="ph" style="flex:1;height:72px;background:#1a1a1a;border-color:#333;color:#555;">Frame 3</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW ARRIVALS -->
+<div class="section bg-off">
+  <div class="wrap">
+    <div class="sec-hd" style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div><div class="sec-label">New Drops</div><h2 class="sec-title">New Arrivals</h2></div>
+      <a style="font-size:13px;color:var(--or);cursor:pointer;text-decoration:underline;">View All</a>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-gn">NEW</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-SG-012</div><div class="prod-name">Silver Round Frame</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (5)</span></div><div class="prod-sizes"><span class="size-pill active">M</span><span class="size-pill">L</span></div><div class="prod-price"><span class="price-main">Rs. 1,600</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-gn">NEW</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-BC-008</div><div class="prod-name">Blue Titanium Frame</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (3)</span></div><div class="prod-sizes"><span class="size-pill">S</span><span class="size-pill active">M</span></div><div class="prod-price"><span class="price-main">Rs. 2,400</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-gn">NEW</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-PR-009</div><div class="prod-name">Rose Gold Oval</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (7)</span></div><div class="prod-sizes"><span class="size-pill active">S</span><span class="size-pill">M</span></div><div class="prod-price"><span class="price-main">Rs. 1,900</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-gn">NEW</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-SG-013</div><div class="prod-name">Tortoise Wayfarer</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span><span style="font-size:11px;color:var(--mu);"> (2)</span></div><div class="prod-sizes"><span class="size-pill active">M</span><span class="size-pill">L</span></div><div class="prod-price"><span class="price-main">Rs. 2,200</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- OUR LENS COLLECTION -->
+<div class="section bg-wh">
+  <div class="wrap">
+    <div class="sec-hd center"><div class="sec-label">Technology</div><h2 class="sec-title">Our Lens Collection</h2><p class="sec-sub">Select a lens to see how it looks and learn what it does</p></div>
+    <div class="lens-inner">
+      <div>
+        <div class="lens-video"><span class="lens-video-ph">&#9654;</span><span class="lens-video-label">Transitions Lens — Video (Admin se upload)</span></div>
+        <div class="lens-pills">
+          <span class="lens-pill active">Transitions</span>
+          <span class="lens-pill">Blue Cut</span>
+          <span class="lens-pill">Polarized</span>
+          <span class="lens-pill">Clear</span>
+          <span class="lens-pill">Prescription Sun</span>
+        </div>
+      </div>
+      <div>
+        <div class="lens-detail-active">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <h4>Transitions</h4>
+            <span style="font-size:11px;color:var(--or-d);">From Rs. 1,200</span>
+          </div>
+          <p>Adapts to sunlight automatically — darkens outdoors, clears indoors within minutes.</p>
+          <ul>
+            <li>Blocks 100% UVA & UVB radiation</li>
+            <li>Darkens outdoors, clears in minutes</li>
+            <li>Available in grey, brown & graphite green</li>
+          </ul>
+          <div style="margin-top:10px;"><span class="badge b-or">UV Protection</span></div>
+        </div>
+        <div class="lens-detail-row"><div class="lens-dot" style="background:#93c5fd;"></div><div><h5>Blue Cut</h5><p style="font-size:11px;color:var(--mu);">Filter harmful blue light from screens</p></div></div>
+        <div class="lens-detail-row"><div class="lens-dot" style="background:#1a1a1a;"></div><div><h5>Polarized</h5><p style="font-size:11px;color:var(--mu);">Eliminate glare from reflective surfaces</p></div></div>
+        <div class="lens-detail-row"><div class="lens-dot" style="background:#f59e0b;"></div><div><h5>Prescription Sun</h5><p style="font-size:11px;color:var(--mu);">Your Rx power in a premium sun lens</p></div></div>
+      </div>
+    </div>
+    <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:8px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;margin-top:24px;flex-wrap:wrap;gap:12px;">
+      <div><strong style="font-size:14px;">Not sure which lens is right for you?</strong><p style="font-size:12px;color:var(--mu);margin-top:2px;">Our optical experts are ready to help</p></div>
+      <button class="btn btn-wa">Chat on WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER REVIEWS -->
+<div class="section bg-off">
+  <div class="wrap">
+    <div class="sec-hd center"><div class="sec-label">Testimonials</div><h2 class="sec-title">What Our Customers Say</h2></div>
+    <div style="text-align:center;margin-bottom:24px;">
+      <span style="font-size:36px;font-family:'Cormorant Garamond',serif;font-weight:600;">4.8</span>
+      <span style="color:var(--or);font-size:20px;margin-left:8px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span style="font-size:13px;color:var(--mu);margin-left:8px;">Based on 240+ reviews</span>
+    </div>
+    <div class="review-grid">
+      <div class="review-card"><div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="rev-text">"Amazing quality frames and the blue cut lenses are perfect for my office work. Delivery was fast and packaging was excellent."</p><div class="rev-author"><div class="rev-avatar">AK</div><div><div class="rev-name">Ali Khan</div><div class="rev-date">2 weeks ago</div></div><span class="rev-verified" style="margin-left:auto;">Verified</span></div></div>
+      <div class="review-card"><div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="rev-text">"Bought the transition lenses and I am absolutely in love. Worth every rupee. Will definitely order again!"</p><div class="rev-author"><div class="rev-avatar">FA</div><div><div class="rev-name">Fatima Ahmed</div><div class="rev-date">1 month ago</div></div><span class="rev-verified" style="margin-left:auto;">Verified</span></div></div>
+      <div class="review-card"><div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="rev-text">"Great customer service on WhatsApp. They helped me choose the right prescription and the glasses fit perfectly."</p><div class="rev-author"><div class="rev-avatar">OM</div><div><div class="rev-name">Omar Malik</div><div class="rev-date">3 weeks ago</div></div><span class="rev-verified" style="margin-left:auto;">Verified</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="cta-full">
+  <div class="wrap">
+    <h2>Ready to Find Your Perfect Frames?</h2>
+    <p>Browse 500+ frames and customize your lenses. Free delivery on orders above Rs. 3,000.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-dk btn-lg">Browse All Frames</button>
+      <button class="btn btn-wh btn-lg">Size Guide</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff;margin-bottom:8px;">Deluxe<span style="color:var(--or);">Opt</span></div>
+      <p class="footer-brand" style="color:#475569;font-size:13px;line-height:1.65;">Pakistan's trusted online eyewear store. Premium frames with prescription lens customization, fast delivery, easy returns.</p>
+      <div class="social-row"><a class="social-btn">f</a><a class="social-btn">ig</a><a class="social-btn">tk</a></div>
+    </div>
+    <div class="footer-col"><h5>Shop</h5><a>Sunglasses</a><a>Prescription</a><a>Blue Cut Lenses</a><a>Kids Frames</a><a>Women's Eyewear</a><a>Men's Eyewear</a></div>
+    <div class="footer-col"><h5>Help</h5><a>Track My Order</a><a>My Account</a><a>My Orders</a><a>Size Guide</a><a>Contact Us</a></div>
+    <div class="footer-col"><h5>Company</h5><a>About Us</a><a>Blogs</a><a>FAQ</a><a>Privacy Policy</a><a>Shipping & Returns</a></div>
+    <div class="footer-col"><h5>Stay Updated</h5><p style="font-size:12px;color:#475569;margin-bottom:10px;">Get exclusive deals and new arrivals in your inbox.</p><div class="newsletter-row" style="flex-direction:column;max-width:100%;"><input type="email" placeholder="your@email.com" style="margin-bottom:8px;color:var(--tx);background:#fff;border:1px solid var(--bd);"/><button style="background:var(--or);color:#fff;border:none;padding:8px;border-radius:5px;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;">Subscribe</button></div><div style="margin-top:16px;"><h5>We Accept</h5><div style="display:flex;flex-direction:column;gap:6px;"><div class="pay-badge" style="display:flex;align-items:center;gap:6px;background:#1e293b;color:#94a3b8;padding:6px 10px;">Cash on Delivery</div><div class="pay-badge" style="display:flex;align-items:center;gap:6px;background:#1e293b;color:#94a3b8;padding:6px 10px;">JazzCash</div><div class="pay-badge" style="display:flex;align-items:center;gap:6px;background:#1e293b;color:#94a3b8;padding:6px 10px;">EasyPaisa</div><div class="pay-badge" style="display:flex;align-items:center;gap:6px;background:#1e293b;color:#94a3b8;padding:6px 10px;">Bank Transfer</div></div></div></div>
+  </div>
+  <div class="footer-bottom" style="max-width:var(--wrap);margin:0 auto;padding:18px 24px;">
+    <div class="footer-copy">© 2026 DeluxeOpt. All rights reserved.</div>
+    <div class="footer-copy">Made with care in Pakistan</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: LISTING ═══════════ -->
+<div class="page" id="page-listing">
+<div class="announce">Free Delivery on Orders Above Rs. 3,000 &nbsp;|&nbsp; All Over Pakistan</div>
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a><div class="hdr-search"><span class="s-ico">&#9906;</span><input type="text" placeholder="Search glasses..."/></div><div class="hdr-actions"><button class="hdr-btn">WhatsApp</button><div class="hdr-icon"><span>&#128722;</span><span class="hdr-badge">1</span></div><div class="hdr-icon">&#9825;</div><div class="hdr-icon">&#128100;</div></div></div></div>
+<div class="site-nav"><div class="nav-inner"><div class="nav-links"><span class="nav-link">All Products</span><span class="nav-link">Men</span><span class="nav-link">Women</span><span class="nav-link">Sunglasses</span><span class="nav-link">Prescription</span><span class="nav-link">Blue Cut</span><span class="nav-link">Screen</span><span class="nav-link">Transition</span><span class="nav-link sale">Sale</span></div><span class="nav-track">Track Order</span></div></div>
+
+<div style="background:#f9fafb;border-bottom:1px solid var(--bd);padding:14px 0;">
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);">
+      <span style="cursor:pointer;color:var(--or);">Home</span> / <span>All Products</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="listing-layout">
+    <!-- SIDEBAR FILTERS -->
+    <div class="filter-sidebar">
+      <div class="filter-card">
+        <div class="filter-title">Sort By <span style="font-size:16px;cursor:pointer;">&#8964;</span></div>
+        <select class="sort-select" style="width:100%;border:1px solid var(--bd);border-radius:5px;padding:7px 10px;font-size:13px;font-family:'Outfit',sans-serif;"><option>Newest First</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Best Selling</option><option>Top Rated</option></select>
+      </div>
+      <div class="filter-card">
+        <div class="filter-title">Category</div>
+        <div class="filter-item"><input type="checkbox" checked/> Sunglasses <span style="margin-left:auto;font-size:11px;color:var(--mu);">(120)</span></div>
+        <div class="filter-item"><input type="checkbox"/> Prescription <span style="margin-left:auto;font-size:11px;color:var(--mu);">(85)</span></div>
+        <div class="filter-item"><input type="checkbox"/> Blue Cut <span style="margin-left:auto;font-size:11px;color:var(--mu);">(60)</span></div>
+        <div class="filter-item"><input type="checkbox"/> Kids <span style="margin-left:auto;font-size:11px;color:var(--mu);">(25)</span></div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-title">Gender</div>
+        <div class="filter-item"><input type="checkbox"/> Men</div>
+        <div class="filter-item"><input type="checkbox"/> Women</div>
+        <div class="filter-item"><input type="checkbox"/> Unisex</div>
+        <div class="filter-item"><input type="checkbox"/> Kids</div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-title">Frame Shape</div>
+        <div class="filter-item"><input type="checkbox"/> Round</div>
+        <div class="filter-item"><input type="checkbox"/> Square</div>
+        <div class="filter-item"><input type="checkbox"/> Oval</div>
+        <div class="filter-item"><input type="checkbox"/> Cat-Eye</div>
+        <div class="filter-item"><input type="checkbox"/> Aviator</div>
+        <div class="filter-item"><input type="checkbox"/> Wayfarer</div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-title">Material</div>
+        <div class="filter-item"><input type="checkbox"/> Acetate</div>
+        <div class="filter-item"><input type="checkbox"/> Metal</div>
+        <div class="filter-item"><input type="checkbox"/> Titanium</div>
+        <div class="filter-item"><input type="checkbox"/> Plastic</div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-title">Price Range</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;">
+          <div><label class="form-lbl">Min (Rs.)</label><input type="number" class="form-inp" value="0" style="font-size:12px;padding:6px 8px;"/></div>
+          <div><label class="form-lbl">Max (Rs.)</label><input type="number" class="form-inp" value="10000" style="font-size:12px;padding:6px 8px;"/></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="listing-main">
+      <div class="listing-toolbar">
+        <div>
+          <h1 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;">All Products</h1>
+          <div class="result-count">290 products found</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="active-filters"><span class="filter-tag">Sunglasses <span>×</span></span></div>
+          <button style="font-size:12px;color:var(--or);background:none;border:none;cursor:pointer;text-decoration:underline;">Clear All</button>
+        </div>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-rd">-20%</span></div><div class="prod-badge-tr">&#9825;</div><div class="prod-badge-bl"><span class="badge b-dk" style="font-size:9px;">SUNGLASSES</span></div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-SG-001</div><div class="prod-name">Full Golden Frame</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (24)</span></div><div class="prod-sizes"><span class="size-pill">S</span><span class="size-pill active">M (50&#9633;21-145)</span><span class="size-pill">L</span></div><div class="prod-price"><span class="price-main">Rs. 1,500</span><span class="price-old">Rs. 1,900</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+        <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-or">NEW</span></div><div class="prod-badge-tr">&#9825;</div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-PR-001</div><div class="prod-name">Black Rimless Frame</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span><span style="font-size:11px;color:var(--mu);"> (18)</span></div><div class="prod-sizes"><span class="size-pill active">M</span><span class="size-pill">L</span></div><div class="prod-price"><span class="price-main">Rs. 1,800</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+        <div class="prod-card"><div class="prod-img"><div class="prod-badge-tl"><span class="badge b-rd">-15%</span></div><div class="prod-badge-tr">&#9825;</div><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-BC-001</div><div class="prod-name">Classic Aviator</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (31)</span></div><div class="prod-sizes"><span class="size-pill">S</span><span class="size-pill active">M</span><span class="size-pill">L</span></div><div class="prod-price"><span class="price-main">Rs. 2,100</span><span class="price-old">Rs. 2,500</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+        <div class="prod-card"><div class="prod-img"><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-TR-001</div><div class="prod-name">Brown Cat Eye</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (12)</span></div><div class="prod-sizes"><span class="size-pill active">S</span><span class="size-pill">M</span></div><div class="prod-price"><span class="price-main">Rs. 2,800</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+        <div class="prod-card"><div class="prod-img"><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-SG-005</div><div class="prod-name">Rose Gold Oval</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span><span style="font-size:11px;color:var(--mu);"> (9)</span></div><div class="prod-sizes"><span class="size-pill active">S</span><span class="size-pill">M</span></div><div class="prod-price"><span class="price-main">Rs. 1,900</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+        <div class="prod-card"><div class="prod-img"><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-sku">DOS-PR-004</div><div class="prod-name">Titanium Rectangle</div><div class="prod-stars"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="font-size:11px;color:var(--mu);"> (15)</span></div><div class="prod-sizes"><span class="size-pill">M</span><span class="size-pill active">L</span></div><div class="prod-price"><span class="price-main">Rs. 3,200</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      </div>
+      <!-- PAGINATION -->
+      <div style="display:flex;justify-content:center;align-items:center;gap:6px;margin-top:32px;padding-bottom:32px;">
+        <button style="padding:7px 12px;border:1px solid var(--bd);border-radius:5px;background:#fff;font-size:13px;cursor:pointer;">&larr;</button>
+        <button style="padding:7px 12px;border:1px solid var(--or);border-radius:5px;background:var(--or);color:#fff;font-size:13px;cursor:pointer;">1</button>
+        <button style="padding:7px 12px;border:1px solid var(--bd);border-radius:5px;background:#fff;font-size:13px;cursor:pointer;">2</button>
+        <button style="padding:7px 12px;border:1px solid var(--bd);border-radius:5px;background:#fff;font-size:13px;cursor:pointer;">3</button>
+        <button style="padding:7px 12px;border:1px solid var(--bd);border-radius:5px;background:#fff;font-size:13px;cursor:pointer;">&rarr;</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: PRODUCT DETAIL ═══════════ -->
+<div class="page" id="page-product">
+<div class="announce">Free Delivery on Orders Above Rs. 3,000 &nbsp;|&nbsp; All Over Pakistan</div>
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a><div class="hdr-search"><span class="s-ico">&#9906;</span><input type="text" placeholder="Search..."/></div><div class="hdr-actions"><button class="hdr-btn">WhatsApp</button><div class="hdr-icon"><span>&#128722;</span><span class="hdr-badge">1</span></div><div class="hdr-icon">&#9825;</div><div class="hdr-icon">&#128100;</div></div></div></div>
+<div class="site-nav"><div class="nav-inner"><div class="nav-links"><span class="nav-link">All Products</span><span class="nav-link">Men</span><span class="nav-link">Women</span><span class="nav-link">Sunglasses</span><span class="nav-link">Prescription</span><span class="nav-link">Blue Cut</span><span class="nav-link">Screen</span><span class="nav-link">Transition</span><span class="nav-link sale">Sale</span></div><span class="nav-track">Track Order</span></div></div>
+
+<div style="background:#f9fafb;border-bottom:1px solid var(--bd);padding:10px 0;">
+  <div class="wrap"><div style="font-size:12px;color:var(--mu);">Home / <span style="color:var(--or);">Sunglasses</span> / Full Golden Frame</div></div>
+</div>
+
+<div class="wrap">
+  <div class="pdp-layout">
+    <!-- LEFT: Images + Width Guide -->
+    <div class="pdp-gallery">
+      <div style="display:flex;gap:10px;">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="pdp-thumb active"><span style="font-size:18px;color:#d1d5db;">&#128083;</span></div>
+          <div class="pdp-thumb"><span style="font-size:18px;color:#d1d5db;">&#128083;</span></div>
+          <div class="pdp-thumb"><span style="font-size:18px;color:#d1d5db;">&#128083;</span></div>
+        </div>
+        <div class="pdp-main-img" style="flex:1;"><span style="font-size:60px;color:#d1d5db;">&#128083;</span></div>
+      </div>
+
+      <!-- WIDTH GUIDE -->
+      <div class="width-guide">
+        <div class="wg-title">Width guide for: <span>Full Golden Frame</span></div>
+        <div class="wg-tabs">
+          <button class="wg-tab active">Frame Widths</button>
+          <button class="wg-tab">Other Measurements</button>
+        </div>
+        <div class="wg-frame-img"><span style="font-size:28px;color:#d1d5db;">&#128083;</span><span>Frame diagram — width reference</span></div>
+        <p style="font-size:11px;color:var(--mu);margin-bottom:8px;">Our widths are determined by the overall frame width.</p>
+        <table class="wg-table">
+          <tr><th>Narrow</th><th>Medium (this frame)</th><th>Wide</th></tr>
+          <tr><td>129 mm</td><td class="active-col">135 mm</td><td>140 mm</td></tr>
+        </table>
+        <a class="wg-measure-link">Don't have glasses? Measure using a credit card</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Product Info -->
+    <div class="pdp-info">
+      <div class="pdp-cat">Sunglasses</div>
+      <div class="pdp-stars">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span style="font-size:13px;color:var(--mu);">4.8 (24 reviews)</span>
+        <a href="#reviews" style="font-size:12px;color:var(--or);margin-left:4px;text-decoration:underline;">Write a review</a>
+      </div>
+      <h1 class="pdp-h1">Full Golden Frame</h1>
+      <div class="pdp-meta">SKU: DOS-SG-001 &nbsp;|&nbsp; Frame No: 52-18-140</div>
+
+      <div class="pdp-price">
+        <span class="pdp-price-main">Rs. 1,500</span>
+        <span class="pdp-price-old">Rs. 1,900</span>
+        <span class="badge b-rd">-20%</span>
+      </div>
+      <div class="pdp-divider"></div>
+
+      <!-- COLOR VARIANTS -->
+      <div class="variant-label">Frame Color — <strong style="color:var(--tx);">Gold</strong></div>
+      <div class="color-swatches">
+        <div class="color-sw active" style="background:#8B6914;" title="Gold"></div>
+        <div class="color-sw" style="background:#1a1a1a;" title="Black"></div>
+        <div class="color-sw" style="background:#C0C0C0;" title="Silver"></div>
+        <div class="color-sw" style="background:#8B4513;" title="Brown"></div>
+      </div>
+
+      <!-- SIZE -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <div class="variant-label" style="margin-bottom:0;">Frame Size</div>
+        <span class="size-guide-link">Size Guide</span>
+      </div>
+      <div class="size-btns" style="margin-bottom:14px;">
+        <button class="size-btn">Small (48&#9633;19-140)</button>
+        <button class="size-btn active">Medium (50&#9633;21-145)</button>
+        <button class="size-btn">Large (53&#9633;23-148)</button>
+      </div>
+
+      <div class="pdp-divider"></div>
+
+      <!-- SELECT LENSES -->
+      <button class="select-lenses-btn">&#9906; Select Your Lenses</button>
+      <div class="no-lens-note">No prescription? Add to cart directly below</div>
+
+      <!-- PAYMENT INFO -->
+      <div class="payment-info-box">
+        <div>&#127974; Bank Transfer / EasyPaisa / JazzCash — <strong>15% off</strong></div>
+        <div>&#128666; Free delivery on orders above <strong>Rs. 3,000</strong></div>
+      </div>
+
+      <!-- QUANTITY -->
+      <div class="qty-row">
+        <span style="font-size:13px;color:var(--mu);">Quantity</span>
+        <div class="qty-ctrl">
+          <button class="qty-btn">−</button>
+          <span class="qty-val">1</span>
+          <button class="qty-btn">+</button>
+        </div>
+      </div>
+
+      <!-- ADD TO CART -->
+      <button class="add-cart-btn">&#128722; Add to Cart</button>
+      <button class="wa-btn">&#128172; Order via WhatsApp</button>
+
+      <!-- USP BADGES -->
+      <div class="usp-grid">
+        <div class="usp-item"><div class="usp-ic">&#128737;</div><div class="usp-t">100% Authentic</div><div class="usp-s">Genuine frames</div></div>
+        <div class="usp-item"><div class="usp-ic">&#8635;</div><div class="usp-t">7-Day Returns</div><div class="usp-s">Easy & hassle-free</div></div>
+        <div class="usp-item"><div class="usp-ic">&#128666;</div><div class="usp-t">Fast Delivery</div><div class="usp-s">3–5 working days</div></div>
+        <div class="usp-item"><div class="usp-ic">&#128172;</div><div class="usp-t">WhatsApp Support</div><div class="usp-s">Chat anytime</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT TABS -->
+  <div class="pdp-tabs-nav">
+    <div class="pdp-tab active">Features & Size</div>
+    <div class="pdp-tab">Description</div>
+    <div class="pdp-tab">Lens Recommendation</div>
+  </div>
+
+  <!-- FEATURES & SIZE TAB -->
+  <div class="pdp-tab-content">
+    <div class="feat-layout">
+      <div>
+        <h3 style="font-size:18px;margin-bottom:14px;">Frame Specifications</h3>
+        <div class="spec-rows">
+          <div class="spec-row"><span class="spec-key">Size</span><span class="spec-val">Large (52&#9633;23-140)</span></div>
+          <div class="spec-row"><span class="spec-key">Color</span><span class="spec-val">Gold</span></div>
+          <div class="spec-row"><span class="spec-key">Weight</span><span class="spec-val">24g</span></div>
+          <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">Acetate, Metal</span></div>
+          <div class="spec-row"><span class="spec-key">Shape</span><span class="spec-val">Aviator</span></div>
+          <div class="spec-row"><span class="spec-key">Rim</span><span class="spec-val">Full-Rim</span></div>
+          <div class="spec-row"><span class="spec-key">Frame Width</span><span class="spec-val">135mm</span></div>
+          <div class="spec-row"><span class="spec-key">Lens Width</span><span class="spec-val">52mm</span></div>
+          <div class="spec-row"><span class="spec-key">Bridge</span><span class="spec-val">18mm</span></div>
+          <div class="spec-row"><span class="spec-key">Temple Length</span><span class="spec-val">140mm</span></div>
+        </div>
+        <div style="margin-top:12px;font-size:13px;color:var(--or);cursor:pointer;text-decoration:underline;">Not sure about your size? Size Guide &rarr;</div>
+      </div>
+      <div>
+        <h3 style="font-size:18px;margin-bottom:14px;">Size Guide</h3>
+        <div class="spec-frame-img"><span style="font-size:30px;color:#d1d5db;">&#128083;</span><span style="font-size:11px;">Frame dimension diagram (admin se upload)</span></div>
+        <div style="margin-top:12px;font-size:12px;color:var(--mu);line-height:1.6;">
+          <strong>Face width guide:</strong><br/>
+          Small: 125–130mm face width<br/>
+          Medium: 130–140mm face width<br/>
+          Large: 140–150mm face width
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED PRODUCTS -->
+  <div style="padding:32px 0;border-top:1px solid var(--bd);">
+    <div class="sec-hd" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;">
+      <div><div class="sec-label">More Like This</div><h2 class="sec-title" style="font-size:24px;">Related Products</h2></div>
+      <a style="font-size:13px;color:var(--or);cursor:pointer;text-decoration:underline;">View All</a>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-card"><div class="prod-img"><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-name">Black Rimless Frame</div><div class="prod-price"><span class="price-main">Rs. 1,800</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-name">Classic Aviator</div><div class="prod-price"><span class="price-main">Rs. 2,100</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-name">Brown Cat Eye</div><div class="prod-price"><span class="price-main">Rs. 2,800</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img"><span class="prod-img-ph">&#128083;</span></div><div class="prod-body"><div class="prod-name">Rose Gold Oval</div><div class="prod-price"><span class="price-main">Rs. 1,900</span></div><button class="prod-add-btn">Add to Cart</button></div></div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="reviews-section" id="reviews">
+    <div class="reviews-header">
+      <div class="reviews-overall">
+        <div>
+          <div class="rev-big-num">4.8</div>
+          <div style="color:var(--or);font-size:18px;margin-top:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div style="font-size:12px;color:var(--mu);margin-top:3px;">24 reviews</div>
+        </div>
+        <div class="rev-bars">
+          <div class="rev-bar-row"><span>5&#9733;</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:75%"></div></div><span class="rev-bar-pct">75%</span></div>
+          <div class="rev-bar-row"><span>4&#9733;</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:18%"></div></div><span class="rev-bar-pct">18%</span></div>
+          <div class="rev-bar-row"><span>3&#9733;</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:5%"></div></div><span class="rev-bar-pct">5%</span></div>
+          <div class="rev-bar-row"><span>2&#9733;</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:1%"></div></div><span class="rev-bar-pct">1%</span></div>
+          <div class="rev-bar-row"><span>1&#9733;</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:1%"></div></div><span class="rev-bar-pct">1%</span></div>
+        </div>
+      </div>
+      <button class="write-rev-btn">Write a Review</button>
+    </div>
+    <div class="review-item">
+      <div class="rev-item-head"><div><div class="rev-item-name">Ali Khan <span class="rev-verified-badge">Verified Purchase</span></div><div style="color:var(--or);font-size:13px;margin-top:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div style="font-size:11px;color:var(--mu);">10 May 2026</div></div>
+      <div class="rev-item-title">Excellent quality, very reasonable price!</div>
+      <div class="rev-item-text">Very fine quality sunglasses, comfortable to wear. Fast delivery, came in 3 days. Packaging was also great. Highly recommended!</div>
+      <div class="rev-imgs"><div class="rev-img-thumb">Img 1</div><div class="rev-img-thumb">Img 2</div></div>
+    </div>
+    <div class="review-item">
+      <div class="rev-item-head"><div><div class="rev-item-name">Sara Ahmed <span class="rev-verified-badge">Verified Purchase</span></div><div style="color:var(--or);font-size:13px;margin-top:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div style="font-size:11px;color:var(--mu);">5 May 2026</div></div>
+      <div class="rev-item-title">Love these frames!</div>
+      <div class="rev-item-text">Ordered with prescription lenses. The process was smooth via WhatsApp. Will order again.</div>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY BOTTOM BAR -->
+<div class="sticky-bar">
+  <div class="sticky-bar-left"><div class="sticky-bar-thumb">&#128083;</div><div><div class="sticky-bar-name">Full Golden Frame — Gold — M</div><div class="sticky-bar-price">Rs. 1,500</div></div></div>
+  <div class="sticky-bar-btns">
+    <button class="btn btn-or" style="padding:8px 16px;font-size:13px;">Select Lenses</button>
+    <button class="btn" style="background:#2a2a2a;color:#fff;padding:8px 16px;font-size:13px;border-radius:5px;border:none;cursor:pointer;">Add to Cart</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: SELECT LENSES ═══════════ -->
+<div class="page" id="page-select-lenses">
+<div class="announce">Free Delivery on Orders Above Rs. 3,000</div>
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a><div style="flex:1;"></div><div class="hdr-actions"><button class="hdr-btn">WhatsApp</button><div class="hdr-icon"><span>&#128722;</span><span class="hdr-badge">1</span></div></div></div></div>
+<div class="lens-page-layout">
+  <!-- LEFT PANEL -->
+  <div class="lens-sidebar">
+    <button class="lens-back">&larr; Back to Frame</button>
+    <div class="lens-frame-img"><span style="font-size:40px;color:#d1d5db;">&#128083;</span></div>
+    <div class="lens-frame-title">Full Golden Frame</div>
+    <div class="lens-frame-sub">Gold · Medium (50&#9633;21-145) · DOS-SG-001</div>
+    <div class="price-summary-box">
+      <div class="ps-title">Price Summary</div>
+      <div class="ps-row"><span class="ps-key">Frame</span><span class="ps-val">Rs. 1,500</span></div>
+      <div class="ps-row"><span class="ps-key">Lens type</span><span class="ps-val" style="color:var(--mu);">—</span></div>
+      <div class="ps-row"><span class="ps-key">Coating</span><span class="ps-val" style="color:var(--mu);">—</span></div>
+      <div class="ps-row"><span class="ps-key">Add-ons</span><span class="ps-val" style="color:var(--mu);">—</span></div>
+      <div class="ps-total"><span>Total</span><span class="ps-val">Rs. 1,500</span></div>
+      <button class="ps-add-btn">&#128722; Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: STEPS -->
+  <div class="lens-main">
+    <div class="lens-step-tabs">
+      <div class="lst active">Usage</div>
+      <div class="lst">Prescription</div>
+      <div class="lst">Lens</div>
+      <div class="lst">Coatings</div>
+      <div class="lst">Add-Ons</div>
+    </div>
+
+    <!-- STEP 1: USAGE / LENS TYPE -->
+    <div class="step-heading">How will you use your glasses?</div>
+    <div class="lens-option active"><div class="lens-opt-icon">&#9728;</div><div class="lens-opt-body"><div class="lens-opt-name">Single Vision</div><div class="lens-opt-desc">Corrects for one distance (near or far). The most common prescription.</div><div class="lens-opt-price">+ Rs. 1,000</div></div></div>
+
+    <div class="lens-option has-sub expanded"><div class="lens-opt-icon">&#128064;</div><div class="lens-opt-body"><div class="lens-opt-name">Progressives (No Line)</div><div class="lens-opt-desc">Seamless vision across all distances — near, mid, and far.</div><div class="lens-opt-price">From + Rs. 1,500</div></div></div>
+    <div class="lens-sub-opts">
+      <div class="lens-sub-opt active"><span>Premium <span class="lso-rec">Recommended</span></span><span style="font-weight:600;color:var(--or);">+ Rs. 3,500</span></div>
+      <div class="lens-sub-opt"><span>Standard</span><span style="color:var(--mu);">+ Rs. 2,500</span></div>
+      <div class="lens-sub-opt"><span>Mid-Range</span><span style="color:var(--mu);">+ Rs. 2,000</span></div>
+      <div class="lens-sub-opt"><span>Near-Range</span><span style="color:var(--mu);">+ Rs. 1,500</span></div>
+    </div>
+
+    <div class="lens-option"><div class="lens-opt-icon">&#128214;</div><div class="lens-opt-body"><div class="lens-opt-name">Readers</div><div class="lens-opt-desc">Near vision for close-up tasks.</div><div class="lens-opt-price">+ Rs. 800</div></div></div>
+    <div class="lens-option"><div class="lens-opt-icon">&#9711;</div><div class="lens-opt-body"><div class="lens-opt-name">Bifocal (Visible Line)</div><div class="lens-opt-desc">Near and distance vision divided by a visible line on the lens.</div><div class="lens-opt-price">+ Rs. 2,000</div></div></div>
+    <div class="lens-option"><div class="lens-opt-icon">&#127802;</div><div class="lens-opt-body"><div class="lens-opt-name">Non-prescription</div><div class="lens-opt-desc">Style and protection only.</div><div class="lens-opt-price">Free</div></div></div>
+
+    <div class="step-nav">
+      <span class="step-counter">Step 1 of 5</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-wh">Back</button>
+        <button class="btn btn-or">Continue &rarr;</button>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--bd);margin-top:32px;padding-top:24px;">
+      <div class="step-heading" style="font-size:18px;">Step 2 — Prescription</div>
+      <div class="rx-options">
+        <div class="rx-opt-card"><div class="rx-icon">&#128247;</div><h4>Upload a Photo</h4><p>Take a photo of your prescription card and upload it</p></div>
+        <div class="rx-opt-card active"><div class="rx-icon">&#128203;</div><h4>Fill it out myself</h4><p>Enter SPH, CYL, Axis values using dropdowns</p></div>
+      </div>
+      <div class="rx-form">
+        <h4>Fill in your prescription details</h4>
+        <div class="rx-grid">
+          <span></span><span class="rx-col-header">SPH</span><span class="rx-col-header">CYL</span><span class="rx-col-header">Axis</span>
+          <span class="rx-label">OD (Right)</span>
+          <select class="rx-select"><option>+1.25</option><option>+1.00</option><option>+0.75</option></select>
+          <select class="rx-select"><option>0.00</option><option>-0.25</option><option>-0.50</option></select>
+          <select class="rx-select"><option>90</option><option>85</option><option>95</option></select>
+          <span class="rx-label">OS (Left)</span>
+          <select class="rx-select"><option>+1.00</option><option>+1.25</option><option>+0.75</option></select>
+          <select class="rx-select"><option>-0.25</option><option>0.00</option><option>-0.50</option></select>
+          <select class="rx-select"><option>85</option><option>90</option><option>95</option></select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;font-size:13px;">
+          <div><div class="form-lbl">ADD</div><select class="rx-select"><option>Select ADD</option><option>+1.00</option><option>+1.25</option></select></div>
+          <div><div class="form-lbl">PD (Pupillary Distance)</div><select class="rx-select"><option>64mm</option><option>62mm</option><option>66mm</option></select></div>
+        </div>
+        <div class="rx-error"><strong>Warning:</strong> The differences between OD and OS for SPH and CYL are unusually large. Please confirm your prescription or contact us on WhatsApp for assistance.</div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--bd);margin-top:32px;padding-top:24px;">
+      <div class="step-heading" style="font-size:18px;">Step 3 — Choose Lens Coating</div>
+      <div class="lens-option active"><div class="lens-opt-icon">&#127774;</div><div class="lens-opt-body"><div class="lens-opt-name">Standard Clear</div><div class="lens-opt-desc">Regular lenses for everyday use. Basic UV protection included.</div><div class="lens-opt-price">Free</div></div></div>
+      <div class="lens-option"><div class="lens-opt-icon">&#127774;</div><div class="lens-opt-body"><div class="lens-opt-name">Anti-Reflective</div><div class="lens-opt-desc">Reduces glare and light reflections for improved clarity.</div><div class="lens-opt-price">+ Rs. 300</div></div></div>
+      <div class="lens-option"><div class="lens-opt-icon">&#127777;</div><div class="lens-opt-body"><div class="lens-opt-name">Blue Cut + UV</div><div class="lens-opt-desc">Shields your vision from blue light emitted by digital devices.</div><div class="lens-opt-price">+ Rs. 500</div></div></div>
+      <div class="lens-option"><div class="lens-opt-icon">&#9728;</div><div class="lens-opt-body"><div class="lens-opt-name">Transitions (Photochromic)</div><div class="lens-opt-desc">Lenses that automatically darken outdoors and clear indoors.</div><div class="lens-opt-price">+ Rs. 1,500</div></div></div>
+      <div class="lens-option"><div class="lens-opt-icon">&#128065;</div><div class="lens-opt-body"><div class="lens-opt-name">Polarized</div><div class="lens-opt-desc">Eliminate glare from reflective surfaces. Ideal for outdoor use.</div><div class="lens-opt-price">+ Rs. 800</div></div></div>
+    </div>
+
+    <div style="border-top:1px solid var(--bd);margin-top:32px;padding-top:24px;">
+      <div class="step-heading" style="font-size:18px;">Step 4 — Add-Ons</div>
+      <p style="font-size:13px;color:var(--mu);margin-bottom:16px;">Optional enhancements for your lenses</p>
+      <div class="lens-option"><div class="lens-opt-icon">&#128737;</div><div class="lens-opt-body"><div class="lens-opt-name">Scratch Resistant Coating</div><div class="lens-opt-desc">Extra layer to protect lenses from everyday scratches.</div></div><div style="margin-left:auto;display:flex;align-items:center;gap:8px;"><span style="font-size:13px;font-weight:500;color:var(--or);">+ Rs. 200</span><input type="checkbox" style="accent-color:var(--or);width:16px;height:16px;"/></div></div>
+      <div class="lens-option"><div class="lens-opt-icon">&#128167;</div><div class="lens-opt-body"><div class="lens-opt-name">Water & Dust Resistant</div><div class="lens-opt-desc">Repels water, dust, and fingerprints. Easy to clean.</div></div><div style="margin-left:auto;display:flex;align-items:center;gap:8px;"><span style="font-size:13px;font-weight:500;color:var(--or);">+ Rs. 300</span><input type="checkbox" style="accent-color:var(--or);width:16px;height:16px;"/></div></div>
+      <div class="lens-option"><div class="lens-opt-icon">&#127775;</div><div class="lens-opt-body"><div class="lens-opt-name">UV400 Protection (Included free)</div><div class="lens-opt-desc">Blocks 100% UV rays up to 400nm wavelength.</div></div><div style="margin-left:auto;"><span class="badge b-gn">Included</span></div></div>
+      <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:8px;padding:16px;margin-top:16px;">
+        <div style="font-size:13px;font-weight:500;margin-bottom:8px;">Order Review</div>
+        <div style="font-size:12px;color:var(--mu);line-height:1.8;">
+          Frame: <strong>Full Golden Frame</strong> — Gold — Medium<br/>
+          Lens: <strong>Single Vision</strong><br/>
+          Coating: <strong>Anti-Reflective</strong><br/>
+          Add-ons: <strong>Scratch Resistant</strong><br/>
+          Prescription: <strong>OD +1.25/-0.50x90 | OS +1.00/-0.25x85 | PD 64mm</strong>
+        </div>
+        <div style="border-top:1px solid var(--bd);margin-top:12px;padding-top:10px;display:flex;justify-content:space-between;font-size:14px;font-weight:600;">
+          <span>Total</span><span style="color:var(--or);">Rs. 2,500</span>
+        </div>
+      </div>
+      <button class="btn btn-dk btn-full" style="margin-top:16px;padding:14px;">&#128722; Add to Cart</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: CART ═══════════ -->
+<div class="page" id="page-cart">
+<div class="announce">Free Delivery on Orders Above Rs. 3,000</div>
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a><div style="flex:1;"></div><div class="hdr-actions"><button class="hdr-btn">WhatsApp</button><div class="hdr-icon"><span>&#128722;</span><span class="hdr-badge">2</span></div><div class="hdr-icon">&#128100;</div></div></div></div>
+<div class="wrap">
+  <h1 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;padding:24px 0 0;">Shopping Cart <span style="font-size:16px;color:var(--mu);font-family:'Outfit',sans-serif;">(2 items)</span></h1>
+  <div class="cart-layout">
+    <div class="cart-items">
+      <div class="shipping-note">&#128666; You're <strong>Rs. 500 away</strong> from free delivery! Add Rs. 500 more to qualify.</div>
+      <div class="cart-item">
+        <div class="cart-item-row">
+          <div class="cart-img"><span style="font-size:24px;color:#d1d5db;">&#128083;</span></div>
+          <div class="cart-meta" style="flex:1;">
+            <h4>Full Golden Frame</h4>
+            <div class="cart-variant">Gold · Medium (50&#9633;21-145) · SKU: DOS-SG-001</div>
+            <div class="cart-lens-info"><strong>Lens:</strong> Single Vision + Anti-Reflective<br/><strong>Prescription:</strong> OD +1.25/-0.50x90 | OS +1.00/-0.25x85 | PD 64</div>
+          </div>
+        </div>
+        <div class="cart-item-footer">
+          <div><div class="cart-qty"><button class="cq-btn">−</button><span class="cq-val">1</span><button class="cq-btn">+</button></div><div class="cart-remove">Remove</div></div>
+          <span class="cart-item-price">Rs. 2,800</span>
+        </div>
+      </div>
+      <div class="cart-item">
+        <div class="cart-item-row">
+          <div class="cart-img"><span style="font-size:24px;color:#d1d5db;">&#128083;</span></div>
+          <div class="cart-meta" style="flex:1;">
+            <h4>Classic Aviator</h4>
+            <div class="cart-variant">Black · Medium · SKU: DOS-BC-001</div>
+            <div class="cart-lens-info"><strong>Lens:</strong> Blue Cut + UV (No prescription)</div>
+          </div>
+        </div>
+        <div class="cart-item-footer">
+          <div><div class="cart-qty"><button class="cq-btn">−</button><span class="cq-val">1</span><button class="cq-btn">+</button></div><div class="cart-remove">Remove</div></div>
+          <span class="cart-item-price">Rs. 2,600</span>
+        </div>
+      </div>
+    </div>
+    <div class="cart-sidebar">
+      <div class="cart-summary-card">
+        <div class="cs-title">Order Summary</div>
+        <div class="coupon-row"><input type="text" placeholder="Enter coupon code"/><button class="btn btn-or btn-sm">Apply</button></div>
+        <div style="font-size:11px;color:var(--gn);margin-bottom:12px;">Coupon SAVE10 applied — 10% off!</div>
+        <div class="cs-row"><span>Subtotal</span><span>Rs. 5,400</span></div>
+        <div class="cs-row"><span>Coupon (SAVE10)</span><span style="color:var(--gn);">- Rs. 540</span></div>
+        <div class="cs-row"><span>Shipping</span><span style="color:var(--gn);">Free</span></div>
+        <div class="cs-row total"><span>Total</span><span class="price">Rs. 4,860</span></div>
+        <div style="margin:14px 0 10px;font-size:12px;font-weight:500;color:var(--tx);">Select Payment Method</div>
+        <div class="payment-method-list">
+          <div class="pm-item active"><div class="pm-icon">&#128179;</div><span>Cash on Delivery</span></div>
+          <div class="pm-item"><div class="pm-icon">&#128272;</div><span>EasyPaisa</span><span class="pm-discount">15% off</span></div>
+          <div class="pm-item"><div class="pm-icon">&#128272;</div><span>JazzCash</span><span class="pm-discount">15% off</span></div>
+          <div class="pm-item"><div class="pm-icon">&#127974;</div><span>Bank Transfer</span><span class="pm-discount">15% off</span></div>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: CHECKOUT ═══════════ -->
+<div class="page" id="page-checkout">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a><div style="flex:1;"></div><div class="hdr-actions"><div class="hdr-icon"><span>&#128722;</span><span class="hdr-badge">2</span></div></div></div></div>
+<div class="wrap">
+  <h1 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;padding:24px 0;">Checkout</h1>
+  <div class="checkout-layout">
+    <div class="ck-form">
+      <div class="ck-steps">
+        <div class="ck-step active">1. Delivery Address</div>
+        <div class="ck-step">2. Payment</div>
+        <div class="ck-step">3. Review</div>
+      </div>
+      <div class="ck-card">
+        <h3>Contact Information</h3>
+        <div class="form-row">
+          <div class="form-grp"><label class="form-lbl">Full Name</label><input class="form-inp" placeholder="Ali Khan"/></div>
+          <div class="form-grp"><label class="form-lbl">Phone Number</label><input class="form-inp" placeholder="03001234567"/></div>
+        </div>
+        <div class="form-grp"><label class="form-lbl">Email Address</label><input class="form-inp" placeholder="ali@email.com"/></div>
+      </div>
+      <div class="ck-card">
+        <h3>Delivery Address</h3>
+        <div class="form-grp"><label class="form-lbl">Street Address</label><input class="form-inp" placeholder="House 5, Street 3, DHA Phase 2"/></div>
+        <div class="form-row">
+          <div class="form-grp"><label class="form-lbl">City</label><select class="form-sel"><option>Karachi</option><option>Lahore</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option></select></div>
+          <div class="form-grp"><label class="form-lbl">Province</label><select class="form-sel"><option>Sindh</option><option>Punjab</option><option>KPK</option><option>Balochistan</option></select></div>
+        </div>
+        <div class="form-grp"><label class="form-lbl">Order Notes (Optional)</label><textarea class="form-inp" rows="2" placeholder="Any special instructions..."></textarea></div>
+      </div>
+      <div class="ck-card">
+        <h3>Payment Method</h3>
+        <div class="payment-method-list">
+          <div class="pm-item active"><div class="pm-icon">&#128179;</div><div><div style="font-size:13px;font-weight:500;">Cash on Delivery</div><div style="font-size:11px;color:var(--mu);">Pay when you receive your order</div></div></div>
+          <div class="pm-item"><div class="pm-icon">&#128272;</div><div><div style="font-size:13px;font-weight:500;">EasyPaisa</div><div style="font-size:11px;color:var(--mu);">Mobile wallet payment</div></div><span class="pm-discount">15% off</span></div>
+          <div class="pm-item"><div class="pm-icon">&#128272;</div><div><div style="font-size:13px;font-weight:500;">JazzCash</div><div style="font-size:11px;color:var(--mu);">Mobile wallet payment</div></div><span class="pm-discount">15% off</span></div>
+          <div class="pm-item"><div class="pm-icon">&#127974;</div><div><div style="font-size:13px;font-weight:500;">Bank Transfer</div><div style="font-size:11px;color:var(--mu);">Direct bank transfer</div></div><span class="pm-discount">15% off</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ck-sidebar">
+      <div class="ck-order-summary">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:16px;">Order Summary</div>
+        <div class="ck-order-item"><div class="ck-order-img"><span style="font-size:18px;color:#d1d5db;">&#128083;</span></div><div class="ck-order-meta"><h5>Full Golden Frame — Gold — M</h5><p>Single Vision + Anti-Reflective | Rx: OD +1.25/-0.50x90</p><div class="price">Rs. 2,800</div></div></div>
+        <div class="ck-order-item"><div class="ck-order-img"><span style="font-size:18px;color:#d1d5db;">&#128083;</span></div><div class="ck-order-meta"><h5>Classic Aviator — Black — M</h5><p>Blue Cut + UV | No prescription</p><div class="price">Rs. 2,600</div></div></div>
+        <div style="border-top:1px solid var(--bd);padding-top:12px;margin-top:4px;">
+          <div class="cs-row"><span>Subtotal</span><span>Rs. 5,400</span></div>
+          <div class="cs-row"><span>Coupon</span><span style="color:var(--gn);">- Rs. 540</span></div>
+          <div class="cs-row"><span>Shipping</span><span style="color:var(--gn);">Free</span></div>
+          <div class="cs-row total"><span>Total</span><span class="price">Rs. 4,860</span></div>
+        </div>
+        <button class="place-order-btn">Place Order &rarr;</button>
+        <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--mu);">Secured by SSL encryption</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: ORDER CONFIRMATION ═══════════ -->
+<div class="page" id="page-confirm">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a></div></div>
+<div class="order-confirm">
+  <div style="text-align:center;padding:32px 0;">
+    <div class="confirm-icon">&#10004;</div>
+    <h1 class="confirm-h1">Order Placed Successfully!</h1>
+    <p class="confirm-sub">Thank you for your order. We'll confirm via WhatsApp shortly.</p>
+    <div class="order-id">#<span>DOS</span>-2026-0042</div>
+  </div>
+  <div class="confirm-card">
+    <h3>Order Details</h3>
+    <div class="confirm-row"><span class="key">Customer</span><span class="val">Ali Khan</span></div>
+    <div class="confirm-row"><span class="key">Phone</span><span class="val">0300-1234567</span></div>
+    <div class="confirm-row"><span class="key">Address</span><span class="val">House 5, Street 3, DHA Phase 2, Karachi</span></div>
+    <div class="confirm-row"><span class="key">Payment</span><span class="val">Cash on Delivery</span></div>
+    <div class="confirm-row"><span class="key">Status</span><span class="val"><span class="status-pill sp-pending">Pending</span></span></div>
+  </div>
+  <div class="confirm-card">
+    <h3>Items Ordered</h3>
+    <div class="confirm-row"><span class="key">Full Golden Frame</span><span class="val">Rs. 2,800</span></div>
+    <div style="font-size:11px;color:var(--mu);padding:4px 0 8px;border-bottom:1px solid #f3f4f6;">Single Vision + Anti-Reflective | OD +1.25/-0.50x90 | OS +1.00/-0.25x85</div>
+    <div class="confirm-row"><span class="key">Classic Aviator</span><span class="val">Rs. 2,600</span></div>
+    <div style="font-size:11px;color:var(--mu);padding:4px 0 8px;border-bottom:1px solid #f3f4f6;">Blue Cut + UV | No prescription</div>
+    <div class="confirm-row" style="font-weight:600;font-size:14px;padding-top:10px;"><span class="key" style="color:var(--tx);">Total</span><span class="val" style="color:var(--or);">Rs. 4,860</span></div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+    <button class="btn btn-or btn-full">Track My Order</button>
+    <button class="btn btn-wh btn-full">Continue Shopping</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: ORDER TRACKING ═══════════ -->
+<div class="page" id="page-tracking">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a><div style="flex:1;"></div><div class="hdr-actions"><div class="hdr-icon">&#128100;</div></div></div></div>
+<div class="wrap" style="padding:32px 24px;">
+  <div class="tracking-page">
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;margin-bottom:6px;">Track Your Order</h1>
+    <p style="font-size:13px;color:var(--mu);margin-bottom:24px;">Enter your order number or phone number to track your order</p>
+    <div class="tracking-card">
+      <h2>Find Your Order</h2>
+      <div class="track-search">
+        <input type="text" placeholder="Order ID (DOS-2026-0042) or Phone Number"/>
+        <button>Track Order</button>
+      </div>
+    </div>
+    <div class="tracking-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+        <div><h2 style="margin-bottom:4px;">Order #DOS-2026-0042</h2><p style="font-size:13px;color:var(--mu);">Placed on 13 May 2026 · 2 items</p></div>
+        <span class="status-pill sp-processing">Processing</span>
+      </div>
+      <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:6px;padding:12px;font-size:12px;color:var(--mu);margin-bottom:20px;line-height:1.7;">
+        Full Golden Frame (Gold · M) + Classic Aviator (Black · M)<br/>
+        Single Vision + Anti-Reflective | Blue Cut + UV<br/>
+        Cash on Delivery · Rs. 4,860
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot done"></div><div class="tl-line done"></div></div>
+          <div class="tl-content"><h4>Order Placed</h4><p>Your order has been received</p><div class="tl-time">13 May 2026, 3:42 PM</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot active"></div><div class="tl-line"></div></div>
+          <div class="tl-content"><h4>Processing</h4><p>Your lenses are being prepared</p><div class="tl-time">14 May 2026, 10:15 AM</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot pending"></div><div class="tl-line"></div></div>
+          <div class="tl-content"><h4>Shipped</h4><p>Order dispatched via TCS Courier</p><div class="tl-time" style="color:#d1d5db;">Estimated: 16 May 2026</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot pending"></div></div>
+          <div class="tl-content"><h4>Delivered</h4><p>Order delivered to your address</p><div class="tl-time" style="color:#d1d5db;">Estimated: 18 May 2026</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: MY ACCOUNT ═══════════ -->
+<div class="page" id="page-account">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a><div style="flex:1;"></div><div class="hdr-actions"><button class="hdr-btn">WhatsApp</button><div class="hdr-icon"><span>&#128722;</span><span class="hdr-badge">1</span></div><div class="hdr-icon">&#128100;</div></div></div></div>
+<div class="wrap">
+  <div class="account-layout">
+    <div class="acc-sidebar">
+      <div class="acc-sidebar-card">
+        <div class="acc-profile">
+          <div class="acc-avatar">AK</div>
+          <div class="acc-name">Ali Khan</div>
+          <div class="acc-email">ali@email.com</div>
+        </div>
+        <div class="acc-nav">
+          <a class="active">&#128203; My Orders</a>
+          <a>&#9825; Wishlist</a>
+          <a>&#128100; Profile</a>
+          <a>&#128100; Addresses</a>
+          <a>&#9993; Notifications</a>
+          <a>&#128274; Change Password</a>
+          <a style="color:var(--rd);">&#8594; Logout</a>
+        </div>
+      </div>
+    </div>
+    <div class="acc-main">
+      <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;">My Orders</h2><div style="font-size:12px;color:var(--mu);">Total: 8 orders</div></div>
+        <table class="acc-orders-table">
+          <tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr>
+          <tr><td><span class="order-num-link">#DOS-2026-0042</span></td><td style="font-size:12px;">13 May 2026</td><td style="font-size:12px;">Full Golden Frame + Aviator</td><td style="font-weight:500;color:var(--or);">Rs. 4,860</td><td><span class="status-pill sp-processing">Processing</span></td><td><button class="aa-btn">Track</button></td></tr>
+          <tr><td><span class="order-num-link">#DOS-2026-0035</span></td><td style="font-size:12px;">28 Apr 2026</td><td style="font-size:12px;">Black Rimless Frame</td><td style="font-weight:500;color:var(--or);">Rs. 1,800</td><td><span class="status-pill sp-delivered">Delivered</span></td><td><button class="aa-btn">Reorder</button></td></tr>
+          <tr><td><span class="order-num-link">#DOS-2026-0021</span></td><td style="font-size:12px;">10 Apr 2026</td><td style="font-size:12px;">Brown Cat Eye</td><td style="font-weight:500;color:var(--or);">Rs. 2,800</td><td><span class="status-pill sp-delivered">Delivered</span></td><td><button class="aa-btn">Reorder</button></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: ABOUT US ═══════════ -->
+<div class="page" id="page-about">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a><div style="flex:1;"></div></div></div>
+<div class="page-hero-inner"><div class="wrap"><div class="sec-label" style="color:var(--or);">Our Story</div><h1>About Deluxe<span style="color:var(--or);">Opt</span></h1><p>Pakistan's trusted online eyewear store since 2020</p></div></div>
+<div class="wrap" style="padding-top:40px;">
+  <div class="about-stats-grid">
+    <div class="about-stat"><div class="n">2,400+</div><div class="l">Happy Customers</div></div>
+    <div class="about-stat"><div class="n">500+</div><div class="l">Frame Styles</div></div>
+    <div class="about-stat"><div class="n">4.8&#9733;</div><div class="l">Average Rating</div></div>
+    <div class="about-stat"><div class="n">3–5</div><div class="l">Day Delivery</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;">
+    <div><h2 style="font-size:28px;margin-bottom:14px;">Our Mission</h2><p style="font-size:14px;color:var(--mu);line-height:1.8;">We started Deluxe Opt with a simple mission — to make quality eyewear accessible to everyone in Pakistan. No overpriced retail stores, no middlemen. Just premium frames delivered to your door.</p><p style="font-size:14px;color:var(--mu);line-height:1.8;margin-top:12px;">From single vision prescriptions to progressive lenses, our in-house optical team ensures every pair is crafted with precision and care.</p></div>
+    <div class="ph" style="height:240px;">Brand Story Image</div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: CONTACT ═══════════ -->
+<div class="page" id="page-contact">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a></div></div>
+<div class="page-hero-inner"><div class="wrap"><h1>Contact Us</h1><p>We're here to help — reach us anytime</p></div></div>
+<div class="wrap">
+  <div class="contact-layout">
+    <div class="contact-form-card">
+      <h2>Send us a Message</h2>
+      <div class="form-row"><div class="form-grp"><label class="form-lbl">Your Name</label><input class="form-inp" placeholder="Ali Khan"/></div><div class="form-grp"><label class="form-lbl">Phone</label><input class="form-inp" placeholder="03001234567"/></div></div>
+      <div class="form-grp"><label class="form-lbl">Email</label><input class="form-inp" placeholder="ali@email.com"/></div>
+      <div class="form-grp"><label class="form-lbl">Subject</label><select class="form-sel"><option>Order Issue</option><option>Prescription Help</option><option>Return Request</option><option>General Inquiry</option></select></div>
+      <div class="form-grp"><label class="form-lbl">Message</label><textarea class="form-inp" rows="4" placeholder="How can we help you?"></textarea></div>
+      <button class="btn btn-or btn-full">Send Message</button>
+    </div>
+    <div>
+      <div class="contact-info-block"><div class="ci-icon">&#128172;</div><div><div class="ci-title">WhatsApp Support</div><div class="ci-text">Chat with us directly on WhatsApp for fastest response. Available 9 AM – 9 PM daily.</div><button class="btn btn-wa btn-sm" style="margin-top:8px;">Chat Now</button></div></div>
+      <div class="contact-info-block"><div class="ci-icon">&#9993;</div><div><div class="ci-title">Email Us</div><div class="ci-text">support@deluxeopt.com<br/>Response within 24 hours</div></div></div>
+      <div class="contact-info-block"><div class="ci-icon">&#128205;</div><div><div class="ci-title">Our Location</div><div class="ci-text">Karachi, Pakistan<br/>(Online store — no physical walk-ins)</div></div></div>
+      <div class="contact-info-block"><div class="ci-icon">&#9200;</div><div><div class="ci-title">Working Hours</div><div class="ci-text">Monday – Saturday: 9 AM – 9 PM<br/>Sunday: 11 AM – 6 PM</div></div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: FAQ ═══════════ -->
+<div class="page" id="page-faq">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a></div></div>
+<div class="page-hero-inner"><div class="wrap"><h1>Frequently Asked Questions</h1><p>Find quick answers to common questions</p></div></div>
+<div class="wrap">
+  <div class="faq-layout">
+    <div>
+      <h5 style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:10px;">Categories</h5>
+      <div class="faq-nav">
+        <a class="active">All Questions</a>
+        <a>Orders & Delivery</a>
+        <a>Prescription & Lenses</a>
+        <a>Payments & Returns</a>
+        <a>Frame Fitting</a>
+      </div>
+    </div>
+    <div>
+      <div class="faq-item"><div class="faq-q open">How do I place an order with prescription lenses?</div><div class="faq-a">Browse our frames, select your frame, click "Select Your Lenses", choose your lens type, enter your prescription details (or upload a photo), select coating, and add to cart. You can also order via WhatsApp for personalized assistance.</div></div>
+      <div class="faq-item"><div class="faq-q">How long does delivery take?</div></div>
+      <div class="faq-item"><div class="faq-q">Do you offer Cash on Delivery?</div></div>
+      <div class="faq-item"><div class="faq-q">Can I return or exchange my glasses?</div></div>
+      <div class="faq-item"><div class="faq-q">What is your free delivery threshold?</div></div>
+      <div class="faq-item"><div class="faq-q">How do I know which frame size is right for me?</div></div>
+      <div class="faq-item"><div class="faq-q">What types of prescription lenses do you offer?</div></div>
+      <div class="faq-item"><div class="faq-q">How do I pay via EasyPaisa or JazzCash for 15% off?</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: BLOGS ═══════════ -->
+<div class="page" id="page-blogs">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a></div></div>
+<div class="page-hero-inner"><div class="wrap"><h1>Optical Blog</h1><p>Eyewear tips, lens guides, and style inspiration</p></div></div>
+<div class="wrap" style="padding:40px 24px;">
+  <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
+    <button class="btn btn-or btn-sm">All</button>
+    <button class="btn btn-wh btn-sm">Lens Guide</button>
+    <button class="btn btn-wh btn-sm">Frame Style</button>
+    <button class="btn btn-wh btn-sm">Eye Health</button>
+    <button class="btn btn-wh btn-sm">Prescription Tips</button>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card"><div class="blog-card-img"><span style="font-size:30px;color:#d1d5db;">&#128247;</span></div><div class="blog-card-body"><div class="blog-card-cat">Lens Guide</div><h3 class="blog-card-title">What is Blue Cut Lens and Why Do You Need It?</h3><p class="blog-card-excerpt">If you spend more than 6 hours in front of a screen daily, blue cut lenses can significantly reduce eye strain and improve sleep.</p><div class="blog-card-meta"><span>May 10, 2026</span><span>·</span><span>5 min read</span></div></div></div>
+    <div class="blog-card"><div class="blog-card-img"><span style="font-size:30px;color:#d1d5db;">&#128083;</span></div><div class="blog-card-body"><div class="blog-card-cat">Frame Style</div><h3 class="blog-card-title">How to Choose the Right Frame for Your Face Shape</h3><p class="blog-card-excerpt">Round, square, oval, heart-shaped — your face shape determines which frames will look best on you.</p><div class="blog-card-meta"><span>May 5, 2026</span><span>·</span><span>7 min read</span></div></div></div>
+    <div class="blog-card"><div class="blog-card-img"><span style="font-size:30px;color:#d1d5db;">&#127774;</span></div><div class="blog-card-body"><div class="blog-card-cat">Lens Guide</div><h3 class="blog-card-title">Transition Lenses: Everything You Need to Know</h3><p class="blog-card-excerpt">Transition lenses automatically adjust to light conditions, darkening outdoors and clearing indoors.</p><div class="blog-card-meta"><span>Apr 28, 2026</span><span>·</span><span>6 min read</span></div></div></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: LENS GUIDE ═══════════ -->
+<div class="page" id="page-lens-guide">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a></div></div>
+<div class="lens-guide-hero"><div class="wrap"><div class="sec-label">Lens Technology</div><h1 style="color:#fff;">Blue Cut Lenses —<br/>Complete Guide</h1><p>Everything you need to know about blue light filtering lenses and why you might need them.</p></div></div>
+<div class="wrap" style="padding:40px 24px;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:32px;">
+    <div><h2 style="font-size:26px;margin-bottom:14px;">What is Blue Light?</h2><p style="font-size:14px;color:var(--mu);line-height:1.8;margin-bottom:12px;">Blue light is a high-energy visible light emitted by digital screens, LED lighting, and the sun. Prolonged exposure can cause digital eye strain, headaches, and disrupted sleep patterns.</p><p style="font-size:14px;color:var(--mu);line-height:1.8;">Blue cut lenses have a special filter applied that blocks harmful blue light wavelengths (380-500nm) while allowing beneficial visible light through.</p></div>
+    <div class="ph" style="height:220px;">Blue Cut Lens Technology Image</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px;">
+    <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:8px;padding:16px;"><h4 style="font-size:15px;margin-bottom:6px;">Reduces Eye Strain</h4><p style="font-size:12px;color:var(--mu);">After long screen sessions, your eyes feel less tired and dry</p></div>
+    <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:8px;padding:16px;"><h4 style="font-size:15px;margin-bottom:6px;">Better Sleep</h4><p style="font-size:12px;color:var(--mu);">Blue light suppresses melatonin. Filtering it helps you sleep better</p></div>
+    <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:8px;padding:16px;"><h4 style="font-size:15px;margin-bottom:6px;">Prevents Headaches</h4><p style="font-size:12px;color:var(--mu);">Screen-induced headaches reduce significantly with blue cut lenses</p></div>
+  </div>
+  <div class="cta-dk" style="border-radius:10px;margin-bottom:32px;">
+    <h2 style="font-size:26px;">Shop Blue Cut Frames</h2>
+    <p>Browse our collection of frames with blue cut lenses. Starting from Rs. 1,200.</p>
+    <button class="btn btn-or">Browse Blue Cut Frames</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: SHIPPING & RETURNS ═══════════ -->
+<div class="page" id="page-shipping">
+<div class="site-header"><div class="hdr-inner"><a class="logo">Deluxe<span>Opt</span></a></div></div>
+<div class="page-hero-inner"><div class="wrap"><h1>Shipping & Returns</h1><p>Everything you need to know about delivery and returns</p></div></div>
+<div class="wrap" style="padding:40px 24px;max-width:800px;">
+  <div class="shipping-card"><h2>Delivery Policy</h2><div class="shipping-timeline"><div class="stl-item"><div class="stl-num">1</div><div class="stl-content"><h4>Order Placed</h4><p>You'll receive a WhatsApp confirmation with your order ID (#DOS-2026-XXXX)</p></div></div><div class="stl-item"><div class="stl-num">2</div><div class="stl-content"><h4>Processing (1–2 days)</h4><p>Ready-to-ship frames: same day. Prescription lenses: 2–3 working days for lens preparation</p></div></div><div class="stl-item"><div class="stl-num">3</div><div class="stl-content"><h4>Shipped (Day 2–3)</h4><p>Dispatched via TCS or M&P courier. Tracking number sent via WhatsApp</p></div></div><div class="stl-item"><div class="stl-num">4</div><div class="stl-content"><h4>Delivered (Day 3–5)</h4><p>Delivered to your doorstep anywhere in Pakistan</p></div></div></div><div style="background:var(--or-l);border:1px solid #fddbb4;border-radius:6px;padding:12px 14px;font-size:13px;margin-top:14px;"><strong>Free Delivery:</strong> Orders above Rs. 3,000 qualify for free delivery nationwide.</div></div>
+  <div class="shipping-card"><h2>Returns & Exchange Policy</h2><p style="font-size:13px;color:var(--mu);line-height:1.7;margin-bottom:12px;">We offer a 7-day easy return policy. If you receive a damaged, defective, or incorrect item, contact us immediately via WhatsApp with photos.</p><div style="font-size:13px;color:var(--mu);"><strong>Not eligible for returns:</strong><br/>• Custom prescription lenses (once confirmed)<br/>• Items showing signs of use or damage by customer<br/>• Sale items (unless defective)</div></div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: ADMIN DASHBOARD ═══════════ -->
+<div class="page" id="page-admin-dashboard">
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <div class="admin-logo"><span>Deluxe</span><span>Opt</span><small>Admin Panel</small></div>
+    <div class="admin-nav-section">Main</div>
+    <a class="admin-nav-link active"><span class="nav-ico">&#9643;</span> Dashboard</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128722;</span> Orders <span class="admin-nav-badge">8</span></a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128083;</span> Products</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128101;</span> Customers</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#9733;</span> Reviews <span class="admin-nav-badge">3</span></a>
+    <a class="admin-nav-link"><span class="nav-ico">&#127981;</span> Inventory</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#127981;</span> Promo Codes</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128203;</span> Blogs</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128065;</span> Lens Options</a>
+    <div class="admin-nav-section">Settings</div>
+    <a class="admin-nav-link"><span class="nav-ico">&#9881;</span> Store Settings</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128140;</span> Email Templates</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128203;</span> Static Pages</a>
+  </div>
+  <div class="admin-content">
+    <div class="admin-topbar"><h1>Dashboard</h1><div class="admin-topbar-actions"><button class="btn btn-or btn-sm">Export Report</button></div></div>
+    <div class="admin-page">
+      <div class="quick-actions">
+        <button class="btn btn-or btn-sm">+ Add Product</button>
+        <button class="btn btn-wh btn-sm">View Pending Orders</button>
+        <button class="btn btn-wh btn-sm">Approve Reviews (3)</button>
+      </div>
+      <div class="admin-stat-grid">
+        <div class="admin-stat"><div class="as-label">Today's Orders</div><div class="as-val">24</div><div class="as-sub up">+8 from yesterday</div></div>
+        <div class="admin-stat"><div class="as-label">Today's Revenue</div><div class="as-val" style="color:var(--or);">Rs. 36,200</div><div class="as-sub up">+12% vs yesterday</div></div>
+        <div class="admin-stat"><div class="as-label">Pending Orders</div><div class="as-val">7</div><div class="as-sub warn">3 urgent (custom lens)</div></div>
+        <div class="admin-stat"><div class="as-label">Low Stock Items</div><div class="as-val" style="color:var(--rd);">4</div><div class="as-sub danger">Restock needed</div></div>
+      </div>
+      <div class="admin-grid-2">
+        <div class="admin-chart-area"><h3>Revenue — Last 7 Days</h3><div class="chart-ph">Line Chart (recharts) — daily revenue + orders</div></div>
+        <div class="admin-chart-area"><h3>Orders by Status</h3><div class="chart-ph">Donut Chart — Pending / Processing / Delivered / Cancelled</div></div>
+      </div>
+      <div class="admin-grid-2" style="margin-top:16px;">
+        <div class="admin-table-card">
+          <h3>Recent Orders</h3>
+          <table class="admin-table">
+            <tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>
+            <tr><td style="color:var(--or);font-weight:500;">#DOS-2026-0042</td><td>Ali Khan</td><td style="font-size:11px;color:var(--mu);">2 items · Single Vision</td><td style="font-weight:500;">Rs. 4,860</td><td><span class="status-pill sp-processing">Processing</span></td></tr>
+            <tr><td style="color:var(--or);font-weight:500;">#DOS-2026-0041</td><td>Sara A.</td><td style="font-size:11px;color:var(--mu);">1 item · Blue Cut</td><td style="font-weight:500;">Rs. 2,100</td><td><span class="status-pill sp-pending">Pending</span></td></tr>
+            <tr><td style="color:var(--or);font-weight:500;">#DOS-2026-0040</td><td>Omar M.</td><td style="font-size:11px;color:var(--mu);">1 item · Progressive</td><td style="font-weight:500;">Rs. 5,000</td><td><span class="status-pill sp-delivered">Delivered</span></td></tr>
+          </table>
+        </div>
+        <div class="admin-table-card">
+          <h3>Pending Reviews (3)</h3>
+          <table class="admin-table">
+            <tr><th>Customer</th><th>Product</th><th>Rating</th><th>Action</th></tr>
+            <tr><td>Umar A.</td><td style="font-size:11px;">Full Golden Frame</td><td style="color:var(--or);">&#9733;&#9733;&#9733;&#9733;&#9733;</td><td><div class="admin-action-btns"><button class="aa-btn approve">Approve</button><button class="aa-btn reject">Reject</button></div></td></tr>
+            <tr><td>Hina M.</td><td style="font-size:11px;">Classic Aviator</td><td style="color:var(--or);">&#9733;&#9733;&#9733;&#9733;&#9734;</td><td><div class="admin-action-btns"><button class="aa-btn approve">Approve</button><button class="aa-btn reject">Reject</button></div></td></tr>
+            <tr><td>Bilal R.</td><td style="font-size:11px;">Blue Titanium</td><td style="color:var(--or);">&#9733;&#9733;&#9733;&#9733;&#9733;</td><td><div class="admin-action-btns"><button class="aa-btn approve">Approve</button><button class="aa-btn reject">Reject</button></div></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="admin-table-card" style="margin-top:16px;">
+        <h3>Low Stock Alerts</h3>
+        <table class="admin-table">
+          <tr><th>Product</th><th>SKU Variant</th><th>Stock</th><th>Status</th><th>Action</th></tr>
+          <tr><td>Full Golden Frame</td><td style="font-size:11px;color:var(--mu);">DOS-SG-001-L-GLD</td><td style="font-weight:600;color:var(--yw);">3</td><td><span class="badge b-or">Low</span></td><td><button class="aa-btn edit">Update Stock</button></td></tr>
+          <tr><td>Black Rimless</td><td style="font-size:11px;color:var(--mu);">DOS-PR-001-M-BLK</td><td style="font-weight:600;color:var(--rd);">0</td><td><span class="badge b-rd">Out</span></td><td><button class="aa-btn edit">Update Stock</button></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: ADMIN PRODUCTS ═══════════ -->
+<div class="page" id="page-admin-products">
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <div class="admin-logo"><span>Deluxe</span><span>Opt</span><small>Admin Panel</small></div>
+    <a class="admin-nav-link"><span class="nav-ico">&#9643;</span> Dashboard</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128722;</span> Orders</a>
+    <a class="admin-nav-link active"><span class="nav-ico">&#128083;</span> Products</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128101;</span> Customers</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#9733;</span> Reviews</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#127981;</span> Inventory</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128203;</span> Blogs</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128065;</span> Lens Options</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#9881;</span> Store Settings</a>
+  </div>
+  <div class="admin-content">
+    <div class="admin-topbar"><h1>Add / Edit Product</h1><div class="admin-topbar-actions"><button class="btn btn-wh btn-sm">Cancel</button><button class="btn btn-or btn-sm">Save Product</button></div></div>
+    <div class="admin-page">
+      <div class="admin-form-layout">
+        <div class="admin-form-main">
+          <!-- BASIC INFO -->
+          <div class="admin-form-card">
+            <h3>Basic Information</h3>
+            <div class="admin-form-row"><div class="form-grp"><label class="form-lbl">Product Name</label><input class="form-inp" value="Full Golden Frame"/></div><div class="form-grp"><label class="form-lbl">SKU</label><input class="form-inp" value="DOS-SG-001" placeholder="Auto: DOS-SG-001"/></div></div>
+            <div class="admin-form-row cols3"><div class="form-grp"><label class="form-lbl">Category</label><select class="form-sel"><option>Sunglasses</option><option>Prescription</option><option>Blue Cut</option></select></div><div class="form-grp"><label class="form-lbl">Gender</label><select class="form-sel"><option>Unisex</option><option>Men</option><option>Women</option><option>Kids</option></select></div><div class="form-grp"><label class="form-lbl">Frame Number</label><input class="form-inp" value="52-18-140"/></div></div>
+            <div class="admin-form-row cols3"><div class="form-grp"><label class="form-lbl">Frame Shape</label><select class="form-sel"><option>Aviator</option><option>Round</option><option>Square</option></select></div><div class="form-grp"><label class="form-lbl">Material</label><input class="form-inp" value="Acetate, Metal"/></div><div class="form-grp"><label class="form-lbl">Weight (g)</label><input class="form-inp" value="24"/></div></div>
+          </div>
+
+          <!-- PRICING -->
+          <div class="admin-form-card">
+            <h3>Pricing</h3>
+            <div class="admin-form-row">
+              <div class="form-grp"><label class="form-lbl">Original Price (Rs.)</label><input class="form-inp" value="1900"/></div>
+              <div class="form-grp"><label class="form-lbl">Sale Price (Rs.) — leave blank if no sale</label><input class="form-inp" value="1500"/></div>
+            </div>
+          </div>
+
+          <!-- IMAGES -->
+          <div class="admin-form-card">
+            <h3>Product Images</h3>
+            <div class="img-upload-area"><span style="font-size:24px;display:block;margin-bottom:6px;">&#128247;</span>Drag & drop images here or click to upload<br/><span style="font-size:11px;color:#9ca3af;">PNG, JPG up to 5MB. First image = main image</span></div>
+            <div class="uploaded-imgs"><div class="up-img">Img 1<div class="up-img-rm">×</div></div><div class="up-img">Img 2<div class="up-img-rm">×</div></div><div class="up-img">Img 3<div class="up-img-rm">×</div></div></div>
+          </div>
+
+          <!-- VARIANTS TABLE -->
+          <div class="admin-form-card">
+            <h3>Variants (Color × Size) — Shopify Style</h3>
+            <div style="font-size:12px;color:var(--mu);margin-bottom:10px;">Edit stock, price, and availability per variant inline.</div>
+            <div style="overflow-x:auto;">
+              <table class="variants-table">
+                <tr><th>Color</th><th>Size Label</th><th>Lens&#9633;Bridge-Temple</th><th>SKU Variant</th><th>Price</th><th>Stock</th><th>Active</th></tr>
+                <tr><td>Gold</td><td>Small</td><td>48&#9633;19-140</td><td>DOS-SG-001-S-GLD</td><td><input type="text" value="1500"/></td><td><input type="number" value="15" style="width:60px;"/></td><td><input type="checkbox" checked/></td></tr>
+                <tr><td>Gold</td><td>Medium</td><td>50&#9633;21-145</td><td>DOS-SG-001-M-GLD</td><td><input type="text" value="1500"/></td><td><input type="number" value="12" style="width:60px;"/></td><td><input type="checkbox" checked/></td></tr>
+                <tr><td>Gold</td><td>Large</td><td>53&#9633;23-148</td><td>DOS-SG-001-L-GLD</td><td><input type="text" value="1600"/></td><td><input type="number" value="3" style="width:60px;"/></td><td><input type="checkbox" checked/></td></tr>
+                <tr><td>Black</td><td>Medium</td><td>50&#9633;21-145</td><td>DOS-SG-001-M-BLK</td><td><input type="text" value="1500"/></td><td><input type="number" value="8" style="width:60px;"/></td><td><input type="checkbox" checked/></td></tr>
+                <tr><td>Black</td><td>Large</td><td>53&#9633;23-148</td><td>DOS-SG-001-L-BLK</td><td><input type="text" value="1600"/></td><td><input type="number" value="0" style="width:60px;"/></td><td><input type="checkbox"/></td></tr>
+              </table>
+            </div>
+            <button class="add-variant-btn">+ Add Variant Row</button>
+          </div>
+
+          <!-- DESCRIPTION -->
+          <div class="admin-form-card">
+            <h3>Description (Rich Text)</h3>
+            <div class="rich-editor">
+              <div class="rich-toolbar">
+                <button><strong>B</strong></button><button><em>I</em></button><button><u>U</u></button><button>H1</button><button>H2</button><button>&#8226; List</button><button>1. List</button><button>Link</button><button>Image</button>
+              </div>
+              <div class="rich-area">Premium acetate frame with UV-protection lenses. Lightweight and comfortable for all-day wear. Perfect for daily use, driving, or outdoor activities...</div>
+            </div>
+            <div style="margin-top:12px;">
+              <label class="form-lbl">Description Image (right side of Description tab)</label>
+              <div class="img-upload-area" style="padding:14px;">Click to upload description image</div>
+            </div>
+          </div>
+
+          <!-- SPECIFICATIONS -->
+          <div class="admin-form-card">
+            <h3>Frame Specifications</h3>
+            <div class="admin-form-row cols3">
+              <div class="form-grp"><label class="form-lbl">Frame Width (mm)</label><input class="form-inp" value="135"/></div>
+              <div class="form-grp"><label class="form-lbl">Lens Width (mm)</label><input class="form-inp" value="52"/></div>
+              <div class="form-grp"><label class="form-lbl">Bridge (mm)</label><input class="form-inp" value="18"/></div>
+            </div>
+            <div class="admin-form-row cols3">
+              <div class="form-grp"><label class="form-lbl">Temple Length (mm)</label><input class="form-inp" value="140"/></div>
+              <div class="form-grp"><label class="form-lbl">Lens Height (mm)</label><input class="form-inp" value="44"/></div>
+              <div class="form-grp"><label class="form-lbl">Rim Type</label><select class="form-sel"><option>Full-Rim</option><option>Half-Rim</option><option>Rimless</option></select></div>
+            </div>
+            <div style="margin-top:8px;">
+              <label class="form-lbl">Frame Dimension Diagram (shown in Features & Size tab)</label>
+              <div class="img-upload-area" style="padding:14px;">Click to upload frame diagram image</div>
+            </div>
+          </div>
+
+          <!-- LENS OPTIONS -->
+          <div class="admin-form-card">
+            <h3>Lens Options for this Product</h3>
+            <p style="font-size:12px;color:var(--mu);margin-bottom:12px;">Select which lens types and coatings appear on the "Select Your Lenses" page for this product.</p>
+            <div style="margin-bottom:10px;"><div class="form-lbl" style="margin-bottom:6px;">Lens Types</div><div class="lens-checkboxes"><label class="lens-check-item"><input type="checkbox" checked/> Single Vision</label><label class="lens-check-item"><input type="checkbox" checked/> Progressives</label><label class="lens-check-item"><input type="checkbox"/> Bifocal</label><label class="lens-check-item"><input type="checkbox" checked/> Non-Rx</label><label class="lens-check-item"><input type="checkbox"/> Readers</label></div></div>
+            <div><div class="form-lbl" style="margin-bottom:6px;">Coatings</div><div class="lens-checkboxes"><label class="lens-check-item"><input type="checkbox" checked/> Standard</label><label class="lens-check-item"><input type="checkbox" checked/> Anti-Reflective</label><label class="lens-check-item"><input type="checkbox" checked/> Blue Cut</label><label class="lens-check-item"><input type="checkbox" checked/> Transition</label><label class="lens-check-item"><input type="checkbox"/> Polarized</label></div></div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="admin-form-sidebar">
+          <div class="admin-form-card">
+            <h3>Status & Visibility</h3>
+            <div class="form-grp"><label class="form-lbl">Status</label><select class="form-sel"><option>Active</option><option>Draft</option></select></div>
+            <div class="form-grp"><label><input type="checkbox" checked style="accent-color:var(--or);margin-right:6px;"/>Featured Product</label></div>
+            <div class="form-grp"><label><input type="checkbox" style="accent-color:var(--or);margin-right:6px;"/>On Sale</label></div>
+          </div>
+          <div class="admin-form-card">
+            <h3>SEO</h3>
+            <div class="form-grp"><label class="form-lbl">Meta Title</label><input class="form-inp" value="Full Golden Frame | Deluxe Opt"/></div>
+            <div class="form-grp"><label class="form-lbl">Meta Description</label><textarea class="form-inp" rows="3" style="font-size:12px;">Premium gold aviator sunglasses with UV protection. Available in S/M/L with prescription lens option.</textarea></div>
+            <div class="form-grp"><label class="form-lbl">URL Slug</label><input class="form-inp" value="full-golden-frame"/></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: ADMIN ORDERS ═══════════ -->
+<div class="page" id="page-admin-orders">
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <div class="admin-logo"><span>Deluxe</span><span>Opt</span><small>Admin Panel</small></div>
+    <a class="admin-nav-link"><span class="nav-ico">&#9643;</span> Dashboard</a>
+    <a class="admin-nav-link active"><span class="nav-ico">&#128722;</span> Orders <span class="admin-nav-badge">8</span></a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128083;</span> Products</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#9733;</span> Reviews</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#127981;</span> Inventory</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#9881;</span> Store Settings</a>
+  </div>
+  <div class="admin-content">
+    <div class="admin-topbar"><h1>Orders</h1><div class="admin-topbar-actions"><button class="btn btn-wh btn-sm">Export CSV</button></div></div>
+    <div class="admin-page">
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        <button class="btn btn-or btn-sm">All (142)</button>
+        <button class="btn btn-wh btn-sm">Pending (8)</button>
+        <button class="btn btn-wh btn-sm">Processing (12)</button>
+        <button class="btn btn-wh btn-sm">Shipped (24)</button>
+        <button class="btn btn-wh btn-sm">Delivered (95)</button>
+        <button class="btn btn-wh btn-sm">Cancelled (3)</button>
+      </div>
+      <!-- ORDER DETAIL -->
+      <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:20px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+          <div><div style="font-size:18px;font-weight:600;font-family:'Courier New',monospace;">#DOS-2026-0042</div><div style="font-size:12px;color:var(--mu);margin-top:2px;">13 May 2026, 3:42 PM</div></div>
+          <div style="display:flex;gap:8px;align-items:center;"><select class="form-sel" style="font-size:12px;padding:5px 8px;"><option>Processing</option><option>Pending</option><option>Shipped</option><option>Delivered</option></select><button class="btn btn-or btn-sm">Update Status</button></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;font-size:12px;margin-bottom:16px;">
+          <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:6px;padding:12px;"><div style="font-weight:600;margin-bottom:6px;color:var(--tx);">Customer</div><div style="color:var(--mu);line-height:1.8;">Ali Khan<br/>0300-1234567<br/>ali@email.com<br/>House 5, Street 3, DHA Karachi</div></div>
+          <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:6px;padding:12px;"><div style="font-weight:600;margin-bottom:6px;color:var(--tx);">Frame Details</div><div style="color:var(--mu);line-height:1.8;">Full Golden Frame<br/>Gold · Medium (50&#9633;21-145)<br/>SKU: DOS-SG-001-M-GLD<br/>Qty: 1</div></div>
+          <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:6px;padding:12px;"><div style="font-weight:600;margin-bottom:6px;color:var(--tx);">Lens Details</div><div style="color:var(--mu);line-height:1.8;">Type: Single Vision<br/>Coating: Anti-Reflective<br/>OD: +1.25 / -0.50 x 90<br/>OS: +1.00 / -0.25 x 85<br/>PD: 64mm | Manual entry</div></div>
+        </div>
+        <div style="background:#f9fafb;border:1px solid var(--bd);border-radius:6px;padding:12px;font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <div style="color:var(--mu);">Payment: <strong style="color:var(--tx);">Cash on Delivery</strong> &nbsp;|&nbsp; Frame: Rs. 1,500 &nbsp;|&nbsp; Lens: Rs. 1,000 &nbsp;|&nbsp; Coating: Rs. 300 &nbsp;|&nbsp; Coupon: -Rs. 270</div>
+          <div style="font-weight:600;font-size:14px;color:var(--or);">Total: Rs. 2,530</div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <div style="flex:1;"><label class="form-lbl">Tracking Number</label><input class="form-inp" placeholder="Enter TCS/M&P tracking number"/></div>
+          <div style="display:flex;align-items:flex-end;"><button class="btn btn-or btn-sm">Save</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: ADMIN REVIEWS ═══════════ -->
+<div class="page" id="page-admin-reviews">
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <div class="admin-logo"><span>Deluxe</span><span>Opt</span><small>Admin Panel</small></div>
+    <a class="admin-nav-link"><span class="nav-ico">&#9643;</span> Dashboard</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128722;</span> Orders</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128083;</span> Products</a>
+    <a class="admin-nav-link active"><span class="nav-ico">&#9733;</span> Reviews <span class="admin-nav-badge">3</span></a>
+    <a class="admin-nav-link"><span class="nav-ico">&#9881;</span> Settings</a>
+  </div>
+  <div class="admin-content">
+    <div class="admin-topbar"><h1>Customer Reviews</h1></div>
+    <div class="admin-page">
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button class="btn btn-or btn-sm">Pending (3)</button>
+        <button class="btn btn-wh btn-sm">Approved (48)</button>
+        <button class="btn btn-wh btn-sm">Rejected (5)</button>
+      </div>
+      <div class="admin-table-card">
+        <h3>Pending Approval</h3>
+        <table class="admin-table">
+          <tr><th>Customer</th><th>Product</th><th>Rating</th><th>Review</th><th>Date</th><th>Actions</th></tr>
+          <tr>
+            <td style="font-weight:500;">Umar Adnan</td>
+            <td style="font-size:11px;">Full Golden Frame</td>
+            <td style="color:var(--or);">&#9733;&#9733;&#9733;&#9733;&#9733; 5.0</td>
+            <td style="font-size:12px;color:var(--mu);max-width:200px;">"Very fine quality sunglasses, very reasonable..."</td>
+            <td style="font-size:11px;color:var(--mu);">10 May 2026</td>
+            <td><div class="admin-action-btns"><button class="aa-btn approve">Approve</button><button class="aa-btn reject">Reject</button><button class="aa-btn edit">View</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:500;">Hina Malik</td>
+            <td style="font-size:11px;">Classic Aviator</td>
+            <td style="color:var(--or);">&#9733;&#9733;&#9733;&#9733;&#9734; 4.0</td>
+            <td style="font-size:12px;color:var(--mu);max-width:200px;">"Good quality but delivery was a bit slow..."</td>
+            <td style="font-size:11px;color:var(--mu);">9 May 2026</td>
+            <td><div class="admin-action-btns"><button class="aa-btn approve">Approve</button><button class="aa-btn reject">Reject</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:500;">Bilal Rauf</td>
+            <td style="font-size:11px;">Blue Titanium Frame</td>
+            <td style="color:var(--or);">&#9733;&#9733;&#9733;&#9733;&#9733; 5.0</td>
+            <td style="font-size:12px;color:var(--mu);max-width:200px;">"Excellent frames, blue cut lenses are amazing..."</td>
+            <td style="font-size:11px;color:var(--mu);">8 May 2026</td>
+            <td><div class="admin-action-btns"><button class="aa-btn approve">Approve</button><button class="aa-btn reject">Reject</button></div></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ PAGE: ADMIN BLOGS ═══════════ -->
+<div class="page" id="page-admin-blogs">
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <div class="admin-logo"><span>Deluxe</span><span>Opt</span><small>Admin Panel</small></div>
+    <a class="admin-nav-link"><span class="nav-ico">&#9643;</span> Dashboard</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128722;</span> Orders</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#128083;</span> Products</a>
+    <a class="admin-nav-link active"><span class="nav-ico">&#128203;</span> Blogs</a>
+    <a class="admin-nav-link"><span class="nav-ico">&#9881;</span> Settings</a>
+  </div>
+  <div class="admin-content">
+    <div class="admin-topbar"><h1>Blog Editor</h1><div class="admin-topbar-actions"><button class="btn btn-wh btn-sm">Save Draft</button><button class="btn btn-or btn-sm">Publish</button></div></div>
+    <div class="admin-page">
+      <div class="blog-editor-layout">
+        <div>
+          <div class="admin-form-card">
+            <div class="form-grp"><label class="form-lbl">Blog Title</label><input class="form-inp" value="What is Blue Cut Lens and Why Do You Need It?" style="font-size:16px;font-family:'Cormorant Garamond',serif;"/></div>
+            <div class="form-grp"><label class="form-lbl">Cover Image</label><div class="img-upload-area" style="padding:14px;">Click to upload cover image (16:9 recommended)</div></div>
+            <div class="form-grp"><label class="form-lbl">Content</label>
+              <div class="rich-editor">
+                <div class="rich-toolbar"><button><strong>B</strong></button><button><em>I</em></button><button><u>U</u></button><button>H1</button><button>H2</button><button>H3</button><button>&#8226; List</button><button>1. List</button><button>Link</button><button>Image</button><button>Quote</button></div>
+                <div class="rich-area" style="min-height:300px;">
+                  <h2 style="font-size:20px;margin-bottom:8px;">What is Blue Light?</h2>
+                  <p>Blue light is a high-energy visible light emitted by digital screens... Write your full blog content here with formatting.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="admin-form-card"><h3>Blog Settings</h3>
+            <div class="form-grp"><label class="form-lbl">Category</label><select class="form-sel"><option>Lens Guide</option><option>Frame Style</option><option>Eye Health</option><option>Prescription Tips</option></select></div>
+            <div class="form-grp"><label class="form-lbl">URL Slug</label><input class="form-inp" value="what-is-blue-cut-lens"/></div>
+            <div class="form-grp"><label class="form-lbl">Status</label><select class="form-sel"><option>Draft</option><option>Published</option></select></div>
+            <div class="form-grp"><label class="form-lbl">Meta Description</label><textarea class="form-inp" rows="3" style="font-size:12px;">Learn everything about blue cut lenses — what they are, how they work, and who needs them.</textarea></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('page-' + id);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function toggleMobile() {
+  const body = document.body;
+  const btn = document.getElementById('mob-toggle');
+  if (body.classList.contains('mobile-mode')) {
+    body.classList.remove('mobile-mode');
+    btn.textContent = 'Mobile View';
+    btn.classList.remove('active');
+    document.querySelectorAll('.page.active').forEach(p => {
+      p.style.maxWidth = '';
+      p.style.margin = '';
+    });
+  } else {
+    body.classList.add('mobile-mode');
+    btn.textContent = 'Desktop View';
+    btn.classList.add('active');
+    document.querySelectorAll('.page').forEach(p => {
+      p.style.maxWidth = '390px';
+      p.style.margin = '0 auto';
+      p.style.boxShadow = '0 0 40px rgba(0,0,0,.15)';
+    });
+  }
+}
+</script>
+</body>
+</html>

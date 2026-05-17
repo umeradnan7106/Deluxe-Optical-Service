@@ -143,10 +143,8 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
                 id="rx-upload"
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f); }}
               />
-              <label htmlFor="rx-upload">
-                <Button variant="outline" size="sm" className="mt-3" as="span">
-                  {uploading ? "Uploading…" : "Choose File"}
-                </Button>
+              <label htmlFor="rx-upload" className="inline-flex items-center px-3 py-1.5 mt-3 rounded border border-[#3a3a3a] text-sm text-gray-300 hover:text-white hover:border-gray-400 cursor-pointer transition-colors">
+                {uploading ? "Uploading…" : "Choose File"}
               </label>
             </>
           )}

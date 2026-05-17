@@ -27,7 +27,7 @@ export default function CartSummary() {
     setCouponError("");
     try {
       const { data } = await cartApi.validateCoupon(couponInput.trim(), subtotal);
-      applyCoupon(data.code, data.discount_amount);
+      applyCoupon(data.code, data.discount_value);
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail;
       setCouponError(msg || "Invalid coupon code");

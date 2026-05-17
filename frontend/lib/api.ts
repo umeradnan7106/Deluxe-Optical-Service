@@ -153,8 +153,6 @@ export const faqsApi = {
 
 export const lensCollectionApi = {
   list: () => api.get<LensCollection[]>("/api/lens-collection"),
-  detail: (slug: string) =>
-    api.get<LensCollection & { products: ProductListItem[] }>(`/api/lens-collection/${slug}`),
 };
 
 // ── Upload ────────────────────────────────────────────────────────────────────
@@ -218,6 +216,7 @@ export const adminApi = {
     create: (data: unknown) => api.post("/api/admin/lens-options", data),
     update: (id: number, data: unknown) => api.patch(`/api/admin/lens-options/${id}`, data),
     delete: (id: number) => api.delete(`/api/admin/lens-options/${id}`),
+    reorder: (items: { id: number; sort_order: number }[]) => api.put("/api/admin/lens-options/reorder", items),
   },
 
   // Lens collections
@@ -226,6 +225,14 @@ export const adminApi = {
     create: (data: unknown) => api.post("/api/admin/lens-collections", data),
     update: (id: number, data: unknown) => api.patch(`/api/admin/lens-collections/${id}`, data),
     delete: (id: number) => api.delete(`/api/admin/lens-collections/${id}`),
+    reorder: (items: { id: number; sort_order: number }[]) => api.put("/api/admin/lens-collections/reorder", items),
+    uploadVideo: (file: File) => {
+      const form = new FormData();
+      form.append("file", file);
+      return api.post<{ url: string; public_id: string }>("/api/admin/lens-collections/upload-video", form, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    },
   },
 
   // Orders
@@ -274,6 +281,7 @@ export const adminApi = {
     create: (data: unknown) => api.post<FAQ>("/api/admin/faqs", data),
     update: (id: number, data: unknown) => api.patch<FAQ>(`/api/admin/faqs/${id}`, data),
     delete: (id: number) => api.delete(`/api/admin/faqs/${id}`),
+    reorder: (items: { id: number; sort_order: number }[]) => api.put("/api/admin/faqs/reorder", items),
   },
 
   // Promo codes

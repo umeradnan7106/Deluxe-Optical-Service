@@ -71,6 +71,11 @@ class ProductDetail(BaseModel):
     brand: Optional[str] = None
     base_price: float
     sale_price: Optional[float] = None
+    frame_width_mm: Optional[int] = None
+    lens_width_mm: Optional[int] = None
+    bridge_mm: Optional[int] = None
+    temple_mm: Optional[int] = None
+    lens_height_mm: Optional[int] = None
     bullets: List[str] = []
     description: str
     is_prescription_required: bool

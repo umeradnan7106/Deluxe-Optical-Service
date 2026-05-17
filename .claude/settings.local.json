@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\Dell\\\\Desktop\\\\Deluxe Opt Service\\\\history\\\\prompts\\\\constitution\")",
+      "Bash(Out-Null)",
+      "Bash(Write-Output \"done\")",
+      "PowerShell(New-Item *)",
+      "PowerShell(cd \"C:\\\\Users\\\\Dell\\\\Desktop\\\\Deluxe Opt Service\"; Get-ChildItem -Name | Where-Object { $_ -ne '.git' -and $_ -ne '.specify' -and $_ -ne 'specs' -and $_ -ne 'history' })",
+      "Bash(python -c ' *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\Dell\\\\Desktop\\\\Deluxe Opt Service\\\\frontend\\\\app\\\\\\(store\\)\\\\blogs\\\\[slug]\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\Dell\\\\Desktop\\\\Deluxe Opt Service\\\\frontend\\\\app\\\\admin\\\\blogs\\\\[id]\\\\edit\")",
+      "Bash(xargs grep -l \"FAQ\\\\|faq\")",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
