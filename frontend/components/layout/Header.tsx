@@ -93,7 +93,7 @@ export default function Header() {
           </button>
 
           {/* Wishlist */}
-          <Link href="/wishlist" className="text-white hover:text-[#E8670A] transition-colors" aria-label="Wishlist">
+          <Link href="/account/wishlist" className="text-white hover:text-[#E8670A] transition-colors" aria-label="Wishlist">
             <HeartIcon className="w-6 h-6" />
           </Link>
 

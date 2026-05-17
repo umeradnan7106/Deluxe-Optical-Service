@@ -11,15 +11,16 @@ const SHOP_LINKS = [
 ];
 
 const HELP_LINKS = [
-  { href: "/track-order", label: "Track Order" },
-  { href: "/faqs", label: "FAQs" },
+  { href: "/tracking", label: "Track Order" },
+  { href: "/faq", label: "FAQs" },
   { href: "/contact", label: "Contact Us" },
-  { href: "/prescription-guide", label: "Prescription Guide" },
+  { href: "/lens-guide", label: "Prescription Guide" },
+  { href: "/shipping-returns", label: "Shipping & Returns" },
 ];
 
 const COMPANY_LINKS = [
   { href: "/about", label: "About Us" },
-  { href: "/blog", label: "Blog" },
+  { href: "/blogs", label: "Blog" },
   { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms & Conditions" },
 ];

@@ -10,9 +10,9 @@ const NAV_LINKS = [
   { href: "/products?gender=women", label: "Women" },
   { href: "/products?category=sunglasses", label: "Sunglasses" },
   { href: "/products?category=eyeglasses&prescription=true", label: "Prescription" },
-  { href: "/lens-collection/blue-cut", label: "Blue Cut" },
-  { href: "/lens-collection/screen", label: "Screen" },
-  { href: "/lens-collection/transition", label: "Transition" },
+  { href: "/lens-guide#blue-cut", label: "Blue Cut" },
+  { href: "/lens-guide#screen", label: "Screen" },
+  { href: "/lens-guide#transition", label: "Transition" },
   { href: "/products?sale=true", label: "Sale", orange: true },
 ];
 

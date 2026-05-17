@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 
 const LENS_TYPES = [
   {
+    id: "blue-cut",
     name: "Blue Cut Lenses",
     color: "#4F8EF7",
     badge: "Most Popular",
@@ -24,6 +25,7 @@ const LENS_TYPES = [
     cta: { label: "Shop Blue Cut Frames", href: "/products?category=eyeglasses" },
   },
   {
+    id: "screen",
     name: "Anti-Reflective (AR) Coating",
     color: "#10B981",
     badge: "Recommended",
@@ -38,6 +40,7 @@ const LENS_TYPES = [
     cta: { label: "Shop AR Frames", href: "/products?category=eyeglasses" },
   },
   {
+    id: "transition",
     name: "Photochromic (Transition) Lenses",
     color: "#8B5CF6",
     badge: "Dual Purpose",
@@ -52,6 +55,7 @@ const LENS_TYPES = [
     cta: { label: "Shop Photochromic Frames", href: "/products?category=eyeglasses" },
   },
   {
+    id: "uv400",
     name: "UV400 Sunglasses",
     color: "#F59E0B",
     badge: "Eye Protection",
@@ -84,10 +88,11 @@ export default function LensGuidePage() {
       {/* Lens Sections */}
       <section className="py-16">
         <div className="max-w-[1500px] mx-auto px-6 space-y-12">
-          {LENS_TYPES.map(({ name, color, badge, description, benefits, cta }, idx) => (
+          {LENS_TYPES.map(({ id, name, color, badge, description, benefits, cta }, idx) => (
             <div
               key={name}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-center ${idx % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
+              id={id}
+              className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-center scroll-mt-28 ${idx % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
             >
               {/* Text */}
               <div className={idx % 2 === 1 ? "lg:order-2" : ""}>
