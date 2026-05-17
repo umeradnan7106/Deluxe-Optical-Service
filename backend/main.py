@@ -29,12 +29,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from routes.auth import router as auth_router
 from routes.products import router as products_router
 from routes.cart import router as cart_router
 from routes.upload import router as upload_router
 from routes.orders import router as orders_router
+from routes.wishlist import router as wishlist_router
+from routes.admin.products import router as admin_products_router
+from routes.admin.inventory import router as admin_inventory_router
 
+app.include_router(auth_router, prefix="/api")
 app.include_router(products_router, prefix="/api")
 app.include_router(cart_router, prefix="/api")
 app.include_router(upload_router, prefix="/api")
 app.include_router(orders_router, prefix="/api")
+app.include_router(wishlist_router, prefix="/api")
+app.include_router(admin_products_router, prefix="/api")
+app.include_router(admin_inventory_router, prefix="/api")

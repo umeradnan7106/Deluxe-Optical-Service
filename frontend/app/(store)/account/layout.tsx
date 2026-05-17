@@ -1,0 +1,45 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+
+const NAV_ITEMS = [
+  { href: "/account/orders", label: "My Orders" },
+  { href: "/account/wishlist", label: "Wishlist" },
+  { href: "/account/profile", label: "Profile & Settings" },
+];
+
+export default function AccountLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  return (
+    <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-8">
+      <div className="flex gap-8">
+        {/* Sidebar */}
+        <aside className="hidden md:block w-48 shrink-0">
+          <h2 className="text-white font-semibold mb-4">My Account</h2>
+          <nav className="space-y-1">
+            {NAV_ITEMS.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={cn(
+                  "block px-3 py-2 rounded text-sm transition-colors",
+                  pathname === href
+                    ? "bg-[#E8670A]/10 text-[#E8670A] border-l-2 border-[#E8670A]"
+                    : "text-gray-400 hover:text-white hover:bg-[#1a1a1a]"
+                )}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Content */}
+        <div className="flex-1">{children}</div>
+      </div>
+    </div>
+  );
+}
