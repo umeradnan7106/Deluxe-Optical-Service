@@ -54,28 +54,37 @@ def list_products_admin(
 
 @router.post("", response_model=dict, status_code=status.HTTP_201_CREATED)
 def create_product(body: ProductCreate, db: Session = Depends(get_db), _=Depends(get_current_admin)):
-    slug = generate_slug(body.name)
-    existing = db.query(Product).filter(Product.slug == slug).first()
-    if existing:
-        slug = f"{slug}-{body.sku.lower()}"
+    import traceback
+    try:
+        slug = generate_slug(body.name)
+        existing = db.query(Product).filter(Product.slug == slug).first()
+        if existing:
+            slug = f"{slug}-{body.sku.lower()}"
 
-    product = Product(
-        name=body.name, slug=slug, sku=body.sku, brand=body.brand,
-        category=body.category, gender=body.gender,
-        frame_shape=body.frame_shape, rim_type=body.rim_type, material=body.material,
-        base_price=body.base_price, sale_price=body.sale_price,
-        bullets=json.dumps(body.bullets or []),
-        description=body.description,
-        is_prescription_required=body.is_prescription_required,
-        is_active=body.is_active, is_featured=body.is_featured,
-        meta_title=body.meta_title, meta_description=body.meta_description,
-        frame_width_mm=body.frame_width_mm, lens_width_mm=body.lens_width_mm,
-        bridge_mm=body.bridge_mm, temple_mm=body.temple_mm, lens_height_mm=body.lens_height_mm,
-    )
-    db.add(product)
-    db.commit()
-    db.refresh(product)
-    return {"id": product.id, "slug": product.slug}
+        product = Product(
+            name=body.name, slug=slug, sku=body.sku, brand=body.brand,
+            category=body.category, gender=body.gender,
+            frame_shape=body.frame_shape, rim_type=body.rim_type, material=body.material,
+            base_price=body.base_price, sale_price=body.sale_price,
+            bullets=json.dumps(body.bullets or []),
+            description=body.description,
+            is_prescription_required=body.is_prescription_required,
+            is_active=body.is_active, is_featured=body.is_featured,
+            meta_title=body.meta_title, meta_description=body.meta_description,
+            frame_width_mm=body.frame_width_mm, lens_width_mm=body.lens_width_mm,
+            bridge_mm=body.bridge_mm, temple_mm=body.temple_mm, lens_height_mm=body.lens_height_mm,
+        )
+        db.add(product)
+        db.commit()
+        db.refresh(product)
+        return {"id": product.id, "slug": product.slug}
+    except HTTPException:
+        raise
+    except Exception as exc:
+        db.rollback()
+        print(f"[create_product] ERROR: {exc}")
+        traceback.print_exc()
+        raise HTTPException(status_code=400, detail=str(exc))
 
 
 @router.patch("/{product_id}")

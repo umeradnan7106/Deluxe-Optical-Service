@@ -119,7 +119,7 @@ function TbBtn({ active, onClick, children }: { active?: boolean; onClick: () =>
     <button
       type="button"
       onMouseDown={(e) => { e.preventDefault(); onClick(); }}
-      className={`px-2 py-1 text-xs rounded transition-colors ${active ? "bg-[#E8670A] text-white" : "text-gray-400 hover:text-white hover:bg-[#2a2a2a]"}`}
+      className={`px-2 py-1 text-xs rounded transition-colors ${active ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}
     >
       {children}
     </button>
@@ -130,8 +130,8 @@ function TbBtn({ active, onClick, children }: { active?: boolean; onClick: () =>
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-[#1a1a1a] rounded p-5 mb-4">
-      <h2 className="text-white font-semibold mb-4 text-sm uppercase tracking-wide">{title}</h2>
+    <div className="bg-white border border-gray-200 shadow-sm rounded p-5 mb-4">
+      <h2 className="text-gray-900 font-semibold mb-4 text-sm uppercase tracking-wide">{title}</h2>
       {children}
     </div>
   );
@@ -142,13 +142,13 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs text-gray-400 mb-1">{label}</label>
+      <label className="block text-xs text-gray-600 mb-1">{label}</label>
       {children}
     </div>
   );
 }
 
-const inputCls = "w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors";
+const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors";
 const selectCls = inputCls;
 
 // ─── Main Component ───────────────────────────────────────────────────────────
@@ -183,7 +183,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
     extensions: [StarterKit],
     content: "",
     editorProps: {
-      attributes: { class: "outline-none min-h-[160px] text-white text-sm" },
+      attributes: { class: "outline-none min-h-[160px] text-gray-900 text-sm" },
     },
   });
 
@@ -341,6 +341,11 @@ export default function ProductForm({ productId }: ProductFormProps) {
       setError("Name, SKU, and base price are required.");
       return;
     }
+    const newImages = images.filter((img) => !img.toDelete && img.file);
+    if (newImages.length > 0 && variants.length === 0) {
+      setError("Please add at least one variant (color) before uploading images.");
+      return;
+    }
     setSaving(true);
     setError("");
 
@@ -413,8 +418,8 @@ export default function ProductForm({ productId }: ProductFormProps) {
       await Promise.all(toDelete.map((img) => adminApi.products.deleteImage(img.id!)));
 
       // Upload new images
-      const newImages = images.filter((img) => !img.toDelete && img.file);
-      for (const img of newImages) {
+      const imagesToUpload = images.filter((img) => !img.toDelete && img.file);
+      for (const img of imagesToUpload) {
         await adminApi.products.uploadImage(pid, img.file!, firstVariantId);
       }
 
@@ -476,8 +481,8 @@ export default function ProductForm({ productId }: ProductFormProps) {
             <Field label="Frame Shape">
               <select value={form.frame_shape} onChange={(e) => setField("frame_shape", e.target.value)} className={selectCls}>
                 <option value="">Select…</option>
-                {["Round","Oval","Rectangle","Square","Cat Eye","Aviator","Wayfarer","Geometric","Browline","Rimless"].map((s) => (
-                  <option key={s} value={s.toLowerCase().replace(" ", "-")}>{s}</option>
+                {["Round","Oval","Rectangle","Square","Cat-Eye","Aviator","Wayfarer"].map((s) => (
+                  <option key={s} value={s.toLowerCase()}>{s}</option>
                 ))}
               </select>
             </Field>
@@ -492,7 +497,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
             <Field label="Rim Type">
               <select value={form.rim_type} onChange={(e) => setField("rim_type", e.target.value)} className={selectCls}>
                 <option value="full-rim">Full Rim</option>
-                <option value="semi-rimless">Semi Rimless</option>
+                <option value="half-rim">Half Rim</option>
                 <option value="rimless">Rimless</option>
               </select>
             </Field>
@@ -501,7 +506,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
             <input type="checkbox" checked={form.is_prescription_required}
               onChange={(e) => setField("is_prescription_required", e.target.checked)}
               className="accent-[#E8670A]" />
-            <span className="text-sm text-gray-300">Requires prescription</span>
+            <span className="text-sm text-gray-700">Requires prescription</span>
           </label>
         </Section>
 
@@ -522,20 +527,20 @@ export default function ProductForm({ productId }: ProductFormProps) {
         {/* 3. Product Images */}
         <Section title="Product Images">
           <div
-            className="border-2 border-dashed border-[#2a2a2a] rounded p-6 text-center cursor-pointer hover:border-[#E8670A] transition-colors mb-4"
+            className="border-2 border-dashed border-gray-300 rounded p-6 text-center cursor-pointer hover:border-[#E8670A] transition-colors mb-4"
             onClick={() => fileInputRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); handleImageFiles(e.dataTransfer.files); }}
           >
-            <PhotoIcon className="w-8 h-8 text-gray-500 mx-auto mb-2" />
-            <p className="text-gray-400 text-sm">Drag & drop images or click to browse</p>
-            <p className="text-gray-600 text-xs mt-1">JPEG, PNG, WebP — first image = main</p>
+            <PhotoIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+            <p className="text-gray-600 text-sm">Drag & drop images or click to browse</p>
+            <p className="text-gray-400 text-xs mt-1">JPEG, PNG, WebP — first image = main</p>
             <input ref={fileInputRef} type="file" accept="image/*" multiple hidden onChange={(e) => handleImageFiles(e.target.files)} />
           </div>
           {visibleImages.length > 0 && (
             <div className="grid grid-cols-5 gap-3">
               {visibleImages.map((img, idx) => (
-                <div key={img._key} className="relative group aspect-square rounded overflow-hidden bg-[#0a0a0a] border border-[#2a2a2a]">
+                <div key={img._key} className="relative group aspect-square rounded overflow-hidden bg-gray-50 border border-gray-200">
                   <Image src={img.url} alt="" fill className="object-cover" sizes="120px" unoptimized={!!img.file} />
                   {idx === 0 && (
                     <span className="absolute bottom-0 left-0 right-0 bg-[#E8670A] text-white text-[10px] text-center py-0.5">Main</span>
@@ -558,7 +563,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="text-gray-500 border-b border-[#2a2a2a]">
+                <tr className="text-gray-600 border-b border-gray-200">
                   <th className="pb-2 text-left pr-3 min-w-[120px]">Color Name</th>
                   <th className="pb-2 text-left pr-3 w-16">Hex</th>
                   <th className="pb-2 text-left pr-3 w-28">Lens□Bridge-Temple</th>
@@ -571,7 +576,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
               </thead>
               <tbody>
                 {variants.map((row) => (
-                  <tr key={row._key} className="border-b border-[#2a2a2a]/50">
+                  <tr key={row._key} className="border-b border-gray-100">
                     <td className="py-2 pr-3">
                       <input value={row.color_name}
                         onChange={(e) => updateVariant(row._key, "color_name", e.target.value)}
@@ -640,9 +645,9 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
         {/* 5. Description (Tiptap) */}
         <Section title="Description">
-          <div className="border border-[#2a2a2a] rounded overflow-hidden">
+          <div className="border border-gray-200 rounded overflow-hidden">
             {/* Toolbar */}
-            <div className="flex gap-1 p-2 border-b border-[#2a2a2a] bg-[#0a0a0a] flex-wrap">
+            <div className="flex gap-1 p-2 border-b border-gray-200 bg-gray-50 flex-wrap">
               <TbBtn active={editor?.isActive("bold")} onClick={() => editor?.chain().focus().toggleBold().run()}>B</TbBtn>
               <TbBtn active={editor?.isActive("italic")} onClick={() => editor?.chain().focus().toggleItalic().run()}>I</TbBtn>
               <TbBtn active={editor?.isActive("heading", { level: 1 })} onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}>H1</TbBtn>
@@ -654,7 +659,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
               <TbBtn active={editor?.isActive("orderedList")} onClick={() => editor?.chain().focus().toggleOrderedList().run()}>1.</TbBtn>
               <TbBtn active={editor?.isActive("blockquote")} onClick={() => editor?.chain().focus().toggleBlockquote().run()}>&ldquo;</TbBtn>
             </div>
-            <div className="p-3 bg-[#0a0a0a] prose prose-invert prose-sm max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[160px]">
+            <div className="p-3 bg-white prose prose-sm max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[160px] [&_.ProseMirror]:text-gray-900">
               <EditorContent editor={editor} />
             </div>
           </div>
@@ -693,7 +698,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
                       const checked = selectedLensIds.has(opt.id);
                       return (
                         <label key={opt.id}
-                          className={`flex items-center gap-2 px-3 py-2 rounded border cursor-pointer text-sm transition-colors ${checked ? "border-[#E8670A] bg-[#E8670A]/10 text-white" : "border-[#2a2a2a] text-gray-400 hover:border-gray-500"}`}>
+                          className={`flex items-center gap-2 px-3 py-2 rounded border cursor-pointer text-sm transition-colors ${checked ? "border-[#E8670A] bg-[#E8670A]/10 text-gray-900" : "border-gray-200 text-gray-600 hover:border-gray-400"}`}>
                           <input type="checkbox" checked={checked} onChange={() => toggleLensOption(opt.id)} className="accent-[#E8670A]" />
                           {opt.name}
                           {opt.price > 0 && <span className="text-xs text-gray-500">+Rs.{opt.price}</span>}
@@ -708,7 +713,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
         </Section>
 
         {/* Error */}
-        {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
+        {error && <p className="text-red-600 text-sm mb-4 bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>}
 
         {/* Save */}
         <div className="flex gap-3">
@@ -723,8 +728,8 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
       {/* ── Right sidebar ── */}
       <div className="w-64 shrink-0 space-y-4">
-        <div className="bg-[#1a1a1a] rounded p-4">
-          <h3 className="text-white font-semibold text-sm mb-3">Status</h3>
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">Status</h3>
           <Field label="Visibility">
             <select value={form.is_active ? "active" : "draft"} onChange={(e) => setField("is_active", e.target.value === "active")} className={selectCls}>
               <option value="active">Active</option>
@@ -733,12 +738,12 @@ export default function ProductForm({ productId }: ProductFormProps) {
           </Field>
           <label className="flex items-center gap-2 mt-3 cursor-pointer">
             <input type="checkbox" checked={form.is_featured} onChange={(e) => setField("is_featured", e.target.checked)} className="accent-[#E8670A]" />
-            <span className="text-sm text-gray-300">Featured on homepage</span>
+            <span className="text-sm text-gray-700">Featured on homepage</span>
           </label>
         </div>
 
-        <div className="bg-[#1a1a1a] rounded p-4">
-          <h3 className="text-white font-semibold text-sm mb-3">SEO</h3>
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">SEO</h3>
           <Field label="URL Slug">
             <input value={form.slug}
               onChange={(e) => { setSlugAuto(false); setField("slug", e.target.value); }}

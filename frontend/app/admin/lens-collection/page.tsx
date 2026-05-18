@@ -133,7 +133,7 @@ export default function LensCollectionPage() {
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-white">Lens Collections</h1>
+        <h1 className="text-2xl font-semibold text-gray-900">Lens Collections</h1>
         <Button variant="primary" size="sm" onClick={openCreate}>
           <PlusIcon className="w-4 h-4 mr-1.5" />New Collection
         </Button>
@@ -141,12 +141,12 @@ export default function LensCollectionPage() {
 
       {loading ? (
         <div className="animate-pulse space-y-3">
-          {[1,2,3].map((i) => <div key={i} className="bg-[#1a1a1a] h-14 rounded" />)}
+          {[1,2,3].map((i) => <div key={i} className="bg-gray-100 h-14 rounded" />)}
         </div>
       ) : (
-        <div className="bg-[#1a1a1a] rounded-lg overflow-hidden border border-[#2a2a2a]">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-[#252525] text-gray-400 uppercase text-xs">
+            <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
               <tr>
                 <th className="text-left px-4 py-3 w-10">Order</th>
                 <th className="text-left px-4 py-3">Name</th>
@@ -159,40 +159,40 @@ export default function LensCollectionPage() {
             </thead>
             <tbody>
               {items.map((item, idx) => (
-                <tr key={item.id} className="border-t border-[#2a2a2a] hover:bg-[#252525]">
+                <tr key={item.id} className="border-t border-gray-200 hover:bg-gray-50">
                   <td className="px-4 py-3">
                     <div className="flex flex-col gap-0.5">
-                      <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-gray-500 hover:text-white disabled:opacity-30">
+                      <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-gray-500 hover:text-gray-900 disabled:opacity-30">
                         <ChevronUpIcon className="w-3 h-3" />
                       </button>
-                      <button onClick={() => move(idx, 1)} disabled={idx === items.length - 1} className="text-gray-500 hover:text-white disabled:opacity-30">
+                      <button onClick={() => move(idx, 1)} disabled={idx === items.length - 1} className="text-gray-500 hover:text-gray-900 disabled:opacity-30">
                         <ChevronDownIcon className="w-3 h-3" />
                       </button>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-white font-medium">{item.name}</td>
+                  <td className="px-4 py-3 text-gray-900 font-medium">{item.name}</td>
                   <td className="px-4 py-3">
-                    <div className="w-6 h-6 rounded-full border border-[#3a3a3a]" style={{ backgroundColor: item.color_dot }} />
+                    <div className="w-6 h-6 rounded-full border border-gray-200" style={{ backgroundColor: item.color_dot }} />
                   </td>
                   <td className="px-4 py-3 text-[#E8670A]">{formatPrice(item.price_from)}</td>
-                  <td className="px-4 py-3 text-gray-400 text-xs">
+                  <td className="px-4 py-3 text-gray-500 text-xs">
                     {item.video_url ? (
                       <span className="text-green-400">Set</span>
                     ) : (
-                      <span className="text-gray-600">None</span>
+                      <span className="text-gray-400">None</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${item.is_active ? "bg-green-900/40 text-green-400" : "bg-gray-700 text-gray-400"}`}>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${item.is_active ? "bg-green-900/40 text-green-400" : "bg-gray-100 text-gray-500"}`}>
                       {item.is_active ? "Active" : "Inactive"}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
-                      <button onClick={() => openEdit(item)} className="text-gray-400 hover:text-white">
+                      <button onClick={() => openEdit(item)} className="text-gray-500 hover:text-gray-900">
                         <PencilIcon className="w-4 h-4" />
                       </button>
-                      <button onClick={() => handleDelete(item.id)} className="text-gray-400 hover:text-red-400">
+                      <button onClick={() => handleDelete(item.id)} className="text-gray-500 hover:text-red-400">
                         <TrashIcon className="w-4 h-4" />
                       </button>
                     </div>
@@ -209,31 +209,31 @@ export default function LensCollectionPage() {
 
       {modal.open && (
         <div className="fixed inset-0 bg-black/70 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-[#1a1a1a] rounded-xl p-6 w-full max-w-lg border border-[#2a2a2a] my-4">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6 w-full max-w-lg my-4">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-white font-semibold">{modal.editing ? "Edit Collection" : "New Collection"}</h2>
-              <button onClick={() => setModal({ open: false, editing: null })} className="text-gray-400 hover:text-white">
+              <h2 className="text-gray-900 font-semibold">{modal.editing ? "Edit Collection" : "New Collection"}</h2>
+              <button onClick={() => setModal({ open: false, editing: null })} className="text-gray-500 hover:text-gray-900">
                 <XMarkIcon className="w-5 h-5" />
               </button>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-400 text-xs mb-1">Name</label>
+                <label className="block text-gray-500 text-xs mb-1">Name</label>
                 <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                  className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                 />
               </div>
               <div>
-                <label className="block text-gray-400 text-xs mb-1">Video</label>
+                <label className="block text-gray-500 text-xs mb-1">Video</label>
                 <div className="flex gap-2 items-center">
                   <input value={form.video_url} onChange={(e) => setForm((f) => ({ ...f, video_url: e.target.value }))}
                     placeholder="Video URL or upload below"
-                    className="flex-1 bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]"
+                    className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                   />
                   <button
                     onClick={() => videoRef.current?.click()}
                     disabled={uploading}
-                    className="px-3 py-2 bg-[#252525] border border-[#3a3a3a] rounded text-gray-400 hover:text-white text-xs transition-colors disabled:opacity-50"
+                    className="px-3 py-2 bg-white border border-gray-300 rounded text-gray-500 hover:text-gray-900 text-xs transition-colors disabled:opacity-50"
                   >
                     {uploading ? "…" : "Upload"}
                   </button>
@@ -242,36 +242,36 @@ export default function LensCollectionPage() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">Price From (Rs.)</label>
+                  <label className="block text-gray-500 text-xs mb-1">Price From (Rs.)</label>
                   <input type="number" value={form.price_from} onChange={(e) => setForm((f) => ({ ...f, price_from: Number(e.target.value) }))}
-                    className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">Color Dot</label>
+                  <label className="block text-gray-500 text-xs mb-1">Color Dot</label>
                   <div className="flex gap-2 items-center">
                     <input type="color" value={form.color_dot} onChange={(e) => setForm((f) => ({ ...f, color_dot: e.target.value }))}
                       className="w-10 h-9 rounded cursor-pointer bg-transparent border-0"
                     />
                     <input value={form.color_dot} onChange={(e) => setForm((f) => ({ ...f, color_dot: e.target.value }))}
-                      className="flex-1 bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm font-mono focus:outline-none focus:border-[#E8670A]"
+                      className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm font-mono focus:outline-none focus:border-[#E8670A]"
                     />
                   </div>
                 </div>
               </div>
               <div>
-                <label className="block text-gray-400 text-xs mb-1">Description</label>
+                <label className="block text-gray-500 text-xs mb-1">Description</label>
                 <textarea value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} rows={3}
-                  className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A] resize-none"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A] resize-none"
                 />
               </div>
               <div>
-                <label className="block text-gray-400 text-xs mb-1">Bullet Points</label>
+                <label className="block text-gray-500 text-xs mb-1">Bullet Points</label>
                 <div className="space-y-2">
                   {form.bullets.map((b, i) => (
                     <div key={i} className="flex gap-2">
                       <input value={b} onChange={(e) => setBullet(i, e.target.value)}
-                        className="flex-1 bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]"
+                        className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                       />
                       <button onClick={() => removeBullet(i)} className="text-gray-500 hover:text-red-400">
                         <XMarkIcon className="w-4 h-4" />
@@ -283,15 +283,15 @@ export default function LensCollectionPage() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">Sort Order</label>
+                  <label className="block text-gray-500 text-xs mb-1">Sort Order</label>
                   <input type="number" value={form.sort_order} onChange={(e) => setForm((f) => ({ ...f, sort_order: Number(e.target.value) }))}
-                    className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                   />
                 </div>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={form.is_active} onChange={(e) => setForm((f) => ({ ...f, is_active: e.target.checked }))} className="accent-[#E8670A]" />
-                <span className="text-gray-300 text-sm">Active</span>
+                <span className="text-gray-700 text-sm">Active</span>
               </label>
             </div>
             <div className="flex gap-3 mt-6">

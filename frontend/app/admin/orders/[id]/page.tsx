@@ -111,7 +111,7 @@ export default function AdminOrderDetailPage() {
   if (!order) {
     return (
       <div className="space-y-4">
-        {Array.from({ length: 4 }, (_, i) => <div key={i} className="bg-[#1a1a1a] rounded p-5 animate-pulse h-32" />)}
+        {Array.from({ length: 4 }, (_, i) => <div key={i} className="bg-gray-100 rounded p-5 animate-pulse h-32" />)}
       </div>
     );
   }
@@ -124,10 +124,10 @@ export default function AdminOrderDetailPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold">{order.order_number}</h1>
+          <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">{order.order_number}</h1>
           <p className="text-gray-500 text-sm mt-0.5">Placed {formatDate(order.created_at)}</p>
         </div>
-        <button onClick={() => router.push("/admin/orders")} className="text-gray-400 text-sm hover:text-white">
+        <button onClick={() => router.push("/admin/orders")} className="text-gray-500 text-sm hover:text-gray-900">
           ← Back to Orders
         </button>
       </div>
@@ -136,25 +136,25 @@ export default function AdminOrderDetailPage() {
         {/* Left column */}
         <div className="lg:col-span-2 space-y-4">
           {/* Customer Info */}
-          <div className="bg-[#1a1a1a] rounded p-5">
-            <h2 className="text-gray-400 text-xs uppercase tracking-wide mb-3">Customer</h2>
-            <p className="text-white font-medium">{order.customer_name}</p>
-            <p className="text-gray-300 text-sm">{order.customer_phone}</p>
-            {order.customer_email && <p className="text-gray-400 text-sm">{order.customer_email}</p>}
-            <p className="text-gray-400 text-sm mt-2">{order.shipping_address}</p>
-            <p className="text-gray-400 text-sm">{order.city}, {order.province}</p>
+          <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
+            <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Customer</h2>
+            <p className="text-gray-900 font-medium">{order.customer_name}</p>
+            <p className="text-gray-700 text-sm">{order.customer_phone}</p>
+            {order.customer_email && <p className="text-gray-500 text-sm">{order.customer_email}</p>}
+            <p className="text-gray-500 text-sm mt-2">{order.shipping_address}</p>
+            <p className="text-gray-500 text-sm">{order.city}, {order.province}</p>
             {order.notes && <p className="text-gray-500 text-sm mt-2 italic">Note: {order.notes}</p>}
           </div>
 
           {/* Order Items */}
-          <div className="bg-[#1a1a1a] rounded p-5">
-            <h2 className="text-gray-400 text-xs uppercase tracking-wide mb-3">Order Items</h2>
+          <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
+            <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Order Items</h2>
             {order.items.map((item, idx) => (
-              <div key={idx} className="border-b border-[#2a2a2a] last:border-0 py-3">
+              <div key={idx} className="border-b border-gray-200 last:border-0 py-3">
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="text-white font-medium">{item.product_name}</p>
-                    <p className="text-gray-400 text-sm">{item.color_name}{item.sku_variant ? ` · ${item.sku_variant}` : ""}</p>
+                    <p className="text-gray-900 font-medium">{item.product_name}</p>
+                    <p className="text-gray-500 text-sm">{item.color_name}{item.sku_variant ? ` · ${item.sku_variant}` : ""}</p>
                     {item.lens_option_names?.length > 0 && (
                       <p className="text-gray-500 text-xs mt-1">Lenses: {item.lens_option_names.join(" · ")}</p>
                     )}
@@ -163,7 +163,7 @@ export default function AdminOrderDetailPage() {
                     )}
                   </div>
                   <div className="text-right">
-                    <p className="text-white">×{item.quantity}</p>
+                    <p className="text-gray-900">×{item.quantity}</p>
                     <p className="text-[#E8670A]">{formatPrice((item.frame_price + item.lens_options_price) * item.quantity)}</p>
                   </div>
                 </div>
@@ -173,15 +173,15 @@ export default function AdminOrderDetailPage() {
 
           {/* Prescription */}
           {order.prescription_method && (
-            <div className="bg-[#1a1a1a] rounded p-5">
-              <h2 className="text-gray-400 text-xs uppercase tracking-wide mb-3">Prescription</h2>
-              <p className="text-gray-300 text-sm mb-2">Method: <span className="text-white capitalize">{order.prescription_method}</span></p>
+            <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
+              <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Prescription</h2>
+              <p className="text-gray-700 text-sm mb-2">Method: <span className="text-gray-900 capitalize">{order.prescription_method}</span></p>
               {order.prescription_url && (
                 <a href={order.prescription_url} target="_blank" rel="noopener noreferrer"
                   className="text-[#E8670A] text-sm hover:underline">View uploaded prescription</a>
               )}
               {prescriptionData && (
-                <div className="mt-2 bg-[#0a0a0a] rounded p-3 text-xs font-mono text-gray-300">
+                <div className="mt-2 bg-gray-50 rounded p-3 text-xs font-mono text-gray-700">
                   <pre>{JSON.stringify(prescriptionData, null, 2)}</pre>
                 </div>
               )}
@@ -192,15 +192,15 @@ export default function AdminOrderDetailPage() {
         {/* Right sidebar */}
         <div className="space-y-4">
           {/* Payment Strip */}
-          <div className="bg-[#1a1a1a] rounded p-5">
-            <h2 className="text-gray-400 text-xs uppercase tracking-wide mb-3">Payment</h2>
-            <p className="text-gray-300 text-sm mb-3">{PM_LABELS[order.payment_method] ?? order.payment_method}</p>
+          <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
+            <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Payment</h2>
+            <p className="text-gray-700 text-sm mb-3">{PM_LABELS[order.payment_method] ?? order.payment_method}</p>
             <div className="space-y-1.5 text-sm">
-              <div className="flex justify-between text-gray-400"><span>Subtotal</span><span>{formatPrice(order.subtotal)}</span></div>
-              {order.shipping_fee > 0 && <div className="flex justify-between text-gray-400"><span>Shipping</span><span>{formatPrice(order.shipping_fee)}</span></div>}
+              <div className="flex justify-between text-gray-500"><span>Subtotal</span><span>{formatPrice(order.subtotal)}</span></div>
+              {order.shipping_fee > 0 && <div className="flex justify-between text-gray-500"><span>Shipping</span><span>{formatPrice(order.shipping_fee)}</span></div>}
               {order.coupon_discount > 0 && <div className="flex justify-between text-green-400"><span>Coupon ({order.promo_code})</span><span>-{formatPrice(order.coupon_discount)}</span></div>}
               {order.payment_discount > 0 && <div className="flex justify-between text-green-400"><span>Online discount</span><span>-{formatPrice(order.payment_discount)}</span></div>}
-              <div className="flex justify-between text-white font-semibold border-t border-[#2a2a2a] pt-2 mt-2">
+              <div className="flex justify-between text-gray-900 font-semibold border-t border-gray-200 pt-2 mt-2">
                 <span>Total</span><span className="text-[#E8670A]">{formatPrice(order.total)}</span>
               </div>
             </div>
@@ -212,13 +212,13 @@ export default function AdminOrderDetailPage() {
           </div>
 
           {/* Status Update */}
-          <div className="bg-[#1a1a1a] rounded p-5">
-            <h2 className="text-gray-400 text-xs uppercase tracking-wide mb-3">Order Status</h2>
+          <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
+            <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Order Status</h2>
             <Badge variant={STATUS_BADGE[order.status] ?? "gray"}>{order.status}</Badge>
             {allowedTransitions.length > 0 && (
               <div className="mt-3 space-y-2">
                 <select value={newStatus} onChange={(e) => setNewStatus(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]">
+                  className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]">
                   <option value="">Select new status…</option>
                   {allowedTransitions.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -231,10 +231,10 @@ export default function AdminOrderDetailPage() {
 
           {/* Tracking Number */}
           {(order.status === "shipped" || order.status === "delivered" || order.tracking_number) && (
-            <div className="bg-[#1a1a1a] rounded p-5">
-              <h2 className="text-gray-400 text-xs uppercase tracking-wide mb-3">Tracking Number</h2>
+            <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
+              <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Tracking Number</h2>
               <input value={tracking} onChange={(e) => setTracking(e.target.value)}
-                className="w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] mb-2"
+                className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] mb-2"
                 placeholder="Enter tracking number…" />
               <Button variant="outline" size="sm" onClick={handleTrackingUpdate} disabled={updating}>
                 Save Tracking

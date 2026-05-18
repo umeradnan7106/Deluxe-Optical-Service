@@ -65,13 +65,13 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-6">Orders</h1>
+      <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold mb-6">Orders</h1>
 
       {/* Status tabs */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {STATUS_TABS.map((tab) => (
           <button key={tab} onClick={() => changeTab(tab)}
-            className={`px-4 py-2 rounded text-sm capitalize transition-colors ${activeTab === tab ? "bg-[#E8670A] text-white" : "bg-[#1a1a1a] text-gray-400 hover:text-white"}`}>
+            className={`px-4 py-2 rounded text-sm capitalize transition-colors ${activeTab === tab ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
             {tab}
           </button>
         ))}
@@ -80,13 +80,13 @@ export default function AdminOrdersPage() {
       {/* Search */}
       <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
         placeholder="Search by order #, name, or phone…"
-        className="w-full max-w-md bg-[#1a1a1a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded mb-4 outline-none focus:border-[#E8670A]" />
+        className="w-full max-w-md bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded mb-4 outline-none focus:border-[#E8670A]" />
 
       {/* Table */}
-      <div className="bg-[#1a1a1a] rounded overflow-hidden">
+      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[#2a2a2a] text-gray-400 text-left">
+            <tr className="border-b border-gray-200 text-gray-500 text-left">
               <th className="px-4 py-3">Order ID</th>
               <th className="px-4 py-3">Customer</th>
               <th className="px-4 py-3">Date</th>
@@ -99,19 +99,19 @@ export default function AdminOrdersPage() {
           </thead>
           <tbody>
             {loading ? Array.from({ length: 5 }, (_, i) => (
-              <tr key={i} className="border-b border-[#2a2a2a]">
-                {Array.from({ length: 8 }, (_, j) => <td key={j} className="px-4 py-3"><div className="h-4 bg-[#2a2a2a] rounded animate-pulse" /></td>)}
+              <tr key={i} className="border-b border-gray-200">
+                {Array.from({ length: 8 }, (_, j) => <td key={j} className="px-4 py-3"><div className="h-4 bg-gray-100 rounded animate-pulse" /></td>)}
               </tr>
             )) : orders.map((o) => (
-              <tr key={o.id} className="border-b border-[#2a2a2a] hover:bg-[#2a2a2a]/30 transition-colors">
+              <tr key={o.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
                 <td className="px-4 py-3 font-mono text-[#E8670A] text-xs">{o.order_number}</td>
-                <td className="px-4 py-3 text-white">
+                <td className="px-4 py-3 text-gray-900">
                   <p>{o.customer_name}</p>
                   <p className="text-gray-500 text-xs">{o.customer_phone}</p>
                 </td>
-                <td className="px-4 py-3 text-gray-400 text-xs">{formatDate(o.created_at)}</td>
-                <td className="px-4 py-3 text-gray-300">{o.item_count} item{o.item_count !== 1 ? "s" : ""}</td>
-                <td className="px-4 py-3 text-gray-300 text-xs">{PM_LABELS[o.payment_method] ?? o.payment_method}</td>
+                <td className="px-4 py-3 text-gray-500 text-xs">{formatDate(o.created_at)}</td>
+                <td className="px-4 py-3 text-gray-700">{o.item_count} item{o.item_count !== 1 ? "s" : ""}</td>
+                <td className="px-4 py-3 text-gray-700 text-xs">{PM_LABELS[o.payment_method] ?? o.payment_method}</td>
                 <td className="px-4 py-3 text-[#E8670A]">{formatPrice(o.total)}</td>
                 <td className="px-4 py-3">
                   <Badge variant={STATUS_BADGE[o.status] ?? "gray"}>{o.status}</Badge>
@@ -129,9 +129,9 @@ export default function AdminOrdersPage() {
         <span>{total} orders total</span>
         <div className="flex gap-2">
           <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-[#1a1a1a] rounded disabled:opacity-40 hover:bg-[#2a2a2a]">Prev</button>
+            className="px-3 py-1 bg-white border border-gray-200 shadow-sm rounded disabled:opacity-40 hover:bg-gray-100">Prev</button>
           <button disabled={page * 20 >= total} onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 bg-[#1a1a1a] rounded disabled:opacity-40 hover:bg-[#2a2a2a]">Next</button>
+            className="px-3 py-1 bg-white border border-gray-200 shadow-sm rounded disabled:opacity-40 hover:bg-gray-100">Next</button>
         </div>
       </div>
     </div>

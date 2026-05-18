@@ -37,6 +37,7 @@ export default function ProductDetailPage() {
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState<Tab>("features");
@@ -55,7 +56,10 @@ export default function ProductDetailPage() {
       const pRes = await productsApi.detail(slug);
       setProduct(pRes.data as Product);
     }
-    load().catch(() => {}).finally(() => setLoading(false));
+    load().catch((err) => {
+      const msg = err?.response?.data?.detail ?? err?.message ?? "Failed to load product";
+      setLoadError(msg);
+    }).finally(() => setLoading(false));
   }, [slug]);
 
   useEffect(() => {
@@ -83,10 +87,24 @@ export default function ProductDetailPage() {
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen text-gray-400">Loading…</div>;
+    return <div className="flex items-center justify-center min-h-[60vh] text-gray-500">Loading…</div>;
+  }
+  if (loadError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+        <p className="text-gray-900 font-semibold mb-2">Unable to load product</p>
+        <p className="text-gray-500 text-sm mb-4">{loadError}</p>
+        <Link href="/products" className="text-[#E8670A] text-sm hover:underline">Browse all products</Link>
+      </div>
+    );
   }
   if (!product) {
-    return <div className="flex items-center justify-center min-h-screen text-gray-400">Product not found</div>;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+        <p className="text-gray-900 font-semibold mb-2">Product not found</p>
+        <Link href="/products" className="text-[#E8670A] text-sm hover:underline">Browse all products</Link>
+      </div>
+    );
   }
 
   const variant = product.variants[selectedVariantIdx];

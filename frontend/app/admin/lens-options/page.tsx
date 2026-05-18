@@ -98,19 +98,19 @@ export default function LensOptionsPage() {
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-white">Lens Options</h1>
+        <h1 className="text-2xl font-semibold text-gray-900">Lens Options</h1>
         <Button variant="primary" size="sm" onClick={openCreate}>
           <PlusIcon className="w-4 h-4 mr-1.5" />New Option
         </Button>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-4 bg-[#1a1a1a] rounded-lg p-1 w-fit border border-[#2a2a2a]">
+      <div className="flex gap-1 mb-4 bg-white border border-gray-200 shadow-sm rounded-lg p-1 w-fit">
         {TABS.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`px-4 py-2 rounded text-sm font-medium transition-colors ${tab === key ? "bg-[#E8670A] text-white" : "text-gray-400 hover:text-white"}`}
+            className={`px-4 py-2 rounded text-sm font-medium transition-colors ${tab === key ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900"}`}
           >
             {label}
           </button>
@@ -119,12 +119,12 @@ export default function LensOptionsPage() {
 
       {loading ? (
         <div className="animate-pulse space-y-3">
-          {[1,2,3].map((i) => <div key={i} className="bg-[#1a1a1a] h-12 rounded" />)}
+          {[1,2,3].map((i) => <div key={i} className="bg-gray-100 h-12 rounded" />)}
         </div>
       ) : (
-        <div className="bg-[#1a1a1a] rounded-lg overflow-hidden border border-[#2a2a2a]">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-[#252525] text-gray-400 uppercase text-xs">
+            <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
               <tr>
                 <th className="text-left px-4 py-3 w-10">Order</th>
                 <th className="text-left px-4 py-3">Name</th>
@@ -136,33 +136,33 @@ export default function LensOptionsPage() {
             </thead>
             <tbody>
               {filtered.map((o, idx) => (
-                <tr key={o.id} className="border-t border-[#2a2a2a] hover:bg-[#252525]">
+                <tr key={o.id} className="border-t border-gray-200 hover:bg-gray-50">
                   <td className="px-4 py-3">
                     <div className="flex flex-col gap-0.5">
-                      <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-gray-500 hover:text-white disabled:opacity-30">
+                      <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-gray-500 hover:text-gray-900 disabled:opacity-30">
                         <ChevronUpIcon className="w-3 h-3" />
                       </button>
-                      <button onClick={() => move(idx, 1)} disabled={idx === filtered.length - 1} className="text-gray-500 hover:text-white disabled:opacity-30">
+                      <button onClick={() => move(idx, 1)} disabled={idx === filtered.length - 1} className="text-gray-500 hover:text-gray-900 disabled:opacity-30">
                         <ChevronDownIcon className="w-3 h-3" />
                       </button>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-white font-medium">{o.name}</td>
+                  <td className="px-4 py-3 text-gray-900 font-medium">{o.name}</td>
                   <td className="px-4 py-3 text-[#E8670A] font-medium">Rs. {o.price.toLocaleString()}</td>
-                  <td className="px-4 py-3 text-gray-400 text-xs max-w-xs">
+                  <td className="px-4 py-3 text-gray-500 text-xs max-w-xs">
                     <p className="line-clamp-1">{o.description || "—"}</p>
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${o.is_active ? "bg-green-900/40 text-green-400" : "bg-gray-700 text-gray-400"}`}>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${o.is_active ? "bg-green-900/40 text-green-400" : "bg-gray-100 text-gray-500"}`}>
                       {o.is_active ? "Active" : "Inactive"}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
-                      <button onClick={() => openEdit(o)} className="text-gray-400 hover:text-white">
+                      <button onClick={() => openEdit(o)} className="text-gray-500 hover:text-gray-900">
                         <PencilIcon className="w-4 h-4" />
                       </button>
-                      <button onClick={() => handleDelete(o.id)} className="text-gray-400 hover:text-red-400">
+                      <button onClick={() => handleDelete(o.id)} className="text-gray-500 hover:text-red-400">
                         <TrashIcon className="w-4 h-4" />
                       </button>
                     </div>
@@ -179,54 +179,54 @@ export default function LensOptionsPage() {
 
       {modal.open && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1a1a1a] rounded-xl p-6 w-full max-w-md border border-[#2a2a2a]">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-white font-semibold">{modal.editing ? "Edit Lens Option" : "New Lens Option"}</h2>
-              <button onClick={() => setModal({ open: false, editing: null })} className="text-gray-400 hover:text-white">
+              <h2 className="text-gray-900 font-semibold">{modal.editing ? "Edit Lens Option" : "New Lens Option"}</h2>
+              <button onClick={() => setModal({ open: false, editing: null })} className="text-gray-500 hover:text-gray-900">
                 <XMarkIcon className="w-5 h-5" />
               </button>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-400 text-xs mb-1">Name</label>
+                <label className="block text-gray-500 text-xs mb-1">Name</label>
                 <input name="name" value={form.name} onChange={fld}
-                  className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">Type</label>
+                  <label className="block text-gray-500 text-xs mb-1">Type</label>
                   <select name="type" value={form.type} onChange={fld}
-                    className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]">
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]">
                     <option value="lens-type">Lens Type</option>
                     <option value="coating">Coating</option>
                     <option value="addon">Add-on</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">Price (Rs.)</label>
+                  <label className="block text-gray-500 text-xs mb-1">Price (Rs.)</label>
                   <input name="price" type="number" value={form.price} onChange={fld}
-                    className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-gray-400 text-xs mb-1">Description</label>
+                <label className="block text-gray-500 text-xs mb-1">Description</label>
                 <textarea name="description" value={form.description} onChange={fld} rows={3}
-                  className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A] resize-none"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A] resize-none"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">Sort Order</label>
+                  <label className="block text-gray-500 text-xs mb-1">Sort Order</label>
                   <input name="sort_order" type="number" value={form.sort_order} onChange={fld}
-                    className="w-full bg-[#252525] border border-[#3a3a3a] rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#E8670A]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                   />
                 </div>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" name="is_active" checked={form.is_active} onChange={fld} className="accent-[#E8670A]" />
-                <span className="text-gray-300 text-sm">Active</span>
+                <span className="text-gray-700 text-sm">Active</span>
               </label>
             </div>
             <div className="flex gap-3 mt-6">

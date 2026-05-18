@@ -56,16 +56,16 @@ export default function AdminBlogsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold">Blogs</h1>
+        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Blogs</h1>
         <Link href="/admin/blogs/new">
           <Button variant="primary" size="md"><PlusIcon className="w-4 h-4" />New Blog</Button>
         </Link>
       </div>
 
-      <div className="bg-[#1a1a1a] rounded overflow-hidden">
+      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[#2a2a2a] text-gray-400 text-left">
+            <tr className="border-b border-gray-200 text-gray-500 text-left">
               <th className="px-4 py-3">Title</th>
               <th className="px-4 py-3">Category</th>
               <th className="px-4 py-3">Status</th>
@@ -75,21 +75,21 @@ export default function AdminBlogsPage() {
           </thead>
           <tbody>
             {loading ? Array.from({ length: 5 }, (_, i) => (
-              <tr key={i} className="border-b border-[#2a2a2a]">
-                {Array.from({ length: 5 }, (_, j) => <td key={j} className="px-4 py-3"><div className="h-4 bg-[#2a2a2a] rounded animate-pulse" /></td>)}
+              <tr key={i} className="border-b border-gray-200">
+                {Array.from({ length: 5 }, (_, j) => <td key={j} className="px-4 py-3"><div className="h-4 bg-gray-100 rounded animate-pulse" /></td>)}
               </tr>
             )) : blogs.map((b) => (
-              <tr key={b.id} className="border-b border-[#2a2a2a] hover:bg-[#2a2a2a]/30 transition-colors">
-                <td className="px-4 py-3 text-white font-medium">{b.title}</td>
-                <td className="px-4 py-3 text-gray-300 capitalize text-sm">{b.category.replace(/-/g, " ")}</td>
+              <tr key={b.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-gray-900 font-medium">{b.title}</td>
+                <td className="px-4 py-3 text-gray-700 capitalize text-sm">{b.category.replace(/-/g, " ")}</td>
                 <td className="px-4 py-3">
                   <Badge variant={b.is_published ? "green" : "gray"}>{b.is_published ? "Published" : "Draft"}</Badge>
                 </td>
-                <td className="px-4 py-3 text-gray-400 text-xs">{b.published_at ? formatDate(b.published_at) : "—"}</td>
+                <td className="px-4 py-3 text-gray-500 text-xs">{b.published_at ? formatDate(b.published_at) : "—"}</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2">
                     <button onClick={() => handlePublish(b)}
-                      className={`text-xs px-2 py-1 rounded border transition-colors ${b.is_published ? "border-gray-500 text-gray-400 hover:text-white" : "border-green-500 text-green-400 hover:bg-green-500/10"}`}>
+                      className={`text-xs px-2 py-1 rounded border transition-colors ${b.is_published ? "border-gray-300 text-gray-500 hover:text-gray-900" : "border-green-500 text-green-400 hover:bg-green-500/10"}`}>
                       {b.is_published ? "Unpublish" : "Publish"}
                     </button>
                     <Link href={`/admin/blogs/${b.id}/edit`}>

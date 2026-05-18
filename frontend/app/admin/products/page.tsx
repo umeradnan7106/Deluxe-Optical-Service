@@ -40,7 +40,7 @@ export default function AdminProductsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold">Products</h1>
+        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Products</h1>
         <Link href="/admin/products/new">
           <Button variant="primary" size="md">
             <PlusIcon className="w-4 h-4" />
@@ -55,15 +55,15 @@ export default function AdminProductsPage() {
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search by name or SKU…"
-          className="flex-1 bg-[#1a1a1a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded-[5px] outline-none focus:border-[#E8670A]"
+          className="flex-1 bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded-[5px] outline-none focus:border-[#E8670A]"
         />
       </div>
 
       {/* Table */}
-      <div className="bg-[#1a1a1a] rounded overflow-hidden">
+      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[#2a2a2a] text-gray-400 text-left">
+            <tr className="border-b border-gray-200 text-gray-500 text-left">
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">SKU</th>
               <th className="px-4 py-3">Category</th>
@@ -75,15 +75,15 @@ export default function AdminProductsPage() {
           <tbody>
             {loading ? (
               Array.from({ length: 5 }, (_, i) => (
-                <tr key={i} className="border-b border-[#2a2a2a]">
-                  {Array.from({ length: 6 }, (_, j) => <td key={j} className="px-4 py-3"><div className="h-4 bg-[#2a2a2a] rounded animate-pulse" /></td>)}
+                <tr key={i} className="border-b border-gray-200">
+                  {Array.from({ length: 6 }, (_, j) => <td key={j} className="px-4 py-3"><div className="h-4 bg-gray-100 rounded animate-pulse" /></td>)}
                 </tr>
               ))
             ) : products.map((p) => (
-              <tr key={p.id} className="border-b border-[#2a2a2a] hover:bg-[#2a2a2a]/30 transition-colors">
-                <td className="px-4 py-3 text-white font-medium">{p.name}</td>
-                <td className="px-4 py-3 text-gray-400 font-mono text-xs">{p.sku}</td>
-                <td className="px-4 py-3 text-gray-300 capitalize">{p.category}</td>
+              <tr key={p.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-gray-900 font-medium">{p.name}</td>
+                <td className="px-4 py-3 text-gray-500 font-mono text-xs">{p.sku}</td>
+                <td className="px-4 py-3 text-gray-700 capitalize">{p.category}</td>
                 <td className="px-4 py-3">
                   <span className="text-[#E8670A]">{formatPrice(p.sale_price ?? p.base_price)}</span>
                   {p.sale_price && <span className="text-gray-500 line-through ml-2 text-xs">{formatPrice(p.base_price)}</span>}
