@@ -2,10 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-white text-[#111111] font-['Outfit'];
-  }
+body {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-family: 'Outfit', sans-serif;
+}
+
+input, textarea, select {
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+  border-color: #e5e7eb !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 @layer utilities {

@@ -1,12 +1,11 @@
-"use client";
-
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-
-type Tab = "widths" | "measurements";
+import Link from "next/link";
 
 interface WidthGuideProps {
-  productName: string;
+  sizeLabel?: string | null;
+  colorName?: string | null;
+  material?: string | null;
+  frameShape?: string | null;
+  rimType?: string | null;
   frameWidthMm?: number | null;
   lensWidthMm?: number | null;
   bridgeMm?: number | null;
@@ -14,103 +13,116 @@ interface WidthGuideProps {
   lensHeightMm?: number | null;
 }
 
-const SIZE_TABLE = [
-  { label: "Narrow", range: "< 130 mm" },
-  { label: "Medium", range: "130–140 mm" },
-  { label: "Wide", range: "> 140 mm" },
-];
+const SPECS = [
+  { label: "Size", key: "sizeLabel" },
+  { label: "Color", key: "colorName" },
+  { label: "Material", key: "material" },
+  { label: "Shape", key: "frameShape" },
+  { label: "Rim", key: "rimType" },
+] as const;
 
-function getSizeClass(frameWidth: number | null | undefined): string | null {
-  if (!frameWidth) return null;
-  if (frameWidth < 130) return "Narrow";
-  if (frameWidth <= 140) return "Medium";
-  return "Wide";
-}
+const GlassesDiagramSVG = () => (
+  <svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-[240px]">
+    {/* Left lens */}
+    <rect x="18" y="44" width="92" height="68" rx="13" fill="none" stroke="#1a1a1a" strokeWidth="2.5" />
+    {/* Right lens */}
+    <rect x="170" y="44" width="92" height="68" rx="13" fill="none" stroke="#1a1a1a" strokeWidth="2.5" />
+    {/* Bridge */}
+    <path d="M110 78 Q140 66 170 78" fill="none" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
+    {/* Left temple arm */}
+    <line x1="18" y1="64" x2="0" y2="64" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
+    {/* Right temple arm */}
+    <line x1="262" y1="64" x2="280" y2="64" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
+
+    {/* Lens width annotation */}
+    <line x1="18" y1="28" x2="110" y2="28" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
+    <line x1="18" y1="24" x2="18" y2="32" stroke="#E8670A" strokeWidth="1" />
+    <line x1="110" y1="24" x2="110" y2="32" stroke="#E8670A" strokeWidth="1" />
+    <text x="64" y="22" textAnchor="middle" fontSize="9" fill="#6b7280" fontFamily="sans-serif">lens width</text>
+
+    {/* Bridge annotation */}
+    <line x1="110" y1="28" x2="170" y2="28" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
+    <line x1="170" y1="24" x2="170" y2="32" stroke="#E8670A" strokeWidth="1" />
+    <text x="140" y="22" textAnchor="middle" fontSize="9" fill="#6b7280" fontFamily="sans-serif">bridge</text>
+
+    {/* Temple annotation */}
+    <line x1="262" y1="148" x2="280" y2="148" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
+    <line x1="262" y1="64" x2="262" y2="152" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
+    <line x1="280" y1="64" x2="280" y2="152" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
+    <text x="271" y="158" textAnchor="middle" fontSize="9" fill="#6b7280" fontFamily="sans-serif">temple</text>
+  </svg>
+);
 
 export default function WidthGuide({
-  productName,
-  frameWidthMm,
+  sizeLabel,
+  colorName,
+  material,
+  frameShape,
+  rimType,
   lensWidthMm,
   bridgeMm,
   templeMm,
-  lensHeightMm,
 }: WidthGuideProps) {
-  const [tab, setTab] = useState<Tab>("widths");
-  const activeSize = getSizeClass(frameWidthMm);
+  const specValues: Record<string, string | null | undefined> = {
+    sizeLabel: sizeLabel
+      ? lensWidthMm
+        ? `${sizeLabel} (${lensWidthMm}□${bridgeMm ?? "–"}-${templeMm ?? "–"})`
+        : sizeLabel
+      : lensWidthMm
+      ? `${lensWidthMm}□${bridgeMm ?? "–"}-${templeMm ?? "–"}`
+      : null,
+    colorName,
+    material,
+    frameShape,
+    rimType,
+  };
+
+  const hasAnySpec = Object.values(specValues).some((v) => v != null && v !== "");
 
   return (
-    <div className="bg-[#1a1a1a] rounded p-4">
-      <h3 className="text-white font-medium text-sm mb-3">
-        Width guide for: <span className="text-[#E8670A]">{productName}</span>
-      </h3>
+    <div className="bg-white border border-[#e5e7eb] rounded-lg p-4 mt-3">
+      <h3 className="text-[#1a1a1a] text-[14px] font-medium mb-4">Frame Size Guide</h3>
 
-      {/* Tabs */}
-      <div className="flex border-b border-[#2a2a2a] mb-4">
-        {(["widths", "measurements"] as Tab[]).map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={cn(
-              "px-4 py-2 text-xs font-medium capitalize transition-colors border-b-2 -mb-px",
-              tab === t
-                ? "border-[#E8670A] text-[#E8670A]"
-                : "border-transparent text-gray-400 hover:text-white"
-            )}
-          >
-            {t === "widths" ? "Frame Widths" : "Other Measurements"}
-          </button>
-        ))}
-      </div>
-
-      {tab === "widths" && (
-        <table className="w-full text-xs">
-          <thead>
-            <tr className="text-gray-400">
-              <th className="text-left pb-2">Size</th>
-              <th className="text-left pb-2">Width</th>
-            </tr>
-          </thead>
-          <tbody>
-            {SIZE_TABLE.map(({ label, range }) => {
-              const isActive = label === activeSize;
+      <div className="grid grid-cols-2 gap-4">
+        {/* Left: spec list */}
+        <div className="space-y-2">
+          {hasAnySpec ? (
+            SPECS.map(({ label, key }) => {
+              const val = specValues[key];
+              if (!val) return null;
               return (
-                <tr
-                  key={label}
-                  className={cn(
-                    "border-t border-[#2a2a2a]",
-                    isActive && "bg-[#FFF0E6]/5"
-                  )}
-                >
-                  <td className={cn("py-2 font-medium", isActive ? "text-[#E8670A]" : "text-white")}>
-                    {label}
-                    {isActive && <span className="ml-1 text-[10px] text-[#E8670A]">(This frame)</span>}
-                  </td>
-                  <td className="py-2 text-gray-300">{range}</td>
-                </tr>
+                <div key={key} className="flex gap-2 text-[13px]">
+                  <span className="text-[#6b7280] w-[72px] shrink-0">{label}:</span>
+                  <span className="text-[#1a1a1a] font-medium capitalize">{val}</span>
+                </div>
               );
-            })}
-          </tbody>
-        </table>
-      )}
+            })
+          ) : (
+            <p className="text-[#6b7280] text-xs">No specifications available</p>
+          )}
 
-      {tab === "measurements" && (
-        <div className="grid grid-cols-2 gap-2 text-xs">
-          {[
-            { label: "Frame Width", value: frameWidthMm, unit: "mm" },
-            { label: "Lens Width", value: lensWidthMm, unit: "mm" },
-            { label: "Bridge", value: bridgeMm, unit: "mm" },
-            { label: "Temple", value: templeMm, unit: "mm" },
-            { label: "Lens Height", value: lensHeightMm, unit: "mm" },
-          ].map(({ label, value, unit }) => (
-            <div key={label} className="bg-[#2a2a2a] rounded p-2">
-              <p className="text-gray-400">{label}</p>
-              <p className="text-white font-medium">
-                {value != null ? `${value} ${unit}` : "—"}
+          {(lensWidthMm || bridgeMm || templeMm) && (
+            <div className="pt-2 mt-2 border-t border-[#e5e7eb]">
+              <p className="text-[#6b7280] text-[11px]">
+                {[lensWidthMm && `${lensWidthMm}mm lens`, bridgeMm && `${bridgeMm}mm bridge`, templeMm && `${templeMm}mm temple`]
+                  .filter(Boolean)
+                  .join(" | ")}
               </p>
             </div>
-          ))}
+          )}
         </div>
-      )}
+
+        {/* Right: SVG frame diagram */}
+        <div className="flex items-center justify-center">
+          <GlassesDiagramSVG />
+        </div>
+      </div>
+
+      <div className="mt-3 pt-3 border-t border-[#e5e7eb]">
+        <Link href="/shipping-returns" className="text-[#E8670A] text-xs hover:underline">
+          Not sure about your size? Size Guide &rsaquo;
+        </Link>
+      </div>
     </div>
   );
 }

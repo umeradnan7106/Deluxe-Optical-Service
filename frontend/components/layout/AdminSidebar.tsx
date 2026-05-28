@@ -11,8 +11,10 @@ import {
   TicketIcon,
   BookOpenIcon,
   EyeDropperIcon,
-  RectangleGroupIcon,
   QuestionMarkCircleIcon,
+  ChartBarIcon,
+  UsersIcon,
+  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 
@@ -20,13 +22,15 @@ const NAV_SECTIONS = [
   { href: "/admin", label: "Dashboard", icon: Squares2X2Icon, exact: true },
   { href: "/admin/orders", label: "Orders", icon: ShoppingBagIcon },
   { href: "/admin/products", label: "Products", icon: TagIcon },
+  { href: "/admin/analytics", label: "Analytics", icon: ChartBarIcon },
+  { href: "/admin/customers", label: "Customers", icon: UsersIcon },
   { href: "/admin/reviews", label: "Reviews", icon: StarIcon },
   { href: "/admin/inventory", label: "Inventory", icon: ArchiveBoxIcon },
   { href: "/admin/promo-codes", label: "Promo Codes", icon: TicketIcon },
   { href: "/admin/blogs", label: "Blogs", icon: BookOpenIcon },
   { href: "/admin/lens-options", label: "Lens Options", icon: EyeDropperIcon },
-  { href: "/admin/lens-collection", label: "Lens Collection", icon: RectangleGroupIcon },
   { href: "/admin/faqs", label: "FAQs", icon: QuestionMarkCircleIcon },
+  { href: "/admin/settings", label: "Settings", icon: Cog6ToothIcon },
 ];
 
 export default function AdminSidebar() {

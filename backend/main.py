@@ -8,6 +8,11 @@ load_dotenv()
 
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 
+# Parse comma-separated origins and add common dev ports
+_base_origins = [o.strip() for o in FRONTEND_URL.split(",") if o.strip()]
+_dev_ports = [3000, 3001, 3002, 3003, 3004, 3005]
+ALLOWED_ORIGINS = list({*_base_origins, *[f"http://localhost:{p}" for p in _dev_ports]})
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,7 +28,7 @@ app = FastAPI(title="Deluxe Opt Service API", version="1.0.0", lifespan=lifespan
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

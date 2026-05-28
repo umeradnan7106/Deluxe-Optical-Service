@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        cormorant: ["Cormorant Garamond", "serif"],
-        outfit: ["Outfit", "sans-serif"],
+        cormorant: ["var(--font-cormorant)", "serif"],
+        outfit: ["var(--font-outfit)", "sans-serif"],
       },
       colors: {
         brand: {

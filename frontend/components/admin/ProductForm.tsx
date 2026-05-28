@@ -13,7 +13,6 @@ import {
   XMarkIcon,
   PlusIcon,
   PhotoIcon,
-  BoldIcon,
   ListBulletIcon,
 } from "@heroicons/react/24/outline";
 

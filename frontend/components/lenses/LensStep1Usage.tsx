@@ -20,7 +20,10 @@ const PROGRESSIVE_SUB = [
 export default function LensStep1Usage({ lensTypes, selectedId, onSelect }: LensStep1UsageProps) {
   return (
     <div className="space-y-3">
-      <p className="text-gray-400 text-sm mb-4">
+      <h3 className="font-['Cormorant_Garamond'] text-[22px] text-[#1a1a1a] font-semibold mb-1">
+        How will you use your glasses?
+      </h3>
+      <p className="text-[#6b7280] text-sm mb-4">
         Choose how you will use your glasses. This determines the lens type.
       </p>
       {lensTypes.map((lens) => {
@@ -32,24 +35,26 @@ export default function LensStep1Usage({ lensTypes, selectedId, onSelect }: Lens
             <button
               onClick={() => onSelect(lens.id)}
               className={cn(
-                "w-full text-left rounded border p-4 transition-colors",
+                "w-full text-left rounded-lg border p-4 transition-colors",
                 isSelected
-                  ? "border-[#E8670A] bg-[#FFF0E6]/5"
-                  : "border-[#2a2a2a] bg-[#1a1a1a] hover:border-[#E8670A]/50"
+                  ? "border-[#E8670A] bg-[#FFF0E6]"
+                  : "border-[#e5e7eb] bg-white hover:border-[#E8670A]/50"
               )}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-3">
-                  <div className={cn(
-                    "w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5",
-                    isSelected ? "border-[#E8670A]" : "border-gray-500"
-                  )}>
-                    {isSelected && <div className="w-2 h-2 rounded-full bg-[#E8670A]" />}
+                  <div className="w-[44px] h-[44px] rounded bg-gray-100 flex items-center justify-center shrink-0">
+                    <div className={cn(
+                      "w-4 h-4 rounded-full border-2 flex items-center justify-center",
+                      isSelected ? "border-[#E8670A]" : "border-gray-400"
+                    )}>
+                      {isSelected && <div className="w-2 h-2 rounded-full bg-[#E8670A]" />}
+                    </div>
                   </div>
                   <div>
-                    <p className="text-white font-medium text-sm">{lens.name}</p>
+                    <p className="text-[#1a1a1a] font-medium text-[14px]">{lens.name}</p>
                     {lens.description && (
-                      <p className="text-gray-400 text-xs mt-0.5">{lens.description}</p>
+                      <p className="text-[#6b7280] text-[12px] mt-0.5">{lens.description}</p>
                     )}
                   </div>
                 </div>
@@ -65,7 +70,7 @@ export default function LensStep1Usage({ lensTypes, selectedId, onSelect }: Lens
                 {PROGRESSIVE_SUB.map((sub) => (
                   <button
                     key={sub.id}
-                    className="w-full text-left text-sm px-3 py-2 rounded bg-[#2a2a2a] text-gray-300 hover:text-white hover:bg-[#3a3a3a] transition-colors"
+                    className="w-full text-left text-sm px-3 py-2 rounded border border-[#e5e7eb] bg-white text-[#6b7280] hover:text-[#1a1a1a] hover:border-[#E8670A] transition-colors"
                   >
                     {sub.label}
                   </button>
@@ -80,22 +85,24 @@ export default function LensStep1Usage({ lensTypes, selectedId, onSelect }: Lens
       <button
         onClick={() => onSelect(-1)}
         className={cn(
-          "w-full text-left rounded border p-4 transition-colors",
+          "w-full text-left rounded-lg border p-4 transition-colors",
           selectedId === -1
-            ? "border-[#E8670A] bg-[#FFF0E6]/5"
-            : "border-[#2a2a2a] bg-[#1a1a1a] hover:border-[#E8670A]/50"
+            ? "border-[#E8670A] bg-[#FFF0E6]"
+            : "border-[#e5e7eb] bg-white hover:border-[#E8670A]/50"
         )}
       >
         <div className="flex items-center gap-3">
-          <div className={cn(
-            "w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0",
-            selectedId === -1 ? "border-[#E8670A]" : "border-gray-500"
-          )}>
-            {selectedId === -1 && <div className="w-2 h-2 rounded-full bg-[#E8670A]" />}
+          <div className="w-[44px] h-[44px] rounded bg-gray-100 flex items-center justify-center shrink-0">
+            <div className={cn(
+              "w-4 h-4 rounded-full border-2 flex items-center justify-center",
+              selectedId === -1 ? "border-[#E8670A]" : "border-gray-400"
+            )}>
+              {selectedId === -1 && <div className="w-2 h-2 rounded-full bg-[#E8670A]" />}
+            </div>
           </div>
           <div>
-            <p className="text-white font-medium text-sm">Non-Prescription (Plano)</p>
-            <p className="text-gray-400 text-xs mt-0.5">Clear lenses with no prescription</p>
+            <p className="text-[#1a1a1a] font-medium text-[14px]">Non-Prescription (Plano)</p>
+            <p className="text-[#6b7280] text-[12px] mt-0.5">Clear lenses with no prescription</p>
           </div>
         </div>
       </button>

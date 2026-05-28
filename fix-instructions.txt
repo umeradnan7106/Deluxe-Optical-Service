@@ -1,0 +1,440 @@
+=================================================================
+SECTION 1 — PRODUCT DETAIL PAGE FIXES
+=================================================================
+
+1. CATEGORY ABOVE TITLE
+   - Above the product title (H1), show the product category name in orange color
+   - Small text, uppercase, letter-spacing, font-600
+   - Example: "SUNGLASSES" in orange above "Ray-Ban Acetate Round Frame"
+
+2. SIZE LABEL FORMAT
+   - Current display: "45□30-150"
+   - Required display: "Small (45□30-150)"
+   - The size label (Small/Medium/Large) must come from the variant's size_label field
+   - In the admin Add/Edit Product form, the Variants table must have a "Size Label" 
+     column where admin can type the label (Small, Medium, Large, XL, etc.)
+   - Currently this column is missing from the variants table in admin — add it
+   - The size button on product page shows: "[size_label] ([lens_width]□[bridge]-[temple])"
+
+3. SIZE CHART IMAGE UPLOAD IN ADMIN
+   - In the Admin Add/Edit Product form, in the Frame Specifications section,
+     add a "Size Chart Image" upload field
+   - Admin can upload one image here (stored via Cloudinary)
+   - This image shows when customer clicks the "Size Chart" button on product page
+   - If no image uploaded, show the static SVG diagram as fallback
+   - Backend: add size_chart_image_url field to product model and save it
+     (this is a backend change — add the field, create migration, update schema)
+
+4. QUANTITY AND ADD TO CART WIDTH RATIO
+   - Change from 40%/60% to 20%/80%
+   - Quantity control takes 20% of the row width
+   - Add to Cart button takes 80% of the row width
+
+5. SELECT YOUR LENSES BUTTON POSITION
+   - "Select Your Lenses" orange button must come IMMEDIATELY after the size divider
+   - Order on right column should be:
+     a. Category (orange, small)
+     b. Stars + review count
+     c. Product title (H1)
+     d. SKU + Frame Number
+     e. Short description (1-2 lines)
+     f. Price row (sale price + old price + badge)
+     g. DIVIDER
+     h. Color swatches
+     i. Frame Size buttons + Size Chart button
+     j. DIVIDER
+     k. "Select Your Lenses" button (orange, full width)  ← HERE
+     l. "No prescription? Add to cart directly below" (small text)
+     m. Payment info box (15% off)
+     n. Quantity (20%) + Add to Cart (80%) row
+     o. Order via WhatsApp button
+     p. USP grid (2x2)
+
+6. VERTICAL SPACING IN PRODUCT RIGHT COLUMN
+   - Add consistent vertical gap (margin-bottom) between each element
+   - Each section should breathe — not cramped together
+   - Suggested: 12-16px gap between each element group
+
+7. FEATURES & SIZE TAB — FIXES
+   a. Image on right side:
+      - Reduce the height — image should not have huge white space below it
+      - Make image height fit the actual image content (use object-contain but 
+        constrain the container height to match content, around 280-320px max)
+      - Reduce width slightly as well — don't stretch to full column width
+   
+   b. Lines/annotations on image:
+      - The image shown is the first product image (images[0])
+      - Overlay measurement annotations on the image using absolute positioned elements:
+        * Show "lens_width mm" label with a horizontal arrow on the lens area
+        * Show "bridge mm" label with a horizontal arrow on the bridge
+        * Show "temple mm" label on the side arm
+        * These are simple text labels with small line/arrow indicators
+        * Style: small white text with dark background pill, or dark text on light bg
+   
+   c. "Side" view tab:
+      - Add "Front" and "Side" tabs below the image
+      - Front tab: shows first product image (images[0])
+      - Side tab: shows second product image (images[1]) if available
+      - If only one image: hide the Side tab
+   
+   d. Left side spec list — add missing measurements:
+      - Currently showing: Size, Color, Material, Shape, Rim
+      - Also add: Frame Width (mm), Lens Width (mm), Bridge (mm), Temple Length (mm)
+      - Show all of these as bullet rows on the left column
+
+=================================================================
+SECTION 2 — SELECT YOUR LENSES PAGE FIXES
+=================================================================
+
+1. LAYOUT — 50/50 SPLIT
+   - Left panel (sidebar): 50% width
+   - Right panel (steps): 50% width
+   - Currently sidebar is too narrow — make it equal width
+
+2. LEFT PANEL REDESIGN
+   - Top: Product main image (large, centered, object-contain, white bg, rounded-lg)
+   - Below image: Product title in heading size (Cormorant Garamond, ~20px, centered)
+   - Below title: Selected color name (small, muted, centered)
+   - Below color: The price summary info box (frame + lens + addons + total)
+   - The info box should be clean — white bg, border, rounded, padding
+   - "Add to Cart" button at bottom of left panel (dark, full width)
+
+3. RIGHT PANEL — LENS OPTION CARDS REDESIGN
+   - Remove the radio button (circle selector) from the left side of each option card
+   - Instead: add a small image/icon on the LEFT side of each card
+     (use a placeholder lens icon or category-appropriate icon for now)
+   - When a card is selected: show a green checkmark (✓) on the RIGHT side of the card
+   - Selected card: orange border + light orange background (same as before)
+   - Unselected card: normal border, white background
+   - Card layout: [icon/image LEFT] [name + description MIDDLE] [price + checkmark RIGHT]
+
+4. RESTORE LENS STEP (step 3)
+   - The Lens step was accidentally removed — bring it back
+   - Steps should now be: 1. Usage → 2. Prescription → 3. Lens → 4. Add-Ons → 5. Review
+   - Step 3 "Lens" shows the lens coating/type options (single vision details etc.)
+   - Keep the same card style as other steps
+
+5. PRESCRIPTION PHOTO UPLOAD FIX
+   - When customer selects "Upload a Photo" option in Prescription step,
+     the file upload is not working
+   - Fix the upload: when customer selects a file, it should POST to 
+     /api/upload/prescription and store the returned URL in the form state
+   - Show a preview of the uploaded image after successful upload
+   - Show upload progress or loading indicator while uploading
+   - Show error message if upload fails
+
+6. LEFT PANEL — SHOW ALL SELECTIONS IN REAL TIME
+   - As customer makes selections in each step, update the left panel to show:
+     * "Lens Type: Single Vision — +Rs. 300"
+     * "Prescription: Manual entry / Photo uploaded"
+     * "Lens: Anti-Reflective — +Rs. 500" (when step 3 added back)
+     * "Add-ons: Scratch Resistant, UV400" (comma separated)
+   - Each selection appears as a new line in the info box as customer progresses
+   - Price total updates live with every selection
+   
+7. REVIEW STEP (last step) — DETAILED SUMMARY
+   - Show complete order summary:
+     * Product image (small thumbnail)
+     * Frame name + color + size
+     * Lens type selected + price
+     * Prescription method: "Manual entry" or "Photo uploaded"
+     * If manual: show all entered values (OD SPH/CYL/Axis, OS SPH/CYL/Axis, ADD, PD)
+     * If photo uploaded: show small preview thumbnail of uploaded prescription image
+     * Lens (coating) selected + price (when step 3 is back)
+     * Add-ons selected (list) + price
+     * Price breakdown: Frame + Lens type + Lens + Add-ons = Total
+   - This step is purely a review — no new selections
+
+8. REVIEW STEP — BUTTONS
+   - Remove "Order via WhatsApp" button from Review step
+   - Keep only "Add to Cart" button (dark background, full width)
+   - Add shopping cart Heroicon inside the Add to Cart button
+
+=================================================================
+SECTION 3 — CART PAGE FIXES
+=================================================================
+
+1. WIDTH RATIO
+   - Cart items column: 70% width
+   - Order summary sidebar: 30% width
+
+2. PRODUCT IMAGE IN CART
+   - Make cart item image larger: 90x80px (currently too small)
+   - Use object-contain with white background
+   - Show full product image without cropping
+
+3. CART ITEM DETAILS — COMPLETE AND PROPER
+   - Each cart item must show ALL the details customer selected:
+     * Product name (font-500, 15px)
+     * Color + Size on one line (muted, 12px)
+     * SKU (muted, 10px)
+     * If lens customized: show lens details box:
+       - "Lens Type: Single Vision"
+       - "Lens: Anti-Reflective" 
+       - "Add-ons: Scratch Resistant, UV400"
+     * If prescription manual: show "Prescription: OD +1.25/-0.50×90 | OS +1.00/-0.25×85 | PD 64mm"
+     * If prescription photo: show small thumbnail preview of prescription image
+     * Quantity control: place it inline on the SAME ROW as the price
+       (not below details — put it: [qty control LEFT] [price RIGHT] on same row)
+     * Remove link: small, muted, below the details
+
+4. SHIPPING PROGRESS BAR — REDESIGN
+   - Make it clearly visible and informative
+   - Show: "Add Rs. [amount] more for FREE delivery!" in clear text
+   - Progress bar: shows how close customer is to Rs. 3,000 threshold
+   - Bar: green fill on grey track, height 8px, rounded
+   - Above bar: show the message text clearly
+   - When threshold reached: change message to "You qualify for FREE delivery! 🎉"
+     and bar turns fully green
+   - Add a small truck icon at the end of the bar
+
+=================================================================
+SECTION 4 — ADMIN PANEL FIXES
+=================================================================
+
+1. DASHBOARD — SHOPIFY-STYLE OVERVIEW
+   - Show these stats at top in card grid (4 columns):
+     * Total Revenue (all time)
+     * Today's Orders (count)
+     * Total Orders (all time count)
+     * Pending Orders (need action)
+   - Below stats: show a simple revenue chart (line chart, last 7 days)
+   - Then: Recent Orders table (last 5-10 orders)
+   - Then: Pending Reviews (needs approval)
+   - Then: Low Stock Alerts
+   - Make it feel like a real dashboard — not empty
+
+2. NEW PAGE: ANALYTICS (/admin/analytics)
+   - Add "Analytics" to admin sidebar navigation
+   - Show these analytics sections:
+     * Revenue over time (line chart — daily/weekly/monthly toggle)
+     * Orders by status (donut/pie chart)
+     * Top selling products (table: product name, units sold, revenue)
+     * Orders by payment method (bar chart: COD vs EasyPaisa vs JazzCash vs Bank)
+     * Customer type breakdown (registered vs guest orders)
+     * Average order value
+   - All data comes from existing orders in the database
+   - Use recharts library for all charts
+
+3. NEW PAGE: CUSTOMERS (/admin/customers)
+   - Add "Customers" to admin sidebar navigation
+   - Show 2 tabs: "Registered Customers" | "Guest Orders"
+   - Registered Customers tab:
+     * Table: Name | Email | Phone | Total Orders | Total Spent | Last Order | Actions
+     * Click customer → see their full order history
+   - Guest Orders tab:
+     * Table: Name | Phone | Email | Total Orders | Total Spent | Last Order
+     * These are orders placed without login (user_id is null)
+   - Both tabs: sort by total spent (descending) by default
+   - This data comes from existing users table and orders table
+
+4. NEW PAGE: SETTINGS (/admin/settings)
+   - Add "Settings" to admin sidebar navigation
+   - Show these settings sections:
+     * Store Information: store name, WhatsApp number, email, address
+     * Admin Password: current password + new password + confirm
+     * Free Shipping Threshold: input field (currently hardcoded as Rs. 3,000)
+     * Payment Methods: toggle on/off each method (COD, EasyPaisa, JazzCash, Bank)
+     * Payment Discount Percentage: input (currently 15%)
+   - Store settings save to a settings table in database
+   - Backend: create a simple StoreSettings model with key-value pairs
+     and CRUD endpoints at /api/admin/settings
+   - Admin password change: calls existing /api/auth/change-password endpoint
+
+5. REMOVE LENS COLLECTION FROM ADMIN SIDEBAR
+   - Remove "Lens Collection" from admin sidebar navigation
+   - Remove the /admin/lens-collection page
+   - The Lens Collection section on homepage is now static/hardcoded
+
+6. ADMIN PRODUCTS — VARIANTS REDESIGN
+   
+   Current problem: The variants table is confusing and hard to use.
+   
+   New approach — Two-step variant system:
+   
+   STEP A — Colors section:
+   - Show a "Colors" section with "+ Add Color" button
+   - Each color entry has:
+     * Color Name (text input, e.g. "Black")
+     * Color Hex (color picker, e.g. #000000)
+     * Color Images: image upload specific to this color
+       (customer sees these images when they select this color)
+     * Delete color button (×)
+   - Admin adds all available colors first
+   
+   STEP B — Sizes section (per color):
+   - Below the Colors section, show a "Sizes" section
+   - For each color added, show its sizes
+   - Each size entry has:
+     * Size Label (text: Small/Medium/Large/XL/One Size)
+     * Lens Width (number)
+     * Bridge (number)  
+     * Temple (number)
+     * SKU Variant (auto-generated or manual)
+     * Price (number — overrides base price)
+     * Stock (number)
+     * Active (checkbox)
+   - OR: simpler approach — one flat table but with Color Name dropdown 
+     (dropdown shows the colors added in step A) + size fields
+   
+   The key improvement: Color images are tied to specific colors, 
+   not just generic product images. When customer selects "Black" color 
+   on product page, they see the Black color images.
+
+7. ADMIN PRODUCTS — LENS OPTIONS FIX
+   - In Add/Edit Product form, the Lens Options section currently shows 
+     checkboxes in a flat list labeled "ADD-ONS" — this is wrong
+   - Fix it to show two separate groups:
+     * Group 1: "Lens Types" — checkboxes for each lens type option
+       (fetched from /api/admin/lens-options?type=lens-type)
+     * Group 2: "Add-Ons" — checkboxes for each addon option
+       (fetched from /api/admin/lens-options?type=addon)
+   - Label each group clearly
+   - Check/uncheck saves which lens options appear for this product
+
+8. LENS OPTIONS PAGE — PROGRESSIVES SUB-OPTIONS
+   - When creating/editing a Lens Option of type "Progressives (No Line)",
+     add ability to define sub-options (tiers)
+   - In the New/Edit Lens Option modal, add:
+     * A "Sub-options" section that appears when type = "Progressives"
+     * Admin can add multiple sub-options, each with:
+       - Name (e.g. "Premium Progressive", "Standard Progressive")
+       - Price (Rs.)
+       - Description (short)
+       - Is Recommended checkbox (shows "Recommended" badge)
+     * "+ Add Sub-option" button to add more rows
+   - These sub-options show on the Select Lenses page when customer 
+     picks Progressives
+   
+   - Also in New/Edit Lens Option modal:
+     * Add an "Icon / Image" upload field
+     * Admin uploads a small icon or image for this lens option
+     * This icon shows on the Select Lenses page left side of each option card
+     * Store as lens_option.icon_url via Cloudinary
+     * Backend: add icon_url field to LensOption model, create migration
+
+=================================================================
+SECTION 5 — FULL WEBSITE FIXES
+=================================================================
+
+1. WISHLIST FIX
+   - Wishlist heart icon on product cards and product detail page is not working
+   - When clicking heart: should add/remove product from wishlist
+   - If user is not logged in: redirect to /login with return URL
+   - If user is logged in: call POST /api/wishlist/{product_id} to add
+     or DELETE /api/wishlist/{product_id} to remove
+   - Heart icon: filled orange = in wishlist, outline = not in wishlist
+   - Wishlist count shows in header (like cart badge) — if any items
+   - On /account/wishlist page: show all wishlisted products as product cards
+   - Fix all wishlist API calls and state management
+
+2. HEADER SEARCH — AUTOCOMPLETE SUGGESTIONS
+   - When user types in search bar, show a dropdown of suggestions below
+   - Suggestions come from: GET /api/products?search=[query]&per_page=5
+   - Show max 5 suggestions
+   - Each suggestion row: product thumbnail (small) + product name + price
+   - Click suggestion: navigate to that product's detail page
+   - Click outside: close suggestions dropdown
+   - Show suggestions only after 2+ characters typed
+   - Add debounce (300ms) so API isn't called on every keystroke
+   - Style: white dropdown, border, rounded-lg, box-shadow, z-index high
+
+3. AUTO LOGOUT FIX
+   - Currently user gets logged out after a short time
+   - Fix token refresh: when access token expires, automatically use 
+     refresh token to get a new access token without logging user out
+   - In the Axios instance (frontend/lib/api.ts), add an interceptor:
+     * If any API call returns 401 Unauthorized
+     * Automatically call POST /api/auth/refresh with the stored refresh token
+     * Get new access token
+     * Retry the original failed request with new token
+     * Only log out if refresh token is also expired/invalid
+   - Store refresh token in localStorage (access token in Zustand + localStorage)
+   - On app load (layout.tsx): check if tokens exist, if access token expired 
+     but refresh token valid, auto-refresh before showing protected content
+
+4. PROMO CODE — PERCENTAGE CALCULATION FIX
+   - Currently when percentage promo code is applied, it deducts a fixed amount 
+     instead of percentage
+   - Fix: if discount_type = "percentage", calculate: subtotal × (value / 100)
+   - Example: subtotal Rs. 1,750, code 10% = discount Rs. 175 (not Rs. 10)
+   - Fix this calculation in the cart page where coupon discount is computed
+   - Also fix it in the order creation (backend) to calculate correctly
+   - Backend fix: in POST /api/orders, recalculate coupon discount server-side:
+     if promo.discount_type == "percentage": discount = subtotal * (promo.discount_value / 100)
+     if promo.discount_type == "fixed": discount = promo.discount_value
+
+5. CHECKOUT — COMPLETE REDESIGN
+   - Current checkout steps design is poor and process is broken
+   - Rebuild checkout as a clean 3-step process:
+   
+   STEP 1 — Contact & Delivery:
+   - Full Name (required)
+   - Phone Number (required, Pakistani format)
+   - Email Address (required)
+   - Street Address (required)
+   - City (dropdown: Karachi, Lahore, Islamabad, Rawalpindi, Faisalabad, 
+     Peshawar, Quetta, Multan, Sialkot, Gujranwala, other major cities)
+   - Province (dropdown: Sindh, Punjab, KPK, Balochistan, Gilgit-Baltistan)
+   - Order Notes (optional textarea)
+   - "Continue to Payment" button (orange, right aligned)
+   
+   STEP 2 — Payment Method:
+   - Show 4 payment option cards (full width, stacked)
+   - Each card: icon + name + description + discount badge (if applicable)
+     1. Cash on Delivery — "Pay when you receive your order" — no discount
+     2. EasyPaisa — "Mobile wallet payment" — "15% OFF" green badge
+     3. JazzCash — "Mobile wallet payment" — "15% OFF" green badge  
+     4. Bank Transfer — "Direct bank transfer" — "15% OFF" green badge
+   - Selected card: orange border + light orange bg
+   - Show updated total below (with 15% discount applied if applicable)
+   - If EasyPaisa/JazzCash/Bank selected: show account details to transfer to
+     (store these in settings or hardcode for now)
+   - "Continue to Review" button (orange, right aligned)
+   - "Back" button (outline, left aligned)
+   
+   STEP 3 — Review & Place Order:
+   - Show complete order summary:
+     * All cart items with images, names, variants, lens details
+     * Delivery address (with edit link back to step 1)
+     * Payment method (with edit link back to step 2)
+     * Price breakdown: subtotal, coupon discount, payment discount, shipping, total
+   - "Place Order" button (orange, large, full width)
+   - "Back" button below
+   
+   RIGHT SIDEBAR (visible on all steps):
+   - Compact order items list
+   - Price breakdown
+   - Updates live as payment method changes in step 2
+   
+   After placing order:
+   - Call POST /api/orders with all data
+   - On success: redirect to /order/[orderNumber]/confirmation
+   - On failure: show error message, do not redirect
+   
+   Step indicator at top:
+   - Show "1. Delivery → 2. Payment → 3. Review" 
+   - Completed steps: green with checkmark
+   - Current step: orange/active
+   - Future steps: grey
+   - Clicking completed step goes back to it
+
+=================================================================
+IMPLEMENTATION NOTES
+=================================================================
+
+- Do not break any existing working functionality while making these changes
+- Test each section after implementing
+- Backend changes needed (noted above):
+  * Add size_chart_image_url to Product model + migration
+  * Add icon_url to LensOption model + migration  
+  * Add sub_options JSON field to LensOption model + migration
+  * Create StoreSettings model + CRUD endpoints
+  * Fix promo code percentage calculation in order creation
+  * Add /api/admin/settings endpoints
+  * Add /api/admin/analytics endpoints (revenue, top products, etc.)
+  * Add /api/admin/customers endpoint
+- Frontend state management: update Zustand stores as needed
+- All API calls through frontend/lib/api.ts
+- Use "use client" on components with interactivity
+- Maintain consistent design system (orange #E8670A, dark #0F0F0F, white bg)

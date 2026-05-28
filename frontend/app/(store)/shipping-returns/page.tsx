@@ -25,7 +25,7 @@ export default function ShippingReturnsPage() {
             Shipping & Returns
           </h1>
           <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            Fast, tracked delivery across Pakistan — and a hassle-free returns policy if something isn't right.
+            Fast, tracked delivery across Pakistan — and a hassle-free returns policy if something isn&apos;t right.
           </p>
         </div>
       </section>

@@ -34,7 +34,7 @@ export interface LensOptionGroup {
 export interface LensCollection {
   id: number;
   name: string;
-  video_url: string;
+  video_url: string | null;
   description: string | null;
   bullets: string[];
   price_from: number;
@@ -121,6 +121,10 @@ export interface PromoCode {
   discount_type: "percentage" | "fixed";
   discount_value: number;
   min_order: number | null;
+}
+
+export interface ValidateCouponResponse extends PromoCode {
+  discount_amount: number;
 }
 
 export interface Order {

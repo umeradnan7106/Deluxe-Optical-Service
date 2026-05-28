@@ -1,65 +1,65 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  EyeIcon,
-  SunIcon,
-  SparklesIcon,
-  ShoppingBagIcon,
-  UserIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/outline";
-import { productsApi } from "@/lib/api";
 
 const CATS = [
-  { label: "Eyeglasses", href: "/products?category=eyeglasses", params: { category: "eyeglasses" }, Icon: EyeIcon },
-  { label: "Sunglasses", href: "/products?category=sunglasses", params: { category: "sunglasses" }, Icon: SunIcon },
-  { label: "Contact Lenses", href: "/products?category=contact-lenses", params: { category: "contact-lenses" }, Icon: SparklesIcon },
-  { label: "Accessories", href: "/products?category=accessories", params: { category: "accessories" }, Icon: ShoppingBagIcon },
-  { label: "Men's Frames", href: "/products?gender=men", params: { gender: "men" }, Icon: UserIcon },
-  { label: "Women's Frames", href: "/products?gender=women", params: { gender: "women" }, Icon: UserGroupIcon },
+  {
+    label: "Sunglasses",
+    href: "/products?category=sunglasses",
+    gradient: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
+  },
+  {
+    label: "Prescription",
+    href: "/products?category=prescription",
+    gradient: "linear-gradient(135deg, #1c1c2e 0%, #2d2d4e 100%)",
+  },
+  {
+    label: "Blue Cut",
+    href: "/products?category=blue-cut",
+    gradient: "linear-gradient(135deg, #0f1f3d 0%, #1a3a6e 100%)",
+  },
+  {
+    label: "Transition",
+    href: "/products?category=transition",
+    gradient: "linear-gradient(135deg, #1a1a2e 0%, #2d1a4e 100%)",
+  },
+  {
+    label: "Screen",
+    href: "/products?category=screen",
+    gradient: "linear-gradient(135deg, #1a2e1a 0%, #2d4e2d 100%)",
+  },
+  {
+    label: "Kids",
+    href: "/products?category=kids",
+    gradient: "linear-gradient(135deg, #2e1a1a 0%, #4e2d2d 100%)",
+  },
 ] as const;
 
 export default function CategoryGrid() {
-  const [counts, setCounts] = useState<Record<string, number>>({});
-
-  useEffect(() => {
-    Promise.all(
-      CATS.map(({ label, params }) =>
-        productsApi.list({ ...params, per_page: 1 })
-          .then((res) => ({ label, total: res.data.total }))
-          .catch(() => ({ label, total: 0 }))
-      )
-    ).then((results) => {
-      const map: Record<string, number> = {};
-      results.forEach(({ label, total }) => { map[label] = total; });
-      setCounts(map);
-    });
-  }, []);
-
   return (
-    <section className="max-w-[1500px] mx-auto px-6 py-12">
-      <div className="mb-6">
-        <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-1">Browse by Category</p>
-        <h2 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Find Your Style</h2>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        {CATS.map(({ label, href, Icon }) => (
-          <Link key={label} href={href} className="group">
-            <div className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col items-center text-center gap-3 hover:ring-1 hover:ring-[#E8670A] hover:border-[#E8670A]/40 transition-all shadow-sm">
-              <div className="w-12 h-12 rounded-full bg-[#E8670A]/10 flex items-center justify-center group-hover:bg-[#E8670A]/20 transition-colors">
-                <Icon className="w-6 h-6 text-[#E8670A]" />
+    <section className="bg-[#faf9f7] py-16">
+      <div className="max-w-[1500px] mx-auto px-6">
+        <div className="text-center mb-8">
+          <p className="text-[#E8670A] text-[10px] font-semibold uppercase tracking-widest mb-1">Explore</p>
+          <h2 className="font-['Cormorant_Garamond'] text-[32px] text-[#1a1a1a] font-semibold">Shop by Category</h2>
+        </div>
+        <div className="flex gap-4 overflow-x-auto pb-2 snap-x">
+          {CATS.map(({ label, href, gradient }) => (
+            <Link
+              key={label}
+              href={href}
+              className="group snap-start shrink-0 relative rounded-xl overflow-hidden cursor-pointer"
+              style={{ height: 180, minWidth: 160, flex: "0 0 auto" }}
+            >
+              {/* Gradient background */}
+              <div className="absolute inset-0" style={{ background: gradient }} />
+              {/* Dark overlay */}
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-3">
+                <p className="text-white text-[14px] font-semibold leading-tight">{label}</p>
               </div>
-              <div>
-                <p className="text-gray-900 text-sm font-medium leading-snug">{label}</p>
-                {counts[label] !== undefined && (
-                  <p className="text-gray-500 text-xs mt-0.5">{counts[label]} styles</p>
-                )}
-              </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

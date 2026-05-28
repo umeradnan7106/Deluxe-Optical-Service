@@ -12,7 +12,26 @@
       "Bash(mkdir -p \"C:\\\\Users\\\\Dell\\\\Desktop\\\\Deluxe Opt Service\\\\frontend\\\\app\\\\\\(store\\)\\\\blogs\\\\[slug]\")",
       "Bash(mkdir -p \"C:\\\\Users\\\\Dell\\\\Desktop\\\\Deluxe Opt Service\\\\frontend\\\\app\\\\admin\\\\blogs\\\\[id]\\\\edit\")",
       "Bash(xargs grep -l \"FAQ\\\\|faq\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(xargs grep -l \"onSubmit\\\\|onClick\\\\|onChange\\\\|onError\\\\|onMouseOver\\\\|onKeyDown\\\\|onFocus\\\\|onBlur\\\\|onInput\\\\|onLoad\")",
+      "Bash(xargs grep -l \"onSubmit\\\\|onClick\\\\|onChange\\\\|onError\\\\|onMouseOver\\\\|onKeyDown\\\\|onFocus\\\\|onBlur\\\\|onLoad\\\\|onInput\")",
+      "PowerShell(Remove-Item *)",
+      "Bash(grep -v \"//instagram\\\\|//facebook\\\\|https\")",
+      "Bash(npx next *)",
+      "Bash(npm run *)",
+      "WebFetch(domain:localhost)",
+      "Bash(curl -s \"http://localhost:3002/admin\" -L)",
+      "Bash(curl -s \"http://localhost:3002/products\")",
+      "Bash(curl -s \"http://localhost:3002/admin/products/new\" -L)",
+      "Bash(curl -s \"http://localhost:3002/tracking\")",
+      "Bash(curl -s \"http://localhost:3002/admin/products/new\" -L -o -)",
+      "Bash(curl -sv \"http://localhost:3002/admin/products/new\")",
+      "Bash(curl -s \"http://localhost:3002/auth/login\")",
+      "Bash(curl -s \"http://localhost:8000/api/products\")",
+      "Bash(curl -s \"http://localhost:8000/api/products/ray-ban-acetate-round-frame\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('OK! Product:', d['name'], '| Variants:', len\\(d['variants']\\), '| Lens options:', d['lens_options']\\)\")",
+      "Bash(python -m uvicorn main:app --reload --port 8000)",
+      "Bash(curl -s -H \"Origin: http://localhost:3002\" \"http://localhost:8000/api/products/ray-ban-acetate-round-frame\" -I)"
     ]
   }
 }

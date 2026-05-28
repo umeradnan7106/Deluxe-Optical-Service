@@ -41,10 +41,17 @@ def _grouped_lens_options(product_id: int, db: Session) -> LensOptionGrouped:
     )
     grouped = LensOptionGrouped()
     for lo in rows:
-        item = LensOptionResponse.model_validate(lo)
-        if lo.lens_type.value == "lens-type":
+        lo_type_val = lo.type.value if lo.type is not None else "addon"
+        item = LensOptionResponse.model_validate({
+            "id": lo.id,
+            "name": lo.name,
+            "lens_type": lo_type_val,
+            "price": lo.price,
+            "description": lo.description,
+        })
+        if lo_type_val == "lens-type":
             grouped.lens_type.append(item)
-        elif lo.lens_type.value == "coating":
+        elif lo_type_val == "coating":
             grouped.coating.append(item)
         else:
             grouped.addon.append(item)

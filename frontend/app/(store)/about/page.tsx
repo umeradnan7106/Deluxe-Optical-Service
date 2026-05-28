@@ -30,7 +30,7 @@ export default function AboutPage() {
             About Deluxe Opt Service
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            Pakistan's home for premium, affordable eyewear — crafted for every face, every style, every occasion.
+            Pakistan&apos;s home for premium, affordable eyewear — crafted for every face, every style, every occasion.
           </p>
         </div>
       </section>
@@ -106,7 +106,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto px-6 text-center">
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Our Mission</p>
           <blockquote className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-gray-900 font-semibold leading-snug">
-            "To make every Pakistani see the world clearly — in style, with confidence, at a price they deserve."
+            &ldquo;To make every Pakistani see the world clearly — in style, with confidence, at a price they deserve.&rdquo;
           </blockquote>
         </div>
       </section>

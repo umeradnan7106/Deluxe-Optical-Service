@@ -27,7 +27,7 @@ const COMPANY_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0F0F0F] border-t border-[#2a2a2a] mt-16">
+    <footer className="bg-[#0F0F0F] border-t border-[#2a2a2a]">
       <div className="max-w-[1500px] mx-auto px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           {/* Brand */}

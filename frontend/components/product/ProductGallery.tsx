@@ -18,29 +18,14 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
   const active = images[activeIdx];
 
   if (!images.length) {
-    return <Placeholder className="w-full aspect-square rounded" label={productName} />;
+    return <Placeholder className="w-full aspect-[4/3] rounded-lg" label={productName} />;
   }
 
   return (
     <>
-      <div className="flex gap-3">
-        {/* Thumbnails — vertical strip */}
-        <div className="flex flex-col gap-2 w-16 shrink-0">
-          {images.map((img, idx) => (
-            <button
-              key={img.id}
-              onClick={() => setActiveIdx(idx)}
-              className={`relative aspect-square rounded overflow-hidden border-2 transition-colors ${
-                idx === activeIdx ? "border-[#E8670A]" : "border-transparent"
-              }`}
-            >
-              <Image src={img.url} alt={img.alt_text || productName} fill className="object-cover" sizes="64px" />
-            </button>
-          ))}
-        </div>
-
+      <div className="flex flex-col gap-3">
         {/* Main image */}
-        <div className="relative flex-1 aspect-square bg-[#1a1a1a] rounded overflow-hidden">
+        <div className="relative aspect-[4/3] bg-white border border-[#e5e7eb] rounded-lg overflow-hidden">
           <Image
             src={active.url}
             alt={active.alt_text || productName}
@@ -51,12 +36,30 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
           />
           <button
             onClick={() => setLightboxOpen(true)}
-            className="absolute bottom-3 right-3 bg-[#0F0F0F]/70 rounded-full p-2 hover:bg-[#0F0F0F] transition-colors"
+            className="absolute bottom-3 right-3 bg-black/10 hover:bg-black/20 rounded-full p-2 transition-colors"
             aria-label="Zoom"
           >
-            <MagnifyingGlassPlusIcon className="w-5 h-5 text-white" />
+            <MagnifyingGlassPlusIcon className="w-5 h-5 text-[#1a1a1a]" />
           </button>
         </div>
+
+        {/* Thumbnails — horizontal bottom row */}
+        {images.length > 1 && (
+          <div className="flex gap-2 overflow-x-auto">
+            {images.map((img, idx) => (
+              <button
+                key={img.id}
+                onClick={() => setActiveIdx(idx)}
+                className={`relative shrink-0 rounded-md overflow-hidden border-2 bg-white transition-colors ${
+                  idx === activeIdx ? "border-[#E8670A]" : "border-[#e5e7eb] hover:border-[#E8670A]/50"
+                }`}
+                style={{ width: 80, height: 70 }}
+              >
+                <Image src={img.url} alt={img.alt_text || productName} fill className="object-contain" sizes="80px" />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Lightbox */}
@@ -72,7 +75,7 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
           >
             <XMarkIcon className="w-8 h-8" />
           </button>
-          <div className="relative w-full max-w-2xl aspect-square" onClick={(e) => e.stopPropagation()}>
+          <div className="relative w-full max-w-2xl aspect-[4/3]" onClick={(e) => e.stopPropagation()}>
             <Image
               src={active.url}
               alt={active.alt_text || productName}
@@ -81,17 +84,17 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
               sizes="100vw"
             />
           </div>
-          {/* Thumbnail strip in lightbox */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
             {images.map((img, idx) => (
               <button
                 key={img.id}
-                onClick={() => setActiveIdx(idx)}
-                className={`relative w-12 h-12 rounded overflow-hidden border-2 transition-colors ${
+                onClick={(e) => { e.stopPropagation(); setActiveIdx(idx); }}
+                className={`relative rounded overflow-hidden border-2 bg-white transition-colors ${
                   idx === activeIdx ? "border-[#E8670A]" : "border-white/30"
                 }`}
+                style={{ width: 48, height: 40 }}
               >
-                <Image src={img.url} alt={img.alt_text || ""} fill className="object-cover" sizes="48px" />
+                <Image src={img.url} alt={img.alt_text || ""} fill className="object-contain" sizes="48px" />
               </button>
             ))}
           </div>

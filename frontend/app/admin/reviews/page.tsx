@@ -6,8 +6,7 @@ import { adminApi } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
-import { XMarkIcon, CheckIcon, StarIcon as StarOutline } from "@heroicons/react/24/outline";
-import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 interface AdminReview {
   id: number;

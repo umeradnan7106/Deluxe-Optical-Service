@@ -70,7 +70,7 @@ export default function ContactPage() {
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Get in Touch</p>
           <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-white font-semibold mb-4">Contact Us</h1>
           <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            Have a question about your order or need help choosing the right frames? We're here for you.
+            Have a question about your order or need help choosing the right frames? We&apos;re here for you.
           </p>
         </div>
       </section>
@@ -85,7 +85,7 @@ export default function ContactPage() {
               {sent ? (
                 <div className="text-center py-12">
                   <p className="text-[#E8670A] text-2xl font-semibold mb-2">Message Sent!</p>
-                  <p className="text-gray-600">We'll get back to you within 24 hours.</p>
+                  <p className="text-gray-600">We&apos;ll get back to you within 24 hours.</p>
                 </div>
               ) : (
                 <form className="space-y-4" onSubmit={handleSubmit}>

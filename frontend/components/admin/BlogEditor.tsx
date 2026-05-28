@@ -36,7 +36,7 @@ interface AdminBlogData {
 function TbBtn({ active, onClick, children }: { active?: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button type="button" onMouseDown={(e) => { e.preventDefault(); onClick(); }}
-      className={`px-2 py-1 text-xs rounded ${active ? "bg-[#E8670A] text-white" : "text-gray-400 hover:text-white hover:bg-[#2a2a2a]"}`}>
+      className={`px-2 py-1 text-xs rounded ${active ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}>
       {children}
     </button>
   );
@@ -63,7 +63,7 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
     extensions: [StarterKit],
     content: "",
     editorProps: {
-      attributes: { class: "outline-none min-h-[400px] text-white text-sm leading-relaxed" },
+      attributes: { class: "outline-none min-h-[400px] text-gray-900 text-sm leading-relaxed" },
     },
   });
 
@@ -129,7 +129,7 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
     }
   }
 
-  const inputCls = "w-full bg-[#0a0a0a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors";
+  const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors";
 
   return (
     <div className="flex gap-6 items-start">
@@ -139,13 +139,13 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
         <input
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
-          className="w-full bg-transparent text-white text-3xl font-['Cormorant_Garamond'] outline-none border-b border-[#2a2a2a] pb-3 placeholder-gray-700 focus:border-[#E8670A] transition-colors"
+          className="w-full bg-transparent text-gray-900 text-3xl font-['Cormorant_Garamond'] outline-none border-b border-gray-300 pb-3 placeholder-gray-400 focus:border-[#E8670A] transition-colors"
           placeholder="Blog Title…"
         />
 
         {/* Cover Image */}
         <div
-          className="border-2 border-dashed border-[#2a2a2a] rounded overflow-hidden cursor-pointer hover:border-[#E8670A] transition-colors relative"
+          className="border-2 border-dashed border-gray-300 rounded overflow-hidden cursor-pointer hover:border-[#E8670A] transition-colors relative"
           style={{ minHeight: 200 }}
           onClick={() => fileRef.current?.click()}
           onDragOver={(e) => e.preventDefault()}
@@ -163,8 +163,8 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
         </div>
 
         {/* Rich Text Editor */}
-        <div className="border border-[#2a2a2a] rounded overflow-hidden">
-          <div className="flex gap-1 p-2 border-b border-[#2a2a2a] bg-[#0a0a0a] flex-wrap">
+        <div className="border border-gray-300 rounded overflow-hidden">
+          <div className="flex gap-1 p-2 border-b border-gray-200 bg-gray-50 flex-wrap">
             <TbBtn active={editor?.isActive("bold")} onClick={() => editor?.chain().focus().toggleBold().run()}>B</TbBtn>
             <TbBtn active={editor?.isActive("italic")} onClick={() => editor?.chain().focus().toggleItalic().run()}>I</TbBtn>
             <TbBtn active={editor?.isActive("heading", { level: 1 })} onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}>H1</TbBtn>
@@ -176,7 +176,7 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
             <TbBtn active={editor?.isActive("orderedList")} onClick={() => editor?.chain().focus().toggleOrderedList().run()}>1.</TbBtn>
             <TbBtn active={editor?.isActive("blockquote")} onClick={() => editor?.chain().focus().toggleBlockquote().run()}>&ldquo;</TbBtn>
           </div>
-          <div className="p-4 bg-[#0a0a0a] prose prose-invert prose-sm max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[400px]">
+          <div className="p-4 bg-white prose prose-sm max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[400px]">
             <EditorContent editor={editor} />
           </div>
         </div>
@@ -196,36 +196,36 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
 
       {/* Settings sidebar */}
       <div className="w-64 shrink-0 space-y-4">
-        <div className="bg-[#1a1a1a] rounded p-4">
-          <h3 className="text-white font-semibold text-sm mb-3">Category</h3>
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">Category</h3>
           <select value={category} onChange={(e) => setCategory(e.target.value)} className={inputCls}>
             {CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
           </select>
         </div>
 
-        <div className="bg-[#1a1a1a] rounded p-4">
-          <h3 className="text-white font-semibold text-sm mb-3">URL Slug</h3>
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">URL Slug</h3>
           <input value={slug} onChange={(e) => { setSlugAuto(false); setSlug(e.target.value); }}
             className={inputCls} placeholder="auto-generated" />
         </div>
 
-        <div className="bg-[#1a1a1a] rounded p-4">
-          <h3 className="text-white font-semibold text-sm mb-3">SEO</h3>
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">SEO</h3>
           <div className="space-y-3">
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Meta Title</label>
+              <label className="text-xs text-gray-500 block mb-1">Meta Title</label>
               <input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className={inputCls} placeholder={title || "Blog title"} />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Meta Description</label>
+              <label className="text-xs text-gray-500 block mb-1">Meta Description</label>
               <textarea value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)} className={inputCls + " !h-20 resize-none"} placeholder="Short description…" />
             </div>
           </div>
         </div>
 
-        <div className="bg-[#1a1a1a] rounded p-4">
-          <h3 className="text-white font-semibold text-sm mb-2">Status</h3>
-          <p className={`text-sm ${isPublished ? "text-green-400" : "text-gray-500"}`}>
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-2">Status</h3>
+          <p className={`text-sm ${isPublished ? "text-green-600" : "text-gray-500"}`}>
             {isPublished ? "Published" : "Draft"}
           </p>
         </div>

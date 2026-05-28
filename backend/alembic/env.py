@@ -1,20 +1,20 @@
 import os
 from logging.config import fileConfig
-
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
 from alembic import context
-
+from dotenv import load_dotenv        # ← YEH ADD KARO
+load_dotenv()                         # ← YEH ADD KARO
 config = context.config
-
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Read DATABASE_URL from environment — never hardcoded
+from dotenv import load_dotenv
+load_dotenv()
 database_url = os.environ.get("DATABASE_URL")
 if database_url:
-    config.set_main_option("sqlalchemy.url", database_url)
+    config.set_main_option("sqlalchemy.url", database_url.replace("%", "%%"))
 
 from database import Base  # noqa: E402 — import after env setup
 import models.user  # noqa: F401

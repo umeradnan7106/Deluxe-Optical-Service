@@ -32,7 +32,6 @@ export default function AdminInventoryPage() {
     setLoading(true);
     try {
       const params = filter !== "all" ? { status_filter: filter } : {};
-      const { data } = await adminApi.products.list(params);
       // use inventory endpoint
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/inventory?${new URLSearchParams(params as Record<string, string>)}`, {
         headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth-storage") || "{}").state?.accessToken}` },

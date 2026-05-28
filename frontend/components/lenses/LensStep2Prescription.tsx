@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ExclamationTriangleIcon, CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import { uploadApi } from "@/lib/api";
 import type { PrescriptionData } from "@/types";
 import { cn } from "@/lib/utils";
-import Button from "@/components/ui/Button";
 
 type Method = "upload" | "manual" | "later";
 
@@ -43,18 +43,20 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
   const [pd, setPd] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadUrl, setUploadUrl] = useState<string | null>(prescription?.prescription_url || null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
 
   const warning = method === "manual" ? showWarning(od, os) : null;
 
   async function handleFileUpload(file: File) {
     setUploading(true);
+    setUploadError(null);
     try {
       const { data } = await uploadApi.prescription(file);
       setUploadUrl(data.url);
       onChange({ method: "upload", prescription_url: data.url });
     } catch {
-      // handle error silently
+      setUploadError("Upload failed. Please try again or use a different file.");
     } finally {
       setUploading(false);
     }
@@ -88,7 +90,7 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
     <select
       value={value}
       onChange={(e) => onC(e.target.value)}
-      className="w-full bg-[#2a2a2a] border border-[#3a3a3a] text-white text-xs px-2 py-1.5 rounded"
+      className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-xs px-2 py-1.5 rounded"
     >
       <option value="">{placeholder}</option>
       {options.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -104,14 +106,14 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
             key={m}
             onClick={() => setMethod(m)}
             className={cn(
-              "rounded border p-4 text-left transition-colors",
+              "rounded-lg border p-4 text-left transition-colors",
               method === m
-                ? "border-[#E8670A] bg-[#FFF0E6]/5"
-                : "border-[#2a2a2a] bg-[#1a1a1a] hover:border-[#E8670A]/40"
+                ? "border-[#E8670A] bg-[#FFF0E6]"
+                : "border-[#e5e7eb] bg-white hover:border-[#E8670A]/40"
             )}
           >
-            <p className="text-white font-medium text-sm capitalize">{m === "upload" ? "Upload Prescription" : "Enter Manually"}</p>
-            <p className="text-gray-400 text-xs mt-0.5">
+            <p className="text-[#1a1a1a] font-medium text-sm">{m === "upload" ? "Upload a Photo" : "Fill it out myself"}</p>
+            <p className="text-[#6b7280] text-xs mt-0.5">
               {m === "upload" ? "Upload image or PDF" : "Fill in SPH, CYL, Axis"}
             </p>
           </button>
@@ -126,16 +128,18 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
           onDrop={handleDrop}
           className={cn(
             "border-2 border-dashed rounded-lg p-8 text-center transition-colors",
-            dragOver ? "border-[#E8670A] bg-[#FFF0E6]/5" : "border-[#3a3a3a]"
+            dragOver ? "border-[#E8670A] bg-[#FFF0E6]" : "border-[#e5e7eb] bg-[#f9fafb]"
           )}
         >
-          <CloudArrowUpIcon className="w-10 h-10 text-gray-400 mx-auto mb-3" />
-          {uploadUrl ? (
-            <p className="text-green-400 text-sm">Prescription uploaded successfully</p>
-          ) : (
-            <>
-              <p className="text-gray-300 text-sm mb-1">Drag & drop or click to upload</p>
-              <p className="text-gray-500 text-xs">JPG, PNG, PDF — max 10 MB</p>
+          {uploading ? (
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 border-2 border-[#E8670A] border-t-transparent rounded-full animate-spin mb-3" />
+              <p className="text-[#6b7280] text-sm">Uploading…</p>
+            </div>
+          ) : uploadUrl ? (
+            <div className="flex flex-col items-center gap-3">
+              <Image src={uploadUrl} alt="Prescription preview" width={120} height={90} className="rounded border border-[#e5e7eb] object-cover" />
+              <p className="text-green-600 text-sm font-medium">Prescription uploaded successfully</p>
               <input
                 type="file"
                 accept="image/*,.pdf"
@@ -143,8 +147,25 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
                 id="rx-upload"
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f); }}
               />
-              <label htmlFor="rx-upload" className="inline-flex items-center px-3 py-1.5 mt-3 rounded border border-[#3a3a3a] text-sm text-gray-300 hover:text-white hover:border-gray-400 cursor-pointer transition-colors">
-                {uploading ? "Uploading…" : "Choose File"}
+              <label htmlFor="rx-upload" className="inline-flex items-center px-3 py-1.5 rounded border border-[#e5e7eb] text-xs text-[#6b7280] hover:text-[#1a1a1a] hover:border-gray-400 cursor-pointer transition-colors bg-white">
+                Replace
+              </label>
+            </div>
+          ) : (
+            <>
+              <CloudArrowUpIcon className="w-10 h-10 text-[#6b7280] mx-auto mb-3" />
+              <p className="text-[#1a1a1a] text-sm mb-1">Drag & drop or click to upload</p>
+              <p className="text-[#6b7280] text-xs">JPG, PNG, PDF — max 10 MB</p>
+              {uploadError && <p className="text-red-500 text-xs mt-2">{uploadError}</p>}
+              <input
+                type="file"
+                accept="image/*,.pdf"
+                className="hidden"
+                id="rx-upload"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f); }}
+              />
+              <label htmlFor="rx-upload" className="inline-flex items-center px-3 py-1.5 mt-3 rounded border border-[#e5e7eb] text-sm text-[#6b7280] hover:text-[#1a1a1a] hover:border-gray-400 cursor-pointer transition-colors bg-white">
+                Choose File
               </label>
             </>
           )}
@@ -155,9 +176,9 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
       {method === "manual" && (
         <div className="space-y-4">
           {warning && (
-            <div className="flex items-start gap-2 bg-yellow-500/10 border border-yellow-500/30 rounded p-3">
-              <ExclamationTriangleIcon className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
-              <p className="text-yellow-300 text-xs">{warning}</p>
+            <div className="flex items-start gap-2 bg-orange-50 border border-[#E8670A]/30 rounded p-3">
+              <ExclamationTriangleIcon className="w-5 h-5 text-[#E8670A] shrink-0 mt-0.5" />
+              <p className="text-[#E8670A] text-xs">{warning}</p>
             </div>
           )}
 
@@ -166,18 +187,18 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
             { label: "Left Eye (OS)", state: os, set: setOs },
           ].map(({ label, state, set }) => (
             <div key={label}>
-              <h4 className="text-gray-300 text-xs font-medium mb-2">{label}</h4>
+              <h4 className="text-[#1a1a1a] text-xs font-medium mb-2">{label}</h4>
               <div className="grid grid-cols-4 gap-2">
-                <div><p className="text-gray-500 text-[10px] mb-1">SPH</p><Select value={state.sph} options={SPH_VALUES} onChange={(v) => { set({ ...state, sph: v }); onChange(buildManualData()); }} placeholder="0.00" /></div>
-                <div><p className="text-gray-500 text-[10px] mb-1">CYL</p><Select value={state.cyl} options={CYL_VALUES} onChange={(v) => { set({ ...state, cyl: v }); onChange(buildManualData()); }} placeholder="0.00" /></div>
-                <div><p className="text-gray-500 text-[10px] mb-1">Axis</p><Select value={state.axis} options={AXIS_VALUES} onChange={(v) => { set({ ...state, axis: v }); onChange(buildManualData()); }} placeholder="—" /></div>
-                <div><p className="text-gray-500 text-[10px] mb-1">ADD</p><Select value={state.add} options={ADD_VALUES} onChange={(v) => { set({ ...state, add: v }); onChange(buildManualData()); }} placeholder="—" /></div>
+                <div><p className="text-[#6b7280] text-[10px] mb-1">SPH</p><Select value={state.sph} options={SPH_VALUES} onChange={(v) => { set({ ...state, sph: v }); onChange(buildManualData()); }} placeholder="0.00" /></div>
+                <div><p className="text-[#6b7280] text-[10px] mb-1">CYL</p><Select value={state.cyl} options={CYL_VALUES} onChange={(v) => { set({ ...state, cyl: v }); onChange(buildManualData()); }} placeholder="0.00" /></div>
+                <div><p className="text-[#6b7280] text-[10px] mb-1">Axis</p><Select value={state.axis} options={AXIS_VALUES} onChange={(v) => { set({ ...state, axis: v }); onChange(buildManualData()); }} placeholder="—" /></div>
+                <div><p className="text-[#6b7280] text-[10px] mb-1">ADD</p><Select value={state.add} options={ADD_VALUES} onChange={(v) => { set({ ...state, add: v }); onChange(buildManualData()); }} placeholder="—" /></div>
               </div>
             </div>
           ))}
 
           <div className="w-40">
-            <p className="text-gray-500 text-[10px] mb-1">PD (mm)</p>
+            <p className="text-[#6b7280] text-[10px] mb-1">PD (mm)</p>
             <Select value={pd} options={PD_VALUES} onChange={(v) => { setPd(v); onChange(buildManualData()); }} placeholder="—" />
           </div>
         </div>
@@ -185,9 +206,9 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
 
       <button
         onClick={() => onChange({ method: "later" })}
-        className="text-gray-400 hover:text-white text-sm underline"
+        className="text-[#6b7280] hover:text-[#E8670A] text-sm underline"
       >
-        I&apos;ll enter my prescription later
+        Skip — I&apos;ll provide prescription via WhatsApp
       </button>
     </div>
   );
