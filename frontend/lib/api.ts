@@ -89,9 +89,9 @@ export const productsApi = {
   detail: (slug: string) =>
     api.get<Product>(`/api/products/${slug}`),
   search: (q: string) =>
-    api.get<ProductListItem[]>("/api/products/search", { params: { q } }),
+    api.get<PaginatedResponse<ProductListItem>>("/api/products", { params: { q } }),
   featured: () =>
-    api.get<PaginatedResponse<ProductListItem>>("/api/products", { params: { is_featured: true, per_page: 4 } }),
+    api.get<ProductListItem[]>("/api/products/featured"),
 };
 
 // ── Orders ────────────────────────────────────────────────────────────────────
@@ -130,7 +130,7 @@ export const reviewsApi = {
   create: (data: unknown) =>
     api.post("/api/reviews", data),
   featured: () =>
-    api.get("/api/reviews", { params: { is_featured: true, per_page: 3 } }),
+    api.get<Review[]>("/api/reviews/featured"),
 };
 
 // ── Blogs ─────────────────────────────────────────────────────────────────────

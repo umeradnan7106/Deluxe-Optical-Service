@@ -31,7 +31,9 @@
       "Bash(curl -s \"http://localhost:8000/api/products/ray-ban-acetate-round-frame\")",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('OK! Product:', d['name'], '| Variants:', len\\(d['variants']\\), '| Lens options:', d['lens_options']\\)\")",
       "Bash(python -m uvicorn main:app --reload --port 8000)",
-      "Bash(curl -s -H \"Origin: http://localhost:3002\" \"http://localhost:8000/api/products/ray-ban-acetate-round-frame\" -I)"
+      "Bash(curl -s -H \"Origin: http://localhost:3002\" \"http://localhost:8000/api/products/ray-ban-acetate-round-frame\" -I)",
+      "Bash(dir \"C:\\\\Users\\\\Dell\\\\Desktop\\\\Deluxe Opt Service\\\\frontend\" /b)",
+      "Bash(findstr next.config)"
     ]
   }
 }
