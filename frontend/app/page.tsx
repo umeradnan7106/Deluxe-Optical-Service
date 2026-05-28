@@ -69,7 +69,7 @@ export default function HomePage() {
 
   useEffect(() => {
     productsApi.featured()
-      .then((res) => setFeatured(res.data.slice(0, 4)))
+      .then((res) => setFeatured(res.data.items.slice(0, 4)))
       .catch(() => {});
     productsApi.list({ per_page: 4 })
       .then((res) => setNewArrivals(res.data.items))

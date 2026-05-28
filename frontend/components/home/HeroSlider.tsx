@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import Button from "@/components/ui/Button";
 
 const SLIDES = [
@@ -13,7 +12,7 @@ const SLIDES = [
     subtitle: "Premium frames with prescription lens customization. Delivered anywhere in Pakistan with Cash on Delivery.",
     cta1: { label: "Shop Frames", href: "/products" },
     cta2: { label: "Build Your Lenses", href: "/products?category=prescription" },
-    image: "/images/hero-1.jpg",
+    gradient: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
   },
   {
     eyebrow: "Custom Prescription Lenses",
@@ -23,7 +22,7 @@ const SLIDES = [
     subtitle: "Single Vision, Progressive, Blue Cut, Transition — all crafted to your exact prescription.",
     cta1: { label: "Shop Prescription", href: "/products?category=prescription" },
     cta2: { label: "Learn More", href: "/products" },
-    image: "/images/hero-2.jpg",
+    gradient: "linear-gradient(135deg, #0f1f3d 0%, #1a3a6e 100%)",
   },
   {
     eyebrow: "Seasonal Sale",
@@ -32,9 +31,19 @@ const SLIDES = [
     subtitle: "Shop our seasonal sale — limited stock. Pay online and save an extra 15%.",
     cta1: { label: "Shop Sale", href: "/products?sale=true" },
     cta2: { label: "View All", href: "/products" },
-    image: "/images/hero-3.jpg",
+    gradient: "linear-gradient(135deg, #1a1a2e 0%, #2d1a4e 100%)",
   },
 ];
+
+const GlassesPlaceholder = () => (
+  <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" className="w-32 h-32 opacity-20">
+    <rect x="5" y="15" width="70" height="50" rx="12" fill="none" stroke="white" strokeWidth="3" />
+    <rect x="125" y="15" width="70" height="50" rx="12" fill="none" stroke="white" strokeWidth="3" />
+    <path d="M75 40 Q100 28 125 40" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" />
+    <line x1="5" y1="30" x2="0" y2="30" stroke="white" strokeWidth="3" strokeLinecap="round" />
+    <line x1="195" y1="30" x2="200" y2="30" stroke="white" strokeWidth="3" strokeLinecap="round" />
+  </svg>
+);
 
 const STATS = [
   { value: "2,400+", label: "Customers" },
@@ -93,19 +102,13 @@ export default function HeroSlider() {
             </div>
           </div>
 
-          {/* Right 50% — single image */}
+          {/* Right 50% — gradient placeholder */}
           <div className="lg:w-1/2 shrink-0 hidden lg:block">
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-[#1a1a1a]">
-              <Image
-                src={slide.image}
-                alt={slide.titlePre + slide.titleOrange}
-                fill
-                className="object-contain"
-                sizes="700px"
-                priority
-                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+            <div
+              className="aspect-[4/3] rounded-lg overflow-hidden flex items-center justify-center"
+              style={{ background: slide.gradient }}
+            >
+              <GlassesPlaceholder />
             </div>
           </div>
         </div>
