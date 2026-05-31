@@ -5,6 +5,7 @@ import Link from "next/link";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { ProductListItem } from "@/types";
 import { formatPrice, getDiscountPercent } from "@/lib/utils";
 import StarRating from "@/components/ui/StarRating";
@@ -12,6 +13,8 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Placeholder from "@/components/ui/Placeholder";
 import useCartStore from "@/store/cartStore";
+import useAuthStore from "@/store/authStore";
+import useWishlistStore from "@/store/wishlistStore";
 
 interface ProductCardProps {
   product: ProductListItem;
@@ -19,9 +22,14 @@ interface ProductCardProps {
   onWishlistToggle?: (productId: number) => void;
 }
 
-export default function ProductCard({ product, wishlisted = false, onWishlistToggle }: ProductCardProps) {
+export default function ProductCard({ product, wishlisted: wishlistedProp, onWishlistToggle }: ProductCardProps) {
+  const router = useRouter();
   const [imgError, setImgError] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const { has, toggle } = useWishlistStore();
+
+  const wishlisted = wishlistedProp !== undefined ? wishlistedProp : has(product.id);
 
   const discountPct = product.sale_price ? getDiscountPercent(product.base_price, product.sale_price) : 0;
   const displayPrice = product.sale_price ?? product.base_price;
@@ -39,9 +47,23 @@ export default function ProductCard({ product, wishlisted = false, onWishlistTog
       sale_price: product.sale_price ?? null,
       quantity: 1,
       selected_lens_options: [],
+      lens_option_labels: [],
       lens_options_price: 0,
       prescription: null,
     });
+  }
+
+  async function handleWishlist(e: React.MouseEvent) {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      router.push("/auth/login");
+      return;
+    }
+    if (onWishlistToggle) {
+      onWishlistToggle(product.id);
+      return;
+    }
+    await toggle(product.id, isAuthenticated);
   }
 
   return (
@@ -69,7 +91,7 @@ export default function ProductCard({ product, wishlisted = false, onWishlistTog
 
         <button
           className="absolute top-2 right-2 bg-white/80 rounded-full p-1.5 hover:bg-white transition-colors shadow-sm"
-          onClick={(e) => { e.preventDefault(); onWishlistToggle?.(product.id); }}
+          onClick={handleWishlist}
           aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
         >
           {wishlisted ? (

@@ -83,23 +83,59 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Stat Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      {/* Primary stat cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         {stats ? [
-          { label: "Today's Orders", value: stats.today_orders, sub: `${stats.pending_orders} pending` },
-          { label: "Today's Revenue", value: formatPrice(stats.today_revenue), sub: "all time: " + formatPrice(stats.total_revenue) },
-          { label: "Pending Orders", value: stats.pending_orders, sub: `${stats.total_orders} total` },
-          { label: "Low Stock Items", value: stats.low_stock_items, sub: "need restocking" },
-        ].map(({ label, value, sub }) => (
+          { label: "Today's Orders", value: stats.today_orders, sub: `${stats.pending_orders} pending`, color: "text-[#E8670A]" },
+          { label: "Today's Revenue", value: formatPrice(stats.today_revenue), sub: "all time: " + formatPrice(stats.total_revenue), color: "text-green-600" },
+          { label: "Pending Orders", value: stats.pending_orders, sub: `${stats.total_orders} total orders`, color: "text-blue-600" },
+          { label: "Low Stock Items", value: stats.low_stock_items, sub: "need restocking", color: stats.low_stock_items > 0 ? "text-red-500" : "text-gray-900" },
+        ].map(({ label, value, sub, color }) => (
           <div key={label} className="bg-white border border-gray-200 shadow-sm rounded p-5">
             <p className="text-gray-500 text-xs mb-1">{label}</p>
-            <p className="text-gray-900 text-2xl font-bold">{value}</p>
+            <p className={`${color} text-2xl font-bold`}>{value}</p>
             <p className="text-gray-400 text-xs mt-1">{sub}</p>
           </div>
         )) : Array.from({ length: 4 }, (_, i) => (
           <div key={i} className="bg-gray-100 rounded p-5 animate-pulse h-24" />
         ))}
       </div>
+
+      {/* Shopify-like overview metrics */}
+      {stats && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          {[
+            {
+              label: "Avg. Order Value",
+              value: stats.total_orders > 0 ? formatPrice(Math.round(stats.total_revenue / stats.total_orders)) : "—",
+              sub: "per completed order",
+            },
+            {
+              label: "Fulfillment Rate",
+              value: stats.total_orders > 0
+                ? `${Math.round(((stats.total_orders - (stats.orders_by_status?.cancelled ?? 0)) / stats.total_orders) * 100)}%`
+                : "—",
+              sub: "orders fulfilled",
+            },
+            {
+              label: "Pending Reviews",
+              value: stats.unapproved_reviews,
+              sub: "awaiting approval",
+            },
+            {
+              label: "Total Revenue",
+              value: formatPrice(stats.total_revenue),
+              sub: `from ${stats.total_orders} orders`,
+            },
+          ].map(({ label, value, sub }) => (
+            <div key={label} className="bg-[#f9fafb] border border-gray-200 rounded px-4 py-3">
+              <p className="text-gray-400 text-[11px] uppercase tracking-wide mb-0.5">{label}</p>
+              <p className="text-gray-900 text-lg font-bold">{value}</p>
+              <p className="text-gray-400 text-[11px] mt-0.5">{sub}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Charts */}
       {stats && (

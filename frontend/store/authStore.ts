@@ -25,8 +25,8 @@ const useAuthStore = create<AuthState>()(
 
       login: (user, accessToken, refreshToken) => {
         if (typeof document !== "undefined") {
-          document.cookie = `auth-token=${accessToken}; path=/; max-age=1800; SameSite=Lax`;
-          document.cookie = `is-admin=${user.is_admin}; path=/; max-age=1800; SameSite=Lax`;
+          document.cookie = `auth-token=${accessToken}; path=/; max-age=2592000; SameSite=Lax`;
+          document.cookie = `is-admin=${user.is_admin}; path=/; max-age=2592000; SameSite=Lax`;
         }
         set({
           user,
@@ -42,6 +42,9 @@ const useAuthStore = create<AuthState>()(
           document.cookie = "auth-token=; path=/; max-age=0";
           document.cookie = "is-admin=; path=/; max-age=0";
         }
+        if (typeof localStorage !== "undefined") {
+          localStorage.removeItem("wishlist-storage");
+        }
         set({
           user: null,
           accessToken: null,
@@ -53,7 +56,7 @@ const useAuthStore = create<AuthState>()(
 
       setTokens: (accessToken, refreshToken) => {
         if (typeof document !== "undefined") {
-          document.cookie = `auth-token=${accessToken}; path=/; max-age=1800; SameSite=Lax`;
+          document.cookie = `auth-token=${accessToken}; path=/; max-age=2592000; SameSite=Lax`;
         }
         set({ accessToken, refreshToken });
       },

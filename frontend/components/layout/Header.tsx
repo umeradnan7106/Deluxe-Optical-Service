@@ -14,6 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
+import useWishlistStore from "@/store/wishlistStore";
 import { productsApi } from "@/lib/api";
 import { formatPrice } from "@/lib/utils";
 import type { ProductListItem } from "@/types";
@@ -32,6 +33,14 @@ export default function Header() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const isAdmin = useAuthStore((s) => s.isAdmin);
   const accountHref = !isAuthenticated ? "/auth/login" : isAdmin ? "/admin" : "/account/orders";
+  const loadWishlist = useWishlistStore((s) => s.load);
+  const wishlistLoaded = useWishlistStore((s) => s.loaded);
+
+  useEffect(() => {
+    if (isAuthenticated && !wishlistLoaded) {
+      loadWishlist();
+    }
+  }, [isAuthenticated, wishlistLoaded, loadWishlist]);
 
   const fetchSuggestions = useCallback((q: string) => {
     if (q.length < 2) { setSuggestions([]); setShowSuggestions(false); return; }

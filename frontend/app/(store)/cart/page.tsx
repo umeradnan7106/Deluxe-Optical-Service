@@ -37,24 +37,34 @@ export default function CartPage() {
       </h1>
 
       {/* Free shipping progress */}
-      <div className="bg-white border border-[#e5e7eb] rounded-lg p-4 mb-6">
-        {remaining > 0 ? (
-          <p className="text-[#1a1a1a] text-sm mb-2">
-            Add <span className="text-[#E8670A] font-semibold">{formatPrice(remaining)}</span> more for FREE delivery!
-          </p>
-        ) : (
-          <p className="text-green-700 text-sm mb-2 font-semibold">You qualify for FREE delivery! 🎉</p>
-        )}
-        <div className="relative w-full bg-gray-200 rounded-full h-2">
-          <div
-            className="bg-green-500 h-2 rounded-full transition-all duration-500"
-            style={{ width: `${progress}%` }}
-          />
-          <span className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 text-[#6b7280]">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-4 h-4">
+      <div className={`border rounded-lg p-4 mb-6 ${remaining <= 0 ? "bg-green-50 border-green-200" : "bg-white border-[#e5e7eb]"}`}>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={`w-5 h-5 ${remaining <= 0 ? "text-green-600" : "text-[#6b7280]"}`}>
               <path d="M1.5 8.5h13v9H3a1.5 1.5 0 01-1.5-1.5v-7.5zM14.5 17.5h6l-2-5-4-1.5v6.5zM6 17.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM17 17.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </span>
+            <span className="text-[13px] font-semibold text-[#1a1a1a]">
+              {remaining <= 0 ? "FREE Delivery Unlocked!" : "Free Delivery Progress"}
+            </span>
+          </div>
+          <span className="text-[12px] text-[#6b7280]">{formatPrice(Math.min(subtotal, FREE_SHIPPING_THRESHOLD))} / {formatPrice(FREE_SHIPPING_THRESHOLD)}</span>
+        </div>
+        {remaining > 0 ? (
+          <p className="text-[#1a1a1a] text-[13px] mb-2">
+            Spend <span className="text-[#E8670A] font-semibold">{formatPrice(remaining)}</span> more to get <span className="font-semibold">FREE delivery</span> on your order.
+          </p>
+        ) : (
+          <p className="text-green-700 text-[13px] mb-2 font-medium">Your order qualifies for FREE delivery — no shipping charges!</p>
+        )}
+        <div className="relative w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+          <div
+            className={`h-3 rounded-full transition-all duration-500 ${remaining <= 0 ? "bg-green-500" : "bg-[#E8670A]"}`}
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <div className="flex justify-between mt-1.5">
+          <span className="text-[11px] text-[#6b7280]">Rs. 0</span>
+          <span className="text-[11px] text-[#6b7280]">{formatPrice(FREE_SHIPPING_THRESHOLD)} — Free shipping</span>
         </div>
       </div>
 

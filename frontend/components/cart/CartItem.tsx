@@ -38,10 +38,11 @@ export default function CartItem({ item }: CartItemProps) {
           <p className="text-[#6b7280] text-[12px]">{item.color_name}</p>
 
           {/* Lens details */}
-          {item.selected_lens_options.length > 0 && (
+          {item.lens_option_labels && item.lens_option_labels.length > 0 && (
             <div className="mt-1.5 bg-[#f9fafb] border border-[#e5e7eb] rounded px-2 py-1.5 text-[11px] text-[#6b7280]">
-              <span className="font-medium text-[#1a1a1a]">Lens: </span>
-              {item.selected_lens_options.length} option{item.selected_lens_options.length !== 1 ? "s" : ""} (+{formatPrice(item.lens_options_price)})
+              <span className="font-medium text-[#1a1a1a]">Lenses: </span>
+              {item.lens_option_labels.join(" · ")}
+              {item.lens_options_price > 0 && <span className="ml-1 text-[#E8670A]">(+{formatPrice(item.lens_options_price)})</span>}
             </div>
           )}
 

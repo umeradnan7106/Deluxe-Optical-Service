@@ -27,7 +27,15 @@ export default function CartSummary() {
     try {
       const { data } = await cartApi.validateCoupon(couponInput.trim(), subtotal);
       const couponData = data as unknown as ValidateCouponResponse;
-      applyCoupon(couponData.code, couponData.discount_amount);
+      let discountAmount: number;
+      if (typeof couponData.discount_amount === "number") {
+        discountAmount = couponData.discount_amount;
+      } else if (couponData.discount_type === "percentage") {
+        discountAmount = Math.round(subtotal * couponData.discount_value / 100);
+      } else {
+        discountAmount = couponData.discount_value;
+      }
+      applyCoupon(couponData.code, discountAmount);
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail;
       setCouponError(msg || "Invalid coupon code");

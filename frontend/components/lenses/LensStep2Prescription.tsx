@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { ExclamationTriangleIcon, CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import { uploadApi } from "@/lib/api";
@@ -45,6 +45,7 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
   const [uploadUrl, setUploadUrl] = useState<string | null>(prescription?.prescription_url || null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const warning = method === "manual" ? showWarning(od, os) : null;
 
@@ -126,48 +127,43 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
+          onClick={() => !uploading && fileInputRef.current?.click()}
           className={cn(
-            "border-2 border-dashed rounded-lg p-8 text-center transition-colors",
-            dragOver ? "border-[#E8670A] bg-[#FFF0E6]" : "border-[#e5e7eb] bg-[#f9fafb]"
+            "border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer",
+            dragOver ? "border-[#E8670A] bg-[#FFF0E6]" : "border-[#e5e7eb] bg-[#f9fafb] hover:border-[#E8670A]/50"
           )}
         >
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*,.pdf"
+            className="hidden"
+            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f); e.target.value = ""; }}
+          />
           {uploading ? (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
               <div className="w-8 h-8 border-2 border-[#E8670A] border-t-transparent rounded-full animate-spin mb-3" />
               <p className="text-[#6b7280] text-sm">Uploading…</p>
             </div>
           ) : uploadUrl ? (
-            <div className="flex flex-col items-center gap-3">
-              <Image src={uploadUrl} alt="Prescription preview" width={120} height={90} className="rounded border border-[#e5e7eb] object-cover" />
-              <p className="text-green-600 text-sm font-medium">Prescription uploaded successfully</p>
-              <input
-                type="file"
-                accept="image/*,.pdf"
-                className="hidden"
-                id="rx-upload"
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f); }}
-              />
-              <label htmlFor="rx-upload" className="inline-flex items-center px-3 py-1.5 rounded border border-[#e5e7eb] text-xs text-[#6b7280] hover:text-[#1a1a1a] hover:border-gray-400 cursor-pointer transition-colors bg-white">
-                Replace
-              </label>
+            <div className="flex flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
+              <Image src={uploadUrl} alt="Prescription preview" width={120} height={90} className="rounded border border-[#e5e7eb] object-contain" />
+              <p className="text-green-600 text-sm font-medium">Uploaded successfully</p>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
+                className="inline-flex items-center px-3 py-1.5 rounded border border-[#e5e7eb] text-xs text-[#6b7280] hover:text-[#1a1a1a] hover:border-gray-400 cursor-pointer transition-colors bg-white"
+              >
+                Replace photo
+              </button>
             </div>
           ) : (
-            <>
+            <div onClick={(e) => e.stopPropagation()}>
               <CloudArrowUpIcon className="w-10 h-10 text-[#6b7280] mx-auto mb-3" />
-              <p className="text-[#1a1a1a] text-sm mb-1">Drag & drop or click to upload</p>
+              <p className="text-[#1a1a1a] text-sm mb-1">Click to upload or drag & drop</p>
               <p className="text-[#6b7280] text-xs">JPG, PNG, PDF — max 10 MB</p>
               {uploadError && <p className="text-red-500 text-xs mt-2">{uploadError}</p>}
-              <input
-                type="file"
-                accept="image/*,.pdf"
-                className="hidden"
-                id="rx-upload"
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f); }}
-              />
-              <label htmlFor="rx-upload" className="inline-flex items-center px-3 py-1.5 mt-3 rounded border border-[#e5e7eb] text-sm text-[#6b7280] hover:text-[#1a1a1a] hover:border-gray-400 cursor-pointer transition-colors bg-white">
-                Choose File
-              </label>
-            </>
+            </div>
           )}
         </div>
       )}

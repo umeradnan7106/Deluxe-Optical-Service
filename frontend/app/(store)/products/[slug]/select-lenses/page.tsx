@@ -85,6 +85,11 @@ export default function SelectLensesPage() {
 
   function handleAddToCart() {
     if (!product || !variant) return;
+    const labels: string[] = [];
+    if (selectedLensType) labels.push(selectedLensType.name);
+    if (selectedCoating && selectedCoating.id !== "standard") labels.push(selectedCoating.label);
+    labels.push(...selectedAddonObjects.map((a) => a.name));
+
     addItem({
       product_id: product.id,
       product_name: product.name,
@@ -99,6 +104,7 @@ export default function SelectLensesPage() {
         ...(selectedLensTypeId && selectedLensTypeId !== -1 ? [selectedLensTypeId] : []),
         ...selectedAddonIds,
       ],
+      lens_option_labels: labels,
       lens_options_price: lensOptionsPrice,
       prescription: isNonRx ? null : prescription,
     });
@@ -137,22 +143,24 @@ export default function SelectLensesPage() {
               isSelected ? "border-[#E8670A] bg-[#FFF0E6]" : "border-[#e5e7eb] bg-white hover:border-[#E8670A]/50"
             }`}
           >
-            <div className="flex items-start justify-between gap-2">
-              <div className="flex items-center gap-3">
-                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${isSelected ? "border-[#E8670A]" : "border-gray-400"}`}>
-                  {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-[#E8670A]" />}
-                </div>
-                <div>
-                  <p className="text-[#1a1a1a] font-medium text-[14px]">{opt.label}</p>
-                  <p className="text-[#6b7280] text-[12px] mt-0.5">{opt.desc}</p>
-                </div>
+            <div className="flex items-center gap-3">
+              {/* Lens icon placeholder */}
+              <div className="w-[44px] h-[44px] rounded bg-[#f9fafb] border border-[#e5e7eb] flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 44 44" className="w-7 h-7" fill="none">
+                  <ellipse cx="22" cy="22" rx="14" ry="10" stroke="#E8670A" strokeWidth="2" />
+                  {opt.id !== "standard" && <ellipse cx="22" cy="22" rx="10" ry="6" fill="#E8670A" opacity=".12" />}
+                </svg>
               </div>
-              {isSelected && (
-                <CheckCircleIcon className="w-5 h-5 text-[#E8670A] shrink-0" />
-              )}
+              <div className="flex-1 min-w-0">
+                <p className="text-[#1a1a1a] font-medium text-[14px]">{opt.label}</p>
+                <p className="text-[#6b7280] text-[12px] mt-0.5">{opt.desc}</p>
+              </div>
               <span className="text-[#E8670A] text-sm font-medium shrink-0">
                 {opt.price === 0 ? "Included" : `+${formatPrice(opt.price)}`}
               </span>
+              {isSelected && (
+                <CheckCircleIcon className="w-5 h-5 text-green-500 shrink-0" />
+              )}
             </div>
           </button>
         );

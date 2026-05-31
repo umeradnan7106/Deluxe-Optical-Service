@@ -185,6 +185,7 @@ export default function ProductDetailPage() {
       sale_price: product!.sale_price ?? null,
       quantity,
       selected_lens_options: [],
+      lens_option_labels: [],
       lens_options_price: 0,
       prescription: null,
     });
@@ -232,25 +233,25 @@ export default function ProductDetailPage() {
 
             {/* Rating */}
             {product.average_rating !== null && (
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-3">
                 <StarRating rating={product.average_rating} size="md" />
                 <span className="text-[#6b7280] text-sm">({product.review_count} reviews)</span>
               </div>
             )}
 
             {/* Title + SKU */}
-            <h1 className="font-['Cormorant_Garamond'] text-3xl text-[#1a1a1a] font-semibold leading-tight mb-1">
+            <h1 className="font-['Cormorant_Garamond'] text-3xl text-[#1a1a1a] font-semibold leading-tight mb-2">
               {product.name}
             </h1>
-            <p className="text-[#6b7280] text-xs mb-3">SKU: {product.sku}</p>
+            <p className="text-[#6b7280] text-xs mb-4">SKU: {product.sku}</p>
 
             {/* Short description */}
             {shortDesc && (
-              <p className="text-[#6b7280] text-[13px] leading-[1.6] mb-3">{shortDesc}</p>
+              <p className="text-[#6b7280] text-[13px] leading-[1.6] mb-4">{shortDesc}</p>
             )}
 
             {/* Price */}
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-3 mb-4">
               <span className="text-[#E8670A] text-2xl font-bold">{formatPrice(displayPrice)}</span>
               {product.sale_price && (
                 <>
@@ -260,11 +261,11 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            <hr className="border-[#e5e7eb] my-3" />
+            <hr className="border-[#e5e7eb] my-4" />
 
             {/* Variants */}
             {product.variants.length > 0 && (
-              <div className="mb-4">
+              <div className="mb-5">
                 <p className="text-[#6b7280] text-sm mb-2">
                   Color: <span className="text-[#1a1a1a] font-medium">{variant?.color_name}</span>
                 </p>
@@ -286,7 +287,7 @@ export default function ProductDetailPage() {
 
             {/* Frame size */}
             {frameSizeStr && (
-              <div className="mb-3">
+              <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-[#6b7280] text-sm">Frame Size</p>
                   <button
@@ -302,7 +303,7 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            <hr className="border-[#e5e7eb] my-3" />
+            <hr className="border-[#e5e7eb] my-4" />
 
             {/* Select Lenses CTA — immediately after frame size divider */}
             <Link href={`/products/${product.slug}/select-lenses`} className="block w-full mb-1">
@@ -396,7 +397,7 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="py-8">
-          {/* Features & Size tab (FIX 10) */}
+          {/* Features & Size tab */}
           {tab === "features" && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Left: spec table */}
@@ -407,10 +408,14 @@ export default function ProductDetailPage() {
                     { label: "Color", value: variant?.color_name },
                     { label: "Material", value: product.material },
                     { label: "Shape", value: product.frame_shape },
-                    { label: "Rim", value: product.rim_type },
+                    { label: "Rim Type", value: product.rim_type },
+                    { label: "Frame Width", value: product.frame_width_mm ? `${product.frame_width_mm}mm` : null },
+                    { label: "Lens Width", value: product.lens_width_mm ? `${product.lens_width_mm}mm` : null },
+                    { label: "Bridge", value: product.bridge_mm ? `${product.bridge_mm}mm` : null },
+                    { label: "Temple Length", value: product.temple_mm ? `${product.temple_mm}mm` : null },
                   ].filter(({ value }) => value).map(({ label, value }) => (
                     <div key={label} className="flex items-start gap-2 border-b border-[#f3f4f6] pb-3">
-                      <span className="text-[#6b7280] w-[90px] shrink-0">• {label}</span>
+                      <span className="text-[#6b7280] w-[100px] shrink-0">• {label}</span>
                       <span className="text-[#1a1a1a] font-medium capitalize">{value}</span>
                     </div>
                   ))}
@@ -432,11 +437,12 @@ export default function ProductDetailPage() {
                 </Link>
               </div>
 
-              {/* Right: first product image */}
+              {/* Right: product image (compact, no extra whitespace) */}
               {allImages[0] && (
-                <div>
-                  <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden">
-                    <div className="relative aspect-[4/3]">
+                <div className="space-y-3">
+                  {/* Front view */}
+                  <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden p-2">
+                    <div className="relative" style={{ paddingTop: "50%" }}>
                       <Image
                         src={allImages[0].url}
                         alt={allImages[0].alt_text || product.name}
@@ -446,13 +452,27 @@ export default function ProductDetailPage() {
                       />
                     </div>
                   </div>
+                  {/* Side view (second image if available) */}
+                  {allImages[1] && (
+                    <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden p-2">
+                      <div className="relative" style={{ paddingTop: "45%" }}>
+                        <Image
+                          src={allImages[1].url}
+                          alt={allImages[1].alt_text || `${product.name} side view`}
+                          fill
+                          className="object-contain"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </div>
+                    </div>
+                  )}
                   {(product.lens_width_mm || product.bridge_mm || product.temple_mm) && (
-                    <p className="text-[#6b7280] text-[11px] mt-2 text-center">
+                    <p className="text-[#6b7280] text-[11px] text-center">
                       {[
                         product.lens_width_mm && `${product.lens_width_mm}mm lens`,
                         product.bridge_mm && `${product.bridge_mm}mm bridge`,
                         product.temple_mm && `${product.temple_mm}mm temple`,
-                      ].filter(Boolean).join(" | ")}
+                      ].filter(Boolean).join(" · ")}
                     </p>
                   )}
                 </div>

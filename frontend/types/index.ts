@@ -111,6 +111,7 @@ export interface CartItem {
   sale_price: number | null;
   quantity: number;
   selected_lens_options: number[];
+  lens_option_labels?: string[];
   lens_options_price: number;
   prescription: PrescriptionData | null;
 }

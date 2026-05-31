@@ -229,23 +229,20 @@ export default function ProductForm({ productId }: ProductFormProps) {
         editor.commands.setContent(p.description);
       }
 
-      setVariants(p.variants.map((v, i) => {
-        const measurements = v.size_label?.split("□") ?? [];
-        return {
-          _key: `existing-${v.id ?? i}`,
-          id: v.id,
-          color_name: v.color_name,
-          color_hex: v.color_hex ?? "#000000",
-          size_label: v.size_label ?? "",
-          lens_width: measurements[0] ?? "",
-          bridge: measurements[1] ?? "",
-          temple: measurements[2] ?? "",
-          sku_variant: v.sku_variant ?? "",
-          price: v.price ? String(v.price) : "",
-          stock: String(v.stock),
-          is_active: v.is_active,
-        };
-      }));
+      setVariants(p.variants.map((v, i) => ({
+        _key: `existing-${v.id ?? i}`,
+        id: v.id,
+        color_name: v.color_name,
+        color_hex: v.color_hex ?? "#000000",
+        size_label: v.size_label ?? "",
+        lens_width: "",
+        bridge: "",
+        temple: "",
+        sku_variant: v.sku_variant ?? "",
+        price: v.price ? String(v.price) : "",
+        stock: String(v.stock),
+        is_active: v.is_active,
+      })));
 
       const allImages: ImageRow[] = [];
       p.variants.forEach((v) => {
@@ -284,12 +281,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
   function updateVariant(key: string, field: keyof VariantRow, value: string | boolean) {
     setVariants((rows) => rows.map((r) => {
       if (r._key !== key) return r;
-      const updated = { ...r, [field]: value };
-      // Auto-build size_label from measurements
-      if (field === "lens_width" || field === "bridge" || field === "temple") {
-        updated.size_label = `${updated.lens_width}□${updated.bridge}-${updated.temple}`;
-      }
-      return updated;
+      return { ...r, [field]: value };
     }));
   }
 
@@ -558,38 +550,50 @@ export default function ProductForm({ productId }: ProductFormProps) {
         </Section>
 
         {/* 4. Variants */}
-        <Section title="Variants">
+        <Section title="Variants (Colors & Sizes)">
+          <p className="text-gray-400 text-xs mb-3">Each row is one color. For multiple sizes of the same color, add separate rows. Size label is optional (e.g. &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;).</p>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
                 <tr className="text-gray-600 border-b border-gray-200">
-                  <th className="pb-2 text-left pr-3 min-w-[120px]">Color Name</th>
-                  <th className="pb-2 text-left pr-3 w-16">Hex</th>
-                  <th className="pb-2 text-left pr-3 w-28">Lens□Bridge-Temple</th>
-                  <th className="pb-2 text-left pr-3 min-w-[100px]">SKU Variant</th>
-                  <th className="pb-2 text-left pr-3 w-20">Price</th>
-                  <th className="pb-2 text-left pr-3 w-16">Stock</th>
-                  <th className="pb-2 text-left pr-3 w-12">Active</th>
+                  <th className="pb-2 text-left pr-2 min-w-[120px]">Color Name *</th>
+                  <th className="pb-2 text-left pr-2 w-16">Color</th>
+                  <th className="pb-2 text-left pr-2 w-24">Size Label</th>
+                  <th className="pb-2 text-left pr-2">Lens □ Bridge - Temple</th>
+                  <th className="pb-2 text-left pr-2 w-24">SKU</th>
+                  <th className="pb-2 text-left pr-2 w-20">Price</th>
+                  <th className="pb-2 text-left pr-2 w-16">Stock *</th>
+                  <th className="pb-2 text-center pr-2 w-12">Active</th>
                   <th className="pb-2 w-6"></th>
                 </tr>
               </thead>
               <tbody>
                 {variants.map((row) => (
-                  <tr key={row._key} className="border-b border-gray-100">
-                    <td className="py-2 pr-3">
+                  <tr key={row._key} className="border-b border-gray-100 align-middle">
+                    <td className="py-2 pr-2">
                       <input value={row.color_name}
                         onChange={(e) => updateVariant(row._key, "color_name", e.target.value)}
                         className={inputCls + " !py-1"} placeholder="e.g. Matte Black" />
                     </td>
-                    <td className="py-2 pr-3">
-                      <div className="flex items-center gap-1">
-                        <input type="color" value={row.color_hex}
-                          onChange={(e) => updateVariant(row._key, "color_hex", e.target.value)}
-                          className="w-8 h-8 rounded cursor-pointer bg-transparent border-0" />
-                        <span className="text-gray-400 font-mono text-[10px]">{row.color_hex}</span>
-                      </div>
+                    <td className="py-2 pr-2">
+                      <input type="color" value={row.color_hex}
+                        onChange={(e) => updateVariant(row._key, "color_hex", e.target.value)}
+                        className="w-8 h-8 rounded cursor-pointer bg-transparent border border-gray-200" title={row.color_hex} />
                     </td>
-                    <td className="py-2 pr-3">
+                    <td className="py-2 pr-2">
+                      <select value={row.size_label}
+                        onChange={(e) => updateVariant(row._key, "size_label", e.target.value)}
+                        className={selectCls + " !py-1"}>
+                        <option value="">—</option>
+                        <option value="XS">XS</option>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+                        <option value="XL">XL</option>
+                        <option value="One Size">One Size</option>
+                      </select>
+                    </td>
+                    <td className="py-2 pr-2">
                       <div className="flex items-center gap-1">
                         <input value={row.lens_width}
                           onChange={(e) => updateVariant(row._key, "lens_width", e.target.value)}
@@ -604,22 +608,22 @@ export default function ProductForm({ productId }: ProductFormProps) {
                           className={inputCls + " !py-1 w-12"} placeholder="140" />
                       </div>
                     </td>
-                    <td className="py-2 pr-3">
+                    <td className="py-2 pr-2">
                       <input value={row.sku_variant}
                         onChange={(e) => updateVariant(row._key, "sku_variant", e.target.value.toUpperCase())}
-                        className={inputCls + " !py-1"} placeholder="e.g. RB3025-BLK" />
+                        className={inputCls + " !py-1"} placeholder="e.g. BLK-SM" />
                     </td>
-                    <td className="py-2 pr-3">
+                    <td className="py-2 pr-2">
                       <input type="number" value={row.price}
                         onChange={(e) => updateVariant(row._key, "price", e.target.value)}
                         className={inputCls + " !py-1"} placeholder="—" min="0" />
                     </td>
-                    <td className="py-2 pr-3">
+                    <td className="py-2 pr-2">
                       <input type="number" value={row.stock}
                         onChange={(e) => updateVariant(row._key, "stock", e.target.value)}
                         className={inputCls + " !py-1"} placeholder="0" min="0" />
                     </td>
-                    <td className="py-2 pr-3 text-center">
+                    <td className="py-2 pr-2 text-center">
                       <input type="checkbox" checked={row.is_active}
                         onChange={(e) => updateVariant(row._key, "is_active", e.target.checked)}
                         className="accent-[#E8670A]" />
@@ -637,7 +641,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
             <button type="button" onClick={addVariant}
               className="mt-3 flex items-center gap-1 text-[#E8670A] text-xs hover:text-orange-300 transition-colors">
               <PlusIcon className="w-4 h-4" />
-              Add Row
+              Add Color / Size
             </button>
           </div>
         </Section>
