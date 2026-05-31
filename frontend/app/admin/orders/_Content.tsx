@@ -67,10 +67,10 @@ export default function AdminOrdersPage() {
       <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold mb-6">Orders</h1>
 
       {/* Status tabs */}
-      <div className="flex gap-2 mb-4 flex-wrap">
+      <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-none pb-1">
         {STATUS_TABS.map((tab) => (
           <button key={tab} onClick={() => changeTab(tab)}
-            className={`px-4 py-2 rounded text-sm capitalize transition-colors ${activeTab === tab ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
+            className={`shrink-0 px-4 py-2 rounded text-sm capitalize transition-colors ${activeTab === tab ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
             {tab}
           </button>
         ))}
@@ -82,8 +82,8 @@ export default function AdminOrdersPage() {
         className="w-full max-w-md bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded mb-4 outline-none focus:border-[#E8670A]" />
 
       {/* Table */}
-      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden overflow-x-auto">
+        <table className="w-full text-sm min-w-[700px]">
           <thead>
             <tr className="border-b border-gray-200 text-gray-500 text-left">
               <th className="px-4 py-3">Order ID</th>

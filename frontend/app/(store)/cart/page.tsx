@@ -31,8 +31,9 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-8">
-      <h1 className="font-['Cormorant_Garamond'] text-3xl text-[#1a1a1a] font-semibold mb-6">
+    <>
+    <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-24 md:pb-8">
+      <h1 className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-[#1a1a1a] font-semibold mb-5 md:mb-6">
         Shopping Cart ({items.length} item{items.length !== 1 ? "s" : ""})
       </h1>
 
@@ -68,7 +69,7 @@ export default function CartPage() {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
         {/* Cart items — 70% */}
         <div className="lg:w-[70%]">
           {items.map((item) => (
@@ -82,5 +83,15 @@ export default function CartPage() {
         </div>
       </div>
     </div>
+
+    {/* Mobile sticky checkout button */}
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#e5e7eb] px-4 py-3 shadow-lg">
+      <Link href="/checkout" className="block">
+        <button className="w-full bg-[#E8670A] hover:bg-[#C45408] text-white rounded-[5px] py-3.5 text-sm font-medium transition-colors min-h-[44px]">
+          Proceed to Checkout — {formatPrice(subtotal)}
+        </button>
+      </Link>
+    </div>
+    </>
   );
 }

@@ -21,8 +21,8 @@ export default function Navbar() {
 
   return (
     <nav className="bg-[#1a1a1a] border-b border-[#2a2a2a] hidden md:block">
-      <div className="max-w-[1500px] mx-auto px-6 flex items-center justify-between h-11">
-        <ul className="flex items-center gap-1">
+      <div className="max-w-[1500px] mx-auto px-6 flex items-center justify-between h-11 overflow-x-auto scrollbar-none">
+        <ul className="flex items-center gap-1 flex-nowrap">
           {NAV_LINKS.map(({ href, label, orange }) => {
             const isActive = pathname === href || (href !== "/" && pathname.startsWith(href.split("?")[0]));
             return (

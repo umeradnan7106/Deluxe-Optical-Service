@@ -5,15 +5,15 @@ const MESSAGE =
 
 export default function AnnounceBar() {
   return (
-    <div className="bg-[#E8670A] text-white text-xs font-medium py-2 overflow-hidden">
+    <div className="bg-[#E8670A] text-white font-medium overflow-hidden py-1.5 md:py-2 text-[10px] md:text-xs">
       {/* Desktop: static centred text */}
       <p className="hidden md:block text-center px-4">{MESSAGE}</p>
 
       {/* Mobile: CSS marquee */}
-      <div className="flex md:hidden">
-        <span className="animate-marquee whitespace-nowrap px-4">{MESSAGE}</span>
-        <span className="animate-marquee whitespace-nowrap px-4" aria-hidden>
-          {MESSAGE}
+      <div className="flex md:hidden px-4">
+        <span className="animate-marquee whitespace-nowrap">{MESSAGE}&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+        <span className="animate-marquee whitespace-nowrap" aria-hidden>
+          {MESSAGE}&nbsp;&nbsp;·&nbsp;&nbsp;
         </span>
       </div>
     </div>

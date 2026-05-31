@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { CheckCircleIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { productsApi } from "@/lib/api";
 import type { Product, PrescriptionData, LensOption } from "@/types";
 import LensStep1Usage from "@/components/lenses/LensStep1Usage";
@@ -189,9 +190,21 @@ export default function SelectLensesPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-8">
+      {/* ── Mobile: sticky summary bar at top ── */}
+      <MobileSummaryBar
+        productName={product.name}
+        thumbnail={thumbnail}
+        total={total}
+        framePrice={framePrice}
+        selectedLensType={selectedLensType}
+        selectedCoating={selectedCoating ?? null}
+        selectedAddonObjects={selectedAddonObjects}
+        prescription={prescription}
+      />
+
+      <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-4 md:py-8">
         <div className="flex flex-col md:flex-row gap-0">
-          {/* Left panel — 50% */}
+          {/* Left panel — 50% — desktop only */}
           <div className="hidden md:flex md:w-1/2 pr-8">
             <LeftPanel
               productSlug={product.slug}
@@ -239,31 +252,32 @@ export default function SelectLensesPage() {
             <div className="mb-8">{stepContent[step]}</div>
 
             {/* Navigation */}
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-6">
               <button
                 onClick={() => setStep((s) => Math.max(0, s - 1))}
                 disabled={step === 0}
-                className="px-5 py-2.5 border border-[#e5e7eb] text-[#1a1a1a] rounded-[5px] text-sm font-medium hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="w-full sm:w-auto px-5 py-3 border border-[#e5e7eb] text-[#1a1a1a] rounded-[5px] text-sm font-medium hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors min-h-[44px] order-2 sm:order-1"
               >
                 Back
               </button>
-              <p className="text-[#6b7280] text-xs">Step {step + 1} of {STEPS.length}</p>
+              <p className="text-[#6b7280] text-xs text-center order-1 sm:order-2">Step {step + 1} of {STEPS.length}</p>
               {step < STEPS.length - 1 ? (
                 <Button
                   variant="primary"
                   size="md"
                   onClick={() => setStep((s) => s + 1)}
                   disabled={step === 0 && selectedLensTypeId === null}
+                  className="w-full sm:w-auto order-3"
                 >
                   Continue
                 </Button>
               ) : (
-                <div />
+                <div className="order-3" />
               )}
             </div>
 
-            {/* Mobile back link */}
-            <div className="md:hidden mt-4">
+            {/* Mobile back to frame link */}
+            <div className="md:hidden mt-3">
               <Link href={`/products/${slug}`} className="text-[#E8670A] text-sm underline">
                 ← Back to Frame
               </Link>
@@ -500,6 +514,81 @@ function ReviewStep({
         <ShoppingCartIcon className="w-4 h-4" />
         Add to Cart
       </button>
+    </div>
+  );
+}
+
+/* ── Mobile Summary Bar ─────────────────────────────────────────────── */
+interface MobileSummaryBarProps {
+  productName: string;
+  thumbnail: string | null;
+  total: number;
+  framePrice: number;
+  selectedLensType: LensOption | null;
+  selectedCoating: { id: string; label: string; price: number } | null;
+  selectedAddonObjects: LensOption[];
+  prescription: PrescriptionData | null;
+}
+
+function MobileSummaryBar({
+  productName, thumbnail, total, framePrice,
+  selectedLensType, selectedCoating, selectedAddonObjects, prescription,
+}: MobileSummaryBarProps) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="md:hidden sticky top-0 z-40 bg-white border-b border-[#e5e7eb] shadow-sm">
+      <button
+        className="w-full flex items-center gap-3 px-4 py-2.5 text-left"
+        onClick={() => setExpanded((o) => !o)}
+      >
+        {/* Thumbnail */}
+        <div className="relative w-12 h-10 shrink-0 rounded border border-[#e5e7eb] bg-white overflow-hidden">
+          {thumbnail ? (
+            <Image src={thumbnail} alt={productName} fill className="object-contain" sizes="48px" />
+          ) : (
+            <div className="w-full h-full bg-gray-100" />
+          )}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[#1a1a1a] text-[13px] font-medium truncate">{productName}</p>
+        </div>
+        <span className="text-[#E8670A] font-semibold text-sm shrink-0">{formatPrice(total)}</span>
+        <ChevronDownIcon className={`w-4 h-4 text-[#6b7280] transition-transform shrink-0 ${expanded ? "rotate-180" : ""}`} />
+      </button>
+
+      {expanded && (
+        <div className="px-4 pb-3 text-[13px] space-y-1.5 border-t border-[#f3f4f6]">
+          <div className="flex justify-between pt-2"><span className="text-[#6b7280]">Frame</span><span>{formatPrice(framePrice)}</span></div>
+          {selectedLensType && (
+            <div className="flex justify-between">
+              <span className="text-[#6b7280]">Lens: {selectedLensType.name}</span>
+              <span>{selectedLensType.price === 0 ? "Free" : `+${formatPrice(selectedLensType.price)}`}</span>
+            </div>
+          )}
+          {prescription && prescription.method !== "later" && (
+            <div className="flex justify-between">
+              <span className="text-[#6b7280]">Prescription</span>
+              <span>{prescription.method === "upload" ? "Photo" : "Manual"}</span>
+            </div>
+          )}
+          {selectedCoating && selectedCoating.id !== "standard" && (
+            <div className="flex justify-between">
+              <span className="text-[#6b7280]">{selectedCoating.label}</span>
+              <span>+{formatPrice(selectedCoating.price)}</span>
+            </div>
+          )}
+          {selectedAddonObjects.map((a) => (
+            <div key={a.id} className="flex justify-between">
+              <span className="text-[#6b7280]">{a.name}</span>
+              <span>+{formatPrice(a.price)}</span>
+            </div>
+          ))}
+          <div className="flex justify-between font-semibold border-t border-[#e5e7eb] pt-1.5">
+            <span>Total</span><span className="text-[#E8670A]">{formatPrice(total)}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

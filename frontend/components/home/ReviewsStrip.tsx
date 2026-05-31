@@ -27,8 +27,8 @@ export default function ReviewsStrip() {
   const displayReviews = reviews.length ? reviews : PLACEHOLDER_REVIEWS;
 
   return (
-    <section className="bg-[#f9fafb] py-16">
-      <div className="max-w-[1500px] mx-auto px-6">
+    <section className="bg-[#f9fafb] py-10 md:py-16">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="font-['Cormorant_Garamond'] text-5xl text-[#1a1a1a] font-bold">4.8</span>

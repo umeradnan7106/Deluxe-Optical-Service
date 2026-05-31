@@ -83,8 +83,8 @@ export default function HomePage() {
 
       {/* Trust Strip */}
       <section className="bg-white border-y border-[#e5e7eb]">
-        <div className="max-w-[1500px] mx-auto px-6 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 py-5 md:py-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
             {TRUST_ITEMS.map((item) =>
               item.href ? (
                 <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
@@ -119,18 +119,18 @@ export default function HomePage() {
       <CategoryGrid />
 
       {/* Bestsellers */}
-      <section className="bg-white py-16">
-        <div className="max-w-[1500px] mx-auto px-6">
-          <div className="flex items-end justify-between mb-8">
+      <section className="bg-white py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
+          <div className="flex items-end justify-between mb-6 md:mb-8">
             <div>
               <p className="text-[#E8670A] text-xs font-semibold uppercase tracking-widest mb-1">Best Sellers</p>
-              <h2 className="font-['Cormorant_Garamond'] text-4xl text-[#1a1a1a] font-semibold">Most Popular Frames</h2>
+              <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-[#1a1a1a] font-semibold">Most Popular Frames</h2>
             </div>
-            <Link href="/products?featured=true" className="text-[#E8670A] text-sm hover:underline font-medium">
+            <Link href="/products?featured=true" className="text-[#E8670A] text-sm hover:underline font-medium shrink-0 ml-4">
               View All
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
             {featured.length > 0
               ? featured.map((p) => <ProductCard key={p.id} product={p} />)
               : [1, 2, 3, 4].map((i) => <ProductSkeleton key={i} />)}
@@ -139,12 +139,12 @@ export default function HomePage() {
       </section>
 
       {/* Prescription CTA Banner */}
-      <section className="bg-[#0F0F0F] py-16">
-        <div className="max-w-[1500px] mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div>
+      <section className="bg-[#0F0F0F] py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
+            <div className="text-center md:text-left">
               <p className="text-[#E8670A] text-xs font-semibold uppercase tracking-widest mb-2">Custom Prescription</p>
-              <h2 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold leading-tight mb-4">
+              <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-white font-semibold leading-tight mb-4">
                 Prescription Lenses <span className="text-[#E8670A]">Made Just for You</span>
               </h2>
               <p className="text-[#6b7280] text-sm leading-relaxed mb-6">
@@ -163,18 +163,18 @@ export default function HomePage() {
       </section>
 
       {/* New Arrivals */}
-      <section className="bg-[#f9fafb] py-16">
-        <div className="max-w-[1500px] mx-auto px-6">
-          <div className="flex items-end justify-between mb-8">
+      <section className="bg-[#f9fafb] py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
+          <div className="flex items-end justify-between mb-6 md:mb-8">
             <div>
               <p className="text-[#E8670A] text-xs font-semibold uppercase tracking-widest mb-1">New Drops</p>
-              <h2 className="font-['Cormorant_Garamond'] text-4xl text-[#1a1a1a] font-semibold">New Arrivals</h2>
+              <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-[#1a1a1a] font-semibold">New Arrivals</h2>
             </div>
-            <Link href="/products" className="text-[#E8670A] text-sm hover:underline font-medium">
+            <Link href="/products" className="text-[#E8670A] text-sm hover:underline font-medium shrink-0 ml-4">
               View All
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
             {newArrivals.length > 0
               ? newArrivals.map((p) => <ProductCard key={p.id} product={p} />)
               : [1, 2, 3, 4].map((i) => <ProductSkeleton key={i} />)}
@@ -183,23 +183,23 @@ export default function HomePage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="bg-[#f9fafb] py-16 border-t border-[#e5e7eb]">
-        <div className="max-w-[1500px] mx-auto px-6">
+      <section className="bg-[#f9fafb] py-10 md:py-16 border-t border-[#e5e7eb]">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
           <div className="text-center">
             <p className="text-[#E8670A] text-[10px] font-semibold uppercase tracking-widest mb-1">Our Promise</p>
-            <h2 className="font-['Cormorant_Garamond'] text-[32px] text-[#1a1a1a] font-semibold">Why Choose DeluxeOpt?</h2>
-            <p className="text-[#6b7280] text-[14px] max-w-lg mx-auto mt-2 leading-relaxed">
+            <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-[32px] text-[#1a1a1a] font-semibold">Why Choose DeluxeOpt?</h2>
+            <p className="text-[#6b7280] text-[13px] md:text-[14px] max-w-lg mx-auto mt-2 leading-relaxed">
               We&apos;re committed to making quality eyewear accessible to everyone in Pakistan
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8 md:mt-10">
             {WHY_ITEMS.map(({ Icon, title, text }) => (
-              <div key={title} className="bg-white border border-[#e5e7eb] rounded-lg p-6 text-center">
-                <div className="w-16 h-16 bg-[#FFF0E6] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-9 h-9 text-[#E8670A]" />
+              <div key={title} className="bg-white border border-[#e5e7eb] rounded-lg p-4 md:p-6 text-center">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-[#FFF0E6] rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                  <Icon className="w-6 h-6 md:w-9 md:h-9 text-[#E8670A]" />
                 </div>
-                <h3 className="font-['Cormorant_Garamond'] text-[20px] text-[#1a1a1a] font-medium mb-2">{title}</h3>
-                <p className="text-[13px] text-[#6b7280] leading-[1.65]">{text}</p>
+                <h3 className="font-['Cormorant_Garamond'] text-[16px] md:text-[20px] text-[#1a1a1a] font-medium mb-1 md:mb-2">{title}</h3>
+                <p className="text-[12px] md:text-[13px] text-[#6b7280] leading-[1.65]">{text}</p>
               </div>
             ))}
           </div>
@@ -213,15 +213,15 @@ export default function HomePage() {
       <ReviewsStrip />
 
       {/* Final CTA */}
-      <section className="bg-[#E8670A] py-16">
-        <div className="max-w-[1500px] mx-auto px-6 text-center">
-          <h2 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold mb-3">
+      <section className="bg-[#E8670A] py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
+          <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-white font-semibold mb-3">
             Ready to Find Your Perfect Frames?
           </h2>
-          <p className="text-orange-100 mb-8 max-w-md mx-auto text-sm">
+          <p className="text-orange-100 mb-6 md:mb-8 max-w-md mx-auto text-sm">
             Shop hundreds of styles from Pakistan&apos;s top eyewear destination.
           </p>
-          <div className="flex gap-3 justify-center flex-wrap">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <Link href="/products">
               <Button variant="dark" size="lg">Browse All Frames</Button>
             </Link>

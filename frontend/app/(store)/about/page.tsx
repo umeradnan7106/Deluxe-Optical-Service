@@ -24,9 +24,9 @@ export default function AboutPage() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="bg-[#111111] border-b border-[#2a2a2a] py-20">
-        <div className="max-w-[1500px] mx-auto px-6 text-center">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Our Story</p>
-          <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-white font-semibold mb-4">
+          <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
             About Deluxe Opt Service
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
@@ -37,7 +37,7 @@ export default function AboutPage() {
 
       {/* Stats */}
       <section className="border-b border-gray-200 py-12">
-        <div className="max-w-[1500px] mx-auto px-6">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {STATS.map(({ value, label }) => (
               <div key={label} className="text-center">
@@ -51,7 +51,7 @@ export default function AboutPage() {
 
       {/* Story */}
       <section className="py-16">
-        <div className="max-w-[1500px] mx-auto px-6">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Who We Are</p>
@@ -85,7 +85,7 @@ export default function AboutPage() {
 
       {/* Values */}
       <section className="bg-gray-50 py-16">
-        <div className="max-w-[1500px] mx-auto px-6">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-2">Our Values</p>
             <h2 className="font-['Cormorant_Garamond'] text-4xl text-gray-900 font-semibold">Why Choose Us</h2>
@@ -103,7 +103,7 @@ export default function AboutPage() {
 
       {/* Mission */}
       <section className="py-16">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Our Mission</p>
           <blockquote className="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-gray-900 font-semibold leading-snug">
             &ldquo;To make every Pakistani see the world clearly — in style, with confidence, at a price they deserve.&rdquo;

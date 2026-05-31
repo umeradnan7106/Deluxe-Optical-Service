@@ -23,8 +23,8 @@ export default function CartItem({ item }: CartItemProps) {
   return (
     <div className="bg-white border border-[#e5e7eb] rounded-lg p-4 mb-3">
       <div className="flex gap-4">
-        {/* Image — 90×80, object-contain, white bg */}
-        <div className="relative shrink-0 rounded overflow-hidden bg-white border border-[#e5e7eb]" style={{ width: 90, height: 80 }}>
+        {/* Image */}
+        <div className="relative shrink-0 rounded overflow-hidden bg-white border border-[#e5e7eb] w-16 h-14 md:w-[90px] md:h-20">
           {item.thumbnail_url ? (
             <Image src={item.thumbnail_url} alt={item.product_name} fill className="object-contain" sizes="90px" />
           ) : (

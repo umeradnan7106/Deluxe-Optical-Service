@@ -6,6 +6,7 @@ body {
   background-color: #ffffff;
   color: #1a1a1a;
   font-family: 'Outfit', sans-serif;
+  min-width: 365px;
 }
 
 input, textarea, select {

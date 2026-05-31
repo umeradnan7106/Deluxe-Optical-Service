@@ -65,22 +65,22 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-[#111111] border-b border-[#2a2a2a] py-20">
-        <div className="max-w-[1500px] mx-auto px-6 text-center">
+      <section className="bg-[#111111] border-b border-[#2a2a2a] py-12 md:py-20">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Get in Touch</p>
-          <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-white font-semibold mb-4">Contact Us</h1>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
+          <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">Contact Us</h1>
+          <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto">
             Have a question about your order or need help choosing the right frames? We&apos;re here for you.
           </p>
         </div>
       </section>
 
       {/* 2-col */}
-      <section className="py-16">
-        <div className="max-w-[1500px] mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <section className="py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
             {/* Form */}
-            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+            <div className="bg-white rounded-xl p-5 md:p-8 border border-gray-200 shadow-sm">
               <h2 className="text-gray-900 text-xl font-semibold mb-6">Send us a Message</h2>
               {sent ? (
                 <div className="text-center py-12">
@@ -97,7 +97,7 @@ export default function ContactPage() {
                         value={form.name}
                         onChange={handleChange}
                         required
-                        className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                        className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 min-h-[44px] text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                       />
                     </div>
                     <div>
@@ -107,7 +107,7 @@ export default function ContactPage() {
                         value={form.phone}
                         onChange={handleChange}
                         type="tel"
-                        className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                        className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 min-h-[44px] text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                       />
                     </div>
                   </div>
@@ -119,7 +119,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       type="email"
                       required
-                      className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                      className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 min-h-[44px] text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                     />
                   </div>
                   <div>
@@ -128,7 +128,7 @@ export default function ContactPage() {
                       name="subject"
                       value={form.subject}
                       onChange={handleChange}
-                      className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                      className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 min-h-[44px] text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
                     >
                       <option value="">Select a subject…</option>
                       {SUBJECTS.map((s) => (

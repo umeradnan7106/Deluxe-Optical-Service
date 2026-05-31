@@ -36,7 +36,7 @@ const SLIDES = [
 ];
 
 const GlassesPlaceholder = () => (
-  <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" className="w-32 h-32 opacity-20">
+  <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" className="w-24 h-24 md:w-32 md:h-32 opacity-20">
     <rect x="5" y="15" width="70" height="50" rx="12" fill="none" stroke="white" strokeWidth="3" />
     <rect x="125" y="15" width="70" height="50" rx="12" fill="none" stroke="white" strokeWidth="3" />
     <path d="M75 40 Q100 28 125 40" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" />
@@ -64,58 +64,67 @@ export default function HeroSlider() {
 
   return (
     <section className="bg-[#0F0F0F] overflow-hidden">
-      <div className="max-w-[1500px] mx-auto px-6 w-full">
-        <div className="flex flex-col lg:flex-row gap-10 items-center py-12 min-h-[480px]">
-          {/* Left 50% — text */}
-          <div className="flex-1 lg:w-1/2">
-            <span className="inline-block border border-[#E8670A] text-[#E8670A] text-xs px-3 py-1 rounded-full mb-4">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 w-full">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-center pt-6 pb-4 lg:py-12 lg:min-h-[480px]">
+
+          {/* Image — order-first on mobile (top), order-last on desktop (right) */}
+          <div className="w-full order-1 lg:order-2 lg:w-1/2 shrink-0">
+            <div
+              className="aspect-video lg:aspect-[4/3] rounded-lg overflow-hidden flex items-center justify-center"
+              style={{ background: slide.gradient }}
+            >
+              <GlassesPlaceholder />
+            </div>
+          </div>
+
+          {/* Text — order-second on mobile (below image), order-first on desktop (left) */}
+          <div className="flex-1 order-2 lg:order-1 lg:w-1/2 text-center lg:text-left pb-4 lg:pb-0">
+            <span className="inline-block border border-[#E8670A] text-[#E8670A] text-[10px] md:text-xs px-3 py-1 rounded-full mb-3 md:mb-4">
               {slide.eyebrow}
             </span>
 
-            <h1 className="font-['Cormorant_Garamond'] text-[48px] md:text-[56px] text-white font-semibold leading-tight mb-4">
+            <h1
+              className="font-['Cormorant_Garamond'] text-white font-semibold leading-tight mb-3 md:mb-4"
+              style={{ fontSize: "clamp(24px, 6vw, 52px)" }}
+            >
               {slide.titlePre}
               <span className="text-[#E8670A]">{slide.titleOrange}</span>
               {"titlePost" in slide && slide.titlePost}
             </h1>
-            <p className="text-[#6b7280] text-[14px] leading-relaxed mb-8 max-w-lg">{slide.subtitle}</p>
 
-            <div className="flex gap-3 mb-10 flex-wrap">
-              <Link href={slide.cta1.href}>
-                <Button variant="primary" size="lg">{slide.cta1.label}</Button>
+            <p className="text-[#6b7280] text-[13px] leading-relaxed mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0">
+              {slide.subtitle}
+            </p>
+
+            {/* Buttons: full-width stacked on mobile, auto on desktop */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-8 md:mb-10">
+              <Link href={slide.cta1.href} className="w-full sm:w-auto">
+                <Button variant="primary" size="lg" className="w-full sm:w-auto">{slide.cta1.label}</Button>
               </Link>
-              <Link href={slide.cta2.href}>
-                <button className="px-6 py-3 border border-white text-white rounded-[5px] text-sm font-medium hover:bg-white/10 transition-colors">
+              <Link href={slide.cta2.href} className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto px-6 py-3 border border-white text-white rounded-[5px] text-sm font-medium hover:bg-white/10 transition-colors min-h-[44px]">
                   {slide.cta2.label}
                 </button>
               </Link>
             </div>
 
-            <div className="border-t border-[#2a2a2a] pt-6">
+            {/* Stats: always 2x2 */}
+            <div className="border-t border-[#2a2a2a] pt-5">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {STATS.map(({ value, label }) => (
                   <div key={label}>
-                    <p className="font-['Cormorant_Garamond'] text-[#E8670A] text-xl font-bold">{value}</p>
+                    <p className="font-['Cormorant_Garamond'] text-[#E8670A] text-lg md:text-xl font-bold">{value}</p>
                     <p className="text-[#6b7280] text-xs mt-0.5">{label}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-
-          {/* Right 50% — gradient placeholder */}
-          <div className="lg:w-1/2 shrink-0 hidden lg:block">
-            <div
-              className="aspect-[4/3] rounded-lg overflow-hidden flex items-center justify-center"
-              style={{ background: slide.gradient }}
-            >
-              <GlassesPlaceholder />
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Dot navigation */}
-      <div className="flex gap-2 justify-center pb-6">
+      {/* Dots */}
+      <div className="flex gap-2 justify-center py-4 md:pb-6">
         {SLIDES.map((_, i) => (
           <button
             key={i}

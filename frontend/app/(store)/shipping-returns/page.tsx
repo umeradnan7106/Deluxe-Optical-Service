@@ -18,20 +18,20 @@ export default function ShippingReturnsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-[#111111] border-b border-[#2a2a2a] py-20">
-        <div className="max-w-[1500px] mx-auto px-6 text-center">
+      <section className="bg-[#111111] border-b border-[#2a2a2a] py-12 md:py-20">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Policies</p>
-          <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-white font-semibold mb-4">
+          <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
             Shipping & Returns
           </h1>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
+          <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto">
             Fast, tracked delivery across Pakistan — and a hassle-free returns policy if something isn&apos;t right.
           </p>
         </div>
       </section>
 
-      <section className="py-16">
-        <div className="max-w-[1500px] mx-auto px-6 space-y-10">
+      <section className="py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 space-y-6 md:space-y-10">
 
           {/* Free Shipping Banner */}
           <div className="bg-[#FFF0E6] rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4 border border-[#E8670A]/30">
@@ -47,7 +47,7 @@ export default function ShippingReturnsPage() {
           </div>
 
           {/* Delivery Policy */}
-          <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+          <div className="bg-white rounded-xl p-5 md:p-8 border border-gray-200 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
               <TruckIcon className="w-6 h-6 text-[#E8670A]" />
               <h2 className="text-gray-900 text-xl font-semibold">Delivery Policy</h2>

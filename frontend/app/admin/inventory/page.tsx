@@ -76,8 +76,8 @@ export default function AdminInventoryPage() {
         ))}
       </div>
 
-      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden overflow-x-auto">
+        <table className="w-full text-sm min-w-[500px]">
           <thead>
             <tr className="border-b border-gray-200 text-gray-500 text-left">
               <th className="px-4 py-3">Product</th>

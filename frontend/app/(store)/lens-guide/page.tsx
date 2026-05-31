@@ -75,19 +75,19 @@ export default function LensGuidePage() {
   return (
     <div className="bg-[#0F0F0F] min-h-screen">
       {/* Hero */}
-      <section className="bg-[#111111] border-b border-[#2a2a2a] py-20">
-        <div className="max-w-[1500px] mx-auto px-6 text-center">
+      <section className="bg-[#111111] border-b border-[#2a2a2a] py-12 md:py-20">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Lens Education</p>
-          <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-white font-semibold mb-4">Lens Guide</h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+          <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">Lens Guide</h1>
+          <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Not sure which lens is right for you? We break down every option so you can make the best choice for your eyes and lifestyle.
           </p>
         </div>
       </section>
 
       {/* Lens Sections */}
-      <section className="py-16">
-        <div className="max-w-[1500px] mx-auto px-6 space-y-12">
+      <section className="py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 space-y-10 md:space-y-12">
           {LENS_TYPES.map(({ id, name, color, badge, description, benefits, cta }, idx) => (
             <div
               key={name}
@@ -120,7 +120,7 @@ export default function LensGuidePage() {
               </div>
 
               {/* Color block */}
-              <div className={`rounded-xl p-12 flex items-center justify-center ${idx % 2 === 1 ? "lg:order-1" : ""}`} style={{ backgroundColor: `${color}15`, border: `1px solid ${color}30` }}>
+              <div className={`rounded-xl p-6 md:p-12 flex items-center justify-center ${idx % 2 === 1 ? "lg:order-1" : ""}`} style={{ backgroundColor: `${color}15`, border: `1px solid ${color}30` }}>
                 <div className="text-center">
                   <div className="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: `${color}25` }}>
                     <div className="w-12 h-12 rounded-full" style={{ backgroundColor: color }} />
@@ -134,9 +134,9 @@ export default function LensGuidePage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#111111] border-t border-[#2a2a2a] py-16">
-        <div className="max-w-[1500px] mx-auto px-6 text-center">
-          <h2 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold mb-3">
+      <section className="bg-[#111111] border-t border-[#2a2a2a] py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
+          <h2 className="font-['Cormorant_Garamond'] text-2xl md:text-4xl text-white font-semibold mb-3">
             Ready to Find Your Perfect Lenses?
           </h2>
           <p className="text-gray-400 mb-8 max-w-lg mx-auto">

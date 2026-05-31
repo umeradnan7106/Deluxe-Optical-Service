@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: "365px",
+      },
       fontFamily: {
         cormorant: ["var(--font-cormorant)", "serif"],
         outfit: ["var(--font-outfit)", "sans-serif"],

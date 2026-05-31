@@ -24,7 +24,7 @@ export default function OrderConfirmationPage() {
       {/* Order ID box */}
       <div className="bg-[#0F0F0F] rounded-lg p-5 text-center mb-6">
         <p className="text-[#6b7280] text-sm mb-1">Your Order ID</p>
-        <p className="font-mono text-2xl font-bold">
+        <p className="font-mono text-[18px] md:text-2xl font-bold">
           <span className="text-[#E8670A]">#</span>
           <span className="text-white">{orderId}</span>
         </p>
@@ -54,13 +54,13 @@ export default function OrderConfirmationPage() {
         A confirmation will be sent to your registered contact. Save your Order ID for tracking.
       </p>
 
-      {/* Actions */}
-      <div className="flex gap-3 justify-center">
-        <Link href={`/tracking?order_number=${orderId}`}>
-          <Button variant="primary" size="lg">Track My Order</Button>
+      {/* Actions — stacked on mobile, side by side on tablet+ */}
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <Link href={`/tracking?order_number=${orderId}`} className="w-full sm:w-auto">
+          <Button variant="primary" size="lg" className="w-full sm:w-auto">Track My Order</Button>
         </Link>
-        <Link href="/products">
-          <button className="px-6 py-3 border border-[#e5e7eb] text-[#1a1a1a] rounded-[5px] text-sm font-medium hover:bg-gray-50 transition-colors">
+        <Link href="/products" className="w-full sm:w-auto">
+          <button className="w-full sm:w-auto px-6 py-3 border border-[#e5e7eb] text-[#1a1a1a] rounded-[5px] text-sm font-medium hover:bg-gray-50 transition-colors min-h-[44px]">
             Continue Shopping
           </button>
         </Link>

@@ -53,7 +53,7 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
                 className={`relative shrink-0 rounded-md overflow-hidden border-2 bg-white transition-colors ${
                   idx === activeIdx ? "border-[#E8670A]" : "border-[#e5e7eb] hover:border-[#E8670A]/50"
                 }`}
-                style={{ width: 80, height: 70 }}
+                style={{ width: 60, height: 52 }}
               >
                 <Image src={img.url} alt={img.alt_text || productName} fill className="object-contain" sizes="80px" />
               </button>

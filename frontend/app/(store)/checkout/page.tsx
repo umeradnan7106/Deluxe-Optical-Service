@@ -101,30 +101,40 @@ export default function CheckoutPage() {
 
   return (
     <div className="bg-[#f9fafb] min-h-screen">
-      <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-8">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-[#1a1a1a] font-semibold mb-6">Checkout</h1>
+      <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-24 md:pb-8">
+        <h1 className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-[#1a1a1a] font-semibold mb-5 md:mb-6">Checkout</h1>
 
-        {/* Step indicator */}
-        <div className="flex items-center mb-8">
-          {STEPS.map((s, i) => {
-            const completed = i < step;
-            const current = i === step;
-            return (
-              <div key={s} className="flex items-center">
-                <div className="flex items-center gap-2">
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                    completed ? "bg-green-500 text-white" : current ? "bg-[#E8670A] text-white" : "bg-[#e5e7eb] text-[#6b7280]"
-                  }`}>
-                    {completed ? <CheckCircleIcon className="w-5 h-5" /> : i + 1}
+        {/* Step indicator — compact on mobile, full dots on desktop */}
+        <div className="mb-6 md:mb-8">
+          {/* Mobile: text indicator */}
+          <div className="md:hidden flex items-center gap-2 text-sm text-[#6b7280]">
+            <span className="text-[#E8670A] font-medium">Step {step + 1} of {STEPS.length}</span>
+            <span>—</span>
+            <span className="text-[#1a1a1a] font-medium">{STEPS[step]}</span>
+          </div>
+
+          {/* Desktop: dots */}
+          <div className="hidden md:flex items-center">
+            {STEPS.map((s, i) => {
+              const completed = i < step;
+              const current = i === step;
+              return (
+                <div key={s} className="flex items-center">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+                      completed ? "bg-green-500 text-white" : current ? "bg-[#E8670A] text-white" : "bg-[#e5e7eb] text-[#6b7280]"
+                    }`}>
+                      {completed ? <CheckCircleIcon className="w-5 h-5" /> : i + 1}
+                    </div>
+                    <span className={`text-sm font-medium ${current ? "text-[#E8670A]" : completed ? "text-green-600" : "text-[#6b7280]"}`}>{s}</span>
                   </div>
-                  <span className={`text-sm font-medium ${current ? "text-[#E8670A]" : completed ? "text-green-600" : "text-[#6b7280]"}`}>{s}</span>
+                  {i < STEPS.length - 1 && (
+                    <div className={`mx-3 h-0.5 w-20 rounded ${i < step ? "bg-green-500" : "bg-[#e5e7eb]"}`} />
+                  )}
                 </div>
-                {i < STEPS.length - 1 && (
-                  <div className={`mx-3 h-0.5 w-12 md:w-20 rounded ${i < step ? "bg-green-500" : "bg-[#e5e7eb]"}`} />
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
@@ -134,7 +144,7 @@ export default function CheckoutPage() {
               {step === 0 && (
                 <div className="space-y-4">
                   <h2 className="font-['Cormorant_Garamond'] text-xl text-[#1a1a1a] font-semibold mb-4">Delivery Details</h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className={labelCls}>Full Name <span className="text-red-400">*</span></label>
                       <input
@@ -175,7 +185,7 @@ export default function CheckoutPage() {
                     />
                     {errors.address && <p className="text-red-500 text-xs mt-0.5">{errors.address}</p>}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className={labelCls}>Province <span className="text-red-400">*</span></label>
                       <select
@@ -337,6 +347,19 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
+
+      {/* Mobile sticky Place Order button — only on review step */}
+      {step === 2 && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#e5e7eb] px-4 py-3 shadow-lg">
+          <button
+            onClick={handlePlaceOrder}
+            disabled={submitting}
+            className="w-full bg-[#E8670A] hover:bg-[#C45408] text-white rounded-[5px] py-3.5 text-sm font-medium transition-colors disabled:opacity-50 min-h-[44px]"
+          >
+            {submitting ? "Placing Order…" : `Place Order — ${formatPrice(total)}`}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

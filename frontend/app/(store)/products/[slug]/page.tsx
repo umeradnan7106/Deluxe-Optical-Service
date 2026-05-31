@@ -194,7 +194,7 @@ export default function ProductDetailPage() {
 
   return (
     <>
-      <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-8">
+      <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-24 md:pb-8">
         {/* Breadcrumb */}
         <nav className="flex gap-2 text-xs text-[#6b7280] mb-6">
           <Link href="/" className="hover:text-[#E8670A]">Home</Link>
@@ -380,13 +380,13 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Tabs */}
-        <div className="mt-12 border-b border-[#e5e7eb]">
-          <div className="flex gap-0">
+        <div className="mt-8 md:mt-12 border-b border-[#e5e7eb]">
+          <div className="flex gap-0 overflow-x-auto scrollbar-none">
             {(["features", "description", "lenses"] as Tab[]).map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-6 py-3 text-sm font-medium border-b-2 -mb-px transition-colors ${
+                className={`shrink-0 px-4 md:px-6 py-3 text-sm font-medium border-b-2 -mb-px transition-colors min-h-[44px] ${
                   tab === t ? "border-[#E8670A] text-[#E8670A]" : "border-transparent text-[#6b7280] hover:text-[#1a1a1a]"
                 }`}
               >

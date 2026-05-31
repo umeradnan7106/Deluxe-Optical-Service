@@ -1,258 +1,374 @@
-Okay, some of these things have been completed, but many are still remaining. Complete all of them. Also, there were some details that I did not fully explain before, so implement those properly as well.
-
-I had explained some things very clearly that needed to be done, but they still have not been implemented. Now I am going to explain everything clearly, including what should be added and what should not.
-Do not explain to Claude Code how to implement these things technically. Just clearly explain in English what needs to be built, and I will give it to Claude Code.
-
-## First, the Product Page:
-### 1.
-The Category should appear above the Title in orange color.
-
-### 2.
-Currently, the size is displayed like this:
-45□30-150
-But I had said it should be displayed like this:
-Small (45□30-150)
-There is currently no option in the Admin Panel under Products to enter this information, so add that option there because it needs to be displayed here.
-
-### 3.
-The Size Chart button has been added, but I had said that we will upload the image from the Admin Panel. There is currently no option anywhere to upload that image.
-
-### 4.
-The Quantity and Add to Cart sections are currently using a 40% / 60% layout. Change them to 20% / 80%.
-
-### 5.
-The "Select Your Lenses" button and the text below it should appear directly below the Size divider. You placed them below the Add to Cart button. Move them to the correct location.
-
-### 6.
-In the Product Info section on the right side, add a little more vertical spacing between all items.
-
-### 7.
-The Features and Size section is mostly correct, but there are still some issues:
-
-* The image width is fine, but the height is too large.
-* Remove the extra white space around the image.
-* Slightly reduce the width if needed.
-* I had asked for measurement lines to be displayed on top of the image, along with the entered size values.
-
-* The side image that I mentioned should also be added, but it has not been implemented.
-
-* Also add and display:
-  * Frame Width
-  * Lens Width
-  * Bridge
-  * Temple Length
-
----
-
-# Now Fix the "Select Your Lenses" Page
-
-### 1.
-
-Make both sections 50% / 50%.
-
-### 2.
-In the left box:
-
-* Show a large product image centered at the top.
-* Below that, show the product title in heading size.
-* Below that, show the selected color.
-* Then show the information box that is already working correctly.
-
-
-### 3.
-On the right side, the usage options can remain, but the selection method should change.
-Currently, a radio selector appears when selecting an option.
-
-Instead:
-
-* Remove the radio selector.
-
-* Show a green checkmark on the right side of the selected card.
-
-* Where the radio button currently appears on the left side, display images of the same size as the existing cards.
-
-
-### 4.
-Previously, I only asked for the Coating step to be removed.
-Instead, both Lens and Coating were removed.
-Bring the Lens step back as Step 3.
-
-### 5.
-In Step 2 (Prescription), if someone uploads a photo, the upload is not working.
-Fix it.
-
-### 6.
-The biggest missing feature is that all selections made in the Select Your Lenses process should be displayed in detail inside the left box.
-
-
-For example:
-
-* Which Lens Type was selected
-
-* Prescription details entered manually
-
-* Which Lens was selected
-
-* Any other selected options
-
-
-Also, the current Review & Add to Cart step is Step 4. After adding the Lens step back, it should become Step 5.
-
-In that final review step, display everything in detail.
-If the user uploaded a prescription image, that image should also be displayed.
-
-### 7.
-Remove the "Order via WhatsApp" button from Review & Add to Cart.
-Add a cart icon to the Add to Cart button.
-
----
-
-
-
-# Now the Cart Page
-
-### 1.
-Change the layout to 70% / 30%.
-
-### 2.
-Improve the product image here as well.
-Make it slightly larger and display it properly.
-
-### 3.
-All selected details should be displayed properly.
-Display exactly what the customer selected.
-If a prescription image was uploaded, display it as well.
-The quantity field should not appear below the image.
-It should appear in line with the product details.
-There are several other details as well, so improve the overall presentation.
-
-### 4.
-Improve the Shipping Progress Bar.
-The customer should immediately understand:
-
-* What the bar represents
-* What benefit they will get after completing it
-
-Currently it is not very clear or visible.
-
----
-
-# Now the Admin Panel
-
-### 1.
-
-In the Dashboard, show a proper overview similar to Shopify.
-Show things like:
-* Conversion Rate
-* And 3–4 other important metrics
-in a concise overview.
-
-
-### 2.
-Add 3 new pages in the Admin Panel:
-* Analytics
-* Customers
-* Settings
-
-
-### 3.
-Analytics should contain the important information that Shopify provides.
-Only keep the useful and important metrics.
-
-### 4.
-In Customers:
-
-There should be two types of customers:
-* Customers who purchase while logged in
-* Customers who purchase without logging in
-
-
-The main reason for adding this is that we need data showing:
-* How many times a customer has purchased
-* Whether they are a logged-in customer or not
-
-
-### 5.
-Settings should contain the main settings such as:
-
-* Password settings
-
-* General settings
-
-* Other important configuration options
-
-### 6.
-Remove Lens Collection from the Admin Panel.
-We have made that section static through code, so there is no reason to keep it there anymore.
-
-### 7.
-Now let's talk about Edit Products and Add Products, because this is very important.
-
-#### Variants
-The current variant system is not good at all.
-
-
-The reason is:
-
-* Every product will always have at least one color.
-
-* A variant should not need to be created before adding a color.
-
-* What if a single color has 2–3 sizes?
-
-* Also, I had already asked for image sorting based on color.
-
-#### Lens Options
-Improve the Lens Options selection section inside Add Product.
-
-### 8.
-
-Now let's discuss Lens Options.
-First, let's talk about Progressive lenses.
-There will be 3–4 additional fields inside Progressive lenses.
-Currently, there is no place to enter those values.
-Add proper input fields for them.
-
-
-Also:
-* Allow image uploads for Lens Options.
-
-* When creating or editing Lens Options, provide more fields and organize them properly.
-
----
-
-
-# Full Website Changes
-
-### 1.
-Wishlist is not working.
-Fix it.
-
-
-### 2.
-The Search Bar in the header does not show suggestions while searching.
-Add search suggestions.
-
-### 3.
-When I log in, I get logged out automatically after some time and have to log in again.
-Fix this issue.
-
-### 4.
-
-If a Promo Code is configured as a percentage discount, it should deduct by percentage.
-Currently it is not calculating correctly.
-Fix it.
-
-### 5.
-The design and flow of all Checkout steps are very poor.
-
-Improve both:
-
-* The design
-
-* The overall process
-
-Make the checkout experience much better.
-
-
-These are all the changes that need to be made. I have now explained everything clearly. Explain all of these requirements to Claude Code in detail, but do not tell it how to write the code. Just provide these points as requirements and explain what needs to be built. Claude Code already knows how to implement it.
+Make the ENTIRE website fully responsive. Every page must work perfectly 
+on 365px wide mobile screens. Test every breakpoint: 365px, 390px, 768px, 1024px, 1280px+
+
+Do NOT change any backend files. Only frontend/ folder.
+
+=================================================================
+GLOBAL RESPONSIVE RULES (apply everywhere)
+=================================================================
+
+Breakpoints to use:
+- Mobile: 365px - 767px  (sm)
+- Tablet: 768px - 1023px (md)
+- Desktop: 1024px+       (lg)
+
+Global rules:
+- min-width: 365px on body — nothing should overflow below this
+- No horizontal scroll on any page
+- All text readable without zooming
+- All buttons minimum 44px height (touch target)
+- All inputs minimum 44px height
+- Padding on mobile: px-4 (16px) on all containers
+- Max-width containers: max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8
+
+=================================================================
+FIX 1 — HEADER (Mobile)
+=================================================================
+
+Desktop (lg+): current layout — logo left, search center, icons right
+Tablet (md): logo left, icons right, search below in second row
+Mobile (sm): 
+- Row 1: hamburger menu (left) + logo (center) + cart+account icons (right)
+- Row 2: search bar (full width, below)
+- Hide: wishlist icon on mobile (show in hamburger menu)
+- Hamburger menu opens a slide-in drawer from left:
+  - All nav links listed vertically
+  - Close button (×) at top right of drawer
+  - Overlay behind drawer (dark, click to close)
+
+Mobile header height: 56px
+Search bar on mobile: full width, below header row, px-4
+
+=================================================================
+FIX 2 — NAVBAR (Mobile)
+=================================================================
+
+Desktop: horizontal links row — keep as is
+Mobile: HIDE the navbar completely (links go into hamburger drawer instead)
+Tablet: horizontal scroll with overflow-x-auto, hide scrollbar
+
+=================================================================
+FIX 3 — ANNOUNCE BAR (Mobile)
+=================================================================
+
+Mobile: font-size 10px, single line with marquee/scroll animation
+or wrap to 2 lines with smaller text
+Padding: py-1.5 px-4
+
+=================================================================
+FIX 4 — FOOTER (Mobile)
+=================================================================
+
+Desktop: 5-column grid — keep as is
+Tablet: 3-column grid
+Mobile: single column stack
+- Each section stacked vertically
+- Collapsible sections (click heading to expand/collapse links)
+- Logo + description at top always visible
+- Payment badges at bottom
+- Social icons centered
+- Font size: 13px for links
+
+=================================================================
+FIX 5 — HOMEPAGE SECTIONS (Mobile)
+=================================================================
+
+HERO SLIDER:
+Desktop: 50/50 — text left, image right
+Mobile: 
+- Stack vertically: image on TOP (aspect 16/9, full width), text below
+- Text: centered, smaller font
+- H1: clamp(24px, 6vw, 52px)
+- Subtitle: 13px
+- Buttons: full width, stacked vertically
+- Stats: 2x2 grid (not 4 in a row)
+- Dots: centered below
+
+TRUST STRIP:
+Desktop: 5 items in a row
+Mobile: 2-column grid (2+2+1 layout) or horizontal scroll
+Tablet: 3 items per row
+
+SHOP BY GENDER:
+Desktop: 2 columns side by side
+Mobile: stack vertically (1 column), each card full width
+Card height mobile: 220px
+
+SHOP BY CATEGORY:
+Desktop: 6 cards grid auto-fill
+Mobile: horizontal scroll row (overflow-x-auto, no scrollbar)
+Each card: min-width 140px, height 160px
+Tablet: 3 columns grid
+
+BESTSELLERS / NEW ARRIVALS:
+Desktop: 4 cards per row
+Tablet: 3 cards per row  
+Mobile: 2 cards per row
+Card on mobile: smaller padding, smaller text
+
+PRESCRIPTION CTA BANNER:
+Desktop: 2 columns
+Mobile: single column, text centered, images hidden or stacked below
+
+LENS COLLECTION SECTION:
+Desktop: 2 columns (60/40)
+Mobile: single column — video first, pills below, then lens details
+Video: full width, aspect 16/9
+
+WHY CHOOSE US:
+Desktop: 4 columns
+Tablet: 2 columns
+Mobile: 2 columns (2x2 grid)
+Card: smaller padding on mobile
+
+REVIEWS:
+Desktop: 3 cards per row
+Mobile: single column, each card full width
+
+=================================================================
+FIX 6 — PRODUCT LISTING PAGE (Mobile)
+=================================================================
+
+Desktop: sidebar (220px) + main grid — keep as is
+Mobile:
+- HIDE sidebar by default
+- Show "Filters" button at top (with filter icon + count of active filters)
+- Clicking Filters opens a BOTTOM SHEET drawer:
+  - Full screen overlay from bottom
+  - Scrollable filter list
+  - "Apply Filters" button at bottom (sticky)
+  - "Clear All" + "×" close button at top
+- Sort By: show as horizontal scroll pills on mobile (not dropdown)
+  OR keep dropdown but make it full width
+- Product grid: 2 columns on mobile
+- Pagination: simplified on mobile (prev/next only, no page numbers)
+
+=================================================================
+FIX 7 — PRODUCT DETAIL PAGE (Mobile)
+=================================================================
+
+Desktop: 2-column (gallery left, info right) — keep as is
+Mobile: single column, stacked
+
+GALLERY on mobile:
+- Main image: full width, aspect 4/3, object-contain, white bg
+- Thumbnails: horizontal scroll row below main image
+- Thumbnail size: 60x52px
+
+RIGHT COLUMN on mobile:
+- All elements full width
+- Color swatches: flex wrap
+- Size buttons: flex wrap, smaller padding
+- Quantity + Add to Cart: 20/80 ratio still but full width of screen
+- USP grid: 2x2, smaller icons
+
+WIDTH GUIDE on mobile:
+- Full width
+- SVG diagram: scale down to fit
+- Table: font-size 12px
+
+PRODUCT TABS on mobile:
+- Tab nav: horizontal scroll (overflow-x-auto)
+- Tab content: full width
+- Features & Size: single column (specs list, then image below)
+- Description: single column (text, then image below)
+- Lens Recommendation: 1 column grid
+
+STICKY BOTTOM BAR on mobile:
+- Fixed bottom, full width
+- Height: 56px
+- Left: product name (truncated) + price
+- Right: 2 small buttons (Select Lenses + Add to Cart)
+- Make sure it doesn't overlap page content (add pb-16 to page on mobile)
+
+REVIEWS on mobile:
+- Single column
+- Star bars: full width
+- Review items: full width cards
+
+=================================================================
+FIX 8 — SELECT LENSES PAGE (Mobile)
+=================================================================
+
+Desktop: 50/50 split — keep as is
+Mobile: single column
+
+LEFT PANEL on mobile:
+- Shows as a compact summary bar at TOP of page (not side panel)
+- Shows: frame image (small, 48px) + frame name + total price
+- Collapsible: click to expand full price breakdown
+- Position: sticky top (below header)
+
+RIGHT PANEL on mobile:
+- Full width
+- Step tabs: horizontal scroll (overflow-x-auto)
+- Lens option cards: full width
+- Sub-options: full width
+- Prescription form: single column inputs
+- Prescription grid (OD/OS table): font-size 11px, smaller selects
+- Back/Continue buttons: full width, stacked or side by side
+
+=================================================================
+FIX 9 — CART PAGE (Mobile)
+=================================================================
+
+Desktop: 70/30 layout — keep as is
+Mobile: single column
+
+Cart items: full width cards
+- Image: 64x56px
+- Product name: 14px
+- Details: 11px
+- Qty + price on same row
+
+Order summary:
+- Full width card below items
+- Sticky bottom on mobile: show "Proceed to Checkout Rs. X" button
+
+Shipping bar: full width, clear text above bar
+
+=================================================================
+FIX 10 — CHECKOUT PAGE (Mobile)
+=================================================================
+
+Desktop: form left + sidebar right — keep as is
+Mobile: single column
+
+Step indicator:
+- Mobile: show only current step name + "Step X of 3"
+- Or: compact dots (● ○ ○)
+
+Form fields:
+- All full width on mobile
+- 2-column fields (name+phone) → single column on mobile
+- City + Province → single column on mobile
+
+Payment method cards:
+- Full width, stacked
+
+Order summary sidebar:
+- Shows at TOP on mobile (collapsed by default, expand to see items)
+- Or shows at BOTTOM after form
+
+Place Order button:
+- Full width, fixed bottom on mobile
+
+=================================================================
+FIX 11 — ORDER CONFIRMATION & TRACKING (Mobile)
+=================================================================
+
+ORDER CONFIRMATION:
+- Already centered, should mostly work
+- Max-width: 100% on mobile with px-4
+- Order ID box: smaller font (14px) on mobile
+- 2 buttons: stack vertically on mobile, full width
+
+ORDER TRACKING:
+- Max-width: 100% on mobile with px-4
+- Search input: full width
+- Timeline: works well on mobile already, just ensure proper spacing
+
+=================================================================
+FIX 12 — MY ACCOUNT PAGE (Mobile)
+=================================================================
+
+Desktop: sidebar nav (220px) + main content
+Mobile: 
+- HIDE sidebar
+- Show tabs at top as horizontal scroll pills
+- Each tab content: full width
+- Orders table on mobile:
+  - Remove some columns (show: Order ID, Total, Status, Action)
+  - Or: convert table to card list on mobile
+    Each order = a card with all info
+
+=================================================================
+FIX 13 — AUTH PAGES — LOGIN & REGISTER (Mobile)
+=================================================================
+
+- Form: max-width 400px, mx-auto, full width on mobile with px-4
+- All inputs: full width
+- Submit button: full width
+- Already mostly works, just ensure proper padding/margins
+
+=================================================================
+FIX 14 — INFO PAGES (Mobile)
+=================================================================
+
+ABOUT US:
+- Stats grid: 2x2 on mobile
+- Story section: single column
+
+CONTACT US:
+- 2-column layout → single column on mobile
+- Form full width
+- Info blocks full width
+
+FAQ:
+- 2-column (nav + accordion) → single column on mobile
+- Category nav: horizontal scroll pills on mobile
+- Accordion: full width
+
+BLOGS:
+- Category pills: horizontal scroll on mobile
+- Blog grid: 1 column on mobile
+
+LENS GUIDE & SHIPPING:
+- All sections: full width, single column on mobile
+
+=================================================================
+FIX 15 — ADMIN PANEL (Mobile)
+=================================================================
+
+Admin panel on mobile (for quick access on phone):
+- Sidebar: hidden by default
+- Show hamburger icon in admin topbar to open sidebar drawer
+- Admin topbar: logo + hamburger (mobile)
+- All admin tables: horizontal scroll (overflow-x-auto)
+- Admin forms: single column on mobile
+- Stat cards: 2x2 grid on mobile
+- Charts: full width on mobile
+
+=================================================================
+IMPLEMENTATION APPROACH
+=================================================================
+
+Use Tailwind responsive prefixes:
+- sm: = 640px+ (but we treat mobile as <768px)
+- md: = 768px+
+- lg: = 1024px+
+- xl: = 1280px+
+
+For custom 365px breakpoint, add to tailwind.config:
+screens: {
+  'xs': '365px',
+  'sm': '640px',
+  'md': '768px', 
+  'lg': '1024px',
+  'xl': '1280px',
+}
+
+Priority order for implementation:
+1. Global (header, footer, announce bar)
+2. Homepage
+3. Product listing page
+4. Product detail page
+5. Cart + Checkout
+6. Select Lenses
+7. Account pages
+8. Info pages
+9. Admin panel
+
+After implementing each section:
+- Test at 365px width in browser dev tools
+- Test at 390px (iPhone)
+- Test at 768px (tablet)
+- No horizontal scroll
+- No overlapping elements
+- All text readable
+- All buttons tappable (44px min)
+
+Commit after completing all responsive fixes:
+git add .
+git commit -m "feat: complete responsive design - all pages mobile-first 365px+"
+git push

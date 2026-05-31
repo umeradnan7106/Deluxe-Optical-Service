@@ -18,11 +18,11 @@ const CARDS = [
 
 export default function GenderCards() {
   return (
-    <section className="bg-white py-16">
-      <div className="max-w-[1500px] mx-auto px-6">
-        <div className="text-center mb-8">
+    <section className="bg-white py-10 md:py-16">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
+        <div className="text-center mb-6 md:mb-8">
           <p className="text-[#E8670A] text-xs font-semibold uppercase tracking-widest mb-1">Collections</p>
-          <h2 className="font-['Cormorant_Garamond'] text-4xl text-[#1a1a1a] font-semibold">Shop by Gender</h2>
+          <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-[#1a1a1a] font-semibold">Shop by Gender</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {CARDS.map(({ title, subtitle, href, btnLabel }) => (

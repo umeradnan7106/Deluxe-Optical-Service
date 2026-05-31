@@ -56,9 +56,9 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Dashboard</h1>
-        <div className="flex gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <h1 className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-gray-900 font-semibold">Dashboard</h1>
+        <div className="flex flex-wrap gap-2">
           <Link href="/admin/products/new">
             <Button variant="primary" size="sm"><PlusIcon className="w-4 h-4" />Add Product</Button>
           </Link>
@@ -180,6 +180,7 @@ export default function AdminDashboard() {
             <p className="text-gray-500 text-xs uppercase tracking-wide">Recent Orders</p>
             <Link href="/admin/orders" className="text-[#E8670A] text-xs hover:underline">View all</Link>
           </div>
+          <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead><tr className="text-gray-500 text-left border-b border-gray-200">
               <th className="pb-2">Order</th><th className="pb-2">Customer</th><th className="pb-2">Total</th><th className="pb-2">Status</th>
@@ -198,6 +199,7 @@ export default function AdminDashboard() {
               {recentOrders.length === 0 && <tr><td colSpan={4} className="py-4 text-gray-400 text-center">No orders yet</td></tr>}
             </tbody>
           </table>
+          </div>
         </div>
 
         {/* Pending Reviews */}
@@ -229,6 +231,7 @@ export default function AdminDashboard() {
             <p className="text-gray-500 text-xs uppercase tracking-wide">Low Stock Alerts</p>
             <Link href="/admin/inventory?filter=low_stock" className="text-[#E8670A] text-xs hover:underline">View inventory</Link>
           </div>
+          <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead><tr className="text-gray-500 text-left border-b border-gray-200">
               <th className="pb-2">Product</th><th className="pb-2">Color</th><th className="pb-2">SKU</th><th className="pb-2">Stock</th><th className="pb-2">Threshold</th>
@@ -248,6 +251,7 @@ export default function AdminDashboard() {
               {lowStock.length === 0 && <tr><td colSpan={5} className="py-4 text-gray-400 text-center">All products well stocked</td></tr>}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>

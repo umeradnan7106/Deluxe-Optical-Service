@@ -70,7 +70,7 @@ export default function TrackOrderContent() {
 
   return (
     <div className="max-w-[700px] mx-auto px-4 py-10">
-      <h1 className="font-['Cormorant_Garamond'] text-4xl text-[#1a1a1a] font-semibold mb-2">Track Your Order</h1>
+      <h1 className="font-['Cormorant_Garamond'] text-2xl md:text-4xl text-[#1a1a1a] font-semibold mb-2">Track Your Order</h1>
       <p className="text-[#6b7280] text-sm mb-8">Enter your order number or phone to see real-time status.</p>
 
       {/* Search card */}

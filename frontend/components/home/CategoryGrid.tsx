@@ -35,25 +35,60 @@ const CATS = [
 
 export default function CategoryGrid() {
   return (
-    <section className="bg-[#faf9f7] py-16">
-      <div className="max-w-[1500px] mx-auto px-6">
-        <div className="text-center mb-8">
+    <section className="bg-[#faf9f7] py-10 md:py-16">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
+        <div className="text-center mb-6 md:mb-8">
           <p className="text-[#E8670A] text-[10px] font-semibold uppercase tracking-widest mb-1">Explore</p>
-          <h2 className="font-['Cormorant_Garamond'] text-[32px] text-[#1a1a1a] font-semibold">Shop by Category</h2>
+          <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-[32px] text-[#1a1a1a] font-semibold">Shop by Category</h2>
         </div>
-        <div className="flex gap-4 overflow-x-auto pb-2 snap-x">
+
+        {/* Mobile: horizontal scroll */}
+        <div className="flex md:hidden gap-3 overflow-x-auto pb-2 snap-x scrollbar-none -mx-4 px-4">
           {CATS.map(({ label, href, gradient }) => (
             <Link
               key={label}
               href={href}
               className="group snap-start shrink-0 relative rounded-xl overflow-hidden cursor-pointer"
-              style={{ height: 180, minWidth: 160, flex: "0 0 auto" }}
+              style={{ height: 160, minWidth: 140 }}
             >
-              {/* Gradient background */}
               <div className="absolute inset-0" style={{ background: gradient }} />
-              {/* Dark overlay */}
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
-              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-3">
+                <p className="text-white text-[13px] font-semibold leading-tight">{label}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Tablet: 3-column grid */}
+        <div className="hidden md:grid lg:hidden grid-cols-3 gap-4">
+          {CATS.map(({ label, href, gradient }) => (
+            <Link
+              key={label}
+              href={href}
+              className="group relative rounded-xl overflow-hidden cursor-pointer"
+              style={{ height: 180 }}
+            >
+              <div className="absolute inset-0" style={{ background: gradient }} />
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <p className="text-white text-[14px] font-semibold leading-tight">{label}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop: 6-column auto-fill */}
+        <div className="hidden lg:flex gap-4 overflow-x-auto pb-2 snap-x">
+          {CATS.map(({ label, href, gradient }) => (
+            <Link
+              key={label}
+              href={href}
+              className="group snap-start shrink-0 relative rounded-xl overflow-hidden cursor-pointer flex-1"
+              style={{ height: 180, minWidth: 140 }}
+            >
+              <div className="absolute inset-0" style={{ background: gradient }} />
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
               <div className="absolute bottom-0 left-0 right-0 p-3">
                 <p className="text-white text-[14px] font-semibold leading-tight">{label}</p>
               </div>

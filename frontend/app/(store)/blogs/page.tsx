@@ -37,18 +37,18 @@ export default function BlogsPage() {
   }, [category, page]);
 
   return (
-    <div className="max-w-[1500px] mx-auto px-6 py-10">
+    <div className="max-w-[1500px] mx-auto px-4 sm:px-6 py-8 md:py-10">
       {/* Hero */}
-      <div className="text-center mb-10">
-        <h1 className="font-['Cormorant_Garamond'] text-5xl text-white font-semibold mb-3">Optical Blog</h1>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto">Expert insights on lenses, frames, eye health, and more.</p>
+      <div className="text-center mb-8 md:mb-10">
+        <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl text-white font-semibold mb-3">Optical Blog</h1>
+        <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto">Expert insights on lenses, frames, eye health, and more.</p>
       </div>
 
-      {/* Category pills */}
-      <div className="flex gap-2 flex-wrap justify-center mb-8">
+      {/* Category pills — horizontal scroll on mobile */}
+      <div className="flex gap-2 overflow-x-auto scrollbar-none justify-start md:justify-center mb-6 md:mb-8 -mx-4 px-4 sm:mx-0 sm:px-0 pb-1">
         {CATEGORIES.map(({ value, label }) => (
           <button key={value} onClick={() => { setCategory(value); setPage(1); }}
-            className={`px-5 py-2 rounded-full text-sm transition-colors ${category === value ? "bg-[#E8670A] text-white" : "bg-[#1a1a1a] text-gray-400 hover:text-white"}`}>
+            className={`shrink-0 px-5 py-2 rounded-full text-sm transition-colors ${category === value ? "bg-[#E8670A] text-white" : "bg-[#1a1a1a] text-gray-400 hover:text-white"}`}>
             {label}
           </button>
         ))}

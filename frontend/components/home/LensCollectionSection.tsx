@@ -75,8 +75,8 @@ export default function LensCollectionSection() {
   const active = LENSES[activeIdx];
 
   return (
-    <section className="bg-white py-16">
-      <div className="max-w-[1500px] mx-auto px-6">
+    <section className="bg-white py-10 md:py-16">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
         <div className="mb-10 text-center">
           <p className="text-[#E8670A] text-[10px] font-semibold uppercase tracking-widest mb-1">Our Lens Technology</p>
           <h2 className="font-['Cormorant_Garamond'] text-[32px] text-[#1a1a1a] font-semibold">Choose Your Lens</h2>

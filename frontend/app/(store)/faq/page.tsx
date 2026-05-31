@@ -32,24 +32,41 @@ export default function FAQPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-[#111111] border-b border-[#2a2a2a] py-20">
-        <div className="max-w-[1500px] mx-auto px-6 text-center">
+      <section className="bg-[#111111] border-b border-[#2a2a2a] py-12 md:py-20">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
           <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Help Centre</p>
-          <h1 className="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-white font-semibold mb-4">
+          <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
             Frequently Asked Questions
           </h1>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
+          <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto">
             Find answers to the most common questions about our products, ordering, and delivery.
           </p>
         </div>
       </section>
 
       {/* Content */}
-      <section className="py-16">
-        <div className="max-w-[1500px] mx-auto px-6">
+      <section className="py-10 md:py-16">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
+          {/* Mobile category pills */}
+          <div className="lg:hidden flex gap-2 overflow-x-auto scrollbar-none pb-3 mb-5 -mx-4 px-4">
+            {CATEGORIES.map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setCategory(key)}
+                className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium min-h-[40px] transition-colors ${
+                  category === key
+                    ? "bg-[#E8670A] text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
           <div className="flex flex-col lg:flex-row gap-10">
-            {/* Category nav */}
-            <aside className="lg:w-56 shrink-0">
+            {/* Desktop Category nav */}
+            <aside className="hidden lg:block lg:w-56 shrink-0">
               <p className="text-gray-500 text-xs uppercase tracking-widest mb-3">Categories</p>
               <nav className="space-y-1">
                 {CATEGORIES.map(({ key, label }) => (
