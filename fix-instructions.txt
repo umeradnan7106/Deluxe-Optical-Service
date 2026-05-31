@@ -1,91 +1,258 @@
-Fix these 3 production deployment issues. Do NOT change any backend files.
+Okay, some of these things have been completed, but many are still remaining. Complete all of them. Also, there were some details that I did not fully explain before, so implement those properly as well.
 
-=================================================================
-PROBLEM 1 — API 404 ERRORS (Products not loading)
-=================================================================
+I had explained some things very clearly that needed to be done, but they still have not been implemented. Now I am going to explain everything clearly, including what should be added and what should not.
+Do not explain to Claude Code how to implement these things technically. Just clearly explain in English what needs to be built, and I will give it to Claude Code.
 
-Console errors:
-- /api/products?per_page=4 → 404
-- /api/products/featured → 404  
-- /api/reviews/featured → 404
+## First, the Product Page:
+### 1.
+The Category should appear above the Title in orange color.
 
-These endpoints exist in backend but frontend is calling wrong URLs.
+### 2.
+Currently, the size is displayed like this:
+45□30-150
+But I had said it should be displayed like this:
+Small (45□30-150)
+There is currently no option in the Admin Panel under Products to enter this information, so add that option there because it needs to be displayed here.
 
-Fix in frontend/lib/api.ts:
-- Check every API function that calls these endpoints
-- Make sure the base URL comes from process.env.NEXT_PUBLIC_API_URL
-- The Axios instance baseURL must be:
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
-- Do NOT hardcode localhost anywhere
+### 3.
+The Size Chart button has been added, but I had said that we will upload the image from the Admin Panel. There is currently no option anywhere to upload that image.
 
-Also check these specific API calls:
-- getFeaturedProducts() → should call GET /api/products?is_featured=true&per_page=4
-  (if /api/products/featured does not exist in backend, use query params instead)
-- getFeaturedReviews() → should call GET /api/reviews?is_featured=true&per_page=3
-  (if /api/reviews/featured does not exist, use query params or remove this call)
-- getProducts() with per_page param → GET /api/products?per_page=4
+### 4.
+The Quantity and Add to Cart sections are currently using a 40% / 60% layout. Change them to 20% / 80%.
 
-Check backend docs at:
-https://deluxe-optical-service-backend-production.up.railway.app/docs
-and match frontend API calls exactly to what backend endpoints actually exist.
+### 5.
+The "Select Your Lenses" button and the text below it should appear directly below the Size divider. You placed them below the Add to Cart button. Move them to the correct location.
 
-=================================================================
-PROBLEM 2 — HERO IMAGES 400 ERROR
-=================================================================
+### 6.
+In the Product Info section on the right side, add a little more vertical spacing between all items.
 
-Console errors:
-- GET /_next/image?url=%2Fimages%2Fhero-1.jpg → 400 Bad Request
-- GET /_next/image?url=%2Fimages%2Fhero-2.jpg → 400 Bad Request
-- GET /_next/image?url=%2Fimages%2Fhero-3.jpg → 400 Bad Request
+### 7.
+The Features and Size section is mostly correct, but there are still some issues:
 
-These hero images don't exist in the project. The files
-/public/images/hero-1.jpg, hero-2.jpg, hero-3.jpg are missing.
+* The image width is fine, but the height is too large.
+* Remove the extra white space around the image.
+* Slightly reduce the width if needed.
+* I had asked for measurement lines to be displayed on top of the image, along with the entered size values.
 
-Fix in HeroSlider component:
-- Replace <Image> tags for hero slides with a div that has a gradient background
-- Use CSS gradient as placeholder instead of missing image files:
-  Slide 1: background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)
-  Slide 2: background: linear-gradient(135deg, #0f1f3d 0%, #1a3a6e 100%)  
-  Slide 3: background: linear-gradient(135deg, #1a1a2e 0%, #2d1a4e 100%)
-- Show a glasses SVG icon or placeholder in the center of each slide
-- This removes the broken image errors completely
-- When admin uploads actual hero images later, we can add that feature
+* The side image that I mentioned should also be added, but it has not been implemented.
 
-=================================================================
-PROBLEM 3 — next.config.js IMAGE DOMAINS
-=================================================================
+* Also add and display:
+  * Frame Width
+  * Lens Width
+  * Bridge
+  * Temple Length
 
-The Next.js Image component needs external domains to be whitelisted.
-Add Cloudinary and Railway domains to next.config.js:
+---
 
-In frontend/next.config.js (or next.config.ts), update the images config:
+# Now Fix the "Select Your Lenses" Page
 
-images: {
-  remotePatterns: [
-    {
-      protocol: 'https',
-      hostname: 'res.cloudinary.com',
-    },
-    {
-      protocol: 'https', 
-      hostname: 'deluxe-optical-service-backend-production.up.railway.app',
-    },
-    {
-      protocol: 'http',
-      hostname: 'localhost',
-    },
-  ],
-},
+### 1.
 
-This fixes the 400 errors for product images from Cloudinary.
+Make both sections 50% / 50%.
 
-=================================================================
-AFTER FIXING — COMMIT AND PUSH
-=================================================================
+### 2.
+In the left box:
 
-After all 3 fixes:
-git add .
-git commit -m "fix: production deployment - API URLs, hero images, image domains"
-git push
+* Show a large product image centered at the top.
+* Below that, show the product title in heading size.
+* Below that, show the selected color.
+* Then show the information box that is already working correctly.
 
-Vercel will auto-deploy after push.
+
+### 3.
+On the right side, the usage options can remain, but the selection method should change.
+Currently, a radio selector appears when selecting an option.
+
+Instead:
+
+* Remove the radio selector.
+
+* Show a green checkmark on the right side of the selected card.
+
+* Where the radio button currently appears on the left side, display images of the same size as the existing cards.
+
+
+### 4.
+Previously, I only asked for the Coating step to be removed.
+Instead, both Lens and Coating were removed.
+Bring the Lens step back as Step 3.
+
+### 5.
+In Step 2 (Prescription), if someone uploads a photo, the upload is not working.
+Fix it.
+
+### 6.
+The biggest missing feature is that all selections made in the Select Your Lenses process should be displayed in detail inside the left box.
+
+
+For example:
+
+* Which Lens Type was selected
+
+* Prescription details entered manually
+
+* Which Lens was selected
+
+* Any other selected options
+
+
+Also, the current Review & Add to Cart step is Step 4. After adding the Lens step back, it should become Step 5.
+
+In that final review step, display everything in detail.
+If the user uploaded a prescription image, that image should also be displayed.
+
+### 7.
+Remove the "Order via WhatsApp" button from Review & Add to Cart.
+Add a cart icon to the Add to Cart button.
+
+---
+
+
+
+# Now the Cart Page
+
+### 1.
+Change the layout to 70% / 30%.
+
+### 2.
+Improve the product image here as well.
+Make it slightly larger and display it properly.
+
+### 3.
+All selected details should be displayed properly.
+Display exactly what the customer selected.
+If a prescription image was uploaded, display it as well.
+The quantity field should not appear below the image.
+It should appear in line with the product details.
+There are several other details as well, so improve the overall presentation.
+
+### 4.
+Improve the Shipping Progress Bar.
+The customer should immediately understand:
+
+* What the bar represents
+* What benefit they will get after completing it
+
+Currently it is not very clear or visible.
+
+---
+
+# Now the Admin Panel
+
+### 1.
+
+In the Dashboard, show a proper overview similar to Shopify.
+Show things like:
+* Conversion Rate
+* And 3–4 other important metrics
+in a concise overview.
+
+
+### 2.
+Add 3 new pages in the Admin Panel:
+* Analytics
+* Customers
+* Settings
+
+
+### 3.
+Analytics should contain the important information that Shopify provides.
+Only keep the useful and important metrics.
+
+### 4.
+In Customers:
+
+There should be two types of customers:
+* Customers who purchase while logged in
+* Customers who purchase without logging in
+
+
+The main reason for adding this is that we need data showing:
+* How many times a customer has purchased
+* Whether they are a logged-in customer or not
+
+
+### 5.
+Settings should contain the main settings such as:
+
+* Password settings
+
+* General settings
+
+* Other important configuration options
+
+### 6.
+Remove Lens Collection from the Admin Panel.
+We have made that section static through code, so there is no reason to keep it there anymore.
+
+### 7.
+Now let's talk about Edit Products and Add Products, because this is very important.
+
+#### Variants
+The current variant system is not good at all.
+
+
+The reason is:
+
+* Every product will always have at least one color.
+
+* A variant should not need to be created before adding a color.
+
+* What if a single color has 2–3 sizes?
+
+* Also, I had already asked for image sorting based on color.
+
+#### Lens Options
+Improve the Lens Options selection section inside Add Product.
+
+### 8.
+
+Now let's discuss Lens Options.
+First, let's talk about Progressive lenses.
+There will be 3–4 additional fields inside Progressive lenses.
+Currently, there is no place to enter those values.
+Add proper input fields for them.
+
+
+Also:
+* Allow image uploads for Lens Options.
+
+* When creating or editing Lens Options, provide more fields and organize them properly.
+
+---
+
+
+# Full Website Changes
+
+### 1.
+Wishlist is not working.
+Fix it.
+
+
+### 2.
+The Search Bar in the header does not show suggestions while searching.
+Add search suggestions.
+
+### 3.
+When I log in, I get logged out automatically after some time and have to log in again.
+Fix this issue.
+
+### 4.
+
+If a Promo Code is configured as a percentage discount, it should deduct by percentage.
+Currently it is not calculating correctly.
+Fix it.
+
+### 5.
+The design and flow of all Checkout steps are very poor.
+
+Improve both:
+
+* The design
+
+* The overall process
+
+Make the checkout experience much better.
+
+
+These are all the changes that need to be made. I have now explained everything clearly. Explain all of these requirements to Claude Code in detail, but do not tell it how to write the code. Just provide these points as requirements and explain what needs to be built. Claude Code already knows how to implement it.
