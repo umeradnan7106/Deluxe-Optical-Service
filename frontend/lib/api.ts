@@ -244,6 +244,8 @@ export const adminApi = {
       api.put(`/api/admin/orders/${id}/status`, { status }),
     updateTracking: (id: number, tracking_number: string) =>
       api.put(`/api/admin/orders/${id}/tracking`, { tracking_number }),
+    createDraft: (data: unknown) =>
+      api.post<{ id: number; order_number: string }>("/api/admin/orders/draft", data),
   },
 
   // Reviews
@@ -295,10 +297,18 @@ export const adminApi = {
   // Users
   users: {
     list: (params?: Record<string, string | number | undefined>) =>
-      api.get<PaginatedResponse<User>>("/api/admin/users", { params }),
+      api.get("/api/admin/users", { params }),
+    listGuests: (params?: Record<string, string | number | undefined>) =>
+      api.get("/api/admin/users/guests", { params }),
     detail: (id: number) => api.get<User>(`/api/admin/users/${id}`),
     updateStatus: (id: number, is_active: boolean) =>
       api.patch(`/api/admin/users/${id}`, { is_active }),
+  },
+
+  // Abandoned Carts
+  abandonedCarts: {
+    list: (params?: Record<string, string | number | boolean | undefined>) =>
+      api.get("/api/admin/abandoned-carts", { params }),
   },
 };
 

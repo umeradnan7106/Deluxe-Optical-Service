@@ -21,8 +21,10 @@ export interface LensOption {
   id: number;
   name: string;
   lens_type: "lens-type" | "coating" | "addon";
+  type?: "lens-type" | "coating" | "addon";
   price: number;
   description: string | null;
+  sub_options?: Array<{ name: string; price: number }> | null;
 }
 
 export interface LensOptionGroup {

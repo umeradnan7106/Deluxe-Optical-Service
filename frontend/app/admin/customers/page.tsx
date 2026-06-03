@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { adminApi } from "@/lib/api";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, formatDate } from "@/lib/utils";
 import type { User } from "@/types";
 
 interface CustomerUser extends User {
@@ -11,14 +11,28 @@ interface CustomerUser extends User {
   last_order_date?: string | null;
 }
 
+interface GuestOrder {
+  order_number: string;
+  customer_name: string;
+  customer_phone: string;
+  customer_email: string | null;
+  total: number;
+  status: string;
+  created_at: string | null;
+}
+
 export default function CustomersPage() {
   const [tab, setTab] = useState<"registered" | "guest">("registered");
   const [users, setUsers] = useState<CustomerUser[]>([]);
+  const [guestOrders, setGuestOrders] = useState<GuestOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [guestTotal, setGuestTotal] = useState(0);
+  const [guestPage, setGuestPage] = useState(1);
 
   useEffect(() => {
+    if (tab !== "registered") return;
     setLoading(true);
     adminApi.users.list({ page, per_page: 20 })
       .then(({ data }) => {
@@ -27,7 +41,19 @@ export default function CustomersPage() {
       })
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [page]);
+  }, [page, tab]);
+
+  useEffect(() => {
+    if (tab !== "guest") return;
+    setLoading(true);
+    adminApi.users.listGuests({ page: guestPage, per_page: 20 })
+      .then(({ data }) => {
+        setGuestOrders((data as { items: GuestOrder[]; total: number }).items ?? []);
+        setGuestTotal((data as { items: GuestOrder[]; total: number }).total ?? 0);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [guestPage, tab]);
 
   return (
     <div>
@@ -122,8 +148,49 @@ export default function CustomersPage() {
       )}
 
       {tab === "guest" && (
-        <div className="bg-white border border-[#e5e7eb] rounded-lg p-8 text-center">
-          <p className="text-[#6b7280] text-sm">Guest customer data is collected from orders. Connect to the Orders API to view guest checkouts.</p>
+        <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-x-auto">
+          <table className="w-full text-sm min-w-[600px]">
+            <thead>
+              <tr className="border-b border-[#e5e7eb] bg-[#f9fafb]">
+                <th className="text-left px-4 py-3 text-[#6b7280] font-medium text-xs uppercase tracking-wide">Name</th>
+                <th className="text-left px-4 py-3 text-[#6b7280] font-medium text-xs uppercase tracking-wide">Contact</th>
+                <th className="text-left px-4 py-3 text-[#6b7280] font-medium text-xs uppercase tracking-wide">Order #</th>
+                <th className="text-left px-4 py-3 text-[#6b7280] font-medium text-xs uppercase tracking-wide">Total</th>
+                <th className="text-left px-4 py-3 text-[#6b7280] font-medium text-xs uppercase tracking-wide">Status</th>
+                <th className="text-left px-4 py-3 text-[#6b7280] font-medium text-xs uppercase tracking-wide">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr><td colSpan={6} className="text-center py-12 text-[#6b7280]">Loading…</td></tr>
+              ) : guestOrders.length === 0 ? (
+                <tr><td colSpan={6} className="text-center py-12 text-[#6b7280]">No guest orders found</td></tr>
+              ) : guestOrders.map((o) => (
+                <tr key={o.order_number} className="border-b border-[#f3f4f6] hover:bg-[#f9fafb] transition-colors">
+                  <td className="px-4 py-3 text-[#1a1a1a] font-medium">{o.customer_name}</td>
+                  <td className="px-4 py-3 text-[#6b7280]">
+                    <p>{o.customer_email || "—"}</p>
+                    <p className="text-xs">{o.customer_phone}</p>
+                  </td>
+                  <td className="px-4 py-3 font-mono text-[#E8670A] text-xs">{o.order_number}</td>
+                  <td className="px-4 py-3 text-[#1a1a1a]">{formatPrice(o.total)}</td>
+                  <td className="px-4 py-3">
+                    <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded capitalize">{o.status}</span>
+                  </td>
+                  <td className="px-4 py-3 text-[#6b7280] text-xs">{o.created_at ? formatDate(o.created_at) : "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {guestTotal > 20 && (
+            <div className="flex items-center justify-between px-4 py-3 border-t border-[#e5e7eb]">
+              <p className="text-[#6b7280] text-xs">{guestTotal} guest orders total</p>
+              <div className="flex gap-2">
+                <button onClick={() => setGuestPage((p) => Math.max(1, p - 1))} disabled={guestPage === 1} className="px-3 py-1.5 border border-[#e5e7eb] rounded text-sm disabled:opacity-40 hover:bg-gray-50">Prev</button>
+                <button onClick={() => setGuestPage((p) => p + 1)} disabled={guestPage * 20 >= guestTotal} className="px-3 py-1.5 border border-[#e5e7eb] rounded text-sm disabled:opacity-40 hover:bg-gray-50">Next</button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

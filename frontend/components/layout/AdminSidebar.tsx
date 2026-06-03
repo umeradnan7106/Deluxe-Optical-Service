@@ -16,12 +16,14 @@ import {
   ChartBarIcon,
   UsersIcon,
   Cog6ToothIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 
 const NAV_SECTIONS = [
   { href: "/admin", label: "Dashboard", icon: Squares2X2Icon, exact: true },
   { href: "/admin/orders", label: "Orders", icon: ShoppingBagIcon },
+  { href: "/admin/abandoned-carts", label: "Abandoned Carts", icon: ExclamationTriangleIcon },
   { href: "/admin/products", label: "Products", icon: TagIcon },
   { href: "/admin/analytics", label: "Analytics", icon: ChartBarIcon },
   { href: "/admin/customers", label: "Customers", icon: UsersIcon },

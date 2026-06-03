@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { adminApi } from "@/lib/api";
 import { formatPrice, formatDate } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
@@ -31,6 +31,7 @@ const PM_LABELS: Record<string, string> = {
 };
 
 export default function AdminOrdersPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState(searchParams.get("status") || "all");
   const [search, setSearch] = useState("");
@@ -64,7 +65,13 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold mb-6">Orders</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Orders</h1>
+        <button onClick={() => router.push("/admin/orders/new")}
+          className="flex items-center gap-1.5 bg-[#E8670A] text-white text-sm px-4 py-2 rounded hover:bg-[#C45408] transition-colors">
+          + Create Draft Order
+        </button>
+      </div>
 
       {/* Status tabs */}
       <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-none pb-1">

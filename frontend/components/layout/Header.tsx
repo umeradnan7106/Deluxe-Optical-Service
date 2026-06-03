@@ -48,6 +48,7 @@ export default function Header() {
   const accountHref = !isAuthenticated ? "/auth/login" : isAdmin ? "/admin" : "/account/orders";
   const loadWishlist = useWishlistStore((s) => s.load);
   const wishlistLoaded = useWishlistStore((s) => s.loaded);
+  const wishlistCount = useWishlistStore((s) => s.ids.length);
 
   useEffect(() => {
     if (isAuthenticated && !wishlistLoaded) loadWishlist();
@@ -249,9 +250,14 @@ export default function Header() {
               href="/account/wishlist"
               onClick={handleWishlistClick}
               aria-label="Wishlist"
-              className="text-[#1a1a1a] hover:text-[#E8670A] transition-colors"
+              className="relative text-[#1a1a1a] hover:text-[#E8670A] transition-colors"
             >
               <HeartIcon className="w-6 h-6" />
+              {isAuthenticated && wishlistCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-[#E8670A] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {wishlistCount > 9 ? "9+" : wishlistCount}
+                </span>
+              )}
             </Link>
 
             {isAdmin && (
@@ -347,6 +353,11 @@ export default function Header() {
                 >
                   <HeartIcon className="w-5 h-5 shrink-0" />
                   Wishlist
+                  {isAuthenticated && wishlistCount > 0 && (
+                    <span className="ml-auto bg-[#E8670A] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                      {wishlistCount > 9 ? "9+" : wishlistCount}
+                    </span>
+                  )}
                 </Link>
                 <Link
                   href={accountHref}

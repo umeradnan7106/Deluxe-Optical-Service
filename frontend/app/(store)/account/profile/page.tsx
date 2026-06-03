@@ -1,10 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { authApi } from "@/lib/api";
+import { authApi, ordersApi } from "@/lib/api";
 import useAuthStore from "@/store/authStore";
 import Button from "@/components/ui/Button";
+import { formatPrice, formatDate } from "@/lib/utils";
+import type { Order } from "@/types";
+
+function getInitials(name: string) {
+  return name.trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+}
+
+function passwordStrength(pw: string): { label: string; color: string; pct: number } {
+  if (!pw) return { label: "", color: "bg-gray-200", pct: 0 };
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (pw.length >= 12) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  if (score <= 1) return { label: "Weak", color: "bg-red-400", pct: 25 };
+  if (score <= 2) return { label: "Fair", color: "bg-yellow-400", pct: 50 };
+  if (score <= 3) return { label: "Good", color: "bg-blue-400", pct: 75 };
+  return { label: "Strong", color: "bg-green-400", pct: 100 };
+}
+
+const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#E8670A] transition-colors";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -20,6 +42,19 @@ export default function ProfilePage() {
   const [confirmPw, setConfirmPw] = useState("");
   const [pwError, setPwError] = useState("");
   const [changingPw, setChangingPw] = useState(false);
+
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalSpent, setTotalSpent] = useState(0);
+
+  useEffect(() => {
+    ordersApi.myOrders().then(({ data }) => {
+      const orders = data as Order[];
+      setTotalOrders(orders.length);
+      setTotalSpent(orders.reduce((sum, o) => sum + (o.total ?? 0), 0));
+    }).catch(() => {});
+  }, []);
+
+  const strength = passwordStrength(newPw);
 
   async function handleSaveProfile(e: React.FormEvent) {
     e.preventDefault();
@@ -39,6 +74,7 @@ export default function ProfilePage() {
   async function handleChangePassword(e: React.FormEvent) {
     e.preventDefault();
     if (newPw !== confirmPw) { setPwError("Passwords do not match"); return; }
+    if (newPw.length < 6) { setPwError("Password must be at least 6 characters"); return; }
     setChangingPw(true);
     setPwError("");
     try {
@@ -58,54 +94,101 @@ export default function ProfilePage() {
     router.push("/");
   }
 
-  return (
-    <div className="max-w-lg space-y-8">
-      <h2 className="text-white text-xl font-semibold">Profile Settings</h2>
+  const initials = user ? getInitials(user.full_name) : "?";
 
-      {/* Profile form */}
-      <form onSubmit={handleSaveProfile} className="bg-[#1a1a1a] rounded p-5 space-y-4">
-        <h3 className="text-white font-medium">Personal Information</h3>
-        <div>
-          <label className="text-gray-300 text-xs font-medium block mb-1">Full Name</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-[#2a2a2a] border border-[#3a3a3a] text-white text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#E8670A]" />
+  return (
+    <div className="max-w-lg space-y-5">
+      {/* Header with avatar */}
+      <div className="flex items-center gap-4">
+        <div className="w-16 h-16 rounded-full bg-[#E8670A] flex items-center justify-center shrink-0">
+          <span className="text-white font-bold text-xl">{initials}</span>
         </div>
         <div>
-          <label className="text-gray-300 text-xs font-medium block mb-1">Email (read-only)</label>
-          <input value={user?.email ?? ""} disabled className="w-full bg-[#1a1a1a] border border-[#3a3a3a] text-gray-500 text-sm px-3 py-2.5 rounded-[5px]" />
+          <h2 className="text-gray-900 text-xl font-semibold">{user?.full_name}</h2>
+          <p className="text-gray-500 text-sm">{user?.email}</p>
+        </div>
+      </div>
+
+      {/* Card 1: Personal Info */}
+      <form onSubmit={handleSaveProfile} className="bg-white border border-gray-200 shadow-sm rounded p-5 space-y-4">
+        <h3 className="text-gray-900 font-semibold text-sm uppercase tracking-wide">Personal Information</h3>
+        <div>
+          <label className="text-gray-600 text-xs font-medium block mb-1">Full Name</label>
+          <input value={name} onChange={(e) => setName(e.target.value)} className={inputCls} />
         </div>
         <div>
-          <label className="text-gray-300 text-xs font-medium block mb-1">Phone</label>
-          <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" className="w-full bg-[#2a2a2a] border border-[#3a3a3a] text-white text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#E8670A]" />
+          <label className="text-gray-600 text-xs font-medium block mb-1">Email (read-only)</label>
+          <input value={user?.email ?? ""} disabled className="w-full bg-gray-50 border border-gray-200 text-gray-400 text-sm px-3 py-2.5 rounded-[5px]" />
         </div>
-        {saveMsg && <p className="text-sm text-green-400">{saveMsg}</p>}
+        <div>
+          <label className="text-gray-600 text-xs font-medium block mb-1">Phone</label>
+          <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" className={inputCls} />
+        </div>
+        {saveMsg && (
+          <p className={`text-sm ${saveMsg.includes("success") ? "text-green-600" : "text-red-500"}`}>{saveMsg}</p>
+        )}
         <Button type="submit" variant="primary" size="md" disabled={saving}>
           {saving ? "Saving…" : "Save Changes"}
         </Button>
       </form>
 
-      {/* Change password */}
-      <form onSubmit={handleChangePassword} className="bg-[#1a1a1a] rounded p-5 space-y-4">
-        <h3 className="text-white font-medium">Change Password</h3>
-        {["Current Password", "New Password", "Confirm New Password"].map((label, i) => {
-          const vals = [currentPw, newPw, confirmPw];
-          const setters = [setCurrentPw, setNewPw, setConfirmPw];
-          return (
-            <div key={label}>
-              <label className="text-gray-300 text-xs font-medium block mb-1">{label}</label>
-              <input type="password" value={vals[i]} onChange={(e) => setters[i](e.target.value)} className="w-full bg-[#2a2a2a] border border-[#3a3a3a] text-white text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#E8670A]" />
+      {/* Card 2: Change Password */}
+      <form onSubmit={handleChangePassword} className="bg-white border border-gray-200 shadow-sm rounded p-5 space-y-4">
+        <h3 className="text-gray-900 font-semibold text-sm uppercase tracking-wide">Change Password</h3>
+        <div>
+          <label className="text-gray-600 text-xs font-medium block mb-1">Current Password</label>
+          <input type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} className={inputCls} />
+        </div>
+        <div>
+          <label className="text-gray-600 text-xs font-medium block mb-1">New Password</label>
+          <input type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} className={inputCls} />
+          {newPw && (
+            <div className="mt-1.5">
+              <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                <div className={`h-full rounded-full transition-all ${strength.color}`} style={{ width: `${strength.pct}%` }} />
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">{strength.label}</p>
             </div>
-          );
-        })}
-        {pwError && <p className={`text-sm ${pwError.includes("success") ? "text-green-400" : "text-red-400"}`}>{pwError}</p>}
+          )}
+        </div>
+        <div>
+          <label className="text-gray-600 text-xs font-medium block mb-1">Confirm New Password</label>
+          <input type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} className={inputCls} />
+        </div>
+        {pwError && (
+          <p className={`text-sm ${pwError.includes("success") ? "text-green-600" : "text-red-500"}`}>{pwError}</p>
+        )}
         <Button type="submit" variant="dark" size="md" disabled={changingPw}>
           {changingPw ? "Changing…" : "Change Password"}
         </Button>
       </form>
 
-      {/* Logout */}
-      <Button variant="outline" size="md" onClick={handleLogout} className="border-red-500 text-red-400 hover:bg-red-500/10">
-        Sign Out
-      </Button>
+      {/* Card 3: Account Activity */}
+      <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
+        <h3 className="text-gray-900 font-semibold text-sm uppercase tracking-wide mb-4">Account Activity</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { label: "Total Orders", value: totalOrders },
+            { label: "Total Spent", value: formatPrice(totalSpent) },
+            { label: "Member Since", value: user?.created_at ? formatDate(user.created_at) : "—" },
+            { label: "Last Login", value: "Current session" },
+          ].map(({ label, value }) => (
+            <div key={label} className="bg-gray-50 rounded p-3">
+              <p className="text-gray-500 text-xs mb-0.5">{label}</p>
+              <p className="text-gray-900 font-semibold text-sm">{value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Card 4: Danger Zone */}
+      <div className="bg-white border border-red-100 shadow-sm rounded p-5">
+        <h3 className="text-red-500 font-semibold text-sm uppercase tracking-wide mb-3">Danger Zone</h3>
+        <p className="text-gray-500 text-sm mb-3">Sign out of your account on this device.</p>
+        <Button variant="outline" size="md" onClick={handleLogout} className="border-red-400 text-red-400 hover:bg-red-50">
+          Sign Out
+        </Button>
+      </div>
     </div>
   );
 }

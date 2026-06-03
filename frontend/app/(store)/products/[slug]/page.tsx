@@ -88,6 +88,7 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState<Tab>("features");
   const [sizeChartOpen, setSizeChartOpen] = useState(false);
+  const [imageView, setImageView] = useState<"front" | "side">("front");
 
   const [reviews, setReviews] = useState<ReviewData[]>([]);
   const [reviewTotal, setReviewTotal] = useState(0);
@@ -437,35 +438,60 @@ export default function ProductDetailPage() {
                 </Link>
               </div>
 
-              {/* Right: product image (compact, no extra whitespace) */}
+              {/* Right: product image with Front/Side switcher */}
               {allImages[0] && (
-                <div className="space-y-3">
-                  {/* Front view */}
+                <div className="space-y-2">
+                  {/* Front/Side tab switcher */}
+                  {allImages[1] && (
+                    <div className="flex gap-0 border-b border-[#e5e7eb]">
+                      {(["front", "side"] as const).map((view) => (
+                        <button key={view} onClick={() => setImageView(view)}
+                          className={`px-4 py-1.5 text-xs font-medium border-b-2 -mb-px capitalize transition-colors ${imageView === view ? "border-[#E8670A] text-[#E8670A]" : "border-transparent text-[#6b7280] hover:text-[#1a1a1a]"}`}>
+                          {view}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Image box with optional SVG overlay */}
                   <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden p-2">
                     <div className="relative" style={{ paddingTop: "50%" }}>
                       <Image
-                        src={allImages[0].url}
-                        alt={allImages[0].alt_text || product.name}
+                        src={(imageView === "side" && allImages[1]) ? allImages[1].url : allImages[0].url}
+                        alt={(imageView === "side" && allImages[1]) ? (allImages[1].alt_text || `${product.name} side view`) : (allImages[0].alt_text || product.name)}
                         fill
                         className="object-contain"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
+                      {imageView === "front" && (product.lens_width_mm || product.bridge_mm || product.lens_height_mm) && (
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 200">
+                          {product.lens_width_mm && (
+                            <>
+                              <line x1="35" y1="40" x2="165" y2="40" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
+                              <line x1="35" y1="35" x2="35" y2="45" stroke="#E8670A" strokeWidth="1.5" />
+                              <line x1="165" y1="35" x2="165" y2="45" stroke="#E8670A" strokeWidth="1.5" />
+                              <text x="100" y="33" textAnchor="middle" fontSize="10" fill="#E8670A" fontFamily="sans-serif">{product.lens_width_mm}mm</text>
+                            </>
+                          )}
+                          {product.bridge_mm && (
+                            <>
+                              <line x1="170" y1="40" x2="230" y2="40" stroke="#6b7280" strokeWidth="1" strokeDasharray="3,2" />
+                              <text x="200" y="33" textAnchor="middle" fontSize="9" fill="#6b7280" fontFamily="sans-serif">{product.bridge_mm}</text>
+                            </>
+                          )}
+                          {product.lens_height_mm && (
+                            <>
+                              <line x1="385" y1="55" x2="385" y2="145" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
+                              <line x1="381" y1="55" x2="389" y2="55" stroke="#E8670A" strokeWidth="1.5" />
+                              <line x1="381" y1="145" x2="389" y2="145" stroke="#E8670A" strokeWidth="1.5" />
+                              <text x="393" y="105" textAnchor="start" fontSize="9" fill="#E8670A" fontFamily="sans-serif">{product.lens_height_mm}mm</text>
+                            </>
+                          )}
+                        </svg>
+                      )}
                     </div>
                   </div>
-                  {/* Side view (second image if available) */}
-                  {allImages[1] && (
-                    <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden p-2">
-                      <div className="relative" style={{ paddingTop: "45%" }}>
-                        <Image
-                          src={allImages[1].url}
-                          alt={allImages[1].alt_text || `${product.name} side view`}
-                          fill
-                          className="object-contain"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                      </div>
-                    </div>
-                  )}
+
                   {(product.lens_width_mm || product.bridge_mm || product.temple_mm) && (
                     <p className="text-[#6b7280] text-[11px] text-center">
                       {[

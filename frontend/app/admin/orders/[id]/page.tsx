@@ -171,18 +171,58 @@ export default function AdminOrderDetailPage() {
             ))}
           </div>
 
-          {/* Prescription */}
-          {order.prescription_method && (
+          {/* Lens & Prescription */}
+          {(order.items.some((i) => i.lens_option_names?.length > 0) || order.prescription_method) && (
             <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
-              <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Prescription</h2>
-              <p className="text-gray-700 text-sm mb-2">Method: <span className="text-gray-900 capitalize">{order.prescription_method}</span></p>
-              {order.prescription_url && (
-                <a href={order.prescription_url} target="_blank" rel="noopener noreferrer"
-                  className="text-[#E8670A] text-sm hover:underline">View uploaded prescription</a>
-              )}
-              {prescriptionData && (
-                <div className="mt-2 bg-gray-50 rounded p-3 text-xs font-mono text-gray-700">
-                  <pre>{JSON.stringify(prescriptionData, null, 2)}</pre>
+              <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Lens & Prescription</h2>
+
+              {order.items.filter((i) => i.lens_option_names?.length > 0).map((item, idx) => (
+                <div key={idx} className="mb-3">
+                  <p className="text-gray-700 text-sm font-medium">{item.product_name}</p>
+                  <div className="flex flex-wrap gap-1.5 mt-1">
+                    {item.lens_option_names.map((name, j) => (
+                      <span key={j} className="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded">{name}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              {order.prescription_method && (
+                <div className={order.items.some((i) => i.lens_option_names?.length > 0) ? "mt-3 pt-3 border-t border-gray-100" : ""}>
+                  <p className="text-gray-700 text-sm mb-2">
+                    Method: <span className="text-gray-900 capitalize">{order.prescription_method.replace(/_/g, " ")}</span>
+                  </p>
+                  {order.prescription_url && (
+                    <a href={order.prescription_url} target="_blank" rel="noopener noreferrer"
+                      className="text-[#E8670A] text-sm hover:underline block mb-3">View uploaded prescription</a>
+                  )}
+                  {prescriptionData && (
+                    <table className="w-full text-xs border-collapse">
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th className="text-left text-gray-500 pb-1.5 pr-3 font-medium">Field</th>
+                          <th className="text-left text-gray-500 pb-1.5 font-medium">Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Object.entries(prescriptionData).flatMap(([k, v]) =>
+                          typeof v === "object" && v !== null
+                            ? Object.entries(v as Record<string, unknown>).map(([sk, sv]) => (
+                                <tr key={`${k}-${sk}`} className="border-b border-gray-100">
+                                  <td className="py-1.5 pr-3 text-gray-500 capitalize">{`${k} ${sk}`.replace(/_/g, " ")}</td>
+                                  <td className="py-1.5 text-gray-900">{String(sv ?? "—")}</td>
+                                </tr>
+                              ))
+                            : [(
+                                <tr key={k} className="border-b border-gray-100">
+                                  <td className="py-1.5 pr-3 text-gray-500 capitalize">{k.replace(/_/g, " ")}</td>
+                                  <td className="py-1.5 text-gray-900">{String(v ?? "—")}</td>
+                                </tr>
+                              )]
+                        )}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               )}
             </div>

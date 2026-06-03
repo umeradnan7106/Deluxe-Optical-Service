@@ -5,7 +5,7 @@ import Link from "next/link";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import type { ProductListItem } from "@/types";
 import { formatPrice, getDiscountPercent } from "@/lib/utils";
 import StarRating from "@/components/ui/StarRating";
@@ -24,6 +24,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, wishlisted: wishlistedProp, onWishlistToggle }: ProductCardProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const [imgError, setImgError] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -56,7 +57,7 @@ export default function ProductCard({ product, wishlisted: wishlistedProp, onWis
   async function handleWishlist(e: React.MouseEvent) {
     e.preventDefault();
     if (!isAuthenticated) {
-      router.push("/auth/login");
+      router.push(`/auth/login?redirect=${encodeURIComponent(pathname)}`);
       return;
     }
     if (onWishlistToggle) {

@@ -31,6 +31,7 @@ interface VariantRow {
   price: string;
   stock: string;
   is_active: boolean;
+  sku_auto: boolean;      // true = auto-generate SKU from color/size
 }
 
 interface ImageRow {
@@ -40,6 +41,8 @@ interface ImageRow {
   file?: File;
   public_id?: string;
   toDelete?: boolean;
+  variant_key?: string;   // _key of the variant this image belongs to
+  color_name?: string;
 }
 
 interface ProductFormState {
@@ -172,6 +175,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
   const [lensOptions, setLensOptions] = useState<LensOption[]>([]);
   const [selectedLensIds, setSelectedLensIds] = useState<Set<number>>(new Set());
   const [removedVariantIds, setRemovedVariantIds] = useState<number[]>([]);
+  const [newImageVariantKey, setNewImageVariantKey] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [slugAuto, setSlugAuto] = useState(!isEdit);
@@ -235,19 +239,27 @@ export default function ProductForm({ productId }: ProductFormProps) {
         color_name: v.color_name,
         color_hex: v.color_hex ?? "#000000",
         size_label: v.size_label ?? "",
-        lens_width: "",
-        bridge: "",
-        temple: "",
+        lens_width: p.lens_width_mm ? String(p.lens_width_mm) : "",
+        bridge: p.bridge_mm ? String(p.bridge_mm) : "",
+        temple: p.temple_mm ? String(p.temple_mm) : "",
         sku_variant: v.sku_variant ?? "",
         price: v.price ? String(v.price) : "",
         stock: String(v.stock),
         is_active: v.is_active,
+        sku_auto: false,
       })));
 
       const allImages: ImageRow[] = [];
-      p.variants.forEach((v) => {
+      p.variants.forEach((v, vIdx) => {
         v.images.forEach((img) => {
-          allImages.push({ _key: `img-${img.id}`, id: img.id, url: img.url, public_id: img.public_id ?? undefined });
+          allImages.push({
+            _key: `img-${img.id}`,
+            id: img.id,
+            url: img.url,
+            public_id: img.public_id ?? undefined,
+            variant_key: `existing-${v.id ?? vIdx}`,
+            color_name: v.color_name,
+          });
         });
       });
       setImages(allImages.sort((a, b) => (a.id ?? 0) - (b.id ?? 0)));
@@ -275,18 +287,29 @@ export default function ProductForm({ productId }: ProductFormProps) {
       _key: `new-${Date.now()}`, color_name: "", color_hex: "#000000",
       size_label: "", lens_width: "", bridge: "", temple: "",
       sku_variant: "", price: "", stock: "0", is_active: true,
+      sku_auto: true,
     }]);
   }
 
   function updateVariant(key: string, field: keyof VariantRow, value: string | boolean) {
     setVariants((rows) => rows.map((r) => {
       if (r._key !== key) return r;
-      return { ...r, [field]: value };
+      const updated = { ...r, [field]: value };
+      if (field === "sku_variant") {
+        updated.sku_auto = false;
+      } else if (updated.sku_auto && (field === "color_name" || field === "size_label")) {
+        const colorPart = updated.color_name.slice(0, 3).toUpperCase() || "CLR";
+        const sizePart = updated.size_label ? `${updated.size_label.slice(0, 3).toUpperCase()}-` : "";
+        updated.sku_variant = [form.sku, `${sizePart}${colorPart}`].filter(Boolean).join("-");
+      }
+      return updated;
     }));
   }
 
   function removeVariant(key: string) {
+    if (!window.confirm("Remove this variant? This cannot be undone.")) return;
     setVariants((rows) => {
+      if (rows.length <= 1) { alert("Cannot delete the last variant."); return rows; }
       const row = rows.find((r) => r._key === key);
       if (row?.id) setRemovedVariantIds((ids) => [...ids, row.id!]);
       return rows.filter((r) => r._key !== key);
@@ -297,10 +320,13 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
   function handleImageFiles(files: FileList | null) {
     if (!files) return;
+    const targetVariant = variants.find((v) => v._key === newImageVariantKey) ?? variants[0];
     const newRows: ImageRow[] = Array.from(files).map((file) => ({
       _key: `new-img-${Date.now()}-${Math.random()}`,
       url: URL.createObjectURL(file),
       file,
+      variant_key: targetVariant?._key,
+      color_name: targetVariant?.color_name,
     }));
     setImages((prev) => [...prev, ...newRows]);
   }
@@ -401,17 +427,19 @@ export default function ProductForm({ productId }: ProductFormProps) {
         }
       }
 
-      // Determine first variant id for image uploads
       const firstVariantId = variants[0]?.id ?? Object.values(variantIdMap)[0];
 
       // Delete marked images
       const toDelete = images.filter((img) => img.toDelete && img.id);
       await Promise.all(toDelete.map((img) => adminApi.products.deleteImage(img.id!)));
 
-      // Upload new images
+      // Upload new images to their assigned variant (or first variant as fallback)
       const imagesToUpload = images.filter((img) => !img.toDelete && img.file);
       for (const img of imagesToUpload) {
-        await adminApi.products.uploadImage(pid, img.file!, firstVariantId);
+        const targetVariantId = img.variant_key
+          ? (variantIdMap[img.variant_key] ?? firstVariantId)
+          : firstVariantId;
+        await adminApi.products.uploadImage(pid, img.file!, targetVariantId);
       }
 
       // Assign lens options
@@ -517,6 +545,16 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
         {/* 3. Product Images */}
         <Section title="Product Images">
+          {variants.length > 0 && (
+            <div className="mb-3 flex items-center gap-2">
+              <label className="text-xs text-gray-600 shrink-0">Upload for color:</label>
+              <select value={newImageVariantKey} onChange={(e) => setNewImageVariantKey(e.target.value)} className={selectCls + " max-w-[180px]"}>
+                {variants.map((v) => (
+                  <option key={v._key} value={v._key}>{v.color_name || `Variant ${v._key}`}</option>
+                ))}
+              </select>
+            </div>
+          )}
           <div
             className="border-2 border-dashed border-gray-300 rounded p-6 text-center cursor-pointer hover:border-[#E8670A] transition-colors mb-4"
             onClick={() => fileInputRef.current?.click()}
@@ -528,25 +566,34 @@ export default function ProductForm({ productId }: ProductFormProps) {
             <p className="text-gray-400 text-xs mt-1">JPEG, PNG, WebP — first image = main</p>
             <input ref={fileInputRef} type="file" accept="image/*" multiple hidden onChange={(e) => handleImageFiles(e.target.files)} />
           </div>
-          {visibleImages.length > 0 && (
-            <div className="grid grid-cols-5 gap-3">
-              {visibleImages.map((img, idx) => (
-                <div key={img._key} className="relative group aspect-square rounded overflow-hidden bg-gray-50 border border-gray-200">
-                  <Image src={img.url} alt="" fill className="object-cover" sizes="120px" unoptimized={!!img.file} />
-                  {idx === 0 && (
-                    <span className="absolute bottom-0 left-0 right-0 bg-[#E8670A] text-white text-[10px] text-center py-0.5">Main</span>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => removeImage(img._key)}
-                    className="absolute top-1 right-1 bg-black/70 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <XMarkIcon className="w-3 h-3 text-white" />
-                  </button>
+
+          {/* Images grouped by color */}
+          {visibleImages.length > 0 && (() => {
+            const groups: Record<string, typeof visibleImages> = {};
+            visibleImages.forEach((img) => {
+              const key = img.color_name || "Unassigned";
+              groups[key] = [...(groups[key] ?? []), img];
+            });
+            return Object.entries(groups).map(([colorLabel, imgs]) => (
+              <div key={colorLabel} className="mb-4">
+                <p className="text-xs text-gray-500 mb-2 font-medium">{colorLabel}</p>
+                <div className="grid grid-cols-5 gap-3">
+                  {imgs.map((img, idx) => (
+                    <div key={img._key} className="relative group aspect-square rounded overflow-hidden bg-gray-50 border border-gray-200">
+                      <Image src={img.url} alt="" fill className="object-cover" sizes="120px" unoptimized={!!img.file} />
+                      {idx === 0 && (
+                        <span className="absolute bottom-0 left-0 right-0 bg-[#E8670A] text-white text-[10px] text-center py-0.5">Main</span>
+                      )}
+                      <button type="button" onClick={() => removeImage(img._key)}
+                        className="absolute top-1 right-1 bg-black/70 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <XMarkIcon className="w-3 h-3 text-white" />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ));
+          })()}
         </Section>
 
         {/* 4. Variants */}
