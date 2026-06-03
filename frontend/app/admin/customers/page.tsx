@@ -78,8 +78,8 @@ export default function CustomersPage() {
       </div>
 
       {tab === "registered" && (
-        <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden overflow-x-auto">
+          <table className="w-full text-sm min-w-[500px]">
             <thead>
               <tr className="border-b border-[#e5e7eb] bg-[#f9fafb]">
                 <th className="text-left px-4 py-3 text-[#6b7280] font-medium text-xs uppercase tracking-wide">Name</th>

@@ -79,16 +79,55 @@ export default function AdminReviewsPage() {
     <div>
       <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold mb-6">Reviews</h1>
 
-      <div className="flex gap-2 mb-6">
+      <div className="flex gap-2 mb-6 overflow-x-auto scrollbar-none pb-1">
         {TABS.map(({ key, label }) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`px-4 py-2 rounded text-sm transition-colors ${tab === key ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
+            className={`shrink-0 px-4 py-2 rounded text-sm transition-colors ${tab === key ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
             {label}
           </button>
         ))}
       </div>
 
-      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden overflow-x-auto">
+      {/* Mobile card list */}
+      <div className="md:hidden space-y-2 mb-4">
+        {loading ? Array.from({ length: 3 }, (_, i) => (
+          <div key={i} className="bg-white border border-gray-200 rounded-lg p-3 animate-pulse">
+            <div className="h-4 bg-gray-100 rounded mb-2 w-1/2" />
+            <div className="h-3 bg-gray-100 rounded mb-2 w-3/4" />
+            <div className="h-8 bg-gray-100 rounded w-full" />
+          </div>
+        )) : reviews.map((r) => (
+          <div key={r.id} className="bg-white border border-gray-200 rounded-lg p-3">
+            <div className="flex items-start justify-between mb-1">
+              <p className="text-gray-900 font-medium text-sm">{r.customer_name}</p>
+              <p className="text-gray-500 text-xs shrink-0 ml-2">{formatDate(r.created_at)}</p>
+            </div>
+            <p className="text-gray-500 text-xs mb-1">{r.product_name}</p>
+            <p className="text-[#E8670A] text-sm mb-1">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</p>
+            <p className="text-gray-700 text-xs font-medium">{r.title}</p>
+            <p className="text-gray-500 text-xs mb-3 line-clamp-2">{r.body}</p>
+            <div className="flex gap-2">
+              {!r.is_approved && (
+                <button onClick={() => approve(r.id)}
+                  className="flex-1 bg-green-500 text-white text-xs font-medium py-2 rounded min-h-[44px]">
+                  Approve
+                </button>
+              )}
+              <button onClick={() => reject(r.id)}
+                className="flex-1 bg-red-500 text-white text-xs font-medium py-2 rounded min-h-[44px]">
+                Reject
+              </button>
+              <button onClick={() => setSelectedReview(r)}
+                className="px-3 border border-gray-200 text-gray-600 text-xs py-2 rounded min-h-[44px]">
+                View
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block bg-white border border-gray-200 shadow-sm rounded overflow-hidden overflow-x-auto">
         <table className="w-full text-sm min-w-[650px]">
           <thead>
             <tr className="border-b border-gray-200 text-gray-500 text-left">
@@ -143,8 +182,8 @@ export default function AdminReviewsPage() {
 
       {/* Full Review Modal */}
       {selectedReview && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white border border-gray-200 shadow-sm rounded w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/70 flex items-end md:items-center justify-center z-50 p-0 md:p-4">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-t-2xl md:rounded w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-start justify-between mb-4">
               <h3 className="text-gray-900 font-semibold text-lg">{selectedReview.title}</h3>
               <button onClick={() => setSelectedReview(null)} className="text-gray-500 hover:text-gray-900">

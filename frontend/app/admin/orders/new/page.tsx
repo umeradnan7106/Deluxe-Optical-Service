@@ -26,7 +26,7 @@ const PAYMENT_METHODS = [
   { value: "bank_transfer", label: "Bank Transfer" },
 ];
 
-const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors";
+const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors min-h-[44px]";
 const selectCls = inputCls;
 
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
@@ -141,7 +141,7 @@ export default function NewDraftOrderPage() {
 
       {/* 1. Customer */}
       <SectionCard title="1. Customer">
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <Field label="Full Name *">
             <input value={customer.name} onChange={(e) => setCustomer({ ...customer, name: e.target.value })} className={inputCls} placeholder="Ahmed Khan" />
           </Field>
@@ -149,7 +149,7 @@ export default function NewDraftOrderPage() {
             <input value={customer.phone} onChange={(e) => setCustomer({ ...customer, phone: e.target.value })} className={inputCls} placeholder="03001234567" />
           </Field>
         </div>
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <Field label="Email">
             <input type="email" value={customer.email} onChange={(e) => setCustomer({ ...customer, email: e.target.value })} className={inputCls} placeholder="optional" />
           </Field>
@@ -157,7 +157,7 @@ export default function NewDraftOrderPage() {
             <input value={customer.city} onChange={(e) => setCustomer({ ...customer, city: e.target.value })} className={inputCls} placeholder="Lahore" />
           </Field>
         </div>
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="mb-4">
           <Field label="Province">
             <select value={customer.province} onChange={(e) => setCustomer({ ...customer, province: e.target.value })} className={selectCls}>
               {PROVINCES.map((p) => <option key={p} value={p}>{p}</option>)}
@@ -186,7 +186,7 @@ export default function NewDraftOrderPage() {
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-2 gap-3 mb-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <Field label="Product Name *">
                 <input value={item.product_name} onChange={(e) => updateItem(item._key, "product_name", e.target.value)} className={inputCls} placeholder="Ray-Ban Aviator Classic" />
               </Field>
@@ -194,7 +194,7 @@ export default function NewDraftOrderPage() {
                 <input value={item.color_name} onChange={(e) => updateItem(item._key, "color_name", e.target.value)} className={inputCls} placeholder="Matte Black" />
               </Field>
             </div>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <Field label="SKU">
                 <input value={item.sku_variant} onChange={(e) => updateItem(item._key, "sku_variant", e.target.value)} className={inputCls} placeholder="optional" />
               </Field>
@@ -229,7 +229,7 @@ export default function NewDraftOrderPage() {
 
       {/* 4. Payment */}
       <SectionCard title="4. Payment">
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Field label="Payment Method">
             <select value={payment.method} onChange={(e) => setPayment({ ...payment, method: e.target.value })} className={selectCls}>
               {PAYMENT_METHODS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
@@ -267,7 +267,8 @@ export default function NewDraftOrderPage() {
 
         {error && <p className="mt-4 text-red-600 text-sm bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>}
 
-        <div className="flex gap-3 mt-4">
+        {/* Desktop buttons */}
+        <div className="hidden sm:flex gap-3 mt-4">
           <Button variant="primary" size="md" onClick={handleSubmit} disabled={saving}>
             {saving ? "Creating…" : "Create Draft Order"}
           </Button>
@@ -276,6 +277,15 @@ export default function NewDraftOrderPage() {
           </Button>
         </div>
       </SectionCard>
+
+      {/* Mobile sticky bottom button */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200 p-4">
+        <button onClick={handleSubmit} disabled={saving}
+          className="w-full bg-[#E8670A] text-white font-medium py-3 rounded min-h-[48px] disabled:opacity-60 text-sm">
+          {saving ? "Creating…" : "Create Draft Order"}
+        </button>
+      </div>
+      <div className="sm:hidden h-20" />
     </div>
   );
 }

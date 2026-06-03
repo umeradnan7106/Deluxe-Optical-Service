@@ -86,10 +86,38 @@ export default function AdminOrdersPage() {
       {/* Search */}
       <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
         placeholder="Search by order #, name, or phone…"
-        className="w-full max-w-md bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded mb-4 outline-none focus:border-[#E8670A]" />
+        className="w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded mb-4 outline-none focus:border-[#E8670A] min-h-[44px]" />
 
-      {/* Table */}
-      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden overflow-x-auto">
+      {/* Mobile card list */}
+      <div className="md:hidden space-y-3 mb-4">
+        {loading ? Array.from({ length: 4 }, (_, i) => (
+          <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 animate-pulse">
+            <div className="h-4 bg-gray-100 rounded mb-2 w-1/2" />
+            <div className="h-3 bg-gray-100 rounded mb-2 w-3/4" />
+            <div className="h-3 bg-gray-100 rounded w-1/3" />
+          </div>
+        )) : orders.map((o) => (
+          <div key={o.id} className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="font-mono text-[#E8670A] font-bold text-sm">{o.order_number}</span>
+              <Badge variant={STATUS_BADGE[o.status] ?? "gray"}>{o.status}</Badge>
+            </div>
+            <p className="text-gray-900 text-sm font-medium">{o.customer_name}</p>
+            <p className="text-gray-500 text-xs mb-1.5">{o.customer_phone} · {formatDate(o.created_at)}</p>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-600 text-xs">{o.item_count} item{o.item_count !== 1 ? "s" : ""} · {PM_LABELS[o.payment_method] ?? o.payment_method}</span>
+              <span className="text-[#E8670A] font-bold text-sm">{formatPrice(o.total)}</span>
+            </div>
+            <Link href={`/admin/orders/${o.id}`}
+              className="w-full text-center bg-[#E8670A] text-white text-sm font-medium py-2.5 rounded min-h-[44px] flex items-center justify-center">
+              View Details
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block bg-white border border-gray-200 shadow-sm rounded overflow-hidden overflow-x-auto">
         <table className="w-full text-sm min-w-[700px]">
           <thead>
             <tr className="border-b border-gray-200 text-gray-500 text-left">

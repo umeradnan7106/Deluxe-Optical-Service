@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { adminApi } from "@/lib/api";
 import type { ProductListItem } from "@/types";
 import { formatPrice } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-import { PlusIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, PencilSquareIcon, TrashIcon, PhotoIcon } from "@heroicons/react/24/outline";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<ProductListItem[]>([]);
@@ -59,8 +60,53 @@ export default function AdminProductsPage() {
         />
       </div>
 
-      {/* Table */}
-      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
+      {/* Mobile card list */}
+      <div className="md:hidden space-y-2 mb-2">
+        {loading ? Array.from({ length: 4 }, (_, i) => (
+          <div key={i} className="bg-white border border-gray-200 rounded-lg p-3 flex gap-3 animate-pulse">
+            <div className="w-12 h-12 bg-gray-100 rounded shrink-0" />
+            <div className="flex-1"><div className="h-4 bg-gray-100 rounded mb-1 w-3/4" /><div className="h-3 bg-gray-100 rounded w-1/2" /></div>
+          </div>
+        )) : products.map((p) => (
+          <div key={p.id} className="bg-white border border-gray-200 rounded-lg p-3 flex items-center gap-3">
+            <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden shrink-0 relative">
+              {p.thumbnail_url ? (
+                <Image src={p.thumbnail_url} alt={p.name} fill className="object-cover" sizes="48px" />
+              ) : (
+                <div className="flex items-center justify-center h-full text-gray-400">
+                  <PhotoIcon className="w-6 h-6" />
+                </div>
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between mb-1">
+                <div className="min-w-0 mr-2">
+                  <p className="text-gray-900 font-medium text-sm truncate">{p.name}</p>
+                  <p className="text-gray-400 text-xs font-mono">{p.sku}</p>
+                </div>
+                <div className="flex gap-1 shrink-0">
+                  <Link href={`/admin/products/${p.id}/edit`}
+                    className="p-1.5 text-gray-500 hover:text-gray-900 border border-gray-200 rounded min-w-[36px] min-h-[36px] flex items-center justify-center">
+                    <PencilSquareIcon className="w-4 h-4" />
+                  </Link>
+                  <button onClick={() => handleDelete(p.id)}
+                    className="p-1.5 text-red-400 hover:text-red-600 border border-red-200 rounded min-w-[36px] min-h-[36px] flex items-center justify-center">
+                    <TrashIcon className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs text-gray-500 capitalize">{p.category}</span>
+                <span className="text-[#E8670A] text-sm font-medium">{formatPrice(p.sale_price ?? p.base_price)}</span>
+                {p.is_featured && <Badge variant="orange">Featured</Badge>}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-200 text-gray-500 text-left">

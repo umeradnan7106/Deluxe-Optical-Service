@@ -62,7 +62,43 @@ export default function AdminBlogsPage() {
         </Link>
       </div>
 
-      <div className="bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
+      {/* Mobile card list */}
+      <div className="md:hidden space-y-2 mb-4">
+        {loading ? Array.from({ length: 3 }, (_, i) => (
+          <div key={i} className="bg-white border border-gray-200 rounded-lg p-3 animate-pulse">
+            <div className="h-4 bg-gray-100 rounded mb-2 w-3/4" />
+            <div className="h-3 bg-gray-100 rounded w-1/3" />
+          </div>
+        )) : blogs.map((b) => (
+          <div key={b.id} className="bg-white border border-gray-200 rounded-lg p-3">
+            <div className="flex items-start justify-between mb-1.5">
+              <p className="text-gray-900 font-medium text-sm leading-snug mr-2">{b.title}</p>
+              <Badge variant={b.is_published ? "green" : "gray"}>{b.is_published ? "Published" : "Draft"}</Badge>
+            </div>
+            <div className="flex items-center gap-2 mb-3 text-xs text-gray-500">
+              <span className="capitalize">{b.category.replace(/-/g, " ")}</span>
+              {b.published_at && <span>· {formatDate(b.published_at)}</span>}
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => handlePublish(b)}
+                className={`flex-1 text-xs py-2 rounded border min-h-[44px] transition-colors ${b.is_published ? "border-gray-300 text-gray-500" : "border-green-500 text-green-500 bg-green-50"}`}>
+                {b.is_published ? "Unpublish" : "Publish"}
+              </button>
+              <Link href={`/admin/blogs/${b.id}/edit`}
+                className="flex items-center justify-center px-3 border border-gray-200 rounded min-h-[44px] min-w-[44px] text-gray-500 hover:text-gray-900">
+                <PencilSquareIcon className="w-4 h-4" />
+              </Link>
+              <button onClick={() => handleDelete(b.id)}
+                className="flex items-center justify-center px-3 border border-red-200 rounded min-h-[44px] min-w-[44px] text-red-400 hover:text-red-600">
+                <TrashIcon className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block bg-white border border-gray-200 shadow-sm rounded overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-200 text-gray-500 text-left">

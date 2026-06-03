@@ -36,7 +36,7 @@ interface AdminBlogData {
 function TbBtn({ active, onClick, children }: { active?: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button type="button" onMouseDown={(e) => { e.preventDefault(); onClick(); }}
-      className={`px-2 py-1 text-xs rounded ${active ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}>
+      className={`min-w-[36px] min-h-[36px] px-2 py-1 text-xs rounded ${active ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}>
       {children}
     </button>
   );
@@ -129,12 +129,12 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
     }
   }
 
-  const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors";
+  const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors min-h-[44px]";
 
   return (
-    <div className="flex gap-6 items-start">
+    <div className="flex flex-col lg:flex-row gap-6 items-start">
       {/* Editor column */}
-      <div className="flex-1 min-w-0 space-y-4">
+      <div className="flex-1 min-w-0 w-full space-y-4">
         {/* Title */}
         <input
           value={title}
@@ -183,7 +183,8 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
 
         {error && <p className="text-red-400 text-sm">{error}</p>}
 
-        <div className="flex gap-3">
+        {/* Desktop save buttons */}
+        <div className="hidden lg:flex gap-3">
           <Button variant="outline" size="md" onClick={() => save(false)} disabled={saving}>
             {saving ? "Saving…" : "Save Draft"}
           </Button>
@@ -194,8 +195,8 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
         </div>
       </div>
 
-      {/* Settings sidebar */}
-      <div className="w-64 shrink-0 space-y-4">
+      {/* Settings sidebar (moves to bottom on mobile) */}
+      <div className="w-full lg:w-64 lg:shrink-0 space-y-4">
         <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
           <h3 className="text-gray-900 font-semibold text-sm mb-3">Category</h3>
           <select value={category} onChange={(e) => setCategory(e.target.value)} className={inputCls}>
@@ -229,6 +230,18 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
             {isPublished ? "Published" : "Draft"}
           </p>
         </div>
+
+        {/* Mobile save buttons (sticky bottom) */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200 p-4 flex gap-3">
+          <Button variant="outline" size="md" onClick={() => save(false)} disabled={saving} fullWidth>
+            {saving ? "Saving…" : "Save Draft"}
+          </Button>
+          <Button variant="primary" size="md" onClick={() => save(true)} disabled={saving} fullWidth>
+            {saving ? "Publishing…" : "Publish"}
+          </Button>
+        </div>
+        {/* Bottom padding for sticky bar on mobile */}
+        <div className="h-20 lg:hidden" />
       </div>
     </div>
   );

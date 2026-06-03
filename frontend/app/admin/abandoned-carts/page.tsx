@@ -66,7 +66,7 @@ export default function AbandonedCartsPage() {
       <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold mb-6">Abandoned Carts</h1>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
         {[
           { label: "Total Abandoned", value: stats.total },
           { label: "Not Contacted", value: stats.not_contacted },

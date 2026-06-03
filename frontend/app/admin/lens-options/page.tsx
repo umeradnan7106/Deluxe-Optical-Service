@@ -125,7 +125,7 @@ export default function LensOptionsPage() {
     setSubOptions((prev) => prev.filter((_, i) => i !== idx));
   }
 
-  const inputCls = "w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]";
+  const inputCls = "w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#E8670A] min-h-[44px]";
 
   return (
     <div className="p-6">
@@ -137,10 +137,10 @@ export default function LensOptionsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-4 bg-white border border-gray-200 shadow-sm rounded-lg p-1 w-fit">
+      <div className="flex mb-4 bg-white border border-gray-200 shadow-sm rounded-lg p-1 w-full md:w-fit">
         {TABS.map(({ key, label }) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`px-4 py-2 rounded text-sm font-medium transition-colors ${tab === key ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900"}`}>
+            className={`flex-1 md:flex-none px-4 py-2 rounded text-sm font-medium transition-colors ${tab === key ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900"}`}>
             {label}
           </button>
         ))}
@@ -151,68 +151,115 @@ export default function LensOptionsPage() {
           {[1, 2, 3].map((i) => <div key={i} className="bg-gray-100 h-12 rounded" />)}
         </div>
       ) : (
-        <div className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
-              <tr>
-                <th className="text-left px-4 py-3 w-10">Order</th>
-                <th className="text-left px-4 py-3">Name</th>
-                <th className="text-left px-4 py-3">Price</th>
-                <th className="text-left px-4 py-3">Description</th>
-                <th className="text-left px-4 py-3">Sub-options</th>
-                <th className="text-left px-4 py-3">Active</th>
-                <th className="text-left px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((o, idx) => (
-                <tr key={o.id} className="border-t border-gray-200 hover:bg-gray-50">
-                  <td className="px-4 py-3">
-                    <div className="flex flex-col gap-0.5">
-                      <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-gray-500 hover:text-gray-900 disabled:opacity-30">
-                        <ChevronUpIcon className="w-3 h-3" />
-                      </button>
-                      <button onClick={() => move(idx, 1)} disabled={idx === filtered.length - 1} className="text-gray-500 hover:text-gray-900 disabled:opacity-30">
-                        <ChevronDownIcon className="w-3 h-3" />
-                      </button>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-gray-900 font-medium">{o.name}</td>
-                  <td className="px-4 py-3 text-[#E8670A] font-medium">Rs. {o.price.toLocaleString()}</td>
-                  <td className="px-4 py-3 text-gray-500 text-xs max-w-xs">
-                    <p className="line-clamp-1">{o.description || "—"}</p>
-                  </td>
-                  <td className="px-4 py-3 text-gray-500 text-xs">
-                    {o.sub_options?.length ? `${o.sub_options.length} sub-option${o.sub_options.length !== 1 ? "s" : ""}` : "—"}
-                  </td>
-                  <td className="px-4 py-3">
+        <>
+          {/* Mobile card list */}
+          <div className="md:hidden space-y-2 mb-4">
+            {filtered.map((o, idx) => (
+              <div key={o.id} className="bg-white border border-gray-200 rounded-lg p-3">
+                <div className="flex items-start justify-between mb-1.5">
+                  <div>
+                    <p className="text-gray-900 font-medium text-sm">{o.name}</p>
+                    <p className="text-[#E8670A] text-sm font-medium">Rs. {o.price.toLocaleString()}</p>
+                  </div>
+                  <div className="flex flex-col gap-0.5 shrink-0 ml-2">
+                    <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-gray-400 hover:text-gray-700 disabled:opacity-30 p-1">
+                      <ChevronUpIcon className="w-4 h-4" />
+                    </button>
+                    <button onClick={() => move(idx, 1)} disabled={idx === filtered.length - 1} className="text-gray-400 hover:text-gray-700 disabled:opacity-30 p-1">
+                      <ChevronDownIcon className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+                {o.description && <p className="text-gray-500 text-xs mb-1.5 line-clamp-1">{o.description}</p>}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
                     <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${o.is_active ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
                       {o.is_active ? "Active" : "Inactive"}
                     </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-2">
-                      <button onClick={() => openEdit(o)} className="text-gray-500 hover:text-gray-900">
-                        <PencilIcon className="w-4 h-4" />
-                      </button>
-                      <button onClick={() => handleDelete(o.id)} className="text-gray-500 hover:text-red-400">
-                        <TrashIcon className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
+                    {o.sub_options?.length ? (
+                      <span className="text-gray-400 text-xs">{o.sub_options.length} sub-option{o.sub_options.length !== 1 ? "s" : ""}</span>
+                    ) : null}
+                  </div>
+                  <div className="flex gap-3">
+                    <button onClick={() => openEdit(o)} className="text-gray-500 hover:text-gray-900 p-1.5 min-w-[36px] min-h-[36px] flex items-center justify-center">
+                      <PencilIcon className="w-4 h-4" />
+                    </button>
+                    <button onClick={() => handleDelete(o.id)} className="text-gray-500 hover:text-red-400 p-1.5 min-w-[36px] min-h-[36px] flex items-center justify-center">
+                      <TrashIcon className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {filtered.length === 0 && (
+              <p className="text-center text-gray-500 py-8">No {tab} options yet.</p>
+            )}
+          </div>
+
+          {/* Desktop table */}
+          <div className="hidden md:block bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
+                <tr>
+                  <th className="text-left px-4 py-3 w-10">Order</th>
+                  <th className="text-left px-4 py-3">Name</th>
+                  <th className="text-left px-4 py-3">Price</th>
+                  <th className="text-left px-4 py-3">Description</th>
+                  <th className="text-left px-4 py-3">Sub-options</th>
+                  <th className="text-left px-4 py-3">Active</th>
+                  <th className="text-left px-4 py-3">Actions</th>
                 </tr>
-              ))}
-              {filtered.length === 0 && (
-                <tr><td colSpan={7} className="px-4 py-8 text-center text-gray-500">No {tab} options yet.</td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filtered.map((o, idx) => (
+                  <tr key={o.id} className="border-t border-gray-200 hover:bg-gray-50">
+                    <td className="px-4 py-3">
+                      <div className="flex flex-col gap-0.5">
+                        <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-gray-500 hover:text-gray-900 disabled:opacity-30">
+                          <ChevronUpIcon className="w-3 h-3" />
+                        </button>
+                        <button onClick={() => move(idx, 1)} disabled={idx === filtered.length - 1} className="text-gray-500 hover:text-gray-900 disabled:opacity-30">
+                          <ChevronDownIcon className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-gray-900 font-medium">{o.name}</td>
+                    <td className="px-4 py-3 text-[#E8670A] font-medium">Rs. {o.price.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-gray-500 text-xs max-w-xs">
+                      <p className="line-clamp-1">{o.description || "—"}</p>
+                    </td>
+                    <td className="px-4 py-3 text-gray-500 text-xs">
+                      {o.sub_options?.length ? `${o.sub_options.length} sub-option${o.sub_options.length !== 1 ? "s" : ""}` : "—"}
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${o.is_active ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
+                        {o.is_active ? "Active" : "Inactive"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        <button onClick={() => openEdit(o)} className="text-gray-500 hover:text-gray-900">
+                          <PencilIcon className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => handleDelete(o.id)} className="text-gray-500 hover:text-red-400">
+                          <TrashIcon className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {filtered.length === 0 && (
+                  <tr><td colSpan={7} className="px-4 py-8 text-center text-gray-500">No {tab} options yet.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
 
       {modal.open && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6 w-full max-w-[600px] max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/70 flex items-end md:items-center justify-center z-50 p-0 md:p-4">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-t-2xl md:rounded-xl p-6 w-full md:max-w-[600px] max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-gray-900 font-semibold">{modal.editing ? "Edit Lens Option" : "New Lens Option"}</h2>
               <button onClick={() => setModal({ open: false, editing: null })} className="text-gray-500 hover:text-gray-900">
@@ -225,7 +272,7 @@ export default function LensOptionsPage() {
                 <label className="block text-gray-500 text-xs mb-1">Name</label>
                 <input name="name" value={form.name} onChange={fld} className={inputCls} />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Type</label>
                   <select name="type" value={form.type} onChange={fld} className={inputCls}>

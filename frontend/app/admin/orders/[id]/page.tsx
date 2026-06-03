@@ -197,6 +197,7 @@ export default function AdminOrderDetailPage() {
                       className="text-[#E8670A] text-sm hover:underline block mb-3">View uploaded prescription</a>
                   )}
                   {prescriptionData && (
+                    <div className="overflow-x-auto">
                     <table className="w-full text-xs border-collapse">
                       <thead>
                         <tr className="border-b border-gray-200">
@@ -222,6 +223,7 @@ export default function AdminOrderDetailPage() {
                         )}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </div>
               )}
@@ -258,7 +260,7 @@ export default function AdminOrderDetailPage() {
             {allowedTransitions.length > 0 && (
               <div className="mt-3 space-y-2">
                 <select value={newStatus} onChange={(e) => setNewStatus(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]">
+                  className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] min-h-[44px]">
                   <option value="">Select new status…</option>
                   {allowedTransitions.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -274,7 +276,7 @@ export default function AdminOrderDetailPage() {
             <div className="bg-white border border-gray-200 shadow-sm rounded p-5">
               <h2 className="text-gray-500 text-xs uppercase tracking-wide mb-3">Tracking Number</h2>
               <input value={tracking} onChange={(e) => setTracking(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] mb-2"
+                className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] mb-2 min-h-[44px]"
                 placeholder="Enter tracking number…" />
               <Button variant="outline" size="sm" onClick={handleTrackingUpdate} disabled={updating}>
                 Save Tracking

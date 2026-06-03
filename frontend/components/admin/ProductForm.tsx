@@ -121,7 +121,7 @@ function TbBtn({ active, onClick, children }: { active?: boolean; onClick: () =>
     <button
       type="button"
       onMouseDown={(e) => { e.preventDefault(); onClick(); }}
-      className={`px-2 py-1 text-xs rounded transition-colors ${active ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}
+      className={`min-w-[36px] min-h-[36px] px-2 py-1 text-xs rounded transition-colors ${active ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}
     >
       {children}
     </button>
@@ -132,8 +132,8 @@ function TbBtn({ active, onClick, children }: { active?: boolean; onClick: () =>
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white border border-gray-200 shadow-sm rounded p-5 mb-4">
-      <h2 className="text-gray-900 font-semibold mb-4 text-sm uppercase tracking-wide">{title}</h2>
+    <div className="bg-white border border-gray-200 shadow-sm rounded p-4 md:p-5 mb-4">
+      <h2 className="text-gray-900 font-semibold mb-4 text-[13px] md:text-sm uppercase tracking-wide">{title}</h2>
       {children}
     </div>
   );
@@ -150,7 +150,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors";
+const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors min-h-[44px]";
 const selectCls = inputCls;
 
 // ─── Main Component ───────────────────────────────────────────────────────────
@@ -458,13 +458,24 @@ export default function ProductForm({ productId }: ProductFormProps) {
   const visibleImages = images.filter((img) => !img.toDelete);
 
   return (
-    <div className="flex gap-6 items-start">
+    <div className="flex flex-col lg:flex-row gap-6 items-start">
       {/* ── Main column ── */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 w-full">
+
+        {/* Sticky save bar — mobile only */}
+        <div className="lg:hidden sticky top-[52px] z-10 bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between -mx-0 mb-4 shadow-sm">
+          <span className="text-sm text-gray-600 truncate min-w-0 mr-2 font-medium">
+            {form.name || "New Product"}
+          </span>
+          <button type="button" onClick={handleSave} disabled={saving}
+            className="shrink-0 bg-[#E8670A] text-white text-xs font-medium px-3 py-1.5 rounded min-h-[36px] disabled:opacity-60">
+            {saving ? "Saving…" : "Save"}
+          </button>
+        </div>
 
         {/* 1. Basic Info */}
         <Section title="Basic Info">
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <Field label="Product Name *">
               <input value={form.name} onChange={(e) => setField("name", e.target.value)}
                 className={inputCls} placeholder="e.g. Ray-Ban Aviator Classic" />
@@ -474,7 +485,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
                 className={inputCls} placeholder="e.g. RB3025-GLD" />
             </Field>
           </div>
-          <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
             <Field label="Brand">
               <input value={form.brand} onChange={(e) => setField("brand", e.target.value)}
                 className={inputCls} placeholder="e.g. Ray-Ban" />
@@ -496,7 +507,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
               </select>
             </Field>
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Field label="Frame Shape">
               <select value={form.frame_shape} onChange={(e) => setField("frame_shape", e.target.value)} className={selectCls}>
                 <option value="">Select…</option>
@@ -531,7 +542,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
         {/* 2. Pricing */}
         <Section title="Pricing">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Base Price (Rs.) *">
               <input type="number" value={form.base_price} onChange={(e) => setField("base_price", e.target.value)}
                 className={inputCls} placeholder="0" min="0" step="50" />
@@ -546,9 +557,9 @@ export default function ProductForm({ productId }: ProductFormProps) {
         {/* 3. Product Images */}
         <Section title="Product Images">
           {variants.length > 0 && (
-            <div className="mb-3 flex items-center gap-2">
+            <div className="mb-3 flex flex-col sm:flex-row sm:items-center gap-2">
               <label className="text-xs text-gray-600 shrink-0">Upload for color:</label>
-              <select value={newImageVariantKey} onChange={(e) => setNewImageVariantKey(e.target.value)} className={selectCls + " max-w-[180px]"}>
+              <select value={newImageVariantKey} onChange={(e) => setNewImageVariantKey(e.target.value)} className={selectCls + " sm:max-w-[180px]"}>
                 {variants.map((v) => (
                   <option key={v._key} value={v._key}>{v.color_name || `Variant ${v._key}`}</option>
                 ))}
@@ -556,7 +567,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
             </div>
           )}
           <div
-            className="border-2 border-dashed border-gray-300 rounded p-6 text-center cursor-pointer hover:border-[#E8670A] transition-colors mb-4"
+            className="border-2 border-dashed border-gray-300 rounded p-4 md:p-6 text-center cursor-pointer hover:border-[#E8670A] transition-colors mb-4"
             onClick={() => fileInputRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); handleImageFiles(e.dataTransfer.files); }}
@@ -577,7 +588,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
             return Object.entries(groups).map(([colorLabel, imgs]) => (
               <div key={colorLabel} className="mb-4">
                 <p className="text-xs text-gray-500 mb-2 font-medium">{colorLabel}</p>
-                <div className="grid grid-cols-5 gap-3">
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-3">
                   {imgs.map((img, idx) => (
                     <div key={img._key} className="relative group aspect-square rounded overflow-hidden bg-gray-50 border border-gray-200">
                       <Image src={img.url} alt="" fill className="object-cover" sizes="120px" unoptimized={!!img.file} />
@@ -598,8 +609,93 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
         {/* 4. Variants */}
         <Section title="Variants (Colors & Sizes)">
-          <p className="text-gray-400 text-xs mb-3">Each row is one color. For multiple sizes of the same color, add separate rows. Size label is optional (e.g. &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;).</p>
-          <div className="overflow-x-auto">
+          <p className="text-gray-400 text-xs mb-3">Each row is one color. For multiple sizes of the same color, add separate rows.</p>
+
+          {/* Mobile card view */}
+          <div className="md:hidden space-y-3 mb-3">
+            {variants.map((row) => (
+              <div key={row._key} className="bg-white border border-gray-200 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="w-4 h-4 rounded-full border border-gray-300 shrink-0" style={{ backgroundColor: row.color_hex }} />
+                    <input value={row.color_name}
+                      onChange={(e) => updateVariant(row._key, "color_name", e.target.value)}
+                      className="text-sm font-medium text-gray-900 border-b border-transparent focus:border-[#E8670A] outline-none bg-transparent min-w-0 flex-1"
+                      placeholder="Color name" />
+                    <input type="color" value={row.color_hex}
+                      onChange={(e) => updateVariant(row._key, "color_hex", e.target.value)}
+                      className="w-6 h-6 rounded cursor-pointer bg-transparent border border-gray-200 shrink-0" />
+                  </div>
+                  <select value={row.size_label}
+                    onChange={(e) => updateVariant(row._key, "size_label", e.target.value)}
+                    className="ml-2 text-xs border border-gray-200 rounded px-1 py-1 text-gray-700 outline-none focus:border-[#E8670A] min-h-[36px] shrink-0">
+                    <option value="">No size</option>
+                    <option value="XS">XS</option>
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                    <option value="XL">XL</option>
+                    <option value="One Size">One Size</option>
+                  </select>
+                </div>
+                <div className="flex items-center gap-1 mb-2">
+                  <label className="text-[10px] text-gray-500 shrink-0">Lens</label>
+                  <input value={row.lens_width}
+                    onChange={(e) => updateVariant(row._key, "lens_width", e.target.value)}
+                    className="w-10 border border-gray-200 rounded px-1 py-1 text-xs text-gray-900 text-center outline-none focus:border-[#E8670A]" placeholder="52" />
+                  <span className="text-gray-400 text-xs">□</span>
+                  <input value={row.bridge}
+                    onChange={(e) => updateVariant(row._key, "bridge", e.target.value)}
+                    className="w-10 border border-gray-200 rounded px-1 py-1 text-xs text-gray-900 text-center outline-none focus:border-[#E8670A]" placeholder="18" />
+                  <span className="text-gray-400 text-xs">-</span>
+                  <input value={row.temple}
+                    onChange={(e) => updateVariant(row._key, "temple", e.target.value)}
+                    className="w-12 border border-gray-200 rounded px-1 py-1 text-xs text-gray-900 text-center outline-none focus:border-[#E8670A]" placeholder="140" />
+                </div>
+                <input value={row.sku_variant}
+                  onChange={(e) => updateVariant(row._key, "sku_variant", e.target.value.toUpperCase())}
+                  className="w-full border border-gray-200 rounded px-2 py-1 text-xs text-gray-500 outline-none focus:border-[#E8670A] mb-2"
+                  placeholder="SKU variant" />
+                <div className="grid grid-cols-2 gap-2 mb-2">
+                  <div>
+                    <label className="block text-[10px] text-gray-500 mb-0.5">Price (Rs.)</label>
+                    <input type="number" value={row.price}
+                      onChange={(e) => updateVariant(row._key, "price", e.target.value)}
+                      className="w-full border border-gray-200 rounded px-2 py-1.5 text-sm text-gray-900 outline-none focus:border-[#E8670A]"
+                      placeholder="—" min="0" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] text-gray-500 mb-0.5">Stock *</label>
+                    <input type="number" value={row.stock}
+                      onChange={(e) => updateVariant(row._key, "stock", e.target.value)}
+                      className="w-full border border-gray-200 rounded px-2 py-1.5 text-sm text-gray-900 outline-none focus:border-[#E8670A]"
+                      placeholder="0" min="0" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" checked={row.is_active}
+                      onChange={(e) => updateVariant(row._key, "is_active", e.target.checked)}
+                      className="accent-[#E8670A]" />
+                    <span className="text-xs text-gray-700">Active</span>
+                  </label>
+                  <button type="button" onClick={() => removeVariant(row._key)}
+                    className="text-red-400 hover:text-red-600 text-xs flex items-center gap-1">
+                    <XMarkIcon className="w-4 h-4" />
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button type="button" onClick={addVariant}
+              className="w-full flex items-center justify-center gap-1 text-[#E8670A] text-sm border border-dashed border-[#E8670A] rounded-lg py-2.5 hover:bg-orange-50 transition-colors min-h-[44px]">
+              <PlusIcon className="w-4 h-4" />
+              Add Color / Size
+            </button>
+          </div>
+
+          {/* Desktop table view */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
                 <tr className="text-gray-600 border-b border-gray-200">
@@ -620,7 +716,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
                     <td className="py-2 pr-2">
                       <input value={row.color_name}
                         onChange={(e) => updateVariant(row._key, "color_name", e.target.value)}
-                        className={inputCls + " !py-1"} placeholder="e.g. Matte Black" />
+                        className={inputCls + " !py-1 !min-h-0"} placeholder="e.g. Matte Black" />
                     </td>
                     <td className="py-2 pr-2">
                       <input type="color" value={row.color_hex}
@@ -630,7 +726,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
                     <td className="py-2 pr-2">
                       <select value={row.size_label}
                         onChange={(e) => updateVariant(row._key, "size_label", e.target.value)}
-                        className={selectCls + " !py-1"}>
+                        className={selectCls + " !py-1 !min-h-0"}>
                         <option value="">—</option>
                         <option value="XS">XS</option>
                         <option value="Small">Small</option>
@@ -644,31 +740,31 @@ export default function ProductForm({ productId }: ProductFormProps) {
                       <div className="flex items-center gap-1">
                         <input value={row.lens_width}
                           onChange={(e) => updateVariant(row._key, "lens_width", e.target.value)}
-                          className={inputCls + " !py-1 w-10"} placeholder="52" />
+                          className={inputCls + " !py-1 !min-h-0 w-10"} placeholder="52" />
                         <span className="text-gray-500">□</span>
                         <input value={row.bridge}
                           onChange={(e) => updateVariant(row._key, "bridge", e.target.value)}
-                          className={inputCls + " !py-1 w-10"} placeholder="18" />
+                          className={inputCls + " !py-1 !min-h-0 w-10"} placeholder="18" />
                         <span className="text-gray-500">-</span>
                         <input value={row.temple}
                           onChange={(e) => updateVariant(row._key, "temple", e.target.value)}
-                          className={inputCls + " !py-1 w-12"} placeholder="140" />
+                          className={inputCls + " !py-1 !min-h-0 w-12"} placeholder="140" />
                       </div>
                     </td>
                     <td className="py-2 pr-2">
                       <input value={row.sku_variant}
                         onChange={(e) => updateVariant(row._key, "sku_variant", e.target.value.toUpperCase())}
-                        className={inputCls + " !py-1"} placeholder="e.g. BLK-SM" />
+                        className={inputCls + " !py-1 !min-h-0"} placeholder="e.g. BLK-SM" />
                     </td>
                     <td className="py-2 pr-2">
                       <input type="number" value={row.price}
                         onChange={(e) => updateVariant(row._key, "price", e.target.value)}
-                        className={inputCls + " !py-1"} placeholder="—" min="0" />
+                        className={inputCls + " !py-1 !min-h-0"} placeholder="—" min="0" />
                     </td>
                     <td className="py-2 pr-2">
                       <input type="number" value={row.stock}
                         onChange={(e) => updateVariant(row._key, "stock", e.target.value)}
-                        className={inputCls + " !py-1"} placeholder="0" min="0" />
+                        className={inputCls + " !py-1 !min-h-0"} placeholder="0" min="0" />
                     </td>
                     <td className="py-2 pr-2 text-center">
                       <input type="checkbox" checked={row.is_active}
@@ -717,7 +813,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
         {/* 6. Frame Specs */}
         <Section title="Frame Specifications (mm)">
-          <div className="grid grid-cols-5 gap-4 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
             {([
               ["frame_width_mm", "Frame Width"],
               ["lens_width_mm", "Lens Width"],
@@ -766,20 +862,20 @@ export default function ProductForm({ productId }: ProductFormProps) {
         {error && <p className="text-red-600 text-sm mb-4 bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>}
 
         {/* Save */}
-        <div className="flex gap-3">
-          <Button variant="primary" size="md" onClick={handleSave} disabled={saving}>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button variant="primary" size="md" onClick={handleSave} disabled={saving} fullWidth>
             {saving ? "Saving…" : isEdit ? "Save Changes" : "Create Product"}
           </Button>
-          <Button variant="outline" size="md" onClick={() => router.push("/admin/products")}>
+          <Button variant="outline" size="md" onClick={() => router.push("/admin/products")} fullWidth>
             Cancel
           </Button>
         </div>
       </div>
 
-      {/* ── Right sidebar ── */}
-      <div className="w-64 shrink-0 space-y-4">
+      {/* ── Right sidebar (moves to bottom on mobile) ── */}
+      <div className="w-full lg:w-64 lg:shrink-0 space-y-4">
         <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
-          <h3 className="text-gray-900 font-semibold text-sm mb-3">Status</h3>
+          <h3 className="text-gray-900 font-semibold text-[13px] md:text-sm mb-3">Status</h3>
           <Field label="Visibility">
             <select value={form.is_active ? "active" : "draft"} onChange={(e) => setField("is_active", e.target.value === "active")} className={selectCls}>
               <option value="active">Active</option>
