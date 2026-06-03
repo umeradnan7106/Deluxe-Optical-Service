@@ -1,527 +1,442 @@
-Do NOT change backend files unless specifically mentioned below.
-Implement ALL changes completely — do not skip or partially implement anything.
+Make the ENTIRE admin panel fully responsive for mobile.
+Every admin page must work perfectly on 365px+ screens.
+Admin must be able to ADD, EDIT, DELETE everything from mobile.
+Do NOT touch any backend files. Only frontend/ folder.
 
 =================================================================
-CHANGE 1 — PRODUCT PAGE: FEATURES & SIZE TAB — IMAGE ANNOTATIONS
+GLOBAL ADMIN MOBILE RULES
 =================================================================
 
-In the Features & Size tab, the right column shows product images.
+Breakpoints:
+- Mobile: 365px - 767px
+- Tablet: 768px - 1023px  
+- Desktop: 1024px+ (keep existing layout)
 
-CURRENT: Images show without any annotations.
+Global mobile rules for ALL admin pages:
+- No horizontal overflow/scroll on page level
+- All tables: horizontal scroll (overflow-x-auto) in a wrapper div
+- All forms: single column on mobile
+- All modals: full screen on mobile (width 100%, height auto, 
+  no border-radius on mobile, positioned at bottom or center)
+- All buttons: minimum 44px height, full width on mobile where appropriate
+- All inputs: minimum 44px height, full width
+- Font size: minimum 13px everywhere
+- Padding: px-4 on all containers on mobile
+- Cards: full width, rounded-lg, proper padding
+
+=================================================================
+FIX 1 — ADMIN SIDEBAR (Mobile)
+=================================================================
+
+CURRENT: Sidebar always visible, takes space on mobile.
 
 REQUIRED:
 
-A) FRONT VIEW IMAGE (First image — images[0]):
-   - Show the product's first image in a white bordered box
-   - Overlay dashed measurement lines ON TOP of the image using 
-     absolutely positioned SVG or HTML elements
-   - The dashed lines must show these 3 measurements:
-     * TOP horizontal dashed line: shows "lens_width mm" label 
-       (e.g. "45mm") — positioned across the lens area at top
-     * MIDDLE horizontal dashed line: shows "bridge mm" label 
-       (e.g. "30mm") — positioned at bridge area
-     * LEFT vertical dashed line: shows "lens height mm" or frame height
-   - The actual mm numbers come from the product data:
-     product.lens_width, product.bridge, product.temple
-   - Lines are STATIC SVG overlay — always in same position 
-     (since all frame images will be consistent size)
-   - Style of lines: dashed (#333), with small arrow ends, 
-     label text in small dark pill (like the reference screenshot)
-   - Below this image: "Front" tab (active by default)
+A) On mobile (< 768px): HIDE sidebar completely by default
 
-B) SIDE VIEW IMAGE (Second image — images[1]):
-   - Do NOT show the side image below the front image
-   - Instead: show "Front" and "Side" as two clickable tabs/buttons
-     below the image box
-   - "Front" tab active = shows images[0] with measurement overlays
-   - "Side" tab active = shows images[1] WITHOUT measurement overlays
-     (just clean side view image)
-   - If only 1 image exists: hide the "Side" tab
-   - Tab style: small text buttons, active = orange underline
+B) Add a hamburger menu button in the admin topbar (mobile only):
+   - Position: left side of topbar
+   - Icon: 3 horizontal lines (hamburger) Heroicon
+   - On click: opens sidebar as a DRAWER from the left
+   - Drawer overlays the content (not pushes it)
 
-C) MEASUREMENTS CAPTION:
-   - Below the image box, show:
-     "[lens_width]mm lens · [bridge]mm bridge · [temple]mm temple"
-   - Small muted text, centered
+C) Sidebar drawer on mobile:
+   - Full height, width: 280px
+   - Dark background (#0F0F0F) same as desktop
+   - Behind drawer: dark overlay (bg-black/50)
+   - Click overlay → closes drawer
+   - "×" close button inside drawer at top right
+   - All nav links same as desktop
+   - Logo at top
+
+D) Admin topbar on mobile:
+   - Left: hamburger icon button
+   - Center: page title (shorter if needed)
+   - Right: action buttons (stack or show most important only)
+   - Height: 52px
+
+E) Active page in sidebar: highlight same as desktop (orange left border)
 
 =================================================================
-CHANGE 2 — ADMIN ORDERS: SHOW LENS & PRESCRIPTION DETAILS
+FIX 2 — ADMIN DASHBOARD (Mobile)
 =================================================================
 
-CURRENT: Admin order detail does not show lens customization or 
-prescription information.
+A) Stat cards grid:
+   - Desktop: 4 columns → Mobile: 2x2 grid
+   - Each card: full width within its grid cell
+   - Font sizes: slightly smaller on mobile
 
-REQUIRED:
+B) Charts:
+   - Desktop: 2 charts side by side → Mobile: stack vertically
+   - Each chart: full width
+   - Chart height on mobile: 200px
 
-In the Admin Orders detail page (/admin/orders/[id]):
+C) Tables (Recent Orders, Pending Reviews, Low Stock):
+   - Wrap each table in overflow-x-auto div
+   - On mobile: tables scroll horizontally
+   - Show most important columns first (Order ID, Customer, Total, Status)
+   - OR convert to card list on mobile:
+     Each row becomes a card showing all info vertically
 
-A) Add a "LENS & PRESCRIPTION" section/card between the frame details 
-   and payment strip. Show these fields:
-
-   LENS DETAILS:
-   - Lens Type: [order.lens_type] (e.g. "Single Vision")
-   - Lens Sub-type: [order.lens_sub_type] (only if progressives)
-   - Coating: [order.coating] (e.g. "Anti-Reflective")  
-   - Add-ons: [order.add_ons joined by comma] (e.g. "Scratch Resistant, UV400")
-   - Lens Price: Rs. [order.lens_price]
-   - Coating Price: Rs. [order.coating_price]
-
-   PRESCRIPTION:
-   - Method: [order.prescription_method] 
-     (show as badge: "Manual Entry" / "Photo Upload" / "None")
-   - If method = "manual": show a clean table:
-     |      | SPH   | CYL   | Axis |
-     | OD   | +1.25 | -0.50 | 90   |
-     | OS   | +1.00 | -0.25 | 85   |
-     ADD: +1.00  |  PD: 64mm
-   - If method = "upload": show the prescription image as a thumbnail
-     with a "View Full Size" link that opens image in new tab
-   - If method = "none": show "No prescription required"
-
-B) In the Admin Orders LIST page (/admin/orders):
-   - Add a small lens indicator badge on each order row
-   - If order has lens customization: show small orange "Lens" badge
-   - If order has prescription: show small blue "Rx" badge
-   - These badges help admin quickly identify which orders need 
-     lens preparation
-
-C) Do NOT add any shipping/courier system — leave shipping as is.
+D) Quick action buttons:
+   - Desktop: row → Mobile: stack vertically, full width buttons
 
 =================================================================
-CHANGE 3 — ADMIN: DRAFT ORDER CREATION
+FIX 3 — ADMIN ORDERS LIST (Mobile)
 =================================================================
 
-Add ability for admin to manually create orders (for WhatsApp/phone orders).
+A) Filter tabs (All/Pending/Processing etc.):
+   - Mobile: horizontal scroll pills (overflow-x-auto)
+   - Each tab: min-width fit-content, no wrapping
 
-A) In Admin Orders list page (/admin/orders):
-   - Add "Create Draft Order" button next to existing buttons at top right
-   - Button style: orange, with "+" icon
+B) Search bar:
+   - Mobile: full width, below filter tabs
 
-B) Create new page: /admin/orders/new (Draft Order Creation):
+C) Orders table:
+   - Wrap in overflow-x-auto
+   - OR better: convert to CARD LIST on mobile
+   - Each order card shows:
+     * Row 1: Order number (orange, bold) + Status badge (right)
+     * Row 2: Customer name + Date (muted)
+     * Row 3: Items summary + Total (orange, bold, right)
+     * Row 4: Action buttons (View/Update)
+   - Cards: white bg, border, rounded-lg, p-4, mb-3
 
-   Layout: same as regular order detail page
-
-   SECTION 1 — Customer Information:
-   - Search existing customers by name/email/phone (typeahead search)
-   - OR fill in manually:
-     * Full Name (required)
-     * Phone (required)
-     * Email (optional)
-     * Address, City, Province (required)
-     * Order Notes (optional)
-
-   SECTION 2 — Product Selection:
-   - Search products by name or SKU (typeahead search)
-   - Select product → shows color/size variant dropdown
-   - Shows product image + name + selected variant
-   - Quantity input
-
-   SECTION 3 — Lens Customization (optional):
-   - Toggle: "Include Lens Customization?" (Yes/No)
-   - If Yes: show same lens selection as customer-facing select-lenses page
-     * Lens Type dropdown (from lens options)
-     * Coating dropdown
-     * Prescription Method radio (Manual / Upload / None)
-     * If Manual: show prescription entry form (SPH/CYL/Axis dropdowns)
-
-   SECTION 4 — Payment:
-   - Payment Method dropdown (COD, EasyPaisa, JazzCash, Bank Transfer)
-   - Payment Status: Pending / Paid
-   - Apply Coupon (optional)
-   - Shows calculated total (frame + lens + discount + shipping)
-
-   SECTION 5 — Order Summary:
-   - Shows complete summary before saving
-   - "Create Order" button (orange, full width)
-   - On save: creates order with status "placed", shows success message,
-     redirects to the new order's detail page
-
-   This page calls POST /api/admin/orders/draft to create the order.
-   Backend: add POST /api/admin/orders/draft endpoint that accepts
-   all order fields and creates an order with admin-assigned data.
+D) Action buttons per order:
+   - "View Details" button: full width orange button on mobile
 
 =================================================================
-CHANGE 4 — ADMIN: ABANDONED CARTS PAGE
+FIX 4 — ADMIN ORDER DETAIL (Mobile)
 =================================================================
 
-Add a new "Abandoned Carts" section in the admin panel.
+A) Layout:
+   - Desktop: 3-column info blocks → Mobile: single column stack
+   - Each info block (Customer/Frame/Lens): full width card
 
-A) Add "Abandoned Carts" link to admin sidebar under Orders section.
-   Show count badge of active abandoned carts.
+B) Customer info card: full width
+C) Frame details card: full width
+D) Lens & Prescription card: full width
 
-B) Create new page: /admin/abandoned-carts
+E) Prescription table (OD/OS):
+   - Mobile: font-size 12px
+   - Table wraps in overflow-x-auto
 
-   PAGE HEADER:
-   - Title: "Abandoned Carts"
-   - 4 stat cards at top:
-     * Active Abandoned (count)
-     * Recovered (count — orders that were eventually placed)
-     * At-Risk Revenue (total value of abandoned carts)
-     * Recovered Revenue (total value of recovered orders)
+F) Status update section:
+   - Dropdown + button: full width on mobile
+   - Stack vertically if needed
 
-   FILTER TABS: "All" | "Active" | "Recovered"
+G) Tracking number input:
+   - Full width on mobile
 
-   CART LIST (each abandoned cart as a card):
-   - Header row: 
-     * Status badge (Active/Recovered)
-     * Customer email or "Guest" if no email
-     * Number of items + total value (e.g. "2 items — Rs. 2,500")
-     * Date abandoned (e.g. "Abandoned May 29, 2026, 7:00 PM")
-     * "Send Reminder" button (orange) — sends WhatsApp message or email
-     * "Hide" button (grey) — hides from active list
-   
-   - Expandable section (click "View items" to expand):
-     Shows table:
-     | Product | SKU | Color/Size | Qty | Price | Total |
-     
-     Shows cart total at bottom right
-   
-   - If lens was selected: show lens details in expanded view too
+H) Payment strip:
+   - Horizontal layout → vertical stack on mobile
+   - Each payment field on its own line
 
-   C) How abandoned carts are tracked:
-   - When a customer adds to cart and doesn't checkout within 2 hours,
-     it appears here
-   - Cart data is saved to abandoned_carts table in database
-   - Backend: the abandoned_carts table already exists from initial migration
-   - Backend: add GET /api/admin/abandoned-carts endpoint that returns
-     all abandoned carts with cart_data parsed
-   - Frontend: parse cart_data JSON to show product details
-
-   D) "Send Reminder" button:
-   - For now: opens WhatsApp with pre-filled message:
-     "Hi! You left items in your cart at DeluxeOpt. 
-      Complete your order here: [link to cart]"
-   - Opens WhatsApp web link in new tab
-   - Uses customer phone number if available
+I) "Back to Orders" link: visible and accessible on mobile
 
 =================================================================
-CHANGE 5 — WISHLIST FIX
+FIX 5 — ADMIN PRODUCTS LIST (Mobile)
 =================================================================
 
-CURRENT: Clicking heart icon does not add products to wishlist.
+A) Header: "Products" title + "Add Product" button
+   - Mobile: title left, button right (same row, button smaller)
 
-REQUIRED: Fix wishlist functionality completely.
+B) Search + filter bar:
+   - Mobile: full width search input
+   - Filter dropdown: full width below search
 
-A) In ProductCard component:
-   - Heart icon: outline by default, filled orange when in wishlist
-   - On click: 
-     * If user NOT logged in: redirect to /login?redirect=[current page]
-     * If user IS logged in: 
-       - If NOT in wishlist: call POST /api/wishlist/{product_id}
-         → add to wishlist → heart becomes filled orange
-       - If already in wishlist: call DELETE /api/wishlist/{product_id}
-         → remove from wishlist → heart becomes outline
-   - Show brief success toast: "Added to wishlist" / "Removed from wishlist"
-
-B) In Product Detail page:
-   - Same heart icon behavior (larger icon near product title)
-   - Same add/remove logic
-
-C) On page load:
-   - If user is logged in, fetch GET /api/wishlist to get wishlist product IDs
-   - Store wishlist IDs in Zustand wishlistStore
-   - All heart icons check against this store to show filled/outline
-
-D) Wishlist store (create frontend/store/wishlistStore.ts):
-   - State: productIds (array of product IDs in wishlist)
-   - Actions: addToWishlist, removeFromWishlist, setWishlist, isInWishlist
-   - Persist wishlist IDs in localStorage for logged-in users
-
-E) In /account/wishlist page:
-   - Fetch GET /api/wishlist and show products as product cards
-   - Each card has heart icon (filled) that removes from wishlist on click
-   - If empty: show "Your wishlist is empty" message with browse button
-
-F) Wishlist count badge:
-   - In Header, next to wishlist icon, show count badge if items > 0
-   - Same style as cart badge (orange circle)
+C) Products table → CARD LIST on mobile:
+   Each product card:
+   - Row 1: Product image (48x48, left) + Product name (bold) + SKU (muted)
+   - Row 2: Category badge + Price (orange) + Stock indicator
+   - Row 3: Status badge + Edit button + Delete button (right-aligned)
+   - Card: white bg, border, rounded-lg, p-3, mb-2
 
 =================================================================
-CHANGE 6 — PROFILE & SETTINGS PAGE REDESIGN
+FIX 6 — ADMIN ADD/EDIT PRODUCT FORM (Mobile) — MOST IMPORTANT
 =================================================================
 
-CURRENT: Profile page looks basic and unattractive with black background cards.
+This is the most complex page. Must be fully usable on mobile.
 
-REQUIRED: Redesign /account/profile (or /account/settings) to look professional.
+A) LAYOUT:
+   - Desktop: main column + 280px sidebar → Mobile: single column
+   - Sidebar (Status, SEO) moves to BOTTOM of page on mobile
+   - All sections stack vertically in this order:
+     1. Basic Info
+     2. Pricing
+     3. Product Images
+     4. Variants
+     5. Description
+     6. Frame Specifications
+     7. Lens Options
+     8. Status & Visibility (sidebar content)
+     9. SEO (sidebar content)
 
-Layout: same sidebar nav as other account pages
+B) BASIC INFO section on mobile:
+   - All fields: full width, single column
+   - No 2-column or 3-column grids on mobile
+   - Every input/select: full width
 
-Page content (white background, clean cards):
+C) PRICING section on mobile:
+   - Base Price + Sale Price: stack vertically (each full width)
 
-CARD 1 — "Personal Information":
-- Background: white, border #e5e7eb, rounded-lg, p-6
-- Top: user avatar circle (large, 64px, orange bg with initials)
-  next to: user's full name (large) + email (muted) + "Member since [date]"
-- Form below:
-  * Full Name (input, pre-filled)
-  * Email (input, read-only, show lock icon)
-  * Phone (input, pre-filled)
-  * "Save Changes" button (orange)
+D) PRODUCT IMAGES section on mobile:
+   - Upload zone: full width, shorter height (120px)
+   - Image thumbnails: 3 per row on mobile (flex-wrap)
+   - Each thumbnail: smaller (72x64px)
+   - Color group labels: clear and visible
+   - Up/Down arrows: visible and tappable (min 36px)
+   - "Set Primary" button: visible on mobile (smaller text)
+   - Color dropdown per image: full width when open
+   - Delete button: red, clearly visible
 
-CARD 2 — "Change Password":
-- Background: white, border, rounded-lg, p-6
-- Current Password input
-- New Password input  
-- Confirm New Password input
-- Password strength indicator (weak/medium/strong)
-- "Update Password" button (orange)
+E) VARIANTS section on mobile:
+   - Table view: wrap in overflow-x-auto
+   - OR better: convert each variant to a CARD on mobile:
+     Each variant card:
+     - Row 1: Color swatch (dot) + Color name + Size label
+     - Row 2: Lens/Bridge/Temple measurements
+     - Row 3: SKU (muted, small)
+     - Row 4: Price input + Stock input (side by side, 50/50)
+     - Row 5: Active toggle + Delete button (right)
+     - Card: white bg, border border-[#e5e7eb], rounded-lg, p-3, mb-3
+   - "+ Add Color / Size" button: full width, at bottom
 
-CARD 3 — "Account Activity" (just info display, no form):
-- Background: white, border, rounded-lg, p-6
-- Show: Total Orders | Total Spent | Member Since | Last Login
-- 4 small stat boxes in a row
+F) DESCRIPTION (Rich Text Editor) on mobile:
+   - Toolbar buttons: wrap to multiple rows if needed
+   - Each toolbar button: min 36px width, 36px height
+   - Editor content area: min-height 150px, full width
+   - Font size in editor: 14px
 
-CARD 4 — "Danger Zone":
-- Background: white, border border-red-200, rounded-lg, p-6
-- "Sign Out" button (red outline)
-- Simple, clean layout
+G) FRAME SPECIFICATIONS on mobile:
+   - 5 inputs (Frame Width, Lens Width, Bridge, Temple, Lens Height):
+   - Stack as 2-column grid (2+2+1) on mobile
+   - Each input: full width within its column
+   - Labels: visible above each input
 
-Remove the black background from ALL cards on this page.
-All card backgrounds: white (#ffffff)
-All text: dark (#1a1a1a)
-All input fields: white background, dark text
+H) LENS OPTIONS section on mobile:
+   - Checkboxes: 2 per row on mobile (flex-wrap grid)
+   - Each checkbox item: larger tap target, clear label + price
 
-=================================================================
-CHANGE 7 — ADMIN CUSTOMERS: SHOW REGISTERED CUSTOMERS
-=================================================================
+I) SAVE BUTTON on mobile:
+   - Show "Save Changes" button BOTH at top (sticky) AND at bottom
+   - Top: sticky bar below admin topbar with save button
+   - Bottom: full width orange button
+   - This way admin doesn't have to scroll all the way to save
 
-CURRENT: Customers page shows no data even though users exist.
-
-REQUIRED: Fix admin customers page to show actual data.
-
-A) Fix the API call:
-   - The customers page calls GET /api/admin/customers
-   - Backend: check if this endpoint exists in backend/routes/admin/
-   - If it doesn't exist: create it
-   - Endpoint should return all users from the users table
-   - For each user, also count their orders and sum their order totals
-   - Response format per customer:
-     {
-       id, full_name, email, phone, created_at,
-       total_orders: count of orders by this user,
-       total_spent: sum of order totals by this user,
-       last_order_date: most recent order date
-     }
-
-B) Show TWO tabs on customers page:
-   
-   Tab 1 — "Registered Customers":
-   - Shows users from users table (is_admin = false)
-   - Table columns: Name | Email | Phone | Orders | Total Spent | Joined | Actions
-   - Click row → see customer's order history
-   - Sort by: Total Spent (default, descending)
-   
-   Tab 2 — "Guest Orders":
-   - Shows orders where user_id is NULL
-   - Groups by customer_phone (same phone = same guest customer)
-   - Shows: Name | Phone | Email | Order Count | Total Spent | Last Order
-   - Sort by: Total Spent (default, descending)
-
-C) Customer Detail View (click any customer):
-   - Shows customer info at top
-   - Shows all their orders in a table below
-   - Each order: Order ID | Date | Items | Total | Status
+J) STICKY SAVE BAR on mobile (add this new element):
+   - Position: sticky top-[52px] (below topbar)
+   - Background: white, border-bottom
+   - Left: "[Product Name] — Editing"
+   - Right: "Save Changes" button (orange, compact)
+   - Only shows on mobile when scrolling down the form
 
 =================================================================
-CHANGE 8 — ADMIN INVENTORY: STOCK EDIT FUNCTIONALITY
+FIX 7 — ADMIN REVIEWS (Mobile)
 =================================================================
 
-CURRENT: Inventory page shows stock levels but cannot edit them.
+A) Filter tabs: horizontal scroll pills on mobile
 
-REQUIRED: Add inline stock editing.
-
-In /admin/inventory page:
-
-A) Each row in the inventory table:
-   - Stock column: shows current stock number
-   - On CLICK of the stock number → transforms into an editable input field
-   - User types new stock number
-   - Press Enter OR click "Save" checkmark button → saves to backend
-   - Press Escape OR click "×" → cancels edit, reverts to original
-   - On save: calls PUT /api/admin/inventory/{variant_id} with {stock: newValue}
-   - On success: update the displayed stock number, show brief green success indicator
-   - On error: show red error message
-
-B) Also add a "Quick Update" button per row:
-   - Small edit (pencil) icon button at end of each row
-   - Click → opens a small inline edit mode for that row
-   - Same behavior as clicking stock number
-
-C) Bulk stock update:
-   - Checkbox on each row (select multiple variants)
-   - When checkboxes selected: show "Update Selected Stock" button at top
-   - Click → opens modal: "Set stock to: [input]" for all selected variants
-   - Useful when restocking multiple items at once
+B) Reviews table → CARD LIST on mobile:
+   Each review card:
+   - Row 1: Customer name + Date (right)
+   - Row 2: Product name (muted, small)
+   - Row 3: Star rating (orange stars)
+   - Row 4: Review excerpt (2 lines max)
+   - Row 5: Approve (green) + Reject (red) buttons (full width, side by side)
+   - Card: white bg, border, rounded-lg, p-3, mb-2
 
 =================================================================
-CHANGE 9 — ADMIN PRODUCTS: IMAGES GROUPED BY COLOR
+FIX 8 — ADMIN BLOGS LIST & EDITOR (Mobile)
 =================================================================
 
-CURRENT: Product images show as a flat list with only first tagged "Main".
+A) BLOGS LIST on mobile:
+   - Table → card list
+   - Each blog card: title + category badge + status + date + actions
+   - Edit/Delete buttons: visible
 
-REQUIRED: Images should be organized by color variant (like reference screenshot).
-
-In Add/Edit Product form, the "PRODUCT IMAGES" section:
-
-A) After admin has added colors in the Variants section,
-   the images section groups by color:
-
-   Display:
-   ● Black   3 images
-   [▲][▼] [thumbnail] Set Primary | Color: [Black dropdown] | [🗑 delete]
-   [▲][▼] [thumbnail] Set Primary | Color: [Black dropdown] | [🗑 delete]
-   [▲][▼] [thumbnail] Set Primary | Color: [Black dropdown] | [🗑 delete]
-   
-   ● Gold    2 images
-   [▲][▼] [thumbnail] PRIMARY     | Color: [Gold dropdown]  | [🗑 delete]
-   [▲][▼] [thumbnail] Set Primary | Color: [Gold dropdown]  | [🗑 delete]
-
-   "+ Add Media" button at bottom to upload more images
-
-B) Each image row has:
-   - Up/Down arrows (▲▼) to reorder images within that color group
-   - Thumbnail preview (64x56px, object-contain)
-   - "PRIMARY" badge if it's the main image for that color
-     OR "Set Primary" button to make it primary
-   - Color dropdown: shows all colors added in variants section
-     (admin can assign/reassign image to any color)
-   - Delete button (red trash icon)
-
-C) The "PRIMARY" image for each color is what shows on product page
-   when customer selects that color.
-
-D) When no variants/colors added yet:
-   - Show simple flat image list without color grouping
-   - Images labeled: "1st (Main)", "2nd (Gallery)", "3rd (Description)"
-
-E) Image upload:
-   - "Add Media" button or drag-drop zone at bottom
-   - Upload goes to Cloudinary via POST /api/upload/image
-   - Newly uploaded images go to "Unassigned" group initially
-   - Admin then selects which color they belong to
-
-F) Backend changes needed:
-   - ProductImage model needs a color_name field (nullable) 
-     to store which color variant this image belongs to
-   - Add color_name to ProductImage schema
-   - Create Alembic migration for this field
-   - Update PUT /api/admin/products/{id}/images/reorder to handle 
-     color assignments
+B) BLOG EDITOR on mobile:
+   - Desktop: editor (left) + settings sidebar (right)
+   - Mobile: single column
+     1. Title input (full width, large)
+     2. Cover image upload (full width)
+     3. Rich text editor (full width, min-height 300px)
+     4. Settings section below editor:
+        - Category, URL Slug, Status, Meta fields
+        - All full width
+   - Save Draft + Publish buttons: sticky at bottom on mobile
+     (fixed bottom bar with both buttons)
+   - Toolbar: wraps to multiple rows on mobile, all buttons tappable
 
 =================================================================
-CHANGE 10 — ADMIN PRODUCTS: VARIANTS FIX
+FIX 9 — ADMIN INVENTORY (Mobile)
 =================================================================
 
-CURRENT: Variants section is not saving or showing data correctly.
+A) Inventory table → CARD LIST on mobile:
+   Each item card:
+   - Row 1: Product name (bold) + Status badge (right)
+   - Row 2: SKU (muted) + Color/Size info
+   - Row 3: Stock count (large, colored) + Edit stock button
+   - When edit mode: stock input appears inline
+   - Save/Cancel buttons: clearly visible
 
-REQUIRED: Fix variants completely so they work properly.
-
-In Add/Edit Product form, the "VARIANTS (COLORS & SIZES)" section:
-
-A) DISPLAY: Show existing variants correctly
-   - When editing a product, pre-populate the variants table with 
-     all existing variants from the API
-   - Each row shows all fields: Color Name, Color hex, Size Label,
-     Lens Width, Bridge, Temple, SKU, Price, Stock, Active
-
-B) ADD NEW VARIANT:
-   - "+ Add Color / Size" button adds a new empty row
-   - User fills in all fields
-   - Row is saved when "Save Changes" / "Save Product" is clicked
-
-C) EDIT EXISTING VARIANT:
-   - All fields in existing rows are editable inline
-   - Changes are saved when "Save Changes" button is clicked
-
-D) DELETE VARIANT:
-   - "×" button on each row deletes that variant
-   - Confirmation: "Are you sure?" before deleting
-   - If only 1 variant: cannot delete (show warning)
-
-E) SAVING: When "Save Changes" or "Save Product" is clicked:
-   - ALL variants (new, edited, deleted) are processed
-   - New variants: POST /api/admin/products/{id}/variants
-   - Updated variants: PUT /api/admin/products/{id}/variants/{vid}
-   - Deleted variants: DELETE /api/admin/products/{id}/variants/{vid}
-   - Show success message after save
-   - Show error message if any variant fails to save
-
-F) COLOR HEX PICKER:
-   - The color hex field must have a working color picker input
-   - Shows a colored square preview of the selected color
-   - Clicking square opens native color picker
-
-G) SIZE LABEL:
-   - Dropdown with options: One Size, XS, S, M, L, XL, XXL, 
-     Small, Medium, Large, Extra Large
-   - OR free text input if admin wants custom label
-
-H) AUTO-GENERATE SKU:
-   - When Color Name and Size Label are filled:
-   - Auto-suggest SKU: [product.sku]-[first 3 letters of size]-[first 3 letters of color]
-   - Example: DOS-SG-001-SML-BLK
-   - Admin can override this
+B) Bulk select: checkboxes visible on mobile
+C) "Update Selected" button: full width when variants selected
 
 =================================================================
-CHANGE 11 — LENS OPTIONS: PROGRESSIVES SUB-OPTIONS + REMOVE ADD-ONS FROM MODAL
+FIX 10 — ADMIN PROMO CODES (Mobile)
 =================================================================
 
-A) REMOVE Add-ons type from Lens Options modal:
-   - In New/Edit Lens Option modal, remove "Add-ons" from the Type dropdown
-   - Type dropdown should only have: "Lens Type" and "Coating"
-   - The Add-ons tab and its content: COMPLETELY REMOVE from admin Lens Options page
-   - Remove the "Add-ons" tab from the Lens Options page tabs
-   - Only keep: "Lens Types" tab and "Coatings" tab
+A) Table → card list on mobile:
+   Each promo card: code + type + value + expiry + active toggle + edit/delete
 
-B) PROGRESSIVES SUB-OPTIONS in New/Edit Lens Option modal:
-   - When Type = "Lens Type" AND Name contains "Progressive" (or admin checks a checkbox):
-     show a "Sub-options" section in the modal
-   - OR: add a checkbox "Has sub-options (e.g. Progressives)" that when checked 
-     reveals the sub-options section
-
-   Sub-options section shows:
-   - Label: "Sub-options (tiers)"
-   - A table/list where admin can add multiple sub-option rows
-   - Each row has:
-     * Name input (e.g. "Premium Progressive")
-     * Price input (Rs.)
-     * Description input (short, optional)
-     * "Recommended" checkbox (shows recommended badge to customer)
-     * Delete row button (×)
-   - "+ Add Sub-option" button to add more rows
-   - These sub-options save as JSON in a sub_options field on the LensOption
-
-   Backend changes:
-   - Add sub_options JSON field to LensOption model
-   - Create Alembic migration for this field
-   - Update LensOption schema to include sub_options
-   - Update PUT/POST /api/admin/lens-options to save sub_options
-
-C) LENS OPTIONS MODAL — Make it larger and better:
-   - Modal width: 600px (wider than current)
-   - All fields properly spaced with labels
-   - Fields in modal:
-     * Name (text input, full width)
-     * Type (dropdown: Lens Type | Coating)
-     * Price (Rs.) (number input)
-     * Description (textarea, 3 rows)
-     * Sort Order (number input)
-     * Has Sub-options (checkbox — only shows when Type = Lens Type)
-     * Sub-options table (shows when checkbox checked)
-     * Active (checkbox)
-   - Save and Cancel buttons at bottom
-   - Modal should be scrollable if content is long
+B) New/Edit Promo modal on mobile:
+   - Full width modal (100vw - 32px padding)
+   - All fields stacked vertically
+   - Save/Cancel: full width buttons, stacked
 
 =================================================================
-IMPLEMENTATION NOTES
+FIX 11 — ADMIN LENS OPTIONS (Mobile)
 =================================================================
 
-- Start with Change 5 (Wishlist) and Change 10 (Variants) as they are 
-  most user-facing and critical
-- Change 3 (Draft Orders) and Change 4 (Abandoned Carts) require 
-  new backend endpoints — create them
-- Change 9 (Image by color) requires backend migration — do it
-- Change 11 (Sub-options) requires backend migration — do it
-- Do NOT break any existing working functionality
-- After all changes: git add . && git commit -m "feat: admin improvements, wishlist fix, abandoned carts, draft orders" && git push
-- Test each change after implementing before moving to next
+A) Tab pills (Lens Types/Coatings): full width on mobile, each tab 50%
+
+B) Table → card list on mobile:
+   Each option card: name + price + active toggle + edit/delete
+
+C) New/Edit Lens Option modal on mobile:
+   - Full width (100vw - 32px)
+   - All fields full width
+   - Sub-options table (if progressives): cards instead of table rows
+   - Each sub-option as a card: name + price + recommended checkbox + delete
+   - "+ Add Sub-option" button: full width
+
+=================================================================
+FIX 12 — ADMIN CUSTOMERS (Mobile)
+=================================================================
+
+A) Tab (Registered/Guest): full width tabs, each 50%
+
+B) Customers table → card list on mobile:
+   Each customer card: name + email + phone + orders count + total spent + view button
+
+C) Customer detail view on mobile: single column
+
+=================================================================
+FIX 13 — ADMIN ANALYTICS (Mobile)
+=================================================================
+
+A) Charts: full width on mobile, height 220px each
+B) Charts stack vertically on mobile
+C) Stat cards: 2x2 grid on mobile
+D) Tables: overflow-x-auto wrapper
+
+=================================================================
+FIX 14 — ADMIN SETTINGS (Mobile)
+=================================================================
+
+A) All setting cards: full width
+B) All inputs: full width
+C) Save buttons: full width
+
+=================================================================
+FIX 15 — ADMIN ABANDONED CARTS (Mobile)
+=================================================================
+
+A) Stat cards: 2x2 grid on mobile
+B) Cart cards: full width
+C) Expanded product table: overflow-x-auto
+D) "Send Reminder" + "Hide" buttons: side by side, clear size
+
+=================================================================
+FIX 16 — ADMIN DRAFT ORDER CREATION (Mobile)
+=================================================================
+
+A) All form sections: single column on mobile
+B) Product search + variant selection: full width dropdowns
+C) Lens customization: full width cards
+D) Prescription form: smaller selects but still usable
+E) "Create Order" button: full width, sticky bottom on mobile
+
+=================================================================
+MODALS — GLOBAL MOBILE RULES
+=================================================================
+
+ALL modals in admin on mobile:
+
+Option A (preferred for complex modals like Edit Product):
+- Position: fixed, bottom: 0, left: 0, right: 0
+- Slides up from bottom (bottom sheet style)
+- Max-height: 90vh
+- Overflow-y: auto (scrollable)
+- Border-radius: rounded-t-2xl (rounded top corners only)
+- Handle bar at top center (small grey pill)
+
+Option B (for simple modals like Edit Promo Code):
+- Position: fixed, center of screen
+- Width: calc(100vw - 32px)
+- Max-height: 90vh
+- Overflow-y: auto
+- Border-radius: rounded-xl
+
+ALL modal buttons on mobile:
+- Full width
+- Stacked vertically (Save on top, Cancel below)
+- Or side by side if text is short
+
+ALL modal inputs on mobile:
+- Full width
+- min-height: 44px
+- font-size: 16px (prevents iOS zoom on focus)
+
+=================================================================
+TYPOGRAPHY & SPACING ON MOBILE
+=================================================================
+
+Admin topbar title: 16px on mobile (was 20px)
+Section headings (card titles): 15px on mobile
+Table headers: 10px uppercase
+Table cell text: 12-13px
+Button text: 13px minimum
+Input text: 16px (prevents iOS auto-zoom)
+Label text: 11px uppercase
+
+Card padding on mobile: p-4 (16px)
+Gap between cards: gap-3 (12px)
+Section margin: mb-4 (16px)
+
+=================================================================
+IMPLEMENTATION ORDER
+=================================================================
+
+Implement in this order:
+1. Admin sidebar drawer (affects all pages)
+2. Admin topbar mobile layout
+3. Add/Edit Product form (most important - Fix 6)
+4. Orders list + detail
+5. Dashboard
+6. All other list pages (Reviews, Blogs, Inventory, etc.)
+7. All modals
+8. Test every page at 365px width
+
+After implementing:
+git add .
+git commit -m "feat: admin panel fully responsive for mobile 365px+"
+git push
+
+TESTING CHECKLIST (test each on 365px):
+[ ] Can open sidebar from hamburger
+[ ] Can add new product with all fields
+[ ] Can edit existing product
+[ ] Can upload images for product
+[ ] Can add/edit variants
+[ ] Can view and update orders
+[ ] Can approve/reject reviews
+[ ] Can create/edit blog post
+[ ] Can update inventory stock
+[ ] Can create/edit promo codes
+[ ] Can manage lens options
+[ ] Can view customers
+[ ] All modals open and close properly
+[ ] All forms save successfully
+[ ] No horizontal overflow on any page
