@@ -160,13 +160,15 @@ export default function ProductDetailPage() {
   const discountPct = product.sale_price ? getDiscountPercent(product.base_price, product.sale_price) : 0;
 
   const frameSizeStr = (() => {
-    const parts = [product.lens_width_mm, product.bridge_mm, product.temple_mm].filter((v) => v != null);
-    if (!parts.length) return null;
+    const lw = product.lens_width_mm;
+    const br = product.bridge_mm;
+    const tm = product.temple_mm;
+    if (!lw && !br && !tm) return null;
     const sl = variant?.size_label;
-    if (sl && sl.toLowerCase() !== "null") {
-      return `${sl} (${product.lens_width_mm}□${product.bridge_mm}-${product.temple_mm})`;
-    }
-    return `${product.lens_width_mm}□${product.bridge_mm}-${product.temple_mm}`;
+    const validLabel = sl && sl.toLowerCase() !== "null" ? sl : null;
+    const meas = [lw != null && `${lw}`, br != null && `□${br}`, tm != null && `-${tm}`]
+      .filter(Boolean).join("");
+    return validLabel ? `${validLabel} (${meas})` : meas;
   })();
 
   const shortDesc = (() => {
@@ -411,16 +413,28 @@ export default function ProductDetailPage() {
                     { label: "Material", value: product.material },
                     { label: "Shape", value: product.frame_shape },
                     { label: "Rim Type", value: product.rim_type },
-                    { label: "Frame Width", value: product.frame_width_mm ? `${product.frame_width_mm}mm` : null },
-                    { label: "Lens Width", value: product.lens_width_mm ? `${product.lens_width_mm}mm` : null },
-                    { label: "Bridge", value: product.bridge_mm ? `${product.bridge_mm}mm` : null },
-                    { label: "Temple Length", value: product.temple_mm ? `${product.temple_mm}mm` : null },
                   ].filter(({ value }) => value).map(({ label, value }) => (
                     <div key={label} className="flex items-start gap-2 border-b border-[#f3f4f6] pb-3">
                       <span className="text-[#6b7280] w-[100px] shrink-0">• {label}</span>
                       <span className="text-[#1a1a1a] font-medium capitalize">{value}</span>
                     </div>
                   ))}
+                  {(product.frame_width_mm || product.lens_width_mm || product.bridge_mm || product.temple_mm) && (
+                    <>
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-[#6b7280] pt-1">Frame Specifications</p>
+                      {[
+                        { label: "Frame Width", value: product.frame_width_mm ? `${product.frame_width_mm}mm` : null },
+                        { label: "Lens Width", value: product.lens_width_mm ? `${product.lens_width_mm}mm` : null },
+                        { label: "Bridge", value: product.bridge_mm ? `${product.bridge_mm}mm` : null },
+                        { label: "Temple Length", value: product.temple_mm ? `${product.temple_mm}mm` : null },
+                      ].filter(({ value }) => value).map(({ label, value }) => (
+                        <div key={label} className="flex items-start gap-2 border-b border-[#f3f4f6] pb-3">
+                          <span className="text-[#6b7280] w-[100px] shrink-0">• {label}</span>
+                          <span className="text-[#1a1a1a] font-medium capitalize">{value}</span>
+                        </div>
+                      ))}
+                    </>
+                  )}
                 </div>
 
                 {product.bullets.length > 0 && (
@@ -469,9 +483,9 @@ export default function ProductDetailPage() {
                           {product.lens_width_mm && (
                             <>
                               <line x1="35" y1="40" x2="165" y2="40" stroke="white" strokeWidth="2.5" />
-                              <line x1="35" y1="40" x2="165" y2="40" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
-                              <line x1="35" y1="35" x2="35" y2="45" stroke="#E8670A" strokeWidth="1.5" />
-                              <line x1="165" y1="35" x2="165" y2="45" stroke="#E8670A" strokeWidth="1.5" />
+                              <line x1="35" y1="40" x2="165" y2="40" stroke="#9ca3af" strokeWidth="1" strokeDasharray="4,2" />
+                              <line x1="35" y1="37" x2="35" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
+                              <line x1="165" y1="37" x2="165" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
                               <rect x="63" y="20" width="74" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
                               <text x="100" y="32" textAnchor="middle" fontSize="10" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.lens_width_mm}mm</text>
                             </>
@@ -479,9 +493,9 @@ export default function ProductDetailPage() {
                           {product.bridge_mm && (
                             <>
                               <line x1="170" y1="40" x2="230" y2="40" stroke="white" strokeWidth="2.5" />
-                              <line x1="170" y1="40" x2="230" y2="40" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
-                              <line x1="170" y1="35" x2="170" y2="45" stroke="#E8670A" strokeWidth="1.5" />
-                              <line x1="230" y1="35" x2="230" y2="45" stroke="#E8670A" strokeWidth="1.5" />
+                              <line x1="170" y1="40" x2="230" y2="40" stroke="#9ca3af" strokeWidth="1" strokeDasharray="3,2" />
+                              <line x1="170" y1="37" x2="170" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
+                              <line x1="230" y1="37" x2="230" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
                               <rect x="183" y="20" width="34" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
                               <text x="200" y="32" textAnchor="middle" fontSize="9" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.bridge_mm}mm</text>
                             </>
@@ -489,9 +503,9 @@ export default function ProductDetailPage() {
                           {product.lens_height_mm && (
                             <>
                               <line x1="350" y1="55" x2="350" y2="145" stroke="white" strokeWidth="2.5" />
-                              <line x1="350" y1="55" x2="350" y2="145" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
-                              <line x1="346" y1="55" x2="354" y2="55" stroke="#E8670A" strokeWidth="1.5" />
-                              <line x1="346" y1="145" x2="354" y2="145" stroke="#E8670A" strokeWidth="1.5" />
+                              <line x1="350" y1="55" x2="350" y2="145" stroke="#9ca3af" strokeWidth="1" strokeDasharray="4,2" />
+                              <line x1="347" y1="55" x2="353" y2="55" stroke="#9ca3af" strokeWidth="1.5" />
+                              <line x1="347" y1="145" x2="353" y2="145" stroke="#9ca3af" strokeWidth="1.5" />
                               <rect x="296" y="92" width="48" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
                               <text x="320" y="104" textAnchor="middle" fontSize="10" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.lens_height_mm}mm</text>
                             </>
@@ -501,9 +515,9 @@ export default function ProductDetailPage() {
                       {imageView === "side" && product.temple_mm && (
                         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 200">
                           <line x1="40" y1="80" x2="280" y2="80" stroke="white" strokeWidth="2.5" />
-                          <line x1="40" y1="80" x2="280" y2="80" stroke="#E8670A" strokeWidth="1" strokeDasharray="6,4" />
-                          <line x1="40" y1="75" x2="40" y2="85" stroke="#E8670A" strokeWidth="1.5" />
-                          <line x1="280" y1="75" x2="280" y2="85" stroke="#E8670A" strokeWidth="1.5" />
+                          <line x1="40" y1="80" x2="280" y2="80" stroke="#9ca3af" strokeWidth="1" strokeDasharray="6,4" />
+                          <line x1="40" y1="77" x2="40" y2="83" stroke="#9ca3af" strokeWidth="1.5" />
+                          <line x1="280" y1="77" x2="280" y2="83" stroke="#9ca3af" strokeWidth="1.5" />
                           <rect x="126" y="63" width="48" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
                           <text x="150" y="75" textAnchor="middle" fontSize="10" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.temple_mm}mm</text>
                         </svg>
