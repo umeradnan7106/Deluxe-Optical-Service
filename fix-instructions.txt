@@ -1,442 +1,123 @@
-Make the ENTIRE admin panel fully responsive for mobile.
-Every admin page must work perfectly on 365px+ screens.
-Admin must be able to ADD, EDIT, DELETE everything from mobile.
-Do NOT touch any backend files. Only frontend/ folder.
+Fix the measurement annotation lines on the Features & Size tab product images.
+Do NOT touch any backend files.
+
+Look at the current implementation in the Features & Size tab component
+(likely in app/(store)/products/[slug]/page.tsx or a separate component).
 
 =================================================================
-GLOBAL ADMIN MOBILE RULES
+PROBLEM 1 — FRONT VIEW: RIGHT SIDE VERTICAL LINE MISSING NUMBER
 =================================================================
 
-Breakpoints:
-- Mobile: 365px - 767px
-- Tablet: 768px - 1023px  
-- Desktop: 1024px+ (keep existing layout)
+CURRENT: On the Front view image, the right side shows a vertical 
+dashed line (for lens height) but the number (mm value) is NOT 
+displaying next to it — it shows blank or cut off.
 
-Global mobile rules for ALL admin pages:
-- No horizontal overflow/scroll on page level
-- All tables: horizontal scroll (overflow-x-auto) in a wrapper div
-- All forms: single column on mobile
-- All modals: full screen on mobile (width 100%, height auto, 
-  no border-radius on mobile, positioned at bottom or center)
-- All buttons: minimum 44px height, full width on mobile where appropriate
-- All inputs: minimum 44px height, full width
-- Font size: minimum 13px everywhere
-- Padding: px-4 on all containers on mobile
-- Cards: full width, rounded-lg, proper padding
+FIX:
+- The vertical line on the RIGHT side of the image shows lens_height_mm
+- Make sure the label "55mm" (or whatever lens_height_mm value is) 
+  appears clearly next to the vertical line
+- Label position: to the RIGHT of the vertical line, vertically centered
+- If the label is being cut off by the image container: 
+  * Add overflow: visible to the image wrapper
+  * OR add right padding to the container so label has space
+  * OR position label INSIDE the image (absolute positioned) 
+    at the right edge, with white/orange background pill
 
-=================================================================
-FIX 1 — ADMIN SIDEBAR (Mobile)
-=================================================================
-
-CURRENT: Sidebar always visible, takes space on mobile.
-
-REQUIRED:
-
-A) On mobile (< 768px): HIDE sidebar completely by default
-
-B) Add a hamburger menu button in the admin topbar (mobile only):
-   - Position: left side of topbar
-   - Icon: 3 horizontal lines (hamburger) Heroicon
-   - On click: opens sidebar as a DRAWER from the left
-   - Drawer overlays the content (not pushes it)
-
-C) Sidebar drawer on mobile:
-   - Full height, width: 280px
-   - Dark background (#0F0F0F) same as desktop
-   - Behind drawer: dark overlay (bg-black/50)
-   - Click overlay → closes drawer
-   - "×" close button inside drawer at top right
-   - All nav links same as desktop
-   - Logo at top
-
-D) Admin topbar on mobile:
-   - Left: hamburger icon button
-   - Center: page title (shorter if needed)
-   - Right: action buttons (stack or show most important only)
-   - Height: 52px
-
-E) Active page in sidebar: highlight same as desktop (orange left border)
+The label must show: "[lens_height_mm]mm" in orange color
+Same style as the other labels (45mm, 30mm shown in orange at top)
 
 =================================================================
-FIX 2 — ADMIN DASHBOARD (Mobile)
+PROBLEM 2 — SIDE VIEW: NO MEASUREMENT LINE AT ALL
 =================================================================
 
-A) Stat cards grid:
-   - Desktop: 4 columns → Mobile: 2x2 grid
-   - Each card: full width within its grid cell
-   - Font sizes: slightly smaller on mobile
+CURRENT: The Side view image shows the product photo but has 
+NO measurement lines or annotations on it.
 
-B) Charts:
-   - Desktop: 2 charts side by side → Mobile: stack vertically
-   - Each chart: full width
-   - Chart height on mobile: 200px
+FIX:
+- On the Side view image, add ONE measurement line:
+  * A horizontal dashed line showing the TEMPLE LENGTH
+  * The line runs horizontally across the temple arm of the glasses
+  * Label: "[temple_mm]mm" (e.g. "150mm") 
+  * Position: somewhere across the middle-upper area of the image
+    where the temple arm is visible
+  * Line color: orange dashed (#E8670A)
+  * Label style: orange color, small text, same as front view labels
 
-C) Tables (Recent Orders, Pending Reviews, Low Stock):
-   - Wrap each table in overflow-x-auto div
-   - On mobile: tables scroll horizontally
-   - Show most important columns first (Order ID, Customer, Total, Status)
-   - OR convert to card list on mobile:
-     Each row becomes a card showing all info vertically
-
-D) Quick action buttons:
-   - Desktop: row → Mobile: stack vertically, full width buttons
-
-=================================================================
-FIX 3 — ADMIN ORDERS LIST (Mobile)
-=================================================================
-
-A) Filter tabs (All/Pending/Processing etc.):
-   - Mobile: horizontal scroll pills (overflow-x-auto)
-   - Each tab: min-width fit-content, no wrapping
-
-B) Search bar:
-   - Mobile: full width, below filter tabs
-
-C) Orders table:
-   - Wrap in overflow-x-auto
-   - OR better: convert to CARD LIST on mobile
-   - Each order card shows:
-     * Row 1: Order number (orange, bold) + Status badge (right)
-     * Row 2: Customer name + Date (muted)
-     * Row 3: Items summary + Total (orange, bold, right)
-     * Row 4: Action buttons (View/Update)
-   - Cards: white bg, border, rounded-lg, p-4, mb-3
-
-D) Action buttons per order:
-   - "View Details" button: full width orange button on mobile
+- Since the side image position varies per product photo, place the 
+  temple line at approximately:
+  * Top: 40% of image height (this is where temple arm usually appears)
+  * Left: 10% to Right: 70% of image width (spanning across temple)
+  * Label at left end of line: "[temple_mm]mm"
 
 =================================================================
-FIX 4 — ADMIN ORDER DETAIL (Mobile)
+PROBLEM 3 — BACKGROUND/GREY IMAGES: LINES NOT SHOWING
 =================================================================
 
-A) Layout:
-   - Desktop: 3-column info blocks → Mobile: single column stack
-   - Each info block (Customer/Frame/Lens): full width card
+CURRENT: When the product image has a grey or dark background,
+the measurement lines and labels are invisible or hard to see.
 
-B) Customer info card: full width
-C) Frame details card: full width
-D) Lens & Prescription card: full width
+FIX:
+- The annotation lines and labels must be visible on ANY background
+- Change the line and label style to always be visible:
 
-E) Prescription table (OD/OS):
-   - Mobile: font-size 12px
-   - Table wraps in overflow-x-auto
+  For LINES:
+  - Keep orange dashed color: stroke="#E8670A" stroke-dasharray="6,4"
+  - Add a subtle white/light stroke underneath for contrast on dark bg:
+    Use a white line behind orange line (same path, white, slightly thicker)
+  - OR: use orange color which is visible on both light and dark backgrounds
 
-F) Status update section:
-   - Dropdown + button: full width on mobile
-   - Stack vertically if needed
+  For LABELS (the mm numbers):
+  - Wrap each label in a small pill/badge:
+    * Background: white (#ffffff) 
+    * Text color: orange (#E8670A) or dark (#1a1a1a)
+    * Border: 1px solid #E8670A
+    * Border-radius: 4px
+    * Padding: 1px 5px
+    * Font-size: 11px, font-weight: 600
+  - This pill/badge makes labels readable on ANY background color
+    (grey, white, black, beige — all work with white pill + orange text)
 
-G) Tracking number input:
-   - Full width on mobile
+  For ARROW ENDPOINTS on lines:
+  - Make arrowheads orange colored
+  - They should be clearly visible
 
-H) Payment strip:
-   - Horizontal layout → vertical stack on mobile
-   - Each payment field on its own line
-
-I) "Back to Orders" link: visible and accessible on mobile
-
-=================================================================
-FIX 5 — ADMIN PRODUCTS LIST (Mobile)
-=================================================================
-
-A) Header: "Products" title + "Add Product" button
-   - Mobile: title left, button right (same row, button smaller)
-
-B) Search + filter bar:
-   - Mobile: full width search input
-   - Filter dropdown: full width below search
-
-C) Products table → CARD LIST on mobile:
-   Each product card:
-   - Row 1: Product image (48x48, left) + Product name (bold) + SKU (muted)
-   - Row 2: Category badge + Price (orange) + Stock indicator
-   - Row 3: Status badge + Edit button + Delete button (right-aligned)
-   - Card: white bg, border, rounded-lg, p-3, mb-2
+SUMMARY of label style change:
+Instead of plain orange text floating over image,
+use: white background pill with orange border and orange text.
+This ensures visibility on grey/dark product images.
 
 =================================================================
-FIX 6 — ADMIN ADD/EDIT PRODUCT FORM (Mobile) — MOST IMPORTANT
+ALSO FIX — SIZE SHOWS "Null" IN FEATURES TAB
 =================================================================
 
-This is the most complex page. Must be fully usable on mobile.
+CURRENT: Size shows "Null□14-144" (Null instead of size label)
 
-A) LAYOUT:
-   - Desktop: main column + 280px sidebar → Mobile: single column
-   - Sidebar (Status, SEO) moves to BOTTOM of page on mobile
-   - All sections stack vertically in this order:
-     1. Basic Info
-     2. Pricing
-     3. Product Images
-     4. Variants
-     5. Description
-     6. Frame Specifications
-     7. Lens Options
-     8. Status & Visibility (sidebar content)
-     9. SEO (sidebar content)
-
-B) BASIC INFO section on mobile:
-   - All fields: full width, single column
-   - No 2-column or 3-column grids on mobile
-   - Every input/select: full width
-
-C) PRICING section on mobile:
-   - Base Price + Sale Price: stack vertically (each full width)
-
-D) PRODUCT IMAGES section on mobile:
-   - Upload zone: full width, shorter height (120px)
-   - Image thumbnails: 3 per row on mobile (flex-wrap)
-   - Each thumbnail: smaller (72x64px)
-   - Color group labels: clear and visible
-   - Up/Down arrows: visible and tappable (min 36px)
-   - "Set Primary" button: visible on mobile (smaller text)
-   - Color dropdown per image: full width when open
-   - Delete button: red, clearly visible
-
-E) VARIANTS section on mobile:
-   - Table view: wrap in overflow-x-auto
-   - OR better: convert each variant to a CARD on mobile:
-     Each variant card:
-     - Row 1: Color swatch (dot) + Color name + Size label
-     - Row 2: Lens/Bridge/Temple measurements
-     - Row 3: SKU (muted, small)
-     - Row 4: Price input + Stock input (side by side, 50/50)
-     - Row 5: Active toggle + Delete button (right)
-     - Card: white bg, border border-[#e5e7eb], rounded-lg, p-3, mb-3
-   - "+ Add Color / Size" button: full width, at bottom
-
-F) DESCRIPTION (Rich Text Editor) on mobile:
-   - Toolbar buttons: wrap to multiple rows if needed
-   - Each toolbar button: min 36px width, 36px height
-   - Editor content area: min-height 150px, full width
-   - Font size in editor: 14px
-
-G) FRAME SPECIFICATIONS on mobile:
-   - 5 inputs (Frame Width, Lens Width, Bridge, Temple, Lens Height):
-   - Stack as 2-column grid (2+2+1) on mobile
-   - Each input: full width within its column
-   - Labels: visible above each input
-
-H) LENS OPTIONS section on mobile:
-   - Checkboxes: 2 per row on mobile (flex-wrap grid)
-   - Each checkbox item: larger tap target, clear label + price
-
-I) SAVE BUTTON on mobile:
-   - Show "Save Changes" button BOTH at top (sticky) AND at bottom
-   - Top: sticky bar below admin topbar with save button
-   - Bottom: full width orange button
-   - This way admin doesn't have to scroll all the way to save
-
-J) STICKY SAVE BAR on mobile (add this new element):
-   - Position: sticky top-[52px] (below topbar)
-   - Background: white, border-bottom
-   - Left: "[Product Name] — Editing"
-   - Right: "Save Changes" button (orange, compact)
-   - Only shows on mobile when scrolling down the form
+FIX:
+- The size display uses: "[size_label]□[lens_width]-[temple]"
+- size_label is coming as null for some products
+- Fix: if size_label is null or empty, show just the measurements:
+  "[lens_width]□[bridge]-[temple]" without the null prefix
+- Example: instead of "Null□14-144" show "□14-144" 
+  OR better: show "One Size (□14-144)" as fallback
+- In the spec list on left side, Size row:
+  if variant.size_label exists: "[size_label] (□[lens_width][bridge]-[temple])"
+  if variant.size_label is null/empty: "□[lens_width]-[bridge]-[temple]"
 
 =================================================================
-FIX 7 — ADMIN REVIEWS (Mobile)
+IMPLEMENTATION NOTES
 =================================================================
 
-A) Filter tabs: horizontal scroll pills on mobile
+The annotation overlay is likely implemented as an SVG or absolutely 
+positioned divs over the image container.
 
-B) Reviews table → CARD LIST on mobile:
-   Each review card:
-   - Row 1: Customer name + Date (right)
-   - Row 2: Product name (muted, small)
-   - Row 3: Star rating (orange stars)
-   - Row 4: Review excerpt (2 lines max)
-   - Row 5: Approve (green) + Reject (red) buttons (full width, side by side)
-   - Card: white bg, border, rounded-lg, p-3, mb-2
+Find the component that renders the Front/Side image with overlays.
+Make targeted fixes only to:
+1. The right-side vertical line label (Problem 1)
+2. Add temple line to Side view (Problem 2)  
+3. Label pill styling for visibility on any background (Problem 3)
+4. Null size_label fix (bonus fix)
 
-=================================================================
-FIX 8 — ADMIN BLOGS LIST & EDITOR (Mobile)
-=================================================================
-
-A) BLOGS LIST on mobile:
-   - Table → card list
-   - Each blog card: title + category badge + status + date + actions
-   - Edit/Delete buttons: visible
-
-B) BLOG EDITOR on mobile:
-   - Desktop: editor (left) + settings sidebar (right)
-   - Mobile: single column
-     1. Title input (full width, large)
-     2. Cover image upload (full width)
-     3. Rich text editor (full width, min-height 300px)
-     4. Settings section below editor:
-        - Category, URL Slug, Status, Meta fields
-        - All full width
-   - Save Draft + Publish buttons: sticky at bottom on mobile
-     (fixed bottom bar with both buttons)
-   - Toolbar: wraps to multiple rows on mobile, all buttons tappable
-
-=================================================================
-FIX 9 — ADMIN INVENTORY (Mobile)
-=================================================================
-
-A) Inventory table → CARD LIST on mobile:
-   Each item card:
-   - Row 1: Product name (bold) + Status badge (right)
-   - Row 2: SKU (muted) + Color/Size info
-   - Row 3: Stock count (large, colored) + Edit stock button
-   - When edit mode: stock input appears inline
-   - Save/Cancel buttons: clearly visible
-
-B) Bulk select: checkboxes visible on mobile
-C) "Update Selected" button: full width when variants selected
-
-=================================================================
-FIX 10 — ADMIN PROMO CODES (Mobile)
-=================================================================
-
-A) Table → card list on mobile:
-   Each promo card: code + type + value + expiry + active toggle + edit/delete
-
-B) New/Edit Promo modal on mobile:
-   - Full width modal (100vw - 32px padding)
-   - All fields stacked vertically
-   - Save/Cancel: full width buttons, stacked
-
-=================================================================
-FIX 11 — ADMIN LENS OPTIONS (Mobile)
-=================================================================
-
-A) Tab pills (Lens Types/Coatings): full width on mobile, each tab 50%
-
-B) Table → card list on mobile:
-   Each option card: name + price + active toggle + edit/delete
-
-C) New/Edit Lens Option modal on mobile:
-   - Full width (100vw - 32px)
-   - All fields full width
-   - Sub-options table (if progressives): cards instead of table rows
-   - Each sub-option as a card: name + price + recommended checkbox + delete
-   - "+ Add Sub-option" button: full width
-
-=================================================================
-FIX 12 — ADMIN CUSTOMERS (Mobile)
-=================================================================
-
-A) Tab (Registered/Guest): full width tabs, each 50%
-
-B) Customers table → card list on mobile:
-   Each customer card: name + email + phone + orders count + total spent + view button
-
-C) Customer detail view on mobile: single column
-
-=================================================================
-FIX 13 — ADMIN ANALYTICS (Mobile)
-=================================================================
-
-A) Charts: full width on mobile, height 220px each
-B) Charts stack vertically on mobile
-C) Stat cards: 2x2 grid on mobile
-D) Tables: overflow-x-auto wrapper
-
-=================================================================
-FIX 14 — ADMIN SETTINGS (Mobile)
-=================================================================
-
-A) All setting cards: full width
-B) All inputs: full width
-C) Save buttons: full width
-
-=================================================================
-FIX 15 — ADMIN ABANDONED CARTS (Mobile)
-=================================================================
-
-A) Stat cards: 2x2 grid on mobile
-B) Cart cards: full width
-C) Expanded product table: overflow-x-auto
-D) "Send Reminder" + "Hide" buttons: side by side, clear size
-
-=================================================================
-FIX 16 — ADMIN DRAFT ORDER CREATION (Mobile)
-=================================================================
-
-A) All form sections: single column on mobile
-B) Product search + variant selection: full width dropdowns
-C) Lens customization: full width cards
-D) Prescription form: smaller selects but still usable
-E) "Create Order" button: full width, sticky bottom on mobile
-
-=================================================================
-MODALS — GLOBAL MOBILE RULES
-=================================================================
-
-ALL modals in admin on mobile:
-
-Option A (preferred for complex modals like Edit Product):
-- Position: fixed, bottom: 0, left: 0, right: 0
-- Slides up from bottom (bottom sheet style)
-- Max-height: 90vh
-- Overflow-y: auto (scrollable)
-- Border-radius: rounded-t-2xl (rounded top corners only)
-- Handle bar at top center (small grey pill)
-
-Option B (for simple modals like Edit Promo Code):
-- Position: fixed, center of screen
-- Width: calc(100vw - 32px)
-- Max-height: 90vh
-- Overflow-y: auto
-- Border-radius: rounded-xl
-
-ALL modal buttons on mobile:
-- Full width
-- Stacked vertically (Save on top, Cancel below)
-- Or side by side if text is short
-
-ALL modal inputs on mobile:
-- Full width
-- min-height: 44px
-- font-size: 16px (prevents iOS zoom on focus)
-
-=================================================================
-TYPOGRAPHY & SPACING ON MOBILE
-=================================================================
-
-Admin topbar title: 16px on mobile (was 20px)
-Section headings (card titles): 15px on mobile
-Table headers: 10px uppercase
-Table cell text: 12-13px
-Button text: 13px minimum
-Input text: 16px (prevents iOS auto-zoom)
-Label text: 11px uppercase
-
-Card padding on mobile: p-4 (16px)
-Gap between cards: gap-3 (12px)
-Section margin: mb-4 (16px)
-
-=================================================================
-IMPLEMENTATION ORDER
-=================================================================
-
-Implement in this order:
-1. Admin sidebar drawer (affects all pages)
-2. Admin topbar mobile layout
-3. Add/Edit Product form (most important - Fix 6)
-4. Orders list + detail
-5. Dashboard
-6. All other list pages (Reviews, Blogs, Inventory, etc.)
-7. All modals
-8. Test every page at 365px width
-
-After implementing:
+After fixing:
 git add .
-git commit -m "feat: admin panel fully responsive for mobile 365px+"
+git commit -m "fix: measurement annotations - side line, label visibility, null size"
 git push
-
-TESTING CHECKLIST (test each on 365px):
-[ ] Can open sidebar from hamburger
-[ ] Can add new product with all fields
-[ ] Can edit existing product
-[ ] Can upload images for product
-[ ] Can add/edit variants
-[ ] Can view and update orders
-[ ] Can approve/reject reviews
-[ ] Can create/edit blog post
-[ ] Can update inventory stock
-[ ] Can create/edit promo codes
-[ ] Can manage lens options
-[ ] Can view customers
-[ ] All modals open and close properly
-[ ] All forms save successfully
-[ ] No horizontal overflow on any page

@@ -304,6 +304,10 @@ export default function ProductForm({ productId }: ProductFormProps) {
       }
       return updated;
     }));
+    // Sync variant measurements to product-level frame specs so they save with the product
+    if (field === "lens_width") setForm((f) => ({ ...f, lens_width_mm: String(value) }));
+    else if (field === "bridge") setForm((f) => ({ ...f, bridge_mm: String(value) }));
+    else if (field === "temple") setForm((f) => ({ ...f, temple_mm: String(value) }));
   }
 
   function removeVariant(key: string) {
