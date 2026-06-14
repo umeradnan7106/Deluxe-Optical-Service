@@ -14,6 +14,8 @@ import {
   PlusIcon,
   PhotoIcon,
   ListBulletIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 
 // ─── Local Types ────────────────────────────────────────────────────────────
@@ -292,6 +294,13 @@ export default function ProductForm({ productId }: ProductFormProps) {
   }
 
   function updateVariant(key: string, field: keyof VariantRow, value: string | boolean) {
+    if (field === "lens_width" || field === "bridge" || field === "temple") {
+      // Product-level measurement — sync across ALL variant rows and the product form
+      setVariants((rows) => rows.map((r) => ({ ...r, [field]: value as string })));
+      const fk = field === "lens_width" ? "lens_width_mm" : field === "bridge" ? "bridge_mm" : "temple_mm";
+      setForm((f) => ({ ...f, [fk]: String(value) }));
+      return;
+    }
     setVariants((rows) => rows.map((r) => {
       if (r._key !== key) return r;
       const updated = { ...r, [field]: value };
@@ -304,10 +313,22 @@ export default function ProductForm({ productId }: ProductFormProps) {
       }
       return updated;
     }));
-    // Sync variant measurements to product-level frame specs so they save with the product
-    if (field === "lens_width") setForm((f) => ({ ...f, lens_width_mm: String(value) }));
-    else if (field === "bridge") setForm((f) => ({ ...f, bridge_mm: String(value) }));
-    else if (field === "temple") setForm((f) => ({ ...f, temple_mm: String(value) }));
+  }
+
+  function moveImage(key: string, dir: -1 | 1) {
+    setImages((prev) => {
+      const colorName = prev.find((i) => i._key === key)?.color_name;
+      const group = prev.filter((i) => !i.toDelete && i.color_name === colorName);
+      const groupIdx = group.findIndex((i) => i._key === key);
+      const swapIdx = groupIdx + dir;
+      if (swapIdx < 0 || swapIdx >= group.length) return prev;
+      const swapKey = group[swapIdx]._key;
+      const a = prev.findIndex((i) => i._key === key);
+      const b = prev.findIndex((i) => i._key === swapKey);
+      const next = [...prev];
+      [next[a], next[b]] = [next[b], next[a]];
+      return next;
+    });
   }
 
   function removeVariant(key: string) {
@@ -564,9 +585,11 @@ export default function ProductForm({ productId }: ProductFormProps) {
             <div className="mb-3 flex flex-col sm:flex-row sm:items-center gap-2">
               <label className="text-xs text-gray-600 shrink-0">Upload for color:</label>
               <select value={newImageVariantKey} onChange={(e) => setNewImageVariantKey(e.target.value)} className={selectCls + " sm:max-w-[180px]"}>
-                {variants.map((v) => (
-                  <option key={v._key} value={v._key}>{v.color_name || `Variant ${v._key}`}</option>
-                ))}
+                {variants
+                  .filter((v, i) => variants.findIndex((x) => x.color_name === v.color_name) === i)
+                  .map((v) => (
+                    <option key={v._key} value={v._key}>{v.color_name || `Variant ${v._key}`}</option>
+                  ))}
               </select>
             </div>
           )}
@@ -603,6 +626,18 @@ export default function ProductForm({ productId }: ProductFormProps) {
                         className="absolute top-1 right-1 bg-black/70 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                         <XMarkIcon className="w-3 h-3 text-white" />
                       </button>
+                      {idx > 0 && (
+                        <button type="button" onClick={() => moveImage(img._key, -1)}
+                          className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/60 rounded-r py-1 px-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ChevronLeftIcon className="w-3 h-3 text-white" />
+                        </button>
+                      )}
+                      {idx < imgs.length - 1 && (
+                        <button type="button" onClick={() => moveImage(img._key, 1)}
+                          className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/60 rounded-l py-1 px-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ChevronRightIcon className="w-3 h-3 text-white" />
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>

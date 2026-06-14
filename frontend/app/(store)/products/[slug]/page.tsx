@@ -274,17 +274,21 @@ export default function ProductDetailPage() {
                   Color: <span className="text-[#1a1a1a] font-medium">{variant?.color_name}</span>
                 </p>
                 <div className="flex gap-2 flex-wrap">
-                  {product.variants.map((v, i) => (
-                    <button
-                      key={v.id}
-                      onClick={() => setSelectedVariantIdx(i)}
-                      title={v.color_name}
-                      className={`w-7 h-7 rounded-full border-2 transition-all ${
-                        i === selectedVariantIdx ? "border-[#E8670A] scale-110" : "border-[#e5e7eb]"
-                      }`}
-                      style={{ backgroundColor: v.color_hex ?? "#ccc" }}
-                    />
-                  ))}
+                  {product.variants
+                    .filter((v, i) => product.variants.findIndex((x) => x.color_name === v.color_name) === i)
+                    .map((v) => {
+                      const firstIdx = product.variants.findIndex((x) => x.color_name === v.color_name);
+                      const isSelected = product.variants[selectedVariantIdx]?.color_name === v.color_name;
+                      return (
+                        <button
+                          key={v.id}
+                          onClick={() => setSelectedVariantIdx(firstIdx)}
+                          title={v.color_name}
+                          className={`w-7 h-7 rounded-full border-2 transition-all ${isSelected ? "border-[#E8670A] scale-110" : "border-[#e5e7eb]"}`}
+                          style={{ backgroundColor: v.color_hex ?? "#ccc" }}
+                        />
+                      );
+                    })}
                 </div>
               </div>
             )}
@@ -407,34 +411,23 @@ export default function ProductDetailPage() {
               {/* Left: spec table */}
               <div>
                 <div className="space-y-3 text-[13px]">
+                  <h3 className="text-[#1a1a1a] font-bold text-[15px] pb-2 border-b border-[#e5e7eb]">Frame Specifications</h3>
                   {[
-                    { label: "Size", value: frameSizeStr },
+                    { label: "Size", value: frameSizeStr, bold: true },
                     { label: "Color", value: variant?.color_name },
                     { label: "Material", value: product.material },
                     { label: "Shape", value: product.frame_shape },
                     { label: "Rim Type", value: product.rim_type },
-                  ].filter(({ value }) => value).map(({ label, value }) => (
+                    { label: "Frame Width", value: product.frame_width_mm ? `${product.frame_width_mm}mm` : null },
+                    { label: "Lens Width", value: product.lens_width_mm ? `${product.lens_width_mm}mm` : null },
+                    { label: "Bridge", value: product.bridge_mm ? `${product.bridge_mm}mm` : null },
+                    { label: "Temple Length", value: product.temple_mm ? `${product.temple_mm}mm` : null },
+                  ].filter(({ value }) => value).map(({ label, value, bold }) => (
                     <div key={label} className="flex items-start gap-2 border-b border-[#f3f4f6] pb-3">
-                      <span className="text-[#6b7280] w-[100px] shrink-0">• {label}</span>
-                      <span className="text-[#1a1a1a] font-medium capitalize">{value}</span>
+                      <span className="text-[#6b7280] w-[100px] shrink-0">{label}</span>
+                      <span className={`${bold ? "font-bold" : "font-medium"} text-[#1a1a1a] capitalize`}>{value}</span>
                     </div>
                   ))}
-                  {(product.frame_width_mm || product.lens_width_mm || product.bridge_mm || product.temple_mm) && (
-                    <>
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-[#6b7280] pt-1">Frame Specifications</p>
-                      {[
-                        { label: "Frame Width", value: product.frame_width_mm ? `${product.frame_width_mm}mm` : null },
-                        { label: "Lens Width", value: product.lens_width_mm ? `${product.lens_width_mm}mm` : null },
-                        { label: "Bridge", value: product.bridge_mm ? `${product.bridge_mm}mm` : null },
-                        { label: "Temple Length", value: product.temple_mm ? `${product.temple_mm}mm` : null },
-                      ].filter(({ value }) => value).map(({ label, value }) => (
-                        <div key={label} className="flex items-start gap-2 border-b border-[#f3f4f6] pb-3">
-                          <span className="text-[#6b7280] w-[100px] shrink-0">• {label}</span>
-                          <span className="text-[#1a1a1a] font-medium capitalize">{value}</span>
-                        </div>
-                      ))}
-                    </>
-                  )}
                 </div>
 
                 {product.bullets.length > 0 && (
@@ -514,12 +507,12 @@ export default function ProductDetailPage() {
                       )}
                       {imageView === "side" && product.temple_mm && (
                         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 200">
-                          <line x1="40" y1="80" x2="280" y2="80" stroke="white" strokeWidth="2.5" />
-                          <line x1="40" y1="80" x2="280" y2="80" stroke="#9ca3af" strokeWidth="1" strokeDasharray="6,4" />
-                          <line x1="40" y1="77" x2="40" y2="83" stroke="#9ca3af" strokeWidth="1.5" />
-                          <line x1="280" y1="77" x2="280" y2="83" stroke="#9ca3af" strokeWidth="1.5" />
-                          <rect x="126" y="63" width="48" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
-                          <text x="150" y="75" textAnchor="middle" fontSize="10" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.temple_mm}mm</text>
+                          <line x1="40" y1="60" x2="280" y2="60" stroke="white" strokeWidth="2.5" />
+                          <line x1="40" y1="60" x2="280" y2="60" stroke="#9ca3af" strokeWidth="1" strokeDasharray="6,4" />
+                          <line x1="40" y1="57" x2="40" y2="63" stroke="#9ca3af" strokeWidth="1.5" />
+                          <line x1="280" y1="57" x2="280" y2="63" stroke="#9ca3af" strokeWidth="1.5" />
+                          <rect x="126" y="43" width="48" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
+                          <text x="150" y="55" textAnchor="middle" fontSize="10" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.temple_mm}mm</text>
                         </svg>
                       )}
                     </div>
