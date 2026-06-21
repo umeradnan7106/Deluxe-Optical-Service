@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Deluxe Opt — Admin Panel Wireframe v2 (Navy + Gold)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#1B2B5E;--navy2:#243570;--navy3:#2d4080;--navy-l:#EEF1FA;--navy-ll:#F5F7FF;
+  --gold:#C9A84C;--gold-l:#FDF6E3;--gold-d:#A8893A;
+  --wh:#fff;--bg:#F8FAFC;--tx:#0F172A;--mu:#64748B;--bd:#E2E8F0;
+  --gn:#059669;--rd:#DC2626;--yw:#D97706;--pu:#7C3AED;
+  --sidebar:240px;
+}
+body{font-family:'Inter',sans-serif;background:#F1F5F9;color:var(--tx);font-size:13px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,h5,.serif{font-family:'Playfair Display',serif}
+
+/* TOOLBAR */
+.toolbar{background:#0a0f1e;color:#64748b;font-size:11px;padding:7px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:2000;border-bottom:1px solid #1e293b}
+.toolbar strong{color:#fff;font-size:12px}
+.tb-tags{display:flex;gap:6px;align-items:center}
+.tb-tag{padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600}
+.tt-navy{background:var(--navy);color:#fff}
+.tt-gold{background:var(--gold);color:#fff}
+.mob-btn{background:var(--gold);color:#fff;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600}
+
+/* TAB NAV */
+.tab-nav{background:#0f1829;display:flex;overflow-x:auto;position:sticky;top:37px;z-index:1999;border-bottom:2px solid var(--gold)}
+.tab-nav::-webkit-scrollbar{height:3px}.tab-nav::-webkit-scrollbar-thumb{background:#333}
+.tab-nav button{background:none;border:none;color:#64748b;padding:9px 13px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab-nav button:hover{color:#fff;background:#1a2540}
+.tab-nav button.active{color:#fff;background:#1a2540;border-bottom-color:var(--gold)}
+.tab-nav .tab-sep{padding:0 4px;font-size:9px;font-weight:600;letter-spacing:.1em;color:#334155;display:flex;align-items:center;text-transform:uppercase}
+
+/* PAGE */
+.page{display:none}.page.active{display:flex;min-height:calc(100vh - 77px)}
+
+/* ADMIN SHELL */
+.admin-sidebar{width:var(--sidebar);background:#0f1829;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid #1e293b;min-height:calc(100vh - 77px);position:sticky;top:77px;max-height:calc(100vh - 77px);overflow-y:auto}
+.admin-sidebar::-webkit-scrollbar{width:4px}.admin-sidebar::-webkit-scrollbar-thumb{background:#1e293b}
+.sb-logo{padding:20px 20px 16px;border-bottom:1px solid #1e293b}
+.sb-logo-text{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff}
+.sb-logo-text span{color:var(--gold)}
+.sb-logo-sub{font-size:10px;color:#334155;margin-top:2px;letter-spacing:.06em;text-transform:uppercase}
+.sb-section{padding:14px 0 4px;border-bottom:1px solid #1e293b;margin-bottom:4px}
+.sb-sec-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#334155;padding:0 16px 8px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:9px 16px;color:#64748b;font-size:12.5px;font-weight:400;cursor:pointer;transition:all .15s;border-left:3px solid transparent;position:relative}
+.sb-link:hover{color:#fff;background:#1a2540;border-left-color:var(--navy3)}
+.sb-link.active{color:#fff;background:#1a2540;border-left-color:var(--gold)}
+.sb-link .ico{width:18px;text-align:center;font-size:14px;flex-shrink:0}
+.sb-badge{margin-left:auto;background:var(--gold);color:#fff;width:18px;height:18px;border-radius:9px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sb-badge.red{background:var(--rd)}
+.sb-badge.blue{background:#2563eb}
+.admin-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.admin-topbar{background:#fff;border-bottom:1px solid var(--bd);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:77px;z-index:100}
+.at-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy)}
+.at-right{display:flex;align-items:center;gap:10px}
+.at-icon{width:34px;height:34px;background:var(--bg);border:1.5px solid var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;position:relative}
+.at-badge{position:absolute;top:-4px;right:-4px;background:var(--rd);color:#fff;width:14px;height:14px;border-radius:50%;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.at-user{display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--bd);border-radius:8px;padding:5px 12px;cursor:pointer}
+.at-avatar{width:26px;height:26px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+.at-user-name{font-size:12px;font-weight:600;color:var(--tx)}
+.admin-content{flex:1;padding:24px;overflow-y:auto}
+
+/* CARDS */
+.card{background:#fff;border:1.5px solid var(--bd);border-radius:12px;padding:20px}
+.card-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.card-title span{font-size:12px;color:var(--mu);font-family:'Inter',sans-serif;font-weight:500}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat-card{background:#fff;border:1.5px solid var(--bd);border-radius:12px;padding:18px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;right:0;width:80px;height:80px;border-radius:50%;opacity:.05;transform:translate(20px,-20px)}
+.stat-card.navy::after{background:var(--navy)}
+.stat-card.gold::after{background:var(--gold)}
+.stat-card.gn::after{background:var(--gn)}
+.stat-card.rd::after{background:var(--rd)}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px}
+.stat-icon.navy{background:var(--navy-l)}
+.stat-icon.gold{background:var(--gold-l)}
+.stat-icon.gn{background:#d1fae5}
+.stat-icon.rd{background:#fee2e2}
+.stat-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:5px}
+.stat-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--navy);line-height:1}
+.stat-change{font-size:11px;margin-top:6px;font-weight:600}
+.stat-change.up{color:var(--gn)}
+.stat-change.down{color:var(--rd)}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:.02em}
+.b-placed{background:#fef3c7;color:#92400e}
+.b-confirmed{background:var(--navy-l);color:var(--navy)}
+.b-processing{background:#dbeafe;color:#1e40af}
+.b-shipped{background:#ede9fe;color:#6d28d9}
+.b-delivered{background:#d1fae5;color:#065f46}
+.b-cancelled{background:#fee2e2;color:#991b1b}
+.b-gn{background:#d1fae5;color:#065f46}
+.b-rd{background:#fee2e2;color:#991b1b}
+.b-yw{background:#fef3c7;color:#92400e}
+.b-navy{background:var(--navy-l);color:var(--navy)}
+.b-gold{background:var(--gold-l);color:var(--gold-d)}
+.b-pu{background:#ede9fe;color:#6d28d9}
+.b-gy{background:#f3f4f6;color:#374151}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.data-table th{background:var(--bg);padding:10px 14px;text-align:left;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);border-bottom:2px solid var(--bd);white-space:nowrap}
+.data-table td{padding:12px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:#fafbfd}
+.data-table .cb{width:36px;text-align:center}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:'Inter',sans-serif;font-weight:500;cursor:pointer;border-radius:8px;transition:all .15s;border:none;text-decoration:none;white-space:nowrap;font-size:13px}
+.btn-navy{background:var(--navy);color:#fff;padding:9px 18px}
+.btn-gold{background:var(--gold);color:#fff;padding:9px 18px}
+.btn-navy-ol{background:none;color:var(--navy);padding:8px 16px;border:1.5px solid var(--navy)}
+.btn-rd-ol{background:none;color:var(--rd);padding:8px 16px;border:1.5px solid var(--rd)}
+.btn-gn{background:var(--gn);color:#fff;padding:9px 18px}
+.btn-sm{padding:6px 12px!important;font-size:11.5px!important}
+.btn-xs{padding:4px 9px!important;font-size:11px!important}
+.btn:hover{opacity:.88;transform:translateY(-1px)}
+.icon-btn{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:1.5px solid var(--bd);background:#fff;color:var(--mu);transition:all .15s}
+.icon-btn:hover{border-color:var(--navy);color:var(--navy)}
+.icon-btn.danger:hover{border-color:var(--rd);color:var(--rd)}
+
+/* FORMS */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:5px}
+.form-input{width:100%;border:1.5px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--tx);background:#fff;transition:border-color .15s}
+.form-input:focus{border-color:var(--navy);outline:none}
+.form-select{width:100%;border:1.5px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--tx);background:#fff}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.form-textarea{width:100%;border:1.5px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--tx);background:#fff;resize:vertical}
+
+/* TOGGLE */
+.toggle{width:38px;height:20px;background:#e2e8f0;border-radius:10px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.toggle.on{background:var(--gn)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle.on::after{left:21px}
+
+/* BREADCRUMB */
+.breadcrumb{font-size:12px;color:var(--mu);margin-bottom:16px;display:flex;align-items:center;gap:5px}
+.breadcrumb span{color:var(--navy);cursor:pointer;font-weight:500}
+.breadcrumb span:hover{text-decoration:underline}
+
+/* SEARCH BAR */
+.search-bar{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--bd);border-radius:8px;padding:0 12px;flex:1;max-width:320px}
+.search-bar input{border:none;outline:none;font-size:13px;padding:9px 0;flex:1;font-family:'Inter',sans-serif;color:var(--tx)}
+.search-bar input::placeholder{color:#94a3b8}
+
+/* FILTER ROW */
+.filter-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.filter-tabs{display:flex;gap:4px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:3px}
+.filter-tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;color:var(--mu);transition:all .15s;white-space:nowrap}
+.filter-tab.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center}
+.modal{background:#fff;border-radius:16px;width:560px;max-width:calc(100vw - 40px);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:1}
+.modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy)}
+.modal-close{width:30px;height:30px;border-radius:50%;background:var(--bg);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:var(--mu)}
+.modal-body{padding:24px}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:#fff}
+
+/* CHARTS PLACEHOLDER */
+.chart-ph{background:var(--bg);border:1px dashed var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:12px;flex-direction:column;gap:6px}
+
+/* STATUS DOT */
+.s-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px}
+.s-dot.gn{background:var(--gn)}.s-dot.rd{background:var(--rd)}.s-dot.yw{background:var(--yw)}.s-dot.bl{background:#2563eb}
+
+/* INVENTORY STOCK */
+.stock-val{font-weight:700;font-size:13px}
+.stock-val.high{color:var(--gn)}.stock-val.mid{color:var(--yw)}.stock-val.low{color:var(--rd)}
+
+/* RICH TEXT */
+.rich-text-toolbar{display:flex;gap:4px;padding:8px 10px;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.rt-btn{padding:5px 9px;border:1px solid var(--bd);border-radius:5px;background:#fff;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;color:var(--tx);transition:all .15s}
+.rt-btn:hover{background:var(--bg);border-color:var(--navy)}
+.rich-text-area{min-height:180px;padding:14px;font-size:13px;color:var(--mu);line-height:1.7;border:none;outline:none;font-family:'Inter',sans-serif}
+
+/* TIMELINE */
+.timeline-item{display:flex;gap:14px;position:relative;margin-bottom:0}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0}
+.tl-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.tl-dot.gn{background:var(--gn)}.tl-dot.bl{background:var(--navy)}.tl-dot.gy{background:#e2e8f0;border:2px solid #cbd5e1}.tl-dot.yw{background:var(--yw)}
+.tl-line{width:2px;flex:1;background:#e2e8f0;margin:4px 0;min-height:24px}
+.tl-line.gn{background:var(--gn)}
+.tl-content{padding:0 0 20px}
+.tl-content h5{font-size:13px;font-weight:600;color:var(--tx)}
+.tl-content p{font-size:11px;color:var(--mu);margin-top:2px;line-height:1.5}
+.tl-time{font-size:10px;color:#94a3b8;margin-top:3px}
+
+/* LENS OPTIONS */
+.lo-table-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #f1f5f9;transition:background .15s}
+.lo-table-row:hover{background:#fafbfd}
+.lo-drag{color:#94a3b8;cursor:grab;font-size:16px;flex-shrink:0}
+.lo-name{flex:1;font-size:13px;font-weight:500;color:var(--tx)}
+.lo-price{width:90px;font-size:13px;font-weight:600;color:var(--navy)}
+.lo-desc{flex:1.5;font-size:11px;color:var(--mu)}
+.lo-actions{display:flex;gap:6px}
+
+/* BLOG EDITOR */
+.blog-editor-layout{display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:start}
+.blog-settings-card{background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden}
+.blog-set-section{padding:16px;border-bottom:1px solid var(--bd)}
+.blog-set-section:last-child{border-bottom:none}
+.blog-set-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:12px}
+
+/* IMAGE UPLOAD */
+.img-upload-zone{border:2px dashed var(--bd);border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all .15s;background:#fafbfd}
+.img-upload-zone:hover{border-color:var(--navy);background:var(--navy-ll)}
+.img-upload-zone .up-icon{font-size:28px;margin-bottom:8px}
+.img-upload-zone p{font-size:12px;color:var(--mu)}
+.img-thumb-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.img-thumb{position:relative;width:76px;height:68px}
+.img-thumb-inner{width:100%;height:100%;background:#f8fafc;border:1.5px solid var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#cbd5e1;overflow:hidden}
+.img-thumb-inner.primary-border{border-color:var(--gold);border-width:2px}
+.img-thumb .primary-lbl{position:absolute;bottom:0;left:0;right:0;background:var(--gold);color:#fff;font-size:9px;font-weight:700;text-align:center;padding:2px;border-radius:0 0 6px 6px}
+.img-thumb .del-btn{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--rd);color:#fff;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+
+/* VARIANTS TABLE */
+.variants-table{width:100%;border-collapse:collapse}
+.variants-table th{background:var(--bg);padding:8px 10px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);border-bottom:2px solid var(--bd)}
+.variants-table td{padding:8px 10px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.variants-table input{width:100%;border:1.5px solid var(--bd);border-radius:6px;padding:5px 8px;font-size:12px;font-family:'Inter',sans-serif;color:var(--tx)}
+.variants-table select{width:100%;border:1.5px solid var(--bd);border-radius:6px;padding:5px 8px;font-size:12px;font-family:'Inter',sans-serif}
+.color-preview{width:24px;height:24px;border-radius:50%;border:2px solid var(--bd);display:inline-block;cursor:pointer;vertical-align:middle}
+
+/* ABANDONED CART CARD */
+.ab-cart-card{background:#fff;border:1.5px solid var(--bd);border-radius:10px;margin-bottom:12px;overflow:hidden}
+.ab-cart-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer}
+.ab-cart-expand{background:var(--bg);border-top:1px solid var(--bd);padding:14px 18px}
+
+/* CUSTOMER CARD */
+.customer-card{background:#fff;border:1.5px solid var(--bd);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px}
+.cust-avatar{width:44px;height:44px;border-radius:50%;background:var(--navy-l);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);flex-shrink:0}
+
+/* REVIEW CARD */
+.review-card{background:#fff;border:1.5px solid var(--bd);border-radius:10px;padding:16px}
+
+/* PROMO CARD */
+.promo-code-display{font-family:'Courier New',monospace;font-size:14px;font-weight:700;color:var(--navy);background:var(--navy-l);padding:5px 12px;border-radius:6px;letter-spacing:.08em}
+
+/* ANALYTICS */
+.analytics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.analytics-card{background:#fff;border:1.5px solid var(--bd);border-radius:12px;padding:18px}
+.ac-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:6px}
+.ac-val{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--navy);line-height:1}
+.ac-change{font-size:11px;font-weight:600;margin-top:4px}
+.ac-change.up{color:var(--gn)}.ac-change.down{color:var(--rd)}
+
+/* SECTION SPACING */
+.section-gap{margin-bottom:20px}
+.row-between{display:flex;justify-content:space-between;align-items:center}
+.row-gap{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <strong>DELUXE OPT — ADMIN PANEL WIREFRAME v2 (Navy + Gold)</strong>
+  <div class="tb-tags">
+    <span class="tb-tag tt-navy">Admin Panel</span>
+    <span class="tb-tag tt-gold">Navy + Gold Theme</span>
+  </div>
+  <button class="mob-btn" id="mob-toggle" onclick="toggleMobile()">📱 Mobile View</button>
+</div>
+
+<div class="tab-nav">
+  <span class="tab-sep">ADMIN</span>
+  <button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
+  <button onclick="showPage('orders',this)">Orders</button>
+  <button onclick="showPage('order-detail',this)">Order Detail</button>
+  <button onclick="showPage('draft-order',this)">Draft Order</button>
+  <button onclick="showPage('abandoned',this)">Abandoned Carts</button>
+  <button onclick="showPage('products',this)">Products</button>
+  <button onclick="showPage('add-product',this)">Add/Edit Product</button>
+  <button onclick="showPage('analytics',this)">Analytics</button>
+  <button onclick="showPage('customers',this)">Customers</button>
+  <button onclick="showPage('reviews',this)">Reviews</button>
+  <button onclick="showPage('inventory',this)">Inventory</button>
+  <button onclick="showPage('promo',this)">Promo Codes</button>
+  <button onclick="showPage('blogs',this)">Blogs</button>
+  <button onclick="showPage('blog-editor',this)">Blog Editor</button>
+  <button onclick="showPage('lens-options',this)">Lens Options</button>
+  <button onclick="showPage('faqs',this)">FAQs</button>
+  <button onclick="showPage('categories',this)">Categories</button>
+  <button onclick="showPage('settings',this)">Settings</button>
+</div>
+
+<!-- ===================== DASHBOARD ===================== -->
+<div class="page active" id="page-dashboard">
+  <div class="admin-sidebar">
+    <div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div><div class="sb-logo-sub">Admin Panel</div></div>
+    <div class="sb-section"><div class="sb-sec-label">Overview</div>
+      <div class="sb-link active"><span class="ico">📊</span>Dashboard</div>
+    </div>
+    <div class="sb-section"><div class="sb-sec-label">Sales</div>
+      <div class="sb-link"><span class="ico">📋</span>Orders<span class="sb-badge">12</span></div>
+      <div class="sb-link"><span class="ico">🛒</span>Abandoned Carts<span class="sb-badge red">6</span></div>
+      <div class="sb-link"><span class="ico">📝</span>Draft Orders</div>
+    </div>
+    <div class="sb-section"><div class="sb-sec-label">Catalog</div>
+      <div class="sb-link"><span class="ico">👓</span>Products</div>
+      <div class="sb-link"><span class="ico">📦</span>Inventory</div>
+      <div class="sb-link"><span class="ico">🏷</span>Categories</div>
+    </div>
+    <div class="sb-section"><div class="sb-sec-label">Marketing</div>
+      <div class="sb-link"><span class="ico">🎟</span>Promo Codes</div>
+      <div class="sb-link"><span class="ico">📰</span>Blogs</div>
+    </div>
+    <div class="sb-section"><div class="sb-sec-label">Content</div>
+      <div class="sb-link"><span class="ico">🔍</span>Lens Options</div>
+      <div class="sb-link"><span class="ico">❓</span>FAQs</div>
+    </div>
+    <div class="sb-section"><div class="sb-sec-label">People</div>
+      <div class="sb-link"><span class="ico">👥</span>Customers</div>
+      <div class="sb-link"><span class="ico">⭐</span>Reviews<span class="sb-badge blue">4</span></div>
+    </div>
+    <div class="sb-section"><div class="sb-sec-label">System</div>
+      <div class="sb-link"><span class="ico">📈</span>Analytics</div>
+      <div class="sb-link"><span class="ico">⚙️</span>Settings</div>
+    </div>
+  </div>
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div><div class="at-title">Dashboard</div><div style="font-size:11px;color:var(--mu)">Welcome back, Admin · Sunday, 21 June 2026</div></div>
+      <div class="at-right">
+        <div class="at-icon">🔔<span class="at-badge">3</span></div>
+        <div class="at-user"><div class="at-avatar">A</div><div class="at-user-name">Admin</div></div>
+      </div>
+    </div>
+    <div class="admin-content">
+      <!-- STAT CARDS -->
+      <div class="stat-grid">
+        <div class="stat-card navy"><div class="stat-icon navy">💰</div><div class="stat-label">Today's Revenue</div><div class="stat-val">Rs. 18,400</div><div class="stat-change up">↑ 12% vs yesterday</div></div>
+        <div class="stat-card gold"><div class="stat-icon gold">📋</div><div class="stat-label">Today's Orders</div><div class="stat-val">14</div><div class="stat-change up">↑ 3 new today</div></div>
+        <div class="stat-card gn"><div class="stat-icon gn">👥</div><div class="stat-label">Total Customers</div><div class="stat-val">284</div><div class="stat-change up">↑ 5 this week</div></div>
+        <div class="stat-card rd"><div class="stat-icon rd">⚠️</div><div class="stat-label">Low Stock Items</div><div class="stat-val">7</div><div class="stat-change down">Needs attention</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <!-- REVENUE CHART -->
+        <div class="card">
+          <div class="card-title">Revenue & Orders — Last 7 Days <span>Rs. 1,24,600 total</span></div>
+          <div class="chart-ph" style="height:180px">📈 Line Chart — Daily Revenue Bars + Orders Line<br/><span style="font-size:11px">Mon Rs.18K · Tue Rs.14K · Wed Rs.22K · Thu Rs.16K · Fri Rs.28K · Sat Rs.19K · Sun Rs.7K</span></div>
+        </div>
+        <!-- ORDER STATUS DONUT -->
+        <div class="card">
+          <div class="card-title">Order Status Breakdown</div>
+          <div style="display:flex;gap:16px;align-items:center">
+            <div class="chart-ph" style="height:160px;width:160px;border-radius:50%;flex-shrink:0">🍩<br/>Donut</div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-bottom:1px solid var(--bd)"><div><span class="s-dot yw"></span>Pending</div><div style="font-weight:600">8 · Rs. 32,400</div></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-bottom:1px solid var(--bd)"><div><span class="s-dot bl"></span>Processing</div><div style="font-weight:600">4 · Rs. 14,200</div></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-bottom:1px solid var(--bd)"><div><span class="s-dot gn"></span>Shipped</div><div style="font-weight:600">6 · Rs. 22,800</div></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0"><div><span class="s-dot gn"></span>Delivered</div><div style="font-weight:600">24 · Rs. 87,600</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:20px">
+        <!-- RECENT ORDERS -->
+        <div class="card">
+          <div class="card-title">Recent Orders <span><a style="color:var(--navy);cursor:pointer;font-weight:600;text-decoration:underline">View All →</a></span></div>
+          <table class="data-table">
+            <tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Lens</th><th>Total</th><th>Status</th></tr>
+            <tr><td style="font-weight:700;color:var(--navy);font-family:'Playfair Display',serif">#DOS-2026-0056</td><td>Ali Khan</td><td>2</td><td><span class="badge b-navy">Rx</span></td><td style="font-weight:600">Rs. 3,863</td><td><span class="badge b-processing">Processing</span></td></tr>
+            <tr><td style="font-weight:700;color:var(--navy);font-family:'Playfair Display',serif">#DOS-2026-0055</td><td>Fatima Ahmed</td><td>1</td><td><span class="badge b-gn">No Rx</span></td><td style="font-weight:600">Rs. 1,800</td><td><span class="badge b-placed">Pending</span></td></tr>
+            <tr><td style="font-weight:700;color:var(--navy);font-family:'Playfair Display',serif">#DOS-2026-0054</td><td>Omar Malik</td><td>3</td><td><span class="badge b-navy">Rx</span></td><td style="font-weight:600">Rs. 7,200</td><td><span class="badge b-shipped">Shipped</span></td></tr>
+            <tr><td style="font-weight:700;color:var(--navy);font-family:'Playfair Display',serif">#DOS-2026-0053</td><td>Sara Qureshi</td><td>1</td><td><span class="badge b-pu">Prog</span></td><td style="font-weight:600">Rs. 4,500</td><td><span class="badge b-delivered">Delivered</span></td></tr>
+          </table>
+        </div>
+        <!-- LOW STOCK + PENDING REVIEWS -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title">Low Stock Alert <span style="color:var(--rd)">7 items</span></div>
+            <div style="font-size:12px">
+              <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bd)"><span>Titanium Rectangle — Black M</span><span class="stock-val low">Stock: 2</span></div>
+              <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bd)"><span>Golden Aviator — Gold S</span><span class="stock-val low">Stock: 3</span></div>
+              <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bd)"><span>Black Rimless — M</span><span class="stock-val mid">Stock: 5</span></div>
+              <div style="display:flex;justify-content:space-between;padding:7px 0"><span>Cat Eye Brown — S</span><span class="stock-val mid">Stock: 4</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Pending Reviews <span><span class="badge b-yw">4 pending</span></span></div>
+            <div style="font-size:12px">
+              <div style="padding:8px 0;border-bottom:1px solid var(--bd)"><div style="color:var(--tx);font-weight:500">Golden Aviator</div><div style="color:var(--mu);margin-top:2px">★★★★★ — Ali Khan · 2h ago</div></div>
+              <div style="padding:8px 0;border-bottom:1px solid var(--bd)"><div style="color:var(--tx);font-weight:500">Blue Cut Classic</div><div style="color:var(--mu);margin-top:2px">★★★★☆ — Fatima A · 5h ago</div></div>
+              <div style="padding:8px 0"><div style="color:var(--tx);font-weight:500">Titanium Rectangle</div><div style="color:var(--mu);margin-top:2px">★★★★★ — Sara Q · 1d ago</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOP PRODUCTS -->
+      <div class="card section-gap">
+        <div class="card-title">Top Products — This Month</div>
+        <table class="data-table">
+          <tr><th>#</th><th>Product</th><th>Units Sold</th><th>Revenue</th><th>Avg Rating</th><th></th></tr>
+          <tr><td style="font-weight:700;color:var(--mu)">1</td><td style="font-weight:600">Full Golden Aviator</td><td>84</td><td style="font-weight:700;color:var(--gn)">Rs. 1,26,000</td><td>⭐ 4.9</td><td><button class="btn btn-navy-ol btn-xs">View</button></td></tr>
+          <tr><td style="font-weight:700;color:var(--mu)">2</td><td style="font-weight:600">Classic Aviator Blue Cut</td><td>62</td><td style="font-weight:700;color:var(--gn)">Rs. 1,30,200</td><td>⭐ 4.8</td><td><button class="btn btn-navy-ol btn-xs">View</button></td></tr>
+          <tr><td style="font-weight:700;color:var(--mu)">3</td><td style="font-weight:600">Black Rimless Frame</td><td>51</td><td style="font-weight:700;color:var(--gn)">Rs. 91,800</td><td>⭐ 4.7</td><td><button class="btn btn-navy-ol btn-xs">View</button></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ORDERS ===================== -->
+<div class="page" id="page-orders">
+  <div class="admin-sidebar">
+    <div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div>
+    <div class="sb-section"><div class="sb-link"><span class="ico">📊</span>Dashboard</div><div class="sb-link active"><span class="ico">📋</span>Orders<span class="sb-badge">12</span></div><div class="sb-link"><span class="ico">🛒</span>Abandoned Carts<span class="sb-badge red">6</span></div><div class="sb-link"><span class="ico">📝</span>Draft Orders</div></div>
+    <div class="sb-section"><div class="sb-link"><span class="ico">👓</span>Products</div><div class="sb-link"><span class="ico">📦</span>Inventory</div></div>
+  </div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Orders</div><div class="at-right"><div class="at-icon">🔔<span class="at-badge">3</span></div><div class="at-user"><div class="at-avatar">A</div><div class="at-user-name">Admin</div></div></div></div>
+    <div class="admin-content">
+      <div class="row-between section-gap">
+        <div class="row-gap">
+          <div class="search-bar"><span>🔍</span><input placeholder="Search order ID, customer, phone..."/></div>
+          <select class="form-select" style="width:140px;padding:9px 12px"><option>All Time</option><option>Today</option><option>This Week</option><option>This Month</option></select>
+        </div>
+        <div class="row-gap">
+          <button class="btn btn-navy-ol btn-sm">📥 Export CSV</button>
+          <button class="btn btn-navy btn-sm">+ Create Draft Order</button>
+        </div>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-tabs">
+          <div class="filter-tab active">All (42)</div>
+          <div class="filter-tab">Pending (8)</div>
+          <div class="filter-tab">Processing (4)</div>
+          <div class="filter-tab">Shipped (6)</div>
+          <div class="filter-tab">Delivered (22)</div>
+          <div class="filter-tab">Cancelled (2)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <table class="data-table">
+          <tr><th class="cb"><input type="checkbox"/></th><th>Order ID</th><th>Customer</th><th>Location</th><th>Items</th><th>Lens</th><th>Payment</th><th>Total</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+          <tr>
+            <td class="cb"><input type="checkbox"/></td>
+            <td style="font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;cursor:pointer">#DOS-2026-0056</td>
+            <td><div style="font-size:12px;font-weight:500">Ali Khan</div><div style="font-size:11px;color:var(--mu)">0300-1234567</div></td>
+            <td style="font-size:12px">Karachi, Sindh</td>
+            <td>2 frames</td>
+            <td><span class="badge b-navy">Rx ✓</span></td>
+            <td><span class="badge b-pu">EasyPaisa</span></td>
+            <td style="font-weight:700;color:var(--navy)">Rs. 3,863</td>
+            <td style="font-size:11px;color:var(--mu)">13 May 2026</td>
+            <td><span class="badge b-processing">Processing</span></td>
+            <td><div class="row-gap"><div class="icon-btn">👁</div><div class="icon-btn">✏️</div></div></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox"/></td>
+            <td style="font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;cursor:pointer">#DOS-2026-0055</td>
+            <td><div style="font-size:12px;font-weight:500">Fatima Ahmed</div><div style="font-size:11px;color:var(--mu)">0321-9876543</div></td>
+            <td style="font-size:12px">Lahore, Punjab</td>
+            <td>1 frame</td>
+            <td><span class="badge b-gn">No Rx</span></td>
+            <td><span class="badge b-gy">COD</span></td>
+            <td style="font-weight:700;color:var(--navy)">Rs. 1,800</td>
+            <td style="font-size:11px;color:var(--mu)">12 May 2026</td>
+            <td><span class="badge b-placed">Pending</span></td>
+            <td><div class="row-gap"><div class="icon-btn">👁</div><div class="icon-btn">✏️</div></div></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox"/></td>
+            <td style="font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;cursor:pointer">#DOS-2026-0054</td>
+            <td><div style="font-size:12px;font-weight:500">Omar Malik</div><div style="font-size:11px;color:var(--mu)">0333-5678901</div></td>
+            <td style="font-size:12px">Islamabad</td>
+            <td>3 frames</td>
+            <td><span class="badge b-pu">Prog Rx</span></td>
+            <td><span class="badge b-navy">JazzCash</span></td>
+            <td style="font-weight:700;color:var(--navy)">Rs. 7,200</td>
+            <td style="font-size:11px;color:var(--mu)">11 May 2026</td>
+            <td><span class="badge b-shipped">Shipped</span></td>
+            <td><div class="row-gap"><div class="icon-btn">👁</div><div class="icon-btn">✏️</div></div></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ORDER DETAIL ===================== -->
+<div class="page" id="page-order-detail">
+  <div class="admin-sidebar">
+    <div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div>
+    <div class="sb-section"><div class="sb-link"><span class="ico">📊</span>Dashboard</div><div class="sb-link active"><span class="ico">📋</span>Orders<span class="sb-badge">12</span></div></div>
+  </div>
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div><div class="breadcrumb"><span>Orders</span> / #DOS-2026-0056</div><div class="at-title">#DOS-2026-0056</div></div>
+      <div class="at-right">
+        <button class="btn btn-navy-ol btn-sm">📧 Send Email</button>
+        <button class="btn btn-navy btn-sm">💬 WhatsApp Customer</button>
+      </div>
+    </div>
+    <div class="admin-content">
+      <!-- STATUS BAR -->
+      <div class="card section-gap" style="padding:14px 20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="font-size:13px;color:var(--mu)">13 May 2026 · 3:42 PM</div>
+            <span class="badge b-processing" style="font-size:12px;padding:4px 12px">Processing</span>
+            <span class="badge b-pu">Prescription Order</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="font-size:12px;color:var(--mu)">Update Status:</div>
+            <select class="form-select" style="width:160px;padding:7px 10px;font-size:12px"><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select>
+            <button class="btn btn-navy btn-sm">Update → Email Auto-Sends</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:18px">
+        <div>
+          <!-- FRAME DETAILS -->
+          <div class="card section-gap">
+            <div class="card-title">Order Items</div>
+            <div style="display:flex;gap:14px;align-items:flex-start;padding-bottom:14px;border-bottom:1px solid var(--bd);margin-bottom:14px">
+              <div style="width:68px;height:60px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🕶</div>
+              <div style="flex:1">
+                <div style="font-size:14px;font-weight:600;color:var(--navy)">Full Golden Aviator</div>
+                <div style="font-size:12px;color:var(--mu);margin-top:2px">SKU: DOS-SG-001 · Color: Gold · Size: Medium (50□21-145)</div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px">
+                  <div style="font-size:12px;color:var(--mu)">Qty: 1</div>
+                  <div style="font-weight:700;color:var(--navy)">Rs. 1,500</div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start">
+              <div style="width:68px;height:60px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">👓</div>
+              <div style="flex:1">
+                <div style="font-size:14px;font-weight:600;color:var(--navy)">Classic Aviator Blue Cut</div>
+                <div style="font-size:12px;color:var(--mu);margin-top:2px">SKU: DOS-BC-001 · Color: Black · Size: Medium</div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px">
+                  <div style="font-size:12px;color:var(--mu)">Qty: 1</div>
+                  <div style="font-weight:700;color:var(--navy)">Rs. 2,100</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LENS & PRESCRIPTION -->
+          <div class="card section-gap" style="border-color:var(--navy);border-width:2px">
+            <div class="card-title" style="border-bottom-color:var(--navy-l)">🔍 Lens & Prescription Details <span><span class="badge b-pu">Full Golden Aviator</span></span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+              <div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:8px">Lens Selection</div>
+                <div style="font-size:13px;display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Lens Type</span><span style="font-weight:600">Single Vision</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Coating</span><span style="font-weight:600">Anti-Reflective</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Lens Price</span><span style="font-weight:600;color:var(--navy)">+ Rs. 800</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Add-ons</span><span style="font-weight:600">Cleaning Kit (Rs. 150)</span></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:8px">Prescription Method</div>
+                <span class="badge b-gn" style="margin-bottom:10px;display:inline-block">Manual Entry</span>
+                <div style="background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px;font-size:12px">
+                  <div style="display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:6px;font-weight:700;color:var(--mu);font-size:10px;text-transform:uppercase;margin-bottom:6px"><span></span><span>SPH</span><span>CYL</span><span>Axis</span></div>
+                  <div style="display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:6px;margin-bottom:4px"><span style="font-weight:700;color:var(--navy)">OD (R)</span><span>+1.25</span><span>-0.50</span><span>90°</span></div>
+                  <div style="display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:6px"><span style="font-weight:700;color:var(--navy)">OS (L)</span><span>+1.00</span><span>-0.25</span><span>85°</span></div>
+                  <div style="display:flex;gap:20px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)"><span><strong>ADD:</strong> +1.00</span><span><strong>PD:</strong> 64mm</span></div>
+                </div>
+              </div>
+            </div>
+            <div style="background:var(--gold-l);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--navy)">
+              <strong>📋 Lens Manufacturing Note:</strong> Single Vision Anti-Reflective · OD +1.25/-0.50×90 | OS +1.00/-0.25×85 | PD 64mm · Frame: Golden Aviator Medium
+            </div>
+          </div>
+
+          <!-- PAYMENT -->
+          <div class="card section-gap">
+            <div class="card-title">Payment Summary</div>
+            <div style="font-size:13px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Frames (2)</span><span>Rs. 3,600</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Lenses</span><span>Rs. 950</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Add-ons</span><span>Rs. 150</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Coupon (SAVE10)</span><span style="color:var(--gn)">- Rs. 505</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">EasyPaisa (15%)</span><span style="color:var(--gn)">- Rs. 682</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Shipping</span><span style="color:var(--gn)">Free</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;border-top:2px solid var(--bd);padding-top:10px;margin-top:4px"><span>Total</span><span style="color:var(--navy);font-family:'Playfair Display',serif">Rs. 3,863</span></div>
+              <div style="font-size:11px;color:var(--mu)">Payment: EasyPaisa · Status: <span style="color:var(--gn);font-weight:600">PAID</span></div>
+            </div>
+          </div>
+
+          <!-- TRACKING -->
+          <div class="card section-gap">
+            <div class="card-title">Shipping & Tracking</div>
+            <div class="form-group"><div class="form-label">Courier</div><select class="form-select"><option>TCS</option><option>M&P</option><option>Leopards</option><option>Pakistan Post</option></select></div>
+            <div class="form-group"><div class="form-label">Tracking Number</div><div style="display:flex;gap:8px"><input class="form-input" style="flex:1" placeholder="Enter tracking number"/><button class="btn btn-navy btn-sm">Save & Notify</button></div><div style="font-size:11px;color:var(--mu);margin-top:4px">Customer will be notified via email & WhatsApp when tracking is added</div></div>
+            <div style="font-size:12px;color:var(--mu)">Shipping to: <strong style="color:var(--tx)">Ali Khan · House 5, Street 3, DHA Phase 2, Karachi, Sindh</strong></div>
+          </div>
+        </div>
+
+        <div>
+          <!-- CUSTOMER -->
+          <div class="card section-gap">
+            <div class="card-title">Customer <span><a style="color:var(--navy);cursor:pointer;font-weight:600">View Profile →</a></span></div>
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+              <div class="cust-avatar">AK</div>
+              <div><div style="font-size:14px;font-weight:600;color:var(--navy)">Ali Khan</div><div style="font-size:12px;color:var(--mu)">ali@email.com</div><div style="font-size:12px;color:var(--mu)">0300-1234567</div></div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 12px;font-size:12px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="color:var(--mu)">Total Orders</span><span style="font-weight:600">8</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Total Spent</span><span style="font-weight:600;color:var(--navy)">Rs. 18,400</span></div>
+            </div>
+            <div style="margin-top:12px;font-size:12px;color:var(--mu)">Delivery Address:</div>
+            <div style="font-size:13px;font-weight:500;color:var(--tx);margin-top:3px">House 5, Street 3, DHA Phase 2<br/>Karachi, Sindh</div>
+          </div>
+
+          <!-- NOTES -->
+          <div class="card section-gap">
+            <div class="card-title">Order Notes</div>
+            <textarea class="form-textarea" rows="3" placeholder="Add internal note about this order..."></textarea>
+            <button class="btn btn-navy-ol btn-sm" style="margin-top:8px">Save Note</button>
+          </div>
+
+          <!-- TIMELINE -->
+          <div class="card">
+            <div class="card-title">Order Timeline</div>
+            <div class="timeline-item"><div class="tl-left"><div class="tl-dot gn"></div><div class="tl-line gn"></div></div><div class="tl-content"><h5>Order Placed</h5><p>Customer placed order via website</p><div class="tl-time">13 May 2026, 3:42 PM</div></div></div>
+            <div class="timeline-item"><div class="tl-left"><div class="tl-dot gn"></div><div class="tl-line gn"></div></div><div class="tl-content"><h5>Payment Confirmed</h5><p>EasyPaisa payment verified</p><div class="tl-time">13 May 2026, 4:10 PM</div></div></div>
+            <div class="timeline-item"><div class="tl-left"><div class="tl-dot bl"></div><div class="tl-line"></div></div><div class="tl-content"><h5>Processing</h5><p>Lenses being crafted to prescription</p><div class="tl-time">14 May 2026, 10:15 AM</div></div></div>
+            <div class="timeline-item"><div class="tl-left"><div class="tl-dot gy"></div></div><div class="tl-content"><h5 style="color:var(--mu)">Shipped</h5><p style="color:#94a3b8">Estimated: 16 May 2026</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DRAFT ORDER ===================== -->
+<div class="page" id="page-draft-order">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link"><span class="ico">📊</span>Dashboard</div><div class="sb-link active"><span class="ico">📝</span>Draft Orders</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div><div class="breadcrumb"><span>Orders</span> / Create Draft Order</div><div class="at-title">Create Draft Order</div></div><div class="at-right"><button class="btn btn-navy-ol btn-sm">Cancel</button><button class="btn btn-navy btn-sm">Create Order</button></div></div>
+    <div class="admin-content">
+      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:18px">
+        <div>
+          <!-- CUSTOMER -->
+          <div class="card section-gap">
+            <div class="card-title">Customer Information</div>
+            <div style="background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:14px">
+              <div style="font-size:12px;font-weight:600;color:var(--mu);margin-bottom:8px">Search existing customer (optional)</div>
+              <div class="search-bar" style="max-width:100%"><span>🔍</span><input placeholder="Search by name, email, or phone..."/></div>
+            </div>
+            <div style="font-size:11px;font-weight:600;color:var(--mu);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">OR Fill in manually</div>
+            <div class="form-2col"><div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" placeholder="Ali Khan"/></div><div class="form-group"><label class="form-label">Phone *</label><input class="form-input" placeholder="03001234567"/></div></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" placeholder="ali@email.com"/></div>
+            <div class="form-group"><label class="form-label">Delivery Address *</label><textarea class="form-textarea" rows="2" placeholder="House/Flat, Street, Area..."></textarea></div>
+            <div class="form-2col"><div class="form-group"><label class="form-label">City *</label><input class="form-input" placeholder="Karachi"/></div><div class="form-group"><label class="form-label">Province *</label><select class="form-select"><option>Sindh</option><option>Punjab</option><option>KPK</option><option>Balochistan</option></select></div></div>
+          </div>
+
+          <!-- PRODUCT -->
+          <div class="card section-gap">
+            <div class="card-title">Products</div>
+            <div class="search-bar" style="max-width:100%;margin-bottom:14px"><span>🔍</span><input placeholder="Search products by name or SKU..."/></div>
+            <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:14px">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <div style="width:56px;height:50px;background:#f8fafc;border:1px solid var(--bd);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🕶</div>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:600;color:var(--navy)">Full Golden Aviator</div>
+                  <div class="form-2col" style="margin-top:8px">
+                    <select class="form-select" style="font-size:12px"><option>Gold · Medium</option><option>Gold · Small</option><option>Black · Medium</option></select>
+                    <input class="form-input" style="font-size:12px" value="1" placeholder="Qty"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-navy-ol btn-sm" style="margin-top:10px;width:100%">+ Add Another Product</button>
+          </div>
+
+          <!-- LENS -->
+          <div class="card section-gap">
+            <div class="card-title">Lens Customization</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div style="font-size:13px;font-weight:500">Include lens customization?</div><div class="toggle on"></div></div>
+            <div class="form-2col"><div class="form-group"><label class="form-label">Lens Type</label><select class="form-select"><option>Single Vision</option><option>Progressives</option><option>Bifocal</option><option>Readers</option><option>Non-Prescription</option></select></div><div class="form-group"><label class="form-label">Coating</label><select class="form-select"><option>Anti-Reflective</option><option>Blue Cut + UV</option><option>Polarized</option><option>Standard Clear</option></select></div></div>
+            <div class="form-group"><label class="form-label">Prescription Method</label><div class="filter-tabs" style="width:fit-content"><div class="filter-tab active">Manual Entry</div><div class="filter-tab">Photo Upload</div><div class="filter-tab">None</div></div></div>
+            <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:14px">
+              <div style="display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:8px;font-size:12px">
+                <div></div><div style="font-weight:600;color:var(--mu);font-size:10px;text-transform:uppercase">SPH</div><div style="font-weight:600;color:var(--mu);font-size:10px;text-transform:uppercase">CYL</div><div style="font-weight:600;color:var(--mu);font-size:10px;text-transform:uppercase">Axis</div>
+                <div style="font-weight:600;color:var(--navy);display:flex;align-items:center">OD</div><select class="form-select" style="font-size:12px;padding:6px"><option>+1.25</option></select><select class="form-select" style="font-size:12px;padding:6px"><option>-0.50</option></select><select class="form-select" style="font-size:12px;padding:6px"><option>90°</option></select>
+                <div style="font-weight:600;color:var(--navy);display:flex;align-items:center">OS</div><select class="form-select" style="font-size:12px;padding:6px"><option>+1.00</option></select><select class="form-select" style="font-size:12px;padding:6px"><option>-0.25</option></select><select class="form-select" style="font-size:12px;padding:6px"><option>85°</option></select>
+              </div>
+              <div class="form-2col" style="margin-top:10px"><div class="form-group" style="margin-bottom:0"><label class="form-label">ADD</label><select class="form-select" style="font-size:12px"><option>+1.00</option></select></div><div class="form-group" style="margin-bottom:0"><label class="form-label">PD (mm)</label><input class="form-input" style="font-size:12px" value="64"/></div></div>
+            </div>
+          </div>
+
+          <!-- PAYMENT -->
+          <div class="card">
+            <div class="card-title">Payment</div>
+            <div class="form-2col"><div class="form-group"><label class="form-label">Payment Method</label><select class="form-select"><option>COD</option><option>EasyPaisa</option><option>JazzCash</option><option>Bank Transfer</option></select></div><div class="form-group"><label class="form-label">Payment Status</label><select class="form-select"><option>Pending</option><option>Paid</option></select></div></div>
+            <div class="form-group"><label class="form-label">Order Notes</label><textarea class="form-textarea" rows="2" placeholder="Internal notes about this order..."></textarea></div>
+          </div>
+        </div>
+
+        <!-- SUMMARY SIDEBAR -->
+        <div>
+          <div class="card" style="position:sticky;top:77px">
+            <div class="card-title">Order Summary</div>
+            <div style="font-size:13px;display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Frame</span><span>Rs. 1,500</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Lens (Single Vision + AR)</span><span>Rs. 800</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--mu)">Shipping</span><span style="color:var(--gn)">Free</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;border-top:2px solid var(--bd);padding-top:10px;margin-top:4px"><span>Total</span><span style="color:var(--navy);font-family:'Playfair Display',serif">Rs. 2,300</span></div>
+            </div>
+            <button class="btn btn-navy" style="width:100%">Create Order</button>
+            <div style="font-size:11px;color:var(--mu);text-align:center;margin-top:8px">Customer will receive WhatsApp confirmation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ABANDONED CARTS ===================== -->
+<div class="page" id="page-abandoned">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link"><span class="ico">📊</span>Dashboard</div><div class="sb-link active"><span class="ico">🛒</span>Abandoned Carts<span class="sb-badge red">6</span></div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Abandoned Carts</div></div>
+    <div class="admin-content">
+      <div class="stat-grid" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card rd"><div class="stat-icon rd">🛒</div><div class="stat-label">Active Abandoned</div><div class="stat-val">6</div></div>
+        <div class="stat-card gn"><div class="stat-icon gn">✓</div><div class="stat-label">Recovered</div><div class="stat-val">0</div></div>
+        <div class="stat-card gold"><div class="stat-icon gold">💰</div><div class="stat-label">At-Risk Revenue</div><div class="stat-val" style="font-size:22px">Rs. 18,420</div></div>
+        <div class="stat-card navy"><div class="stat-icon navy">📈</div><div class="stat-label">Recovered Revenue</div><div class="stat-val">Rs. 0</div></div>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-tabs"><div class="filter-tab active">All (6)</div><div class="filter-tab">Active (6)</div><div class="filter-tab">Recovered (0)</div></div>
+      </div>
+
+      <div class="ab-cart-card">
+        <div class="ab-cart-header">
+          <span class="badge b-rd">Active</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600">umer@gmail.com — <span style="color:var(--navy)">1 item · Rs. 2,750</span></div><div style="font-size:11px;color:var(--mu);margin-top:2px">Abandoned 29 May 2026, 3:30 PM · 0333-1234567</div></div>
+          <div style="display:flex;gap:8px"><button class="btn btn-gold btn-sm">💬 Send Reminder</button><button class="btn btn-navy-ol btn-sm">View Items ▼</button></div>
+        </div>
+        <div class="ab-cart-expand">
+          <table class="data-table" style="font-size:12px">
+            <tr><th>Product</th><th>SKU</th><th>Color / Size</th><th>Lens Selected</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+            <tr><td style="font-weight:500">Full Golden Aviator</td><td>DOS-SG-001</td><td>Gold / Medium</td><td><span class="badge b-navy">Single Vision</span></td><td>1</td><td>Rs. 1,500</td><td style="font-weight:700">Rs. 2,750</td></tr>
+          </table>
+          <div style="text-align:right;font-size:13px;font-weight:700;padding:10px 0 0;border-top:1px solid var(--bd);margin-top:8px">Cart Total: <span style="color:var(--navy);font-family:'Playfair Display',serif">Rs. 2,750</span></div>
+        </div>
+      </div>
+
+      <div class="ab-cart-card">
+        <div class="ab-cart-header">
+          <span class="badge b-rd">Active</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600">Ali Khan — <span style="color:var(--navy)">2 items · Rs. 5,200</span></div><div style="font-size:11px;color:var(--mu);margin-top:2px">Abandoned 28 May 2026, 7:00 PM · 0300-1234567</div></div>
+          <div style="display:flex;gap:8px"><button class="btn btn-gold btn-sm">💬 Send Reminder</button><button class="btn btn-navy-ol btn-sm">View Items ▼</button></div>
+        </div>
+      </div>
+
+      <div class="ab-cart-card">
+        <div class="ab-cart-header">
+          <span class="badge b-rd">Active</span>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600">Guest — 03215678901 — <span style="color:var(--navy)">1 item · Rs. 1,800</span></div><div style="font-size:11px;color:var(--mu);margin-top:2px">Abandoned 27 May 2026, 2:15 PM</div></div>
+          <div style="display:flex;gap:8px"><button class="btn btn-gold btn-sm">💬 Send Reminder</button><button class="btn btn-navy-ol btn-sm">View Items ▼</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADD/EDIT PRODUCT ===================== -->
+<div class="page" id="page-add-product">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">👓</span>Products</div><div class="sb-link"><span class="ico">📦</span>Inventory</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div><div class="breadcrumb"><span>Products</span> / Edit Product</div><div class="at-title">Edit Product — Full Golden Aviator</div></div><div class="at-right"><button class="btn btn-navy-ol btn-sm">Cancel</button><button class="btn btn-gold btn-sm">Save Changes</button></div></div>
+    <div class="admin-content">
+
+      <!-- PRODUCT TYPE TABS -->
+      <div style="display:flex;gap:8px;margin-bottom:20px;background:#fff;border:1.5px solid var(--bd);border-radius:10px;padding:6px;width:fit-content">
+        <button class="btn btn-navy btn-sm">👓 Eyeglasses Frame</button>
+        <button class="btn btn-navy-ol btn-sm">👁 Contact Lenses</button>
+        <button class="btn btn-navy-ol btn-sm">🎒 Accessory</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 260px;gap:18px">
+        <div>
+          <!-- BASIC INFO -->
+          <div class="card section-gap">
+            <div class="card-title">Basic Information</div>
+            <div class="form-2col"><div class="form-group"><label class="form-label">Product Name *</label><input class="form-input" value="Full Golden Aviator"/></div><div class="form-group"><label class="form-label">SKU *</label><input class="form-input" value="DOS-SG-001"/></div></div>
+            <div class="form-3col"><div class="form-group"><label class="form-label">Brand</label><input class="form-input" value="Ray-Ban"/></div><div class="form-group"><label class="form-label">Category *</label><select class="form-select"><option>Sunglasses</option><option>Prescription</option><option>Blue Cut</option><option>Transition</option></select></div><div class="form-group"><label class="form-label">Gender</label><select class="form-select"><option>Unisex</option><option>Men</option><option>Women</option></select></div></div>
+            <div class="form-3col"><div class="form-group"><label class="form-label">Frame Shape</label><select class="form-select"><option>Aviator</option><option>Round</option><option>Square</option><option>Cat-Eye</option></select></div><div class="form-group"><label class="form-label">Material</label><select class="form-select"><option>Acetate</option><option>Metal</option><option>Titanium</option></select></div><div class="form-group"><label class="form-label">Rim Type</label><select class="form-select"><option>Full-Rim</option><option>Half-Rim</option><option>Rimless</option></select></div></div>
+            <div class="form-group" style="display:flex;align-items:center;gap:10px"><input type="checkbox" checked/><label style="font-size:13px;font-weight:500">Requires Prescription</label></div>
+          </div>
+
+          <!-- PRICING -->
+          <div class="card section-gap">
+            <div class="card-title">Pricing</div>
+            <div class="form-2col"><div class="form-group"><label class="form-label">Base Price (Rs.) *</label><input class="form-input" value="1500"/></div><div class="form-group"><label class="form-label">Sale Price (Rs.) — blank = no sale</label><input class="form-input" value="1900" placeholder="Leave blank for no sale"/></div></div>
+          </div>
+
+          <!-- IMAGES -->
+          <div class="card section-gap">
+            <div class="card-title">Product Images <span>Images grouped by color · ▲▼ to reorder</span></div>
+            <div class="img-upload-zone"><div class="up-icon">📸</div><p>Drag & drop images or click to browse</p><p style="font-size:11px;margin-top:3px">JPEG, PNG, WebP — max 5MB each</p></div>
+
+            <!-- COLOR GROUPED IMAGES -->
+            <div style="margin-top:16px">
+              <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;border-radius:50%;background:#8B6914;display:inline-block"></span>Gold — 3 images</div>
+              <div style="border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:14px">
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--bd)">
+                  <span style="color:#94a3b8;cursor:grab;font-size:16px">⠿</span>
+                  <div class="img-thumb"><div class="img-thumb-inner primary-border"><span style="font-size:18px">🕶</span></div><div class="primary-lbl">PRIMARY</div></div>
+                  <div style="flex:1;font-size:12px"><div style="font-weight:500;color:var(--tx)">front-gold.jpg</div><div style="color:var(--mu);font-size:11px">Main product image</div></div>
+                  <select class="form-select" style="width:130px;font-size:11px;padding:5px 8px"><option>Gold</option><option>Black</option><option>Unassigned</option></select>
+                  <div class="icon-btn danger">🗑</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--bd)">
+                  <span style="color:#94a3b8;cursor:grab;font-size:16px">⠿</span>
+                  <div class="img-thumb"><div class="img-thumb-inner"><span style="font-size:18px">🕶</span></div></div>
+                  <div style="flex:1;font-size:12px"><div style="font-weight:500;color:var(--tx)">angle-gold.jpg</div></div>
+                  <select class="form-select" style="width:130px;font-size:11px;padding:5px 8px"><option>Gold</option><option>Black</option></select>
+                  <button class="btn btn-navy-ol btn-xs">Set Primary</button>
+                  <div class="icon-btn danger">🗑</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 14px">
+                  <span style="color:#94a3b8;cursor:grab;font-size:16px">⠿</span>
+                  <div class="img-thumb"><div class="img-thumb-inner"><span style="font-size:18px">🕶</span></div></div>
+                  <div style="flex:1;font-size:12px"><div style="font-weight:500;color:var(--tx)">side-gold.jpg</div></div>
+                  <select class="form-select" style="width:130px;font-size:11px;padding:5px 8px"><option>Gold</option><option>Black</option></select>
+                  <button class="btn btn-navy-ol btn-xs">Set Primary</button>
+                  <div class="icon-btn danger">🗑</div>
+                </div>
+              </div>
+
+              <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;border-radius:50%;background:#1a1a1a;display:inline-block"></span>Black — 2 images</div>
+              <div style="border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:14px">
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--bd)">
+                  <span style="color:#94a3b8;cursor:grab;font-size:16px">⠿</span>
+                  <div class="img-thumb"><div class="img-thumb-inner primary-border"><span style="font-size:18px">🕶</span></div><div class="primary-lbl">PRIMARY</div></div>
+                  <div style="flex:1;font-size:12px"><div style="font-weight:500;color:var(--tx)">front-black.jpg</div></div>
+                  <select class="form-select" style="width:130px;font-size:11px;padding:5px 8px"><option selected>Black</option><option>Gold</option></select>
+                  <div class="icon-btn danger">🗑</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 14px">
+                  <span style="color:#94a3b8;cursor:grab;font-size:16px">⠿</span>
+                  <div class="img-thumb"><div class="img-thumb-inner"><span style="font-size:18px">🕶</span></div></div>
+                  <div style="flex:1;font-size:12px"><div style="font-weight:500;color:var(--tx)">side-black.jpg</div></div>
+                  <select class="form-select" style="width:130px;font-size:11px;padding:5px 8px"><option selected>Black</option><option>Gold</option></select>
+                  <button class="btn btn-navy-ol btn-xs">Set Primary</button>
+                  <div class="icon-btn danger">🗑</div>
+                </div>
+              </div>
+              <button class="btn btn-navy-ol btn-sm" style="width:100%">+ Add Media</button>
+            </div>
+          </div>
+
+          <!-- VARIANTS -->
+          <div class="card section-gap">
+            <div class="card-title">Variants (Colors & Sizes) <span>Each row = one color+size combo</span></div>
+            <div style="overflow-x:auto">
+              <table class="variants-table">
+                <tr><th>Color Name</th><th>Color Hex</th><th>Size Label</th><th>Lens □ Bridge - Temple</th><th>SKU</th><th>Price</th><th>Stock</th><th>Active</th><th></th></tr>
+                <tr>
+                  <td><input value="Gold" style="width:80px"/></td>
+                  <td><div style="display:flex;align-items:center;gap:6px"><span class="color-preview" style="background:#8B6914"></span><input type="color" value="#8B6914" style="width:32px;height:24px;border:none;padding:0;cursor:pointer;border-radius:4px"/></div></td>
+                  <td><select style="width:90px;border:1.5px solid var(--bd);border-radius:6px;padding:5px 6px;font-size:11px;font-family:'Inter',sans-serif"><option>Small</option><option selected>Medium</option><option>Large</option></select></td>
+                  <td><div style="display:flex;gap:4px;align-items:center"><input style="width:38px" value="50"/><span style="font-size:10px;color:var(--mu)">□</span><input style="width:34px" value="21"/><span style="font-size:10px;color:var(--mu)">-</span><input style="width:38px" value="145"/></div></td>
+                  <td><input value="DOS-SG-001-M-GLD" style="width:130px"/></td>
+                  <td><input value="1500" style="width:70px"/></td>
+                  <td><input value="12" style="width:50px"/></td>
+                  <td><div class="toggle on"></div></td>
+                  <td><div class="icon-btn danger">×</div></td>
+                </tr>
+                <tr>
+                  <td><input value="Black" style="width:80px"/></td>
+                  <td><div style="display:flex;align-items:center;gap:6px"><span class="color-preview" style="background:#1a1a1a"></span><input type="color" value="#1a1a1a" style="width:32px;height:24px;border:none;padding:0;cursor:pointer;border-radius:4px"/></div></td>
+                  <td><select style="width:90px;border:1.5px solid var(--bd);border-radius:6px;padding:5px 6px;font-size:11px;font-family:'Inter',sans-serif"><option selected>Medium</option><option>Large</option></select></td>
+                  <td><div style="display:flex;gap:4px;align-items:center"><input style="width:38px" value="50"/><span style="font-size:10px;color:var(--mu)">□</span><input style="width:34px" value="21"/><span style="font-size:10px;color:var(--mu)">-</span><input style="width:38px" value="145"/></div></td>
+                  <td><input value="DOS-SG-001-M-BLK" style="width:130px"/></td>
+                  <td><input value="1500" style="width:70px"/></td>
+                  <td><input value="2" style="width:50px;border-color:var(--rd)"/></td>
+                  <td><div class="toggle on"></div></td>
+                  <td><div class="icon-btn danger">×</div></td>
+                </tr>
+              </table>
+            </div>
+            <button class="btn btn-navy-ol btn-sm" style="margin-top:10px">+ Add Color / Size</button>
+          </div>
+
+          <!-- DESCRIPTION -->
+          <div class="card section-gap">
+            <div class="card-title">Description</div>
+            <div style="border:1.5px solid var(--bd);border-radius:8px;overflow:hidden">
+              <div class="rich-text-toolbar">
+                <button class="rt-btn"><strong>B</strong></button><button class="rt-btn"><em>I</em></button><button class="rt-btn">H1</button><button class="rt-btn">H2</button><button class="rt-btn">≡</button><button class="rt-btn">1.</button><button class="rt-btn">•</button><button class="rt-btn">🔗</button><button class="rt-btn">🖼</button>
+              </div>
+              <div class="rich-text-area">Premium acetate aviator frame with UV400 protection. Lightweight, comfortable, and built for all-day wear. Perfect for driving and outdoor activities.<br/><br/>Available in Gold and Black colorways with optional prescription lenses.</div>
+            </div>
+          </div>
+
+          <!-- FRAME SPECS -->
+          <div class="card section-gap">
+            <div class="card-title">Frame Specifications (mm)</div>
+            <div class="form-3col">
+              <div class="form-group"><label class="form-label">Frame Width</label><input class="form-input" value="135" placeholder="mm"/></div>
+              <div class="form-group"><label class="form-label">Lens Width</label><input class="form-input" value="50" placeholder="mm"/></div>
+              <div class="form-group"><label class="form-label">Bridge</label><input class="form-input" value="21" placeholder="mm"/></div>
+            </div>
+            <div class="form-3col">
+              <div class="form-group"><label class="form-label">Temple Length</label><input class="form-input" value="145" placeholder="mm"/></div>
+              <div class="form-group"><label class="form-label">Lens Height</label><input class="form-input" value="42" placeholder="mm"/></div>
+              <div class="form-group"><label class="form-label">Weight</label><input class="form-input" value="24" placeholder="grams"/></div>
+            </div>
+          </div>
+
+          <!-- LENS OPTIONS -->
+          <div class="card section-gap">
+            <div class="card-title">Lens Options (Available for this product)</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+              <label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:9px 12px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/> Single Vision <span style="color:var(--mu);font-size:11px">+Rs.300</span></label>
+              <label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:9px 12px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/> Progressives <span style="color:var(--mu);font-size:11px">+Rs.1,000</span></label>
+              <label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:9px 12px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/> Readers <span style="color:var(--mu);font-size:11px">+Rs.500</span></label>
+              <label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:9px 12px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/> Bifocal <span style="color:var(--mu);font-size:11px">+Rs.700</span></label>
+              <label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:9px 12px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/> Non-Prescription <span style="color:var(--mu);font-size:11px">Free</span></label>
+            </div>
+          </div>
+
+          <!-- LENS RECOMMENDATION BLOGS -->
+          <div class="card section-gap">
+            <div class="card-title">Lens Recommendation Blog Cards <span style="font-size:11px;color:var(--mu)">Show on product page → Lens Recommendation tab</span></div>
+            <div style="font-size:12px;color:var(--mu);margin-bottom:12px">Select blog posts to show as recommendations for this product category</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <label style="display:flex;align-items:center;gap:10px;font-size:13px;padding:10px 14px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/><div><div style="font-weight:500">What is Blue Cut Lens?</div><div style="font-size:11px;color:var(--mu)">Lens Guide · 5 min read</div></div></label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:13px;padding:10px 14px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/><div><div style="font-weight:500">Transition Lenses: Complete Guide</div><div style="font-size:11px;color:var(--mu)">Lens Guide · 6 min read</div></div></label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:13px;padding:10px 14px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer"><input type="checkbox" style="accent-color:var(--navy)"/><div><div style="font-weight:500">Progressive vs Bifocal: Which is Right?</div><div style="font-size:11px;color:var(--mu)">Prescription Guide · 7 min read</div></div></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <div>
+          <div class="card section-gap">
+            <div class="card-title">Status & Visibility</div>
+            <div class="form-group"><label class="form-label">Visibility</label><select class="form-select"><option>Active</option><option>Draft</option><option>Archived</option></select></div>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"/> Featured on Homepage</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-top:8px"><input type="checkbox" style="accent-color:var(--navy)"/> On Sale</label>
+          </div>
+
+          <div class="card section-gap">
+            <div class="card-title">SEO</div>
+            <div class="form-group"><label class="form-label">URL Slug</label><input class="form-input" value="full-golden-aviator-frame" style="font-size:12px"/></div>
+            <div class="form-group"><label class="form-label">Meta Title</label><input class="form-input" placeholder="For Google search result" style="font-size:12px"/></div>
+            <div class="form-group"><label class="form-label">Meta Description</label><textarea class="form-textarea" rows="3" placeholder="Short description for Google..." style="font-size:12px"></textarea></div>
+            <div class="form-group"><label class="form-label">Focus Keywords</label><input class="form-input" placeholder="golden aviator, sunglasses..." style="font-size:12px"/></div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;position:sticky;top:130px">
+            <button class="btn btn-gold" style="width:100%;padding:12px">Save Changes</button>
+            <button class="btn btn-navy-ol" style="width:100%">Save as Draft</button>
+            <button class="btn btn-rd-ol btn-sm" style="width:100%">Delete Product</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ANALYTICS ===================== -->
+<div class="page" id="page-analytics">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">📈</span>Analytics</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="at-title">Analytics</div>
+      <div class="at-right">
+        <div class="filter-tabs"><div class="filter-tab">Today</div><div class="filter-tab">Last 7 Days</div><div class="filter-tab active">Last 30 Days</div><div class="filter-tab">Last 90 Days</div><div class="filter-tab">Custom</div></div>
+        <button class="btn btn-navy-ol btn-sm">↺ Refresh</button>
+      </div>
+    </div>
+    <div class="admin-content">
+      <div class="analytics-grid">
+        <div class="analytics-card"><div class="ac-label">Total Revenue</div><div class="ac-val">Rs. 1,24,600</div><div class="ac-change up">↑ 615% vs prev period</div></div>
+        <div class="analytics-card"><div class="ac-label">Total Orders</div><div class="ac-val">42</div><div class="ac-change up">↑ 733% vs prev period</div></div>
+        <div class="analytics-card"><div class="ac-label">Avg Order Value</div><div class="ac-val">Rs. 2,966</div><div class="ac-change up">↑ 12% vs prev period</div></div>
+        <div class="analytics-card"><div class="ac-label">Total Customers</div><div class="ac-val">284</div><div class="ac-change up">↑ 200% vs prev period</div></div>
+        <div class="analytics-card"><div class="ac-label">New Customers</div><div class="ac-val">18</div><div class="ac-change up">↑ 5 this period</div></div>
+        <div class="analytics-card"><div class="ac-label">Conversion Rate</div><div class="ac-val">84%</div><div class="ac-change up">↑ from 71%</div></div>
+      </div>
+
+      <div class="card section-gap">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div><div style="font-size:16px;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif">Revenue & Orders</div><div style="font-size:12px;color:var(--mu)">Rs. 1,24,600 total · 42 orders</div></div>
+          <div class="filter-tabs"><div class="filter-tab active">Daily</div><div class="filter-tab">Weekly</div></div>
+        </div>
+        <div class="chart-ph" style="height:220px">📈 Dual-axis chart: Blue bars = Revenue per day · Line = Orders count<br/>Hover tooltip: "Jun 5, 2026 · Orders: 3 · Revenue: Rs. 8,400"<br/>X-axis: dates · Left Y: Revenue (Rs.) · Right Y: Orders count</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div class="card">
+          <div class="card-title">Order Status Breakdown</div>
+          <div style="display:flex;gap:16px;align-items:center">
+            <div class="chart-ph" style="height:160px;width:160px;border-radius:50%;flex-shrink:0">🍩 Donut</div>
+            <div style="flex:1;font-size:12px">
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd)"><div><span class="s-dot yw"></span>Pending</div><div style="font-weight:600">8 · Rs. 24,400</div></div>
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd)"><div><span class="s-dot bl"></span>Processing</div><div style="font-weight:600">4 · Rs. 12,200</div></div>
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd)"><div><span class="s-dot gn"></span>Shipped</div><div style="font-weight:600">6 · Rs. 18,800</div></div>
+              <div style="display:flex;justify-content:space-between;padding:6px 0"><div><span class="s-dot gn"></span>Delivered</div><div style="font-weight:600">24 · Rs. 69,200</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">New vs Returning Customers</div>
+          <div style="display:flex;gap:16px;align-items:center;justify-content:center;padding:20px 0">
+            <div class="chart-ph" style="height:140px;width:140px;border-radius:50%;flex-shrink:0">🍩</div>
+            <div style="text-align:center">
+              <div style="font-size:32px;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif">18</div>
+              <div style="font-size:11px;color:var(--mu)">New · 78%</div>
+              <div style="margin-top:16px;font-size:24px;font-weight:700;color:var(--gn);font-family:'Playfair Display',serif">5</div>
+              <div style="font-size:11px;color:var(--mu)">Returning · 22%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px">
+        <div class="card">
+          <div class="card-title">Top Products</div>
+          <table class="data-table">
+            <tr><th>#</th><th>Product</th><th>Units Sold</th><th>Revenue</th><th></th></tr>
+            <tr><td style="color:var(--gold);font-weight:700">1</td><td style="font-weight:500">Full Golden Aviator</td><td>84</td><td style="font-weight:700;color:var(--gn)">Rs. 1,26,000</td><td><button class="btn btn-navy-ol btn-xs">View →</button></td></tr>
+            <tr><td style="color:var(--mu);font-weight:700">2</td><td style="font-weight:500">Classic Blue Cut</td><td>62</td><td style="font-weight:700;color:var(--gn)">Rs. 1,30,200</td><td><button class="btn btn-navy-ol btn-xs">View →</button></td></tr>
+            <tr><td style="color:var(--mu);font-weight:700">3</td><td style="font-weight:500">Black Rimless Frame</td><td>51</td><td style="font-weight:700;color:var(--gn)">Rs. 91,800</td><td><button class="btn btn-navy-ol btn-xs">View →</button></td></tr>
+            <tr><td style="color:var(--mu);font-weight:700">4</td><td style="font-weight:500">Brown Cat Eye</td><td>38</td><td style="font-weight:700;color:var(--gn)">Rs. 1,06,400</td><td><button class="btn btn-navy-ol btn-xs">View →</button></td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title">Top Customers</div>
+          <table class="data-table" style="font-size:12px">
+            <tr><th>Customer</th><th>Orders</th><th>Spent</th></tr>
+            <tr><td style="color:var(--navy);cursor:pointer;font-weight:500">Ali Khan</td><td>8</td><td style="font-weight:700">Rs. 18,400</td></tr>
+            <tr><td style="color:var(--navy);cursor:pointer;font-weight:500">Omar Malik</td><td>5</td><td style="font-weight:700">Rs. 14,200</td></tr>
+            <tr><td style="color:var(--navy);cursor:pointer;font-weight:500">Sara Qureshi</td><td>4</td><td style="font-weight:700">Rs. 9,800</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CUSTOMERS ===================== -->
+<div class="page" id="page-customers">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">👥</span>Customers</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Customers</div><div class="at-right"><button class="btn btn-navy-ol btn-sm">📥 Export</button></div></div>
+    <div class="admin-content">
+      <div class="filter-tabs" style="margin-bottom:18px">
+        <div class="filter-tab active">Registered (42)</div>
+        <div class="filter-tab">Guest Orders (18)</div>
+      </div>
+      <div class="filter-row">
+        <div class="search-bar"><span>🔍</span><input placeholder="Search by name, email, or phone..."/></div>
+        <select class="form-select" style="width:150px"><option>Sort: Total Spent ↓</option><option>Sort: Orders ↓</option><option>Sort: Newest</option></select>
+      </div>
+      <div class="card">
+        <table class="data-table">
+          <tr><th>Customer</th><th>Email</th><th>Phone</th><th>Orders</th><th>Total Spent</th><th>Joined</th><th>Last Order</th><th>Actions</th></tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class="cust-avatar" style="width:32px;height:32px;font-size:12px">AK</div><span style="font-weight:500">Ali Khan</span></div></td>
+            <td style="font-size:12px;color:var(--mu)">ali@email.com</td>
+            <td style="font-size:12px">0300-1234567</td>
+            <td style="font-weight:600">8</td>
+            <td style="font-weight:700;color:var(--navy)">Rs. 18,400</td>
+            <td style="font-size:11px;color:var(--mu)">Jan 2026</td>
+            <td style="font-size:11px;color:var(--mu)">13 May 2026</td>
+            <td><button class="btn btn-navy-ol btn-xs">View</button></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class="cust-avatar" style="width:32px;height:32px;font-size:12px">FA</div><span style="font-weight:500">Fatima Ahmed</span></div></td>
+            <td style="font-size:12px;color:var(--mu)">fatima@email.com</td>
+            <td style="font-size:12px">0321-9876543</td>
+            <td style="font-weight:600">3</td>
+            <td style="font-weight:700;color:var(--navy)">Rs. 6,200</td>
+            <td style="font-size:11px;color:var(--mu)">Mar 2026</td>
+            <td style="font-size:11px;color:var(--mu)">12 May 2026</td>
+            <td><button class="btn btn-navy-ol btn-xs">View</button></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class="cust-avatar" style="width:32px;height:32px;font-size:12px">OM</div><span style="font-weight:500">Omar Malik</span></div></td>
+            <td style="font-size:12px;color:var(--mu)">omar@email.com</td>
+            <td style="font-size:12px">0333-5678901</td>
+            <td style="font-weight:600">5</td>
+            <td style="font-weight:700;color:var(--navy)">Rs. 14,200</td>
+            <td style="font-size:11px;color:var(--mu)">Feb 2026</td>
+            <td style="font-size:11px;color:var(--mu)">11 May 2026</td>
+            <td><button class="btn btn-navy-ol btn-xs">View</button></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- GUEST LINKING NOTE -->
+      <div style="background:var(--gold-l);border:1.5px solid rgba(201,168,76,.3);border-radius:10px;padding:14px 16px;margin-top:14px;font-size:13px">
+        <strong style="color:var(--navy)">💡 Guest → Registered Linking:</strong> <span style="color:var(--mu)">When a guest customer registers with the same phone number or email used in a previous guest order, their past orders are automatically linked to their new account. They can see all previous orders in My Account.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== INVENTORY ===================== -->
+<div class="page" id="page-inventory">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link"><span class="ico">👓</span>Products</div><div class="sb-link active"><span class="ico">📦</span>Inventory</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Inventory</div><div class="at-right"><button class="btn btn-navy-ol btn-sm">📥 Export</button><button class="btn btn-navy btn-sm">⚙️ Low Stock Threshold</button></div></div>
+    <div class="admin-content">
+      <div style="background:var(--rd);background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;color:#fff">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">⚠️</span><div><div style="font-size:14px;font-weight:600">7 items are LOW STOCK (below threshold: 5 units)</div><div style="font-size:12px;opacity:.8;margin-top:2px">Review and restock before running out</div></div></div>
+        <button class="btn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);padding:7px 14px;font-size:12px">View Low Stock Only</button>
+      </div>
+
+      <div class="filter-row">
+        <div class="search-bar"><span>🔍</span><input placeholder="Search by product name or SKU..."/></div>
+        <select class="form-select" style="width:130px"><option>All Colors</option><option>Gold</option><option>Black</option><option>Silver</option></select>
+        <select class="form-select" style="width:130px"><option>All Stock</option><option>Low Stock (≤5)</option><option>In Stock (>5)</option><option>Out of Stock (0)</option></select>
+        <select class="form-select" style="width:130px"><option>All Categories</option><option>Sunglasses</option><option>Prescription</option><option>Blue Cut</option></select>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:12px;color:var(--mu)">42 variants · <span style="color:var(--rd);font-weight:600">7 low stock</span></div>
+          <div style="display:flex;gap:8px"><button class="btn btn-navy-ol btn-sm" id="bulk-btn" style="display:none">Update Selected Stock</button></div>
+        </div>
+        <table class="data-table">
+          <tr><th class="cb"><input type="checkbox"/></th><th>Product</th><th>SKU</th><th>Color / Size</th><th>Category</th><th>Stock</th><th>Last Updated</th><th>Actions</th></tr>
+          <tr>
+            <td class="cb"><input type="checkbox"/></td>
+            <td style="font-weight:500">Full Golden Aviator</td>
+            <td style="font-size:11px;color:var(--mu)">DOS-SG-001-M-GLD</td>
+            <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#8B6914;margin-right:5px"></span>Gold · Medium</td>
+            <td><span class="badge b-gy">Sunglasses</span></td>
+            <td><div style="display:flex;align-items:center;gap:8px"><span class="stock-val high">12</span><span style="font-size:10px;color:var(--mu)">units</span></div></td>
+            <td style="font-size:11px;color:var(--mu)">Today</td>
+            <td><div class="row-gap"><button class="btn btn-navy-ol btn-xs" onclick="this.closest('td').previousElementSibling.querySelector('.stock-val').contentEditable='true'">✏️ Edit</button></div></td>
+          </tr>
+          <tr style="background:#fff8f8">
+            <td class="cb"><input type="checkbox"/></td>
+            <td style="font-weight:500">Full Golden Aviator</td>
+            <td style="font-size:11px;color:var(--mu)">DOS-SG-001-M-BLK</td>
+            <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#1a1a1a;margin-right:5px"></span>Black · Medium</td>
+            <td><span class="badge b-gy">Sunglasses</span></td>
+            <td><div style="display:flex;align-items:center;gap:8px"><span class="stock-val low">2</span><span class="badge b-rd" style="font-size:9px">LOW</span></div></td>
+            <td style="font-size:11px;color:var(--mu)">3 days ago</td>
+            <td><div class="row-gap"><input class="form-input" style="width:70px;font-size:12px;padding:5px 8px" value="2"/><button class="btn btn-gn btn-xs">Save</button></div></td>
+          </tr>
+          <tr>
+            <td class="cb"><input type="checkbox"/></td>
+            <td style="font-weight:500">Titanium Rectangle</td>
+            <td style="font-size:11px;color:var(--mu)">DOS-PR-004-M-GLD</td>
+            <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#C0C0C0;margin-right:5px"></span>Silver · Medium</td>
+            <td><span class="badge b-gy">Prescription</span></td>
+            <td><div style="display:flex;align-items:center;gap:8px"><span class="stock-val high">18</span></div></td>
+            <td style="font-size:11px;color:var(--mu)">1 week ago</td>
+            <td><div class="row-gap"><button class="btn btn-navy-ol btn-xs">✏️ Edit</button></div></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- LOW STOCK THRESHOLD SETTING -->
+      <div class="card" style="margin-top:16px">
+        <div class="card-title">Low Stock Threshold Settings</div>
+        <div style="display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap">
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Low Stock Alert Threshold</label><div style="display:flex;align-items:center;gap:8px"><input class="form-input" value="5" style="width:80px"/> <span style="font-size:13px;color:var(--mu)">units or below = LOW STOCK</span></div></div>
+          <button class="btn btn-navy btn-sm">Save Threshold</button>
+        </div>
+        <div style="font-size:12px;color:var(--mu);margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)">📧 When stock reaches this threshold, email notifications will be sent to admin (email notification system coming soon)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== LENS OPTIONS ===================== -->
+<div class="page" id="page-lens-options">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">🔍</span>Lens Options</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Lens Options</div><div class="at-right"><button class="btn btn-navy btn-sm">+ New Lens Option</button></div></div>
+    <div class="admin-content">
+      <div class="filter-tabs" style="margin-bottom:18px"><div class="filter-tab active">Lens Types (5)</div><div class="filter-tab">Coatings (5)</div></div>
+
+      <div class="card">
+        <div style="font-size:12px;color:var(--mu);margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--bd)">Drag to reorder · Click edit to modify · Sub-options can be added for Progressives</div>
+        <div class="lo-table-row" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);padding:8px 14px;border-bottom:2px solid var(--bd)"><span style="width:24px"></span><span style="flex:1">Name</span><span style="flex:1.5">Description</span><span style="width:90px">Price</span><span style="width:100px">Sub-options</span><span style="width:80px">Active</span><span style="width:80px">Actions</span></div>
+
+        <!-- SINGLE VISION -->
+        <div>
+          <div class="lo-table-row">
+            <span class="lo-drag">⠿</span>
+            <div style="flex:1"><div class="lo-name">Single Vision</div><div style="width:48px;height:48px;background:var(--navy-l);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-top:6px">👁</div></div>
+            <div class="lo-desc">Corrects for one distance — near or far. Most common.</div>
+            <div class="lo-price">Rs. 300</div>
+            <div style="width:100px;font-size:11px;color:var(--mu)">None</div>
+            <div style="width:80px"><div class="toggle on"></div></div>
+            <div class="lo-actions"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div>
+          </div>
+        </div>
+
+        <!-- PROGRESSIVES with sub-options -->
+        <div style="background:var(--navy-ll);border-left:3px solid var(--navy)">
+          <div class="lo-table-row">
+            <span class="lo-drag">⠿</span>
+            <div style="flex:1"><div class="lo-name">Progressives (No Line)</div><div style="width:48px;height:48px;background:var(--navy-l);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-top:6px">👀</div></div>
+            <div class="lo-desc">Seamless vision across all distances. Premium option.</div>
+            <div class="lo-price">From Rs. 1,000</div>
+            <div style="width:100px"><span class="badge b-navy">4 tiers</span></div>
+            <div style="width:80px"><div class="toggle on"></div></div>
+            <div class="lo-actions"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div>
+          </div>
+          <!-- Sub options expanded -->
+          <div style="margin:0 14px 14px;background:#fff;border:1px solid var(--bd);border-radius:8px;overflow:hidden">
+            <div style="padding:8px 14px;font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;background:var(--gold-l);border-bottom:1px solid var(--bd)">Sub-option Tiers (shown to customer as dropdown)</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:1px solid var(--bd);font-size:12px"><div><span style="font-weight:600">Premium Progressive</span> <span class="badge b-gn" style="font-size:9px">Recommended</span></div><div style="display:flex;align-items:center;gap:12px"><span style="color:var(--navy);font-weight:600">Rs. 3,500</span><div class="icon-btn">✏️</div><div class="icon-btn danger">×</div></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:1px solid var(--bd);font-size:12px"><div>Standard Progressive</div><div style="display:flex;align-items:center;gap:12px"><span style="color:var(--navy);font-weight:600">Rs. 2,500</span><div class="icon-btn">✏️</div><div class="icon-btn danger">×</div></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:1px solid var(--bd);font-size:12px"><div>Mid-Range Progressive</div><div style="display:flex;align-items:center;gap:12px"><span style="color:var(--navy);font-weight:600">Rs. 2,000</span><div class="icon-btn">✏️</div><div class="icon-btn danger">×</div></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 14px;font-size:12px"><div>Near-Range Progressive</div><div style="display:flex;align-items:center;gap:12px"><span style="color:var(--navy);font-weight:600">Rs. 1,500</span><div class="icon-btn">✏️</div><div class="icon-btn danger">×</div></div></div>
+            <div style="padding:8px 14px"><button class="btn btn-navy-ol btn-xs">+ Add Sub-option Tier</button></div>
+          </div>
+        </div>
+
+        <div class="lo-table-row"><span class="lo-drag">⠿</span><div style="flex:1"><div class="lo-name">Readers</div></div><div class="lo-desc">Near vision for close-up tasks only.</div><div class="lo-price">Rs. 500</div><div style="width:100px;font-size:11px;color:var(--mu)">None</div><div style="width:80px"><div class="toggle on"></div></div><div class="lo-actions"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></div>
+        <div class="lo-table-row"><span class="lo-drag">⠿</span><div style="flex:1"><div class="lo-name">Bifocal (Visible Line)</div></div><div class="lo-desc">Near and distance with a visible line.</div><div class="lo-price">Rs. 700</div><div style="width:100px;font-size:11px;color:var(--mu)">None</div><div style="width:80px"><div class="toggle on"></div></div><div class="lo-actions"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></div>
+        <div class="lo-table-row"><span class="lo-drag">⠿</span><div style="flex:1"><div class="lo-name">Non-Prescription</div></div><div class="lo-desc">Style / UV only. No prescription needed.</div><div class="lo-price">Free</div><div style="width:100px;font-size:11px;color:var(--mu)">None</div><div style="width:80px"><div class="toggle on"></div></div><div class="lo-actions"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></div>
+      </div>
+
+      <!-- NEW/EDIT MODAL PREVIEW -->
+      <div class="card" style="margin-top:20px;border-color:var(--gold)">
+        <div class="card-title">New / Edit Lens Option — Modal Preview</div>
+        <div style="background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:24px;max-width:580px">
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:20px">New Lens Option</div>
+          <div class="form-2col"><div class="form-group"><label class="form-label">Name *</label><input class="form-input" placeholder="e.g. Single Vision"/></div><div class="form-group"><label class="form-label">Type *</label><select class="form-select"><option>Lens Type</option><option>Coating</option></select></div></div>
+          <div class="form-2col"><div class="form-group"><label class="form-label">Price (Rs.) *</label><input class="form-input" value="0"/></div><div class="form-group"><label class="form-label">Sort Order</label><input class="form-input" value="5"/></div></div>
+          <div class="form-group"><label class="form-label">Image / Icon (optional)</label><div class="img-upload-zone" style="padding:14px"><div class="up-icon" style="font-size:18px">📸</div><p style="font-size:11px">Upload lens image or icon (80×80px)</p></div></div>
+          <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" rows="2" placeholder="Short description shown to customer..."></textarea></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><input type="checkbox" id="has-sub"/><label for="has-sub" style="font-size:13px;font-weight:500;cursor:pointer">Has Sub-options / Tiers (e.g. for Progressives)</label></div>
+          <div style="background:var(--navy-ll);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:14px">
+            <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Sub-option Tiers</div>
+            <div style="display:grid;grid-template-columns:1fr 100px 140px 80px 32px;gap:8px;align-items:center;font-size:12px;margin-bottom:8px">
+              <input class="form-input" placeholder="Tier name" style="font-size:12px"/>
+              <input class="form-input" placeholder="Rs." style="font-size:12px"/>
+              <input class="form-input" placeholder="Description" style="font-size:12px"/>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px"><input type="checkbox"/> Recommended</label>
+              <div class="icon-btn danger" style="flex-shrink:0">×</div>
+            </div>
+            <button class="btn btn-navy-ol btn-xs">+ Add Tier</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px"><div class="toggle on"></div><span style="font-size:13px;font-weight:500">Active</span></div>
+          <div style="display:flex;gap:10px"><button class="btn btn-navy" style="flex:1">Save Option</button><button class="btn btn-navy-ol">Cancel</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== FAQS ===================== -->
+<div class="page" id="page-faqs">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">❓</span>FAQs</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">FAQs</div><div class="at-right"><button class="btn btn-navy btn-sm">+ Add FAQ</button></div></div>
+    <div class="admin-content">
+      <div style="background:var(--gold-l);border:1.5px solid rgba(201,168,76,.3);border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:13px">
+        <strong style="color:var(--navy)">📊 SEO-Structured FAQs:</strong> <span style="color:var(--mu)">FAQs here are automatically structured as Google FAQ Schema (JSON-LD). This helps your FAQs appear directly in Google search results as expandable rich snippets. Each FAQ must have a clear question + complete answer.</span>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div class="filter-tabs"><div class="filter-tab active">All (8)</div><div class="filter-tab">Orders</div><div class="filter-tab">Lenses & Prescription</div><div class="filter-tab">Payments</div><div class="filter-tab">Frame Sizing</div></div>
+        </div>
+        <table class="data-table">
+          <tr><th style="width:32px">⠿</th><th>Question</th><th>Category</th><th>Active</th><th>Actions</th></tr>
+          <tr><td style="color:#94a3b8;cursor:grab;font-size:16px">⠿</td><td style="font-weight:500">How do I place an order with prescription lenses?</td><td><span class="badge b-navy">Lenses & Prescription</span></td><td><div class="toggle on"></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+          <tr><td style="color:#94a3b8;cursor:grab;font-size:16px">⠿</td><td style="font-weight:500">What is your delivery timeframe?</td><td><span class="badge b-gy">Orders</span></td><td><div class="toggle on"></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+          <tr><td style="color:#94a3b8;cursor:grab;font-size:16px">⠿</td><td style="font-weight:500">What is Open Parcel Delivery?</td><td><span class="badge b-gy">Orders</span></td><td><div class="toggle on"></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+          <tr><td style="color:#94a3b8;cursor:grab;font-size:16px">⠿</td><td style="font-weight:500">How do I get 15% discount on payment?</td><td><span class="badge b-pu">Payments</span></td><td><div class="toggle on"></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+        </table>
+      </div>
+
+      <!-- ADD FAQ MODAL PREVIEW -->
+      <div class="card" style="margin-top:20px;border-color:var(--navy)">
+        <div class="card-title">Add / Edit FAQ Modal</div>
+        <div style="background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:22px;max-width:560px">
+          <div class="form-group"><label class="form-label">Question * (Keep it natural, like users search it)</label><input class="form-input" placeholder="e.g. How do I place an order with prescription lenses?"/></div>
+          <div class="form-group"><label class="form-label">Answer * (Complete, helpful answer — 2-5 sentences)</label><textarea class="form-textarea" rows="4" placeholder="Provide a complete, helpful answer..."></textarea></div>
+          <div class="form-2col"><div class="form-group"><label class="form-label">Category</label><select class="form-select"><option>General</option><option>Orders & Delivery</option><option>Lenses & Prescription</option><option>Payments & Returns</option><option>Frame Sizing</option></select></div><div class="form-group"><label class="form-label">Sort Order</label><input class="form-input" value="10"/></div></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><div class="toggle on"></div><span style="font-size:13px;font-weight:500">Active (shows on FAQ page + Google structured data)</span></div>
+          <div style="background:var(--navy-ll);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;font-size:12px;margin-bottom:16px;color:var(--mu)">📊 <strong style="color:var(--navy)">Google FAQ Schema Preview:</strong><br/>This FAQ will appear in Google search results as:<br/><em style="color:var(--tx)">"Q: How do I place an order with prescription lenses?"</em><br/>under your website's rich snippet listing.</div>
+          <div style="display:flex;gap:10px"><button class="btn btn-navy" style="flex:1">Save FAQ</button><button class="btn btn-navy-ol">Cancel</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CATEGORIES ===================== -->
+<div class="page" id="page-categories">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">🏷</span>Categories</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Categories</div><div class="at-right"><button class="btn btn-navy btn-sm">+ New Category</button></div></div>
+    <div class="admin-content">
+      <div style="background:var(--navy-l);border:1.5px solid var(--bd);border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:13px">
+        <strong style="color:var(--navy)">📌 How Categories Work:</strong> <span style="color:var(--mu)">Default categories (Sunglasses, Prescription, Blue Cut, etc.) are always available. When you add custom categories here, they appear in the product form and in the store navbar. Assign products to categories from the product edit page.</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card">
+          <div class="card-title">Default Categories <span style="color:var(--mu)">Built-in, cannot delete</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px"><div style="font-weight:500">👓 Eyeglasses</div><span class="badge b-gn">Active</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px"><div style="font-weight:500">🕶 Sunglasses</div><span class="badge b-gn">Active</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px"><div style="font-weight:500">💊 Prescription</div><span class="badge b-gn">Active</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px"><div style="font-weight:500">💻 Blue Cut</div><span class="badge b-gn">Active</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px"><div style="font-weight:500">☀️ Transition</div><span class="badge b-gn">Active</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px"><div style="font-weight:500">👁 Contact Lenses</div><span class="badge b-gn">Active</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px"><div style="font-weight:500">🎒 Accessories</div><span class="badge b-gn">Active</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px"><div style="font-weight:500">🔥 Sale</div><span class="badge b-gn">Active</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Custom Categories</div>
+          <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Add custom categories that will appear in navbar and product filters</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:1.5px solid var(--bd);border-radius:8px;font-size:13px">
+              <div><div style="font-weight:500">Kids Glasses</div><div style="font-size:11px;color:var(--mu)">12 products assigned</div></div>
+              <div class="row-gap"><div class="toggle on"></div><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:1.5px solid var(--bd);border-radius:8px;font-size:13px">
+              <div><div style="font-weight:500">Sports Eyewear</div><div style="font-size:11px;color:var(--mu)">8 products assigned</div></div>
+              <div class="row-gap"><div class="toggle on"></div><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div>
+            </div>
+          </div>
+          <div style="background:var(--bg);border:1.5px dashed var(--bd);border-radius:10px;padding:16px">
+            <div class="form-group"><label class="form-label">Category Name</label><input class="form-input" placeholder="e.g. Kids Glasses"/></div>
+            <div class="form-group"><label class="form-label">Slug (auto-generated)</label><input class="form-input" placeholder="kids-glasses"/></div>
+            <div class="form-group"><label class="form-label">Show in Navbar?</label><select class="form-select"><option>Yes</option><option>No</option></select></div>
+            <button class="btn btn-navy btn-sm" style="width:100%">+ Add Category</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BLOG EDITOR ===================== -->
+<div class="page" id="page-blog-editor">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">📰</span>Blogs</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div><div class="breadcrumb"><span>Blogs</span> / Edit Post</div><div class="at-title">Edit: What is Blue Cut Lens?</div></div><div class="at-right"><button class="btn btn-navy-ol btn-sm">Save Draft</button><button class="btn btn-navy btn-sm">Publish</button></div></div>
+    <div class="admin-content">
+      <div class="blog-editor-layout">
+        <div>
+          <div class="card section-gap">
+            <div class="form-group"><label class="form-label">Post Title *</label><input class="form-input" value="What is Blue Cut Lens and Why Do You Need It?" style="font-size:17px;font-weight:600;color:var(--navy)"/></div>
+            <div class="form-group"><label class="form-label">Cover Image</label><div class="img-upload-zone"><div class="up-icon">🖼</div><p>Upload cover image (1200×630px recommended for social sharing)</p></div></div>
+            <div class="form-group"><label class="form-label">Excerpt / Summary (shown on blog card)</label><textarea class="form-textarea" rows="2">If you spend 6+ hours in front of screens daily, blue cut lenses can significantly reduce eye strain and improve your sleep quality.</textarea></div>
+            <div class="form-group"><label class="form-label">Content *</label>
+              <div style="border:1.5px solid var(--bd);border-radius:8px;overflow:hidden">
+                <div class="rich-text-toolbar">
+                  <button class="rt-btn"><strong>B</strong></button><button class="rt-btn"><em>I</em></button><button class="rt-btn">H1</button><button class="rt-btn">H2</button><button class="rt-btn">H3</button><button class="rt-btn">≡</button><button class="rt-btn">1.</button><button class="rt-btn">•</button><button class="rt-btn">🔗</button><button class="rt-btn">🖼</button><button class="rt-btn">—</button><button class="rt-btn">Table</button>
+                </div>
+                <div class="rich-text-area" style="min-height:320px">
+                  <h2>What are Blue Cut Lenses?</h2>
+                  <p>Blue cut lenses (also called blue light blocking lenses) are specially coated eyeglass lenses that filter out harmful blue-violet light emitted by digital screens, smartphones, and LED lighting.</p>
+                  <h2>Who Needs Blue Cut Lenses?</h2>
+                  <p>If you spend more than 4–6 hours daily in front of a screen — whether for work, gaming, or entertainment — blue cut lenses can significantly benefit your eye health and sleep quality...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="blog-settings-card section-gap">
+            <div class="blog-set-section"><div class="blog-set-title">Post Status</div><div class="filter-tabs"><div class="filter-tab active">Draft</div><div class="filter-tab">Published</div></div></div>
+            <div class="blog-set-section"><div class="blog-set-title">Category</div><select class="form-select" style="font-size:12px"><option>Lens Guide</option><option>Frame Style</option><option>Eye Health</option><option>Prescription Tips</option></select></div>
+            <div class="blog-set-section"><div class="blog-set-title">URL Slug</div><input class="form-input" value="what-is-blue-cut-lens" style="font-size:12px"/><div style="font-size:11px;color:var(--mu);margin-top:4px">deluxeopt.com/blog/what-is-blue-cut-lens</div></div>
+            <div class="blog-set-section">
+              <div class="blog-set-title">SEO Meta</div>
+              <div class="form-group"><label class="form-label">Meta Title</label><input class="form-input" value="What is Blue Cut Lens? Complete Guide 2026" style="font-size:12px"/><div style="font-size:10px;color:var(--mu);margin-top:3px">Characters: 44/60</div></div>
+              <div class="form-group"><label class="form-label">Meta Description</label><textarea class="form-textarea" style="font-size:12px" rows="3">Learn everything about blue cut lenses — what they do, who needs them, and how to choose the right blue light blocking glasses in Pakistan.</textarea><div style="font-size:10px;color:var(--mu);margin-top:3px">Characters: 148/160</div></div>
+              <div class="form-group"><label class="form-label">Focus Keyword</label><input class="form-input" value="blue cut lens Pakistan" style="font-size:12px"/></div>
+            </div>
+            <div class="blog-set-section">
+              <div class="blog-set-title">OG / Social Preview</div>
+              <div style="background:var(--bg);border:1px solid var(--bd);border-radius:8px;overflow:hidden;font-size:12px">
+                <div style="height:80px;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:var(--mu)">Cover Image Preview</div>
+                <div style="padding:10px"><div style="font-size:11px;color:var(--mu)">deluxeopt.com</div><div style="font-weight:600;color:var(--tx)">What is Blue Cut Lens?</div><div style="font-size:11px;color:var(--mu);margin-top:2px">Learn everything about blue cut lenses...</div></div>
+              </div>
+            </div>
+            <div class="blog-set-section">
+              <div class="blog-set-title">Tags</div>
+              <input class="form-input" placeholder="blue cut, lens guide, eye care..." style="font-size:12px"/>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><span style="background:var(--navy-l);color:var(--navy);padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500">blue cut ×</span><span style="background:var(--navy-l);color:var(--navy);padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500">lens guide ×</span></div>
+            </div>
+            <div class="blog-set-section">
+              <div class="blog-set-title">Show on Products</div>
+              <div style="font-size:12px;color:var(--mu);margin-bottom:8px">This blog card will appear on these product categories' Lens Recommendation tab</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="display:flex;align-items:center;gap:8px;font-size:12px"><input type="checkbox" checked style="accent-color:var(--navy)"/> Prescription Products</label>
+                <label style="display:flex;align-items:center;gap:8px;font-size:12px"><input type="checkbox" checked style="accent-color:var(--navy)"/> Blue Cut Products</label>
+                <label style="display:flex;align-items:center;gap:8px;font-size:12px"><input type="checkbox" style="accent-color:var(--navy)"/> Sunglasses</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SETTINGS ===================== -->
+<div class="page" id="page-settings">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">⚙️</span>Settings</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Settings</div></div>
+    <div class="admin-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <div class="card"><div class="card-title">Store Settings</div><div class="form-group"><label class="form-label">Store Name</label><input class="form-input" value="DeluxeOpt"/></div><div class="form-group"><label class="form-label">Store Email</label><input class="form-input" value="support@deluxeopt.com"/></div><div class="form-group"><label class="form-label">WhatsApp Number</label><input class="form-input" value="03001234567"/></div><div class="form-group"><label class="form-label">Currency</label><input class="form-input" value="PKR (Rs.)"/></div><button class="btn btn-navy btn-sm">Save Store Settings</button></div>
+        <div class="card"><div class="card-title">Shipping Settings</div><div class="form-group"><label class="form-label">Free Shipping Threshold (Rs.)</label><input class="form-input" value="3000"/></div><div class="form-group"><label class="form-label">Standard Shipping Rate (Rs.)</label><input class="form-input" value="200"/></div><div class="form-group"><label class="form-label">Estimated Delivery (days)</label><input class="form-input" value="3-5"/></div><button class="btn btn-navy btn-sm">Save Shipping</button></div>
+        <div class="card"><div class="card-title">Payment Settings</div><div class="form-group"><label class="form-label">Online Payment Discount %</label><input class="form-input" value="15"/></div><div class="form-group"><label class="form-label">EasyPaisa Account Number</label><input class="form-input" value="03001234567"/></div><div class="form-group"><label class="form-label">JazzCash Account Number</label><input class="form-input" value="03001234567"/></div><div class="form-group"><label class="form-label">Bank Account (for transfer)</label><textarea class="form-textarea" rows="2" value="Meezan Bank · Umer Adnan · 001-0123456-01"></textarea></div><button class="btn btn-navy btn-sm">Save Payment</button></div>
+        <div class="card"><div class="card-title">Prescription Settings</div><div class="form-group"><label class="form-label">SPH Range Min</label><input class="form-input" value="-12.00"/></div><div class="form-group"><label class="form-label">SPH Range Max</label><input class="form-input" value="+12.00"/></div><div class="form-group"><label class="form-label">CYL Range Min</label><input class="form-input" value="-6.00"/></div><div class="form-group"><label class="form-label">CYL Range Max</label><input class="form-input" value="+6.00"/></div><div class="form-group"><label class="form-label">SPH/CYL Step</label><input class="form-input" value="0.25"/></div><button class="btn btn-navy btn-sm">Save Rx Settings</button></div>
+        <div class="card"><div class="card-title">Email Settings (Resend)</div><div class="form-group"><label class="form-label">Resend API Key</label><input class="form-input" type="password" value="re_*********************"/></div><div class="form-group"><label class="form-label">From Email</label><input class="form-input" value="orders@deluxeopt.com"/></div><div style="display:flex;flex-direction:column;gap:8px"><label style="display:flex;align-items:center;gap:8px;font-size:13px"><input type="checkbox" checked style="accent-color:var(--navy)"/> Send order confirmation email</label><label style="display:flex;align-items:center;gap:8px;font-size:13px"><input type="checkbox" checked style="accent-color:var(--navy)"/> Send shipping/status update email</label><label style="display:flex;align-items:center;gap:8px;font-size:13px"><input type="checkbox" style="accent-color:var(--navy)"/> Send abandoned cart reminder email</label></div><button class="btn btn-navy btn-sm" style="margin-top:12px">Save Email Settings</button></div>
+        <div class="card"><div class="card-title">Cloudinary Settings</div><div class="form-group"><label class="form-label">Cloud Name</label><input class="form-input" value="dhmkzvov4"/></div><div class="form-group"><label class="form-label">API Key</label><input class="form-input" type="password" value="*********************"/></div><div class="form-group"><label class="form-label">API Secret</label><input class="form-input" type="password" value="*********************"/></div><button class="btn btn-navy btn-sm">Save Cloudinary</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS LIST (simple) -->
+<div class="page" id="page-products">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">👓</span>Products</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Products</div><div class="at-right"><button class="btn btn-navy btn-sm">+ Add Product</button></div></div>
+    <div class="admin-content">
+      <div class="filter-row"><div class="search-bar"><span>🔍</span><input placeholder="Search products..."/></div><select class="form-select" style="width:140px"><option>All Categories</option><option>Sunglasses</option><option>Prescription</option></select><select class="form-select" style="width:120px"><option>All Status</option><option>Active</option><option>Draft</option></select></div>
+      <div class="card">
+        <table class="data-table">
+          <tr><th class="cb"><input type="checkbox"/></th><th>Image</th><th>Name</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr>
+          <tr><td class="cb"><input type="checkbox"/></td><td><div style="width:48px;height:42px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px">🕶</div></td><td style="font-weight:600">Full Golden Aviator</td><td style="font-size:11px;color:var(--mu)">DOS-SG-001</td><td><span class="badge b-gy">Sunglasses</span></td><td style="font-weight:600">Rs. 1,500</td><td><span class="stock-val high">12</span></td><td><span class="badge b-gn">Active</span></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+          <tr><td class="cb"><input type="checkbox"/></td><td><div style="width:48px;height:42px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px">👓</div></td><td style="font-weight:600">Black Rimless Frame</td><td style="font-size:11px;color:var(--mu)">DOS-PR-001</td><td><span class="badge b-navy">Prescription</span></td><td style="font-weight:600">Rs. 1,800</td><td><span class="stock-val low">2</span></td><td><span class="badge b-gn">Active</span></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="page" id="page-reviews">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">⭐</span>Reviews<span class="sb-badge blue">4</span></div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Reviews</div></div>
+    <div class="admin-content">
+      <div class="filter-tabs" style="margin-bottom:18px"><div class="filter-tab active">All (24)</div><div class="filter-tab">Pending (4)</div><div class="filter-tab">Approved (20)</div><div class="filter-tab">Rejected (0)</div></div>
+      <div class="card">
+        <table class="data-table">
+          <tr><th>Customer</th><th>Product</th><th>Rating</th><th>Review</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+          <tr><td style="font-weight:500">Ali Khan</td><td style="font-size:12px;color:var(--navy)">Full Golden Aviator</td><td><span style="color:var(--gold)">★★★★★</span></td><td style="font-size:12px;max-width:220px">Excellent quality frames, very comfortable to wear. Fast delivery!</td><td style="font-size:11px;color:var(--mu)">13 May 2026</td><td><span class="badge b-yw">Pending</span></td><td><div class="row-gap"><button class="btn btn-gn btn-xs">✓ Approve</button><button class="btn btn-rd-ol btn-xs">✗</button></div></td></tr>
+          <tr><td style="font-weight:500">Fatima Ahmed</td><td style="font-size:12px;color:var(--navy)">Classic Blue Cut</td><td><span style="color:var(--gold)">★★★★☆</span></td><td style="font-size:12px;max-width:220px">Great blue cut lenses, eye strain definitely reduced.</td><td style="font-size:11px;color:var(--mu)">12 May 2026</td><td><span class="badge b-yw">Pending</span></td><td><div class="row-gap"><button class="btn btn-gn btn-xs">✓ Approve</button><button class="btn btn-rd-ol btn-xs">✗</button></div></td></tr>
+          <tr><td style="font-weight:500">Omar Malik</td><td style="font-size:12px;color:var(--navy)">Titanium Rectangle</td><td><span style="color:var(--gold)">★★★★★</span></td><td style="font-size:12px;max-width:220px">Premium quality and fast delivery. Highly recommended!</td><td style="font-size:11px;color:var(--mu)">10 May 2026</td><td><span class="badge b-gn">Approved</span></td><td><div class="row-gap"><button class="btn btn-rd-ol btn-xs">Remove</button></div></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROMO CODES -->
+<div class="page" id="page-promo">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">🎟</span>Promo Codes</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Promo Codes</div><div class="at-right"><button class="btn btn-navy btn-sm">+ New Promo Code</button></div></div>
+    <div class="admin-content">
+      <div class="card">
+        <table class="data-table">
+          <tr><th>Code</th><th>Type</th><th>Value</th><th>Min Order</th><th>Used</th><th>Expires</th><th>Active</th><th>Actions</th></tr>
+          <tr><td><span class="promo-code-display">SAVE10</span></td><td><span class="badge b-navy">Percentage</span></td><td style="font-weight:600">10%</td><td>Rs. 1,000</td><td>42 times</td><td style="font-size:12px">31 Dec 2026</td><td><div class="toggle on"></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+          <tr><td><span class="promo-code-display">FLAT500</span></td><td><span class="badge b-gold">Fixed Amount</span></td><td style="font-weight:600">Rs. 500</td><td>Rs. 2,000</td><td>18 times</td><td style="font-size:12px">15 Jul 2026</td><td><div class="toggle on"></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+          <tr><td><span class="promo-code-display">NEWUSER</span></td><td><span class="badge b-navy">Percentage</span></td><td style="font-weight:600">15%</td><td>Rs. 500</td><td>8 times</td><td style="font-size:12px">Never</td><td><div class="toggle"></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOGS LIST -->
+<div class="page" id="page-blogs">
+  <div class="admin-sidebar"><div class="sb-logo"><div class="sb-logo-text">Deluxe<span>Opt</span></div></div><div class="sb-section"><div class="sb-link active"><span class="ico">📰</span>Blogs</div></div></div>
+  <div class="admin-main">
+    <div class="admin-topbar"><div class="at-title">Blogs</div><div class="at-right"><button class="btn btn-navy btn-sm">+ Write New Post</button></div></div>
+    <div class="admin-content">
+      <div class="filter-row"><div class="search-bar"><span>🔍</span><input placeholder="Search posts..."/></div><select class="form-select" style="width:140px"><option>All Categories</option><option>Lens Guide</option><option>Frame Style</option><option>Eye Health</option></select><select class="form-select" style="width:120px"><option>All Status</option><option>Published</option><option>Draft</option></select></div>
+      <div class="card">
+        <table class="data-table">
+          <tr><th>Title</th><th>Category</th><th>Author</th><th>Date</th><th>Views</th><th>Status</th><th>SEO Score</th><th>Actions</th></tr>
+          <tr><td style="font-weight:500;max-width:200px">What is Blue Cut Lens and Why Do You Need It?</td><td><span class="badge b-navy">Lens Guide</span></td><td style="font-size:12px">Admin</td><td style="font-size:11px;color:var(--mu)">10 May 2026</td><td style="font-weight:600">284</td><td><span class="badge b-gn">Published</span></td><td><div style="display:flex;align-items:center;gap:6px"><div style="height:6px;width:60px;background:var(--bd);border-radius:3px;overflow:hidden"><div style="height:100%;width:85%;background:var(--gn)"></div></div><span style="font-size:11px;color:var(--gn);font-weight:600">85</span></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+          <tr><td style="font-weight:500;max-width:200px">How to Choose the Right Frame for Your Face Shape</td><td><span class="badge b-gy">Frame Style</span></td><td style="font-size:12px">Admin</td><td style="font-size:11px;color:var(--mu)">5 May 2026</td><td style="font-weight:600">192</td><td><span class="badge b-gn">Published</span></td><td><div style="display:flex;align-items:center;gap:6px"><div style="height:6px;width:60px;background:var(--bd);border-radius:3px;overflow:hidden"><div style="height:100%;width:72%;background:var(--yw)"></div></div><span style="font-size:11px;color:var(--yw);font-weight:600">72</span></div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+          <tr><td style="font-weight:500;max-width:200px">Progressive vs Bifocal: Which Lens is Right for You?</td><td><span class="badge b-gu" style="background:#ede9fe;color:#6d28d9">Prescription</span></td><td style="font-size:12px">Admin</td><td style="font-size:11px;color:var(--mu)">Draft</td><td style="font-weight:600">—</td><td><span class="badge b-yw">Draft</span></td><td><div style="font-size:11px;color:var(--mu)">Not published</div></td><td><div class="row-gap"><div class="icon-btn">✏️</div><div class="icon-btn danger">🗑</div></div></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('page-' + id);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function toggleMobile() {
+  const body = document.body;
+  const btn = document.getElementById('mob-toggle');
+  if (body.classList.contains('mob')) {
+    body.classList.remove('mob');
+    btn.textContent = '📱 Mobile View';
+    document.querySelectorAll('.admin-sidebar').forEach(s => s.style.display = '');
+    document.querySelectorAll('.admin-content').forEach(c => c.style.padding = '');
+  } else {
+    body.classList.add('mob');
+    btn.textContent = '🖥 Desktop View';
+    document.querySelectorAll('.admin-sidebar').forEach(s => s.style.display = 'none');
+    document.querySelectorAll('.admin-content').forEach(c => c.style.padding = '14px');
+  }
+}
+</script>
+</body>
+</html>

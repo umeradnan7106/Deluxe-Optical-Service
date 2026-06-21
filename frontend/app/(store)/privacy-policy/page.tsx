@@ -43,11 +43,12 @@ const SECTIONS = [
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen">
-      <section className="bg-[#111111] border-b border-[#2a2a2a] py-16">
-        <div className="max-w-[1500px] mx-auto px-6 text-center">
-          <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Legal</p>
-          <h1 className="font-['Cormorant_Garamond'] text-5xl text-white font-semibold mb-4">Privacy Policy</h1>
-          <p className="text-gray-400 text-sm">Last updated: May 2026</p>
+      <section className="bg-[#1B2B5E] py-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none" />
+        <div className="max-w-[1500px] mx-auto px-6 text-center relative">
+          <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-[.14em] mb-3">Legal</p>
+          <h1 className="font-playfair text-5xl text-white font-bold mb-4">Privacy Policy</h1>
+          <p className="text-white/50 text-sm">Last updated: May 2026</p>
         </div>
       </section>
 
@@ -55,8 +56,8 @@ export default function PrivacyPolicyPage() {
         <div className="max-w-3xl mx-auto px-6 space-y-10">
           {SECTIONS.map(({ title, body }) => (
             <div key={title}>
-              <h2 className="text-gray-900 font-semibold text-lg mb-3">{title}</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">{body}</p>
+              <h2 className="text-[#1B2B5E] font-semibold text-lg mb-3 font-playfair">{title}</h2>
+              <p className="text-[#64748b] text-sm leading-relaxed">{body}</p>
             </div>
           ))}
         </div>

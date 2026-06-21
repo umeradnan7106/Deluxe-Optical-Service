@@ -15,24 +15,24 @@ export default function OrderConfirmationPage() {
         <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
           <CheckCircleIcon className="w-10 h-10 text-green-500" />
         </div>
-        <h1 className="font-['Cormorant_Garamond'] text-[30px] text-[#1a1a1a] font-semibold mb-2">
+        <h1 className="font-playfair text-[30px] text-[#1B2B5E] font-bold mb-2">
           Order Placed Successfully!
         </h1>
         <p className="text-[#6b7280] text-sm">Thank you for your purchase. We&apos;ll process your order shortly.</p>
       </div>
 
       {/* Order ID box */}
-      <div className="bg-[#0F0F0F] rounded-lg p-5 text-center mb-6">
-        <p className="text-[#6b7280] text-sm mb-1">Your Order ID</p>
+      <div className="bg-[#1B2B5E] rounded-lg p-5 text-center mb-6">
+        <p className="text-white/60 text-sm mb-1">Your Order ID</p>
         <p className="font-mono text-[18px] md:text-2xl font-bold">
-          <span className="text-[#E8670A]">#</span>
+          <span className="text-[#C9A84C]">#</span>
           <span className="text-white">{orderId}</span>
         </p>
       </div>
 
       {/* Order Details card */}
       <div className="bg-white border border-[#e5e7eb] rounded-lg p-5 mb-4">
-        <h2 className="font-['Cormorant_Garamond'] text-[18px] text-[#1a1a1a] font-semibold mb-4">Order Details</h2>
+        <h2 className="font-playfair text-[18px] text-[#1B2B5E] font-bold mb-4">Order Details</h2>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-[#6b7280]">Status</span>

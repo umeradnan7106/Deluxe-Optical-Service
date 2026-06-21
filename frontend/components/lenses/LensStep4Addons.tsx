@@ -14,7 +14,7 @@ interface LensStep4AddonsProps {
 export default function LensStep4Addons({ addons, selectedIds, onToggle }: LensStep4AddonsProps) {
   return (
     <div className="space-y-3">
-      <h3 className="font-['Cormorant_Garamond'] text-[22px] text-[#1a1a1a] font-semibold mb-1">
+      <h3 className="font-playfair text-[22px] text-[#1B2B5E] font-semibold mb-1">
         Optional Add-Ons
       </h3>
       <p className="text-[#6b7280] text-sm mb-4">
@@ -30,18 +30,18 @@ export default function LensStep4Addons({ addons, selectedIds, onToggle }: LensS
             className={cn(
               "w-full text-left rounded-lg border p-4 transition-colors",
               isSelected
-                ? "border-[#E8670A] bg-[#FFF0E6]"
-                : "border-[#e5e7eb] bg-white hover:border-[#E8670A]/50"
+                ? "border-[#C9A84C] bg-[#EEF1FA]"
+                : "border-[#e5e7eb] bg-white hover:border-[#C9A84C]/50"
             )}
           >
             <div className="flex items-center gap-3">
               {/* Icon placeholder */}
               <div className="w-[44px] h-[44px] rounded bg-[#f9fafb] border border-[#e5e7eb] flex items-center justify-center shrink-0">
                 <svg viewBox="0 0 44 44" className="w-7 h-7" fill="none">
-                  <circle cx="22" cy="22" r="12" stroke="#E8670A" strokeWidth="1.5" />
-                  <circle cx="22" cy="22" r="7" fill="#E8670A" opacity=".12" />
+                  <circle cx="22" cy="22" r="12" stroke="#C9A84C" strokeWidth="1.5" />
+                  <circle cx="22" cy="22" r="7" fill="#C9A84C" opacity=".12" />
                   {isUV && (
-                    <text x="22" y="26" textAnchor="middle" fontSize="7" fill="#E8670A" fontFamily="sans-serif" fontWeight="bold">UV</text>
+                    <text x="22" y="26" textAnchor="middle" fontSize="7" fill="#C9A84C" fontFamily="sans-serif" fontWeight="bold">UV</text>
                   )}
                 </svg>
               </div>
@@ -60,7 +60,7 @@ export default function LensStep4Addons({ addons, selectedIds, onToggle }: LensS
                 )}
               </div>
               {/* Price */}
-              <span className="text-[#E8670A] text-sm font-medium shrink-0">
+              <span className="text-[#C9A84C] text-sm font-medium shrink-0">
                 {addon.price === 0 || isUV ? "Free" : `+${formatPrice(addon.price)}`}
               </span>
               {/* Green checkmark when selected */}

@@ -36,7 +36,7 @@ export default function LensPriceSummary({
   return (
     <div className="bg-white border border-[#e5e7eb] rounded-lg p-5 space-y-4 sticky top-24">
       {/* Back link */}
-      <Link href={`/products/${productSlug}`} className="text-[#E8670A] text-sm underline hover:no-underline">
+      <Link href={`/products/${productSlug}`} className="text-[#C9A84C] text-sm underline hover:no-underline">
         ← Back to Frame
       </Link>
 
@@ -50,7 +50,7 @@ export default function LensPriceSummary({
           )}
         </div>
         <div>
-          <p className="font-['Cormorant_Garamond'] text-[18px] text-[#1a1a1a] font-medium leading-snug text-center">
+          <p className="font-playfair text-[18px] text-[#1B2B5E] font-medium leading-snug text-center">
             {productName}
           </p>
           <p className="text-[#6b7280] text-[12px] mt-0.5 text-center">{variantColor}</p>
@@ -73,14 +73,14 @@ export default function LensPriceSummary({
         </div>
         <div className="flex justify-between font-semibold border-t border-[#e5e7eb] pt-2 mt-2">
           <span className="text-[#1a1a1a]">Total</span>
-          <span className="text-[#E8670A] text-lg">{formatPrice(total)}</span>
+          <span className="text-[#C9A84C] text-lg">{formatPrice(total)}</span>
         </div>
       </div>
 
       <button
         onClick={onAddToCart}
         disabled={!canAddToCart}
-        className="w-full bg-[#0F0F0F] text-white py-3 rounded-[5px] text-sm font-medium hover:bg-[#1a1a1a] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="w-full bg-[#1B2B5E] text-white py-3 rounded-[5px] text-sm font-medium hover:bg-[#243570] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         Add to Cart
       </button>

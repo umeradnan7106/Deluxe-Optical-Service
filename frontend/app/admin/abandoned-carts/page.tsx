@@ -63,7 +63,7 @@ export default function AbandonedCartsPage() {
 
   return (
     <div>
-      <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold mb-6">Abandoned Carts</h1>
+      <h1 className="font-playfair text-3xl text-gray-900 font-semibold mb-6">Abandoned Carts</h1>
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
@@ -83,7 +83,7 @@ export default function AbandonedCartsPage() {
       <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-none pb-1">
         {FILTER_TABS.map(({ key, label }) => (
           <button key={key} onClick={() => changeTab(key)}
-            className={`shrink-0 px-4 py-2 rounded text-sm capitalize transition-colors ${activeTab === key ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
+            className={`shrink-0 px-4 py-2 rounded text-sm capitalize transition-colors ${activeTab === key ? "bg-[#C9A84C] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
             {label}
           </button>
         ))}

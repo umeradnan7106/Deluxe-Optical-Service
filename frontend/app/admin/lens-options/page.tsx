@@ -125,7 +125,7 @@ export default function LensOptionsPage() {
     setSubOptions((prev) => prev.filter((_, i) => i !== idx));
   }
 
-  const inputCls = "w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#E8670A] min-h-[44px]";
+  const inputCls = "w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#C9A84C] min-h-[44px]";
 
   return (
     <div className="p-6">
@@ -140,7 +140,7 @@ export default function LensOptionsPage() {
       <div className="flex mb-4 bg-white border border-gray-200 shadow-sm rounded-lg p-1 w-full md:w-fit">
         {TABS.map(({ key, label }) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`flex-1 md:flex-none px-4 py-2 rounded text-sm font-medium transition-colors ${tab === key ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900"}`}>
+            className={`flex-1 md:flex-none px-4 py-2 rounded text-sm font-medium transition-colors ${tab === key ? "bg-[#C9A84C] text-white" : "text-gray-500 hover:text-gray-900"}`}>
             {label}
           </button>
         ))}
@@ -159,7 +159,7 @@ export default function LensOptionsPage() {
                 <div className="flex items-start justify-between mb-1.5">
                   <div>
                     <p className="text-gray-900 font-medium text-sm">{o.name}</p>
-                    <p className="text-[#E8670A] text-sm font-medium">Rs. {o.price.toLocaleString()}</p>
+                    <p className="text-[#C9A84C] text-sm font-medium">Rs. {o.price.toLocaleString()}</p>
                   </div>
                   <div className="flex flex-col gap-0.5 shrink-0 ml-2">
                     <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-gray-400 hover:text-gray-700 disabled:opacity-30 p-1">
@@ -224,7 +224,7 @@ export default function LensOptionsPage() {
                       </div>
                     </td>
                     <td className="px-4 py-3 text-gray-900 font-medium">{o.name}</td>
-                    <td className="px-4 py-3 text-[#E8670A] font-medium">Rs. {o.price.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-[#C9A84C] font-medium">Rs. {o.price.toLocaleString()}</td>
                     <td className="px-4 py-3 text-gray-500 text-xs max-w-xs">
                       <p className="line-clamp-1">{o.description || "—"}</p>
                     </td>
@@ -297,14 +297,14 @@ export default function LensOptionsPage() {
                 </div>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" name="is_active" checked={form.is_active} onChange={fld} className="accent-[#E8670A]" />
+                <input type="checkbox" name="is_active" checked={form.is_active} onChange={fld} className="accent-[#C9A84C]" />
                 <span className="text-gray-700 text-sm">Active</span>
               </label>
 
               {/* Sub-options section */}
               <div className="border-t border-gray-200 pt-4">
                 <label className="flex items-center gap-2 cursor-pointer mb-3">
-                  <input type="checkbox" checked={hasSubOptions} onChange={(e) => setHasSubOptions(e.target.checked)} className="accent-[#E8670A]" />
+                  <input type="checkbox" checked={hasSubOptions} onChange={(e) => setHasSubOptions(e.target.checked)} className="accent-[#C9A84C]" />
                   <span className="text-gray-700 text-sm font-medium">Has sub-options (e.g. progressive variants)</span>
                 </label>
 
@@ -323,12 +323,12 @@ export default function LensOptionsPage() {
                           <tr key={idx} className="border-b border-gray-100">
                             <td className="py-1.5 pr-2">
                               <input value={s.name} onChange={(e) => updateSubOption(idx, "name", e.target.value)}
-                                className="w-full border border-gray-200 rounded px-2 py-1 text-gray-900 text-xs focus:outline-none focus:border-[#E8670A]"
+                                className="w-full border border-gray-200 rounded px-2 py-1 text-gray-900 text-xs focus:outline-none focus:border-[#C9A84C]"
                                 placeholder="e.g. Single Vision" />
                             </td>
                             <td className="py-1.5 pr-2">
                               <input type="number" value={s.price} min={0} onChange={(e) => updateSubOption(idx, "price", parseFloat(e.target.value) || 0)}
-                                className="w-full border border-gray-200 rounded px-2 py-1 text-gray-900 text-xs focus:outline-none focus:border-[#E8670A]" />
+                                className="w-full border border-gray-200 rounded px-2 py-1 text-gray-900 text-xs focus:outline-none focus:border-[#C9A84C]" />
                             </td>
                             <td className="py-1.5">
                               <button onClick={() => removeSubOption(idx)} className="text-gray-400 hover:text-red-400">
@@ -340,7 +340,7 @@ export default function LensOptionsPage() {
                       </tbody>
                     </table>
                     <button onClick={addSubOption}
-                      className="flex items-center gap-1 text-[#E8670A] text-xs hover:text-orange-400 transition-colors">
+                      className="flex items-center gap-1 text-[#C9A84C] text-xs hover:text-orange-400 transition-colors">
                       <PlusIcon className="w-3.5 h-3.5" />
                       Add sub-option
                     </button>

@@ -31,11 +31,11 @@ export default function ReviewsStrip() {
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="font-['Cormorant_Garamond'] text-5xl text-[#1a1a1a] font-bold">4.8</span>
+            <span className="font-playfair text-5xl text-[#1B2B5E] font-bold">4.8</span>
           </div>
           <div className="flex justify-center gap-0.5 mb-1">
             {[1, 2, 3, 4, 5].map((i) => (
-              <StarIcon key={i} className={`w-5 h-5 ${i <= 5 ? "text-[#E8670A]" : "text-gray-300"}`} />
+              <StarIcon key={i} className={`w-5 h-5 ${i <= 5 ? "text-[#C9A84C]" : "text-gray-300"}`} />
             ))}
           </div>
           <p className="text-[#6b7280] text-sm">Based on 240+ reviews</p>
@@ -48,7 +48,7 @@ export default function ReviewsStrip() {
                 {[1, 2, 3, 4, 5].map((i) => (
                   <StarIcon
                     key={i}
-                    className={`w-4 h-4 ${i <= review.rating ? "text-[#E8670A]" : "text-gray-200"}`}
+                    className={`w-4 h-4 ${i <= review.rating ? "text-[#C9A84C]" : "text-gray-200"}`}
                   />
                 ))}
               </div>
@@ -56,7 +56,7 @@ export default function ReviewsStrip() {
               <p className="text-[#6b7280] text-sm leading-relaxed italic line-clamp-3 flex-1 mb-4">{review.body}</p>
               <div className="flex items-center justify-between text-xs border-t border-[#f3f4f6] pt-3 mt-auto">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-[#E8670A]/10 flex items-center justify-center text-[#E8670A] font-bold text-xs">
+                  <div className="w-7 h-7 rounded-full bg-[#EEF1FA] flex items-center justify-center text-[#1B2B5E] font-bold text-xs">
                     {review.customer_name[0]}
                   </div>
                   <span className="text-[#1a1a1a] font-medium">{review.customer_name}</span>

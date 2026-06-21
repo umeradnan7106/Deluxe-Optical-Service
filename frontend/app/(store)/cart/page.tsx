@@ -20,7 +20,7 @@ export default function CartPage() {
       <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-16 text-center">
         <div className="max-w-md mx-auto">
           <ShoppingCartIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h2 className="font-['Cormorant_Garamond'] text-3xl text-[#1a1a1a] font-semibold mb-3">Your cart is empty</h2>
+          <h2 className="font-playfair text-3xl text-[#1B2B5E] font-bold mb-3">Your cart is empty</h2>
           <p className="text-[#6b7280] text-sm mb-6">Add some frames to get started.</p>
           <Link href="/products">
             <Button variant="primary" size="lg">Browse Frames</Button>
@@ -33,7 +33,7 @@ export default function CartPage() {
   return (
     <>
     <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-24 md:pb-8">
-      <h1 className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-[#1a1a1a] font-semibold mb-5 md:mb-6">
+      <h1 className="font-playfair text-2xl md:text-3xl text-[#1B2B5E] font-bold mb-5 md:mb-6">
         Shopping Cart ({items.length} item{items.length !== 1 ? "s" : ""})
       </h1>
 
@@ -52,14 +52,14 @@ export default function CartPage() {
         </div>
         {remaining > 0 ? (
           <p className="text-[#1a1a1a] text-[13px] mb-2">
-            Spend <span className="text-[#E8670A] font-semibold">{formatPrice(remaining)}</span> more to get <span className="font-semibold">FREE delivery</span> on your order.
+            Spend <span className="text-[#1B2B5E] font-semibold">{formatPrice(remaining)}</span> more to get <span className="font-semibold">FREE delivery</span> on your order.
           </p>
         ) : (
           <p className="text-green-700 text-[13px] mb-2 font-medium">Your order qualifies for FREE delivery — no shipping charges!</p>
         )}
         <div className="relative w-full bg-gray-100 rounded-full h-3 overflow-hidden">
           <div
-            className={`h-3 rounded-full transition-all duration-500 ${remaining <= 0 ? "bg-green-500" : "bg-[#E8670A]"}`}
+            className={`h-3 rounded-full transition-all duration-500 ${remaining <= 0 ? "bg-green-500" : "bg-[#C9A84C]"}`}
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -87,7 +87,7 @@ export default function CartPage() {
     {/* Mobile sticky checkout button */}
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#e5e7eb] px-4 py-3 shadow-lg">
       <Link href="/checkout" className="block">
-        <button className="w-full bg-[#E8670A] hover:bg-[#C45408] text-white rounded-[5px] py-3.5 text-sm font-medium transition-colors min-h-[44px]">
+        <button className="w-full bg-[#1B2B5E] hover:bg-[#243570] text-white rounded-lg py-3.5 text-sm font-medium transition-colors min-h-[44px]">
           Proceed to Checkout — {formatPrice(subtotal)}
         </button>
       </Link>

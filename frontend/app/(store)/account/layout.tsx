@@ -24,8 +24,8 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
             className={cn(
               "shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors min-h-[40px] flex items-center",
               pathname === href
-                ? "bg-[#E8670A] text-white border-[#E8670A]"
-                : "text-gray-400 border-[#2a2a2a] hover:border-[#E8670A] hover:text-white"
+                ? "bg-[#C9A84C] text-white border-[#C9A84C]"
+                : "text-gray-400 border-[#2a2a2a] hover:border-[#C9A84C] hover:text-white"
             )}
           >
             {label}
@@ -45,7 +45,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                 className={cn(
                   "block px-3 py-2 rounded text-sm transition-colors",
                   pathname === href
-                    ? "bg-[#E8670A]/10 text-[#E8670A] border-l-2 border-[#E8670A]"
+                    ? "bg-[#C9A84C]/10 text-[#C9A84C] border-l-2 border-[#C9A84C]"
                     : "text-gray-400 hover:text-white hover:bg-[#1a1a1a]"
                 )}
               >

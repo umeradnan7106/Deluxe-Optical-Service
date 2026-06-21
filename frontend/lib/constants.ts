@@ -43,12 +43,12 @@ export const SHIPPING_FEE = 200;
 export const ONLINE_PAYMENT_DISCOUNT_PERCENT = 15;
 
 export const BRAND = {
-  orange: "#E8670A",
-  orangeLight: "#FFF0E6",
-  orangeDark: "#C45408",
-  dark: "#0F0F0F",
-  dark2: "#1a1a1a",
-  dark3: "#2a2a2a",
+  navy: "#1B2B5E",
+  navyDark: "#0f1829",
+  navyLight: "#EEF1FA",
+  gold: "#C9A84C",
+  goldDark: "#A8893A",
+  goldLight: "#FDF6E3",
   whatsapp: "#25d366",
 } as const;
 

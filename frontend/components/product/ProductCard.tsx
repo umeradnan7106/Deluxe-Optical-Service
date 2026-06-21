@@ -85,7 +85,7 @@ export default function ProductCard({ product, wishlisted: wishlistedProp, onWis
         )}
 
         {discountPct > 0 && (
-          <span className="absolute top-2 left-2 bg-[#E8670A] text-white text-xs font-bold px-2 py-0.5 rounded">
+          <span className="absolute top-2 left-2 bg-[#C9A84C] text-white text-xs font-bold px-2 py-0.5 rounded">
             -{discountPct}%
           </span>
         )}
@@ -96,7 +96,7 @@ export default function ProductCard({ product, wishlisted: wishlistedProp, onWis
           aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
         >
           {wishlisted ? (
-            <HeartSolidIcon className="w-4 h-4 text-[#E8670A]" />
+            <HeartSolidIcon className="w-4 h-4 text-red-500" />
           ) : (
             <HeartIcon className="w-4 h-4 text-[#6b7280]" />
           )}
@@ -110,7 +110,7 @@ export default function ProductCard({ product, wishlisted: wishlistedProp, onWis
       {/* Body */}
       <div className="p-3">
         <p className="text-[#6b7280] text-[10px] mb-0.5">{product.sku}</p>
-        <h3 className="font-['Cormorant_Garamond'] text-[17px] font-medium text-[#1a1a1a] leading-tight line-clamp-2 mb-1.5">
+        <h3 className="font-playfair text-[17px] font-semibold text-[#1B2B5E] leading-tight line-clamp-2 mb-1.5">
           {product.name}
         </h3>
 
@@ -122,7 +122,7 @@ export default function ProductCard({ product, wishlisted: wishlistedProp, onWis
         )}
 
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[#E8670A] font-semibold text-sm">{formatPrice(displayPrice)}</span>
+          <span className="text-[#1B2B5E] font-bold text-sm">{formatPrice(displayPrice)}</span>
           {product.sale_price && (
             <span className="text-[#6b7280] text-xs line-through">{formatPrice(product.base_price)}</span>
           )}

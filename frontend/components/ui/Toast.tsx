@@ -30,7 +30,7 @@ export function Toast({ message, type = "info", duration = 4000, onClose }: Toas
   };
 
   const Icon = type === "success" ? CheckCircleIcon : type === "error" ? ExclamationCircleIcon : CheckCircleIcon;
-  const iconColor = type === "success" ? "text-green-400" : type === "error" ? "text-red-400" : "text-[#E8670A]";
+  const iconColor = type === "success" ? "text-green-400" : type === "error" ? "text-red-400" : "text-[#C9A84C]";
 
   return (
     <div

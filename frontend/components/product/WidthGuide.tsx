@@ -36,16 +36,16 @@ function FrontDiagram({ lensWidthMm, bridgeMm }: { lensWidthMm?: number | null; 
       <line x1="262" y1="64" x2="280" y2="64" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
 
       {/* Lens width annotation */}
-      <line x1="18" y1="26" x2="110" y2="26" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
-      <line x1="18" y1="22" x2="18" y2="30" stroke="#E8670A" strokeWidth="1.5" />
-      <line x1="110" y1="22" x2="110" y2="30" stroke="#E8670A" strokeWidth="1.5" />
+      <line x1="18" y1="26" x2="110" y2="26" stroke="#C9A84C" strokeWidth="1" strokeDasharray="3,2" />
+      <line x1="18" y1="22" x2="18" y2="30" stroke="#C9A84C" strokeWidth="1.5" />
+      <line x1="110" y1="22" x2="110" y2="30" stroke="#C9A84C" strokeWidth="1.5" />
       <text x="64" y="20" textAnchor="middle" fontSize="9" fill="#6b7280" fontFamily="sans-serif">
         {lensWidthMm ? `${lensWidthMm}mm` : "lens width"}
       </text>
 
       {/* Bridge annotation */}
-      <line x1="110" y1="26" x2="170" y2="26" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
-      <line x1="170" y1="22" x2="170" y2="30" stroke="#E8670A" strokeWidth="1.5" />
+      <line x1="110" y1="26" x2="170" y2="26" stroke="#C9A84C" strokeWidth="1" strokeDasharray="3,2" />
+      <line x1="170" y1="22" x2="170" y2="30" stroke="#C9A84C" strokeWidth="1.5" />
       <text x="140" y="20" textAnchor="middle" fontSize="9" fill="#6b7280" fontFamily="sans-serif">
         {bridgeMm ? `${bridgeMm}mm` : "bridge"}
       </text>
@@ -62,9 +62,9 @@ function SideDiagram({ templeMm }: { templeMm?: number | null }) {
       <path d="M8 36 Q4 36 2 44 L2 80 Q2 86 8 86 L120 86 Q128 86 128 78" fill="none" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
 
       {/* Temple length annotation */}
-      <line x1="8" y1="96" x2="128" y2="96" stroke="#E8670A" strokeWidth="1" strokeDasharray="3,2" />
-      <line x1="8" y1="92" x2="8" y2="100" stroke="#E8670A" strokeWidth="1.5" />
-      <line x1="128" y1="92" x2="128" y2="100" stroke="#E8670A" strokeWidth="1.5" />
+      <line x1="8" y1="96" x2="128" y2="96" stroke="#C9A84C" strokeWidth="1" strokeDasharray="3,2" />
+      <line x1="8" y1="92" x2="8" y2="100" stroke="#C9A84C" strokeWidth="1.5" />
+      <line x1="128" y1="92" x2="128" y2="100" stroke="#C9A84C" strokeWidth="1.5" />
       <text x="68" y="108" textAnchor="middle" fontSize="9" fill="#6b7280" fontFamily="sans-serif">
         {templeMm ? `${templeMm}mm temple` : "temple length"}
       </text>
@@ -148,7 +148,7 @@ export default function WidthGuide({
       )}
 
       <div className="mt-3 pt-3 border-t border-[#e5e7eb]">
-        <Link href="/shipping-returns" className="text-[#E8670A] text-xs hover:underline">
+        <Link href="/shipping-returns" className="text-[#C9A84C] text-xs hover:underline">
           Not sure about your size? Size Guide &rsaquo;
         </Link>
       </div>

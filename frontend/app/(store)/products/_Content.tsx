@@ -20,8 +20,8 @@ const MATERIALS = ["Acetate", "Metal", "Titanium", "Plastic"];
 
 function FilterCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white border border-[#e5e7eb] rounded-lg p-4">
-      <h3 className="text-[#1a1a1a] font-semibold text-sm mb-3">{title}</h3>
+    <div className="bg-white border border-[#e2e8f0] rounded-lg p-4">
+      <h3 className="text-[#1B2B5E] font-semibold text-sm mb-3">{title}</h3>
       {children}
     </div>
   );
@@ -31,8 +31,8 @@ function CheckboxFilter({ label, checked, onChange }: {
   value: string; label: string; checked: boolean; onChange: () => void;
 }) {
   return (
-    <label className="flex items-center gap-2 text-[#6b7280] hover:text-[#1a1a1a] cursor-pointer mb-2 text-[13px] min-h-[32px]">
-      <input type="checkbox" checked={checked} onChange={onChange} className="accent-[#E8670A] w-4 h-4" />
+    <label className="flex items-center gap-2 text-[#64748b] hover:text-[#1B2B5E] cursor-pointer mb-2 text-[13px] min-h-[32px]">
+      <input type="checkbox" checked={checked} onChange={onChange} className="accent-[#C9A84C] w-4 h-4" />
       {label}
     </label>
   );
@@ -176,7 +176,7 @@ export default function ProductsPage() {
       {activeFilterCount > 0 && (
         <button
           onClick={clearAll}
-          className="w-full border border-[#e5e7eb] text-[#6b7280] py-2 rounded-[5px] text-sm hover:border-[#E8670A] hover:text-[#E8670A] transition-colors"
+          className="w-full border border-[#e2e8f0] text-[#64748b] py-2 rounded-[5px] text-sm hover:border-[#1B2B5E] hover:text-[#1B2B5E] transition-colors"
         >
           Clear All Filters
         </button>
@@ -190,15 +190,15 @@ export default function ProductsPage() {
       {/* ── Mobile: top bar with Filters button + Sort pills ── */}
       <div className="md:hidden mb-4">
         <div className="flex items-center justify-between mb-3">
-          <h1 className="font-['Cormorant_Garamond'] text-2xl text-[#1a1a1a] font-semibold">Products</h1>
+          <h1 className="font-playfair text-2xl text-[#1B2B5E] font-bold">Products</h1>
           <button
             onClick={() => setSheetOpen(true)}
-            className="flex items-center gap-1.5 text-sm text-[#6b7280] hover:text-[#1a1a1a] min-h-[44px] px-2"
+            className="flex items-center gap-1.5 text-sm text-[#64748b] hover:text-[#1B2B5E] min-h-[44px] px-2"
           >
             <AdjustmentsHorizontalIcon className="w-5 h-5" />
             Filters
             {activeFilterCount > 0 && (
-              <span className="bg-[#E8670A] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="bg-[#C9A84C] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {activeFilterCount}
               </span>
             )}
@@ -213,8 +213,8 @@ export default function ProductsPage() {
               onClick={() => { setSort(o.value); setPage(1); }}
               className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                 sort === o.value
-                  ? "bg-[#E8670A] text-white border-[#E8670A]"
-                  : "bg-white text-[#6b7280] border-[#e5e7eb]"
+                  ? "bg-[#1B2B5E] text-white border-[#1B2B5E]"
+                  : "bg-white text-[#64748b] border-[#e2e8f0]"
               }`}
             >
               {o.label}
@@ -255,7 +255,7 @@ export default function ProductsPage() {
             <div className="p-4 border-t border-[#e5e7eb] shrink-0">
               <button
                 onClick={() => setSheetOpen(false)}
-                className="w-full bg-[#E8670A] hover:bg-[#C45408] text-white py-3 rounded-[5px] text-sm font-medium min-h-[44px] transition-colors"
+                className="w-full bg-[#1B2B5E] hover:bg-[#243570] text-white py-3 rounded-lg text-sm font-medium min-h-[44px] transition-colors"
               >
                 Apply Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
               </button>
@@ -274,10 +274,10 @@ export default function ProductsPage() {
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h1 className="font-['Cormorant_Garamond'] text-3xl text-[#1a1a1a] font-semibold hidden md:block">
+              <h1 className="font-playfair text-3xl text-[#1B2B5E] font-bold hidden md:block">
                 All Products
               </h1>
-              <p className="text-[#6b7280] text-sm mt-0.5">
+              <p className="text-[#64748b] text-sm mt-0.5">
                 {loading ? "Loading…" : `${data?.total ?? 0} products found`}
               </p>
             </div>
@@ -287,9 +287,9 @@ export default function ProductsPage() {
           {activeFilterTags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {activeFilterTags.map((tag) => (
-                <span key={tag.label} className="inline-flex items-center gap-1 bg-[#FFF0E6] text-[#E8670A] text-xs font-medium px-2.5 py-1 rounded-full">
+                <span key={tag.label} className="inline-flex items-center gap-1 bg-[#EEF1FA] text-[#1B2B5E] text-xs font-medium px-2.5 py-1 rounded-full">
                   {tag.label}
-                  <button onClick={tag.clear} className="hover:text-[#c05009]">
+                  <button onClick={tag.clear} className="hover:text-[#C9A84C]">
                     <XMarkIcon className="w-3 h-3" />
                   </button>
                 </span>
@@ -312,7 +312,7 @@ export default function ProductsPage() {
             </div>
           ) : data?.items.length === 0 ? (
             <div className="text-center py-12 text-[#6b7280]">
-              <p className="text-lg font-['Cormorant_Garamond'] text-[#1a1a1a] mb-2">No products found</p>
+              <p className="text-lg font-playfair text-[#1B2B5E] mb-2">No products found</p>
               <p className="text-sm mb-4">Try adjusting your filters or search terms.</p>
               <Button variant="outline" size="md" onClick={clearAll}>Clear Filters</Button>
             </div>
@@ -356,8 +356,8 @@ export default function ProductsPage() {
                       onClick={() => setPage(p)}
                       className={`w-9 h-9 rounded text-sm font-medium transition-colors ${
                         p === page
-                          ? "bg-[#E8670A] text-white"
-                          : "bg-gray-100 text-[#6b7280] hover:bg-gray-200"
+                          ? "bg-[#1B2B5E] text-white"
+                          : "bg-[#F5F7FF] text-[#64748b] hover:bg-[#EEF1FA]"
                       }`}
                     >
                       {p}

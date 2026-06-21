@@ -51,7 +51,7 @@ export default function SelectLensesPage() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#E8670A] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <div className="w-8 h-8 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
           <p className="text-[#6b7280] text-sm">Loading product…</p>
         </div>
       </div>
@@ -123,7 +123,7 @@ export default function SelectLensesPage() {
         <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-3">
           <CheckCircleIcon className="w-8 h-8 text-green-500" />
         </div>
-        <p className="font-['Cormorant_Garamond'] text-xl text-[#1a1a1a] font-semibold mb-1">No Prescription Needed</p>
+        <p className="font-playfair text-xl text-[#1B2B5E] font-semibold mb-1">No Prescription Needed</p>
         <p className="text-[#6b7280] text-sm">No prescription required for Non-Rx lenses. Continue to lens coating.</p>
       </div>
     ) : (
@@ -132,7 +132,7 @@ export default function SelectLensesPage() {
 
     /* Step 3 — Lens coating */
     <div key="s3" className="space-y-3">
-      <h3 className="font-['Cormorant_Garamond'] text-[22px] text-[#1a1a1a] font-semibold mb-1">Choose Your Lens</h3>
+      <h3 className="font-playfair text-[22px] text-[#1B2B5E] font-semibold mb-1">Choose Your Lens</h3>
       <p className="text-[#6b7280] text-sm mb-4">Select a lens coating for your frames.</p>
       {LENS_OPTIONS_STATIC.map((opt) => {
         const isSelected = selectedLensCoatingId === opt.id;
@@ -141,22 +141,22 @@ export default function SelectLensesPage() {
             key={opt.id}
             onClick={() => setSelectedLensCoatingId(opt.id)}
             className={`w-full text-left rounded-lg border p-4 transition-colors ${
-              isSelected ? "border-[#E8670A] bg-[#FFF0E6]" : "border-[#e5e7eb] bg-white hover:border-[#E8670A]/50"
+              isSelected ? "border-[#C9A84C] bg-[#EEF1FA]" : "border-[#e5e7eb] bg-white hover:border-[#C9A84C]/50"
             }`}
           >
             <div className="flex items-center gap-3">
               {/* Lens icon placeholder */}
               <div className="w-[44px] h-[44px] rounded bg-[#f9fafb] border border-[#e5e7eb] flex items-center justify-center shrink-0">
                 <svg viewBox="0 0 44 44" className="w-7 h-7" fill="none">
-                  <ellipse cx="22" cy="22" rx="14" ry="10" stroke="#E8670A" strokeWidth="2" />
-                  {opt.id !== "standard" && <ellipse cx="22" cy="22" rx="10" ry="6" fill="#E8670A" opacity=".12" />}
+                  <ellipse cx="22" cy="22" rx="14" ry="10" stroke="#C9A84C" strokeWidth="2" />
+                  {opt.id !== "standard" && <ellipse cx="22" cy="22" rx="10" ry="6" fill="#C9A84C" opacity=".12" />}
                 </svg>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[#1a1a1a] font-medium text-[14px]">{opt.label}</p>
+                <p className="text-[#1B2B5E] font-medium text-[14px]">{opt.label}</p>
                 <p className="text-[#6b7280] text-[12px] mt-0.5">{opt.desc}</p>
               </div>
-              <span className="text-[#E8670A] text-sm font-medium shrink-0">
+              <span className="text-[#C9A84C] text-sm font-medium shrink-0">
                 {opt.price === 0 ? "Included" : `+${formatPrice(opt.price)}`}
               </span>
               {isSelected && (
@@ -235,7 +235,7 @@ export default function SelectLensesPage() {
                     onClick={() => i <= step && setStep(i)}
                     className={`flex items-center gap-1.5 px-3 py-3 text-xs whitespace-nowrap border-b-2 -mb-px transition-colors ${
                       current
-                        ? "border-[#E8670A] text-[#E8670A] font-medium"
+                        ? "border-[#C9A84C] text-[#C9A84C] font-medium"
                         : completed
                         ? "border-transparent text-green-600"
                         : "border-transparent text-[#6b7280]"
@@ -278,7 +278,7 @@ export default function SelectLensesPage() {
 
             {/* Mobile back to frame link */}
             <div className="md:hidden mt-3">
-              <Link href={`/products/${slug}`} className="text-[#E8670A] text-sm underline">
+              <Link href={`/products/${slug}`} className="text-[#C9A84C] text-sm underline">
                 ← Back to Frame
               </Link>
             </div>
@@ -317,7 +317,7 @@ function LeftPanel({
   return (
     <div className="w-full sticky top-24 flex flex-col gap-5">
       {/* Back link */}
-      <Link href={`/products/${productSlug}`} className="text-[#E8670A] text-sm hover:underline w-fit">
+      <Link href={`/products/${productSlug}`} className="text-[#C9A84C] text-sm hover:underline w-fit">
         ← Back to Frame
       </Link>
 
@@ -332,7 +332,7 @@ function LeftPanel({
 
       {/* Product name + color */}
       <div className="text-center">
-        <p className="font-['Cormorant_Garamond'] text-[20px] text-[#1a1a1a] font-medium">{productName}</p>
+        <p className="font-playfair text-[20px] text-[#1B2B5E] font-medium">{productName}</p>
         <p className="text-[#6b7280] text-[13px] mt-0.5">{variantColor}</p>
       </div>
 
@@ -368,7 +368,7 @@ function LeftPanel({
         )}
         <div className="flex justify-between font-semibold border-t border-[#e5e7eb] pt-2 mt-2">
           <span className="text-[#1a1a1a]">Total</span>
-          <span className="text-[#E8670A] text-base">{formatPrice(total)}</span>
+          <span className="text-[#C9A84C] text-base">{formatPrice(total)}</span>
         </div>
       </div>
 
@@ -376,7 +376,7 @@ function LeftPanel({
       <button
         onClick={onAddToCart}
         disabled={!canAddToCart}
-        className="w-full flex items-center justify-center gap-2 bg-[#0F0F0F] text-white py-3 rounded-[5px] text-sm font-medium hover:bg-[#1a1a1a] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-[#1B2B5E] text-white py-3 rounded-[5px] text-sm font-medium hover:bg-[#243570] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         <ShoppingCartIcon className="w-4 h-4" />
         Add to Cart
@@ -414,7 +414,7 @@ function ReviewStep({
 
   return (
     <div className="space-y-5">
-      <h3 className="font-['Cormorant_Garamond'] text-[22px] text-[#1a1a1a] font-semibold">Review & Add to Cart</h3>
+      <h3 className="font-playfair text-[22px] text-[#1B2B5E] font-semibold">Review & Add to Cart</h3>
 
       {/* Product summary */}
       <div className="bg-white border border-[#e5e7eb] rounded-lg p-4 flex items-center gap-4">
@@ -426,10 +426,10 @@ function ReviewStep({
           )}
         </div>
         <div>
-          <p className="text-[#1a1a1a] font-medium text-sm">{product.name}</p>
+          <p className="text-[#1B2B5E] font-medium text-sm">{product.name}</p>
           <p className="text-[#6b7280] text-xs mt-0.5">{variant?.color_name}</p>
         </div>
-        <span className="ml-auto text-[#E8670A] font-semibold text-sm">{formatPrice(framePrice)}</span>
+        <span className="ml-auto text-[#C9A84C] font-semibold text-sm">{formatPrice(framePrice)}</span>
       </div>
 
       {/* Selections */}
@@ -437,13 +437,13 @@ function ReviewStep({
         {selectedLensType && (
           <div className="flex justify-between items-center">
             <span className="text-[#6b7280]">Lens Type</span>
-            <span className="text-[#1a1a1a] font-medium">{selectedLensType.name} {lensPrice > 0 && <span className="text-[#6b7280]">(+{formatPrice(lensPrice)})</span>}</span>
+            <span className="text-[#1B2B5E] font-medium">{selectedLensType.name} {lensPrice > 0 && <span className="text-[#6b7280]">(+{formatPrice(lensPrice)})</span>}</span>
           </div>
         )}
         {!selectedLensType && (
           <div className="flex justify-between items-center">
             <span className="text-[#6b7280]">Lens Type</span>
-            <span className="text-[#1a1a1a] font-medium">Non-Rx (Plano)</span>
+            <span className="text-[#1B2B5E] font-medium">Non-Rx (Plano)</span>
           </div>
         )}
 
@@ -452,7 +452,7 @@ function ReviewStep({
           <>
             <div className="flex justify-between items-center">
               <span className="text-[#6b7280]">Prescription</span>
-              <span className="text-[#1a1a1a] font-medium">{prescription.method === "upload" ? "Photo uploaded" : "Manual entry"}</span>
+              <span className="text-[#1B2B5E] font-medium">{prescription.method === "upload" ? "Photo uploaded" : "Manual entry"}</span>
             </div>
             {prescription.method === "manual" && (
               <div className="bg-[#f9fafb] rounded p-3 text-xs text-[#6b7280] space-y-1">
@@ -477,14 +477,14 @@ function ReviewStep({
         {selectedCoating && selectedCoating.id !== "standard" && (
           <div className="flex justify-between items-center">
             <span className="text-[#6b7280]">Lens</span>
-            <span className="text-[#1a1a1a] font-medium">{selectedCoating.label} {coatingPrice > 0 && <span className="text-[#6b7280]">(+{formatPrice(coatingPrice)})</span>}</span>
+            <span className="text-[#1B2B5E] font-medium">{selectedCoating.label} {coatingPrice > 0 && <span className="text-[#6b7280]">(+{formatPrice(coatingPrice)})</span>}</span>
           </div>
         )}
 
         {selectedAddonObjects.length > 0 && (
           <div className="flex justify-between items-start">
             <span className="text-[#6b7280]">Add-ons</span>
-            <span className="text-[#1a1a1a] font-medium text-right">
+            <span className="text-[#1B2B5E] font-medium text-right">
               {selectedAddonObjects.map((a) => a.name).join(", ")} {addonsPrice > 0 && <span className="text-[#6b7280]">(+{formatPrice(addonsPrice)})</span>}
             </span>
           </div>
@@ -500,7 +500,7 @@ function ReviewStep({
           {addonsPrice > 0 && <div className="flex justify-between text-[#6b7280]"><span>Add-ons</span><span>+{formatPrice(addonsPrice)}</span></div>}
           <div className="flex justify-between font-semibold text-[15px] pt-1 border-t border-[#e5e7eb]">
             <span className="text-[#1a1a1a]">Total</span>
-            <span className="text-[#E8670A]">{formatPrice(total)}</span>
+            <span className="text-[#C9A84C]">{formatPrice(total)}</span>
           </div>
         </div>
       </div>
@@ -509,7 +509,7 @@ function ReviewStep({
       <button
         onClick={onAddToCart}
         disabled={!canAddToCart}
-        className="w-full flex items-center justify-center gap-2 bg-[#0F0F0F] text-white py-4 rounded-[5px] text-sm font-medium hover:bg-[#1a1a1a] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-[#1B2B5E] text-white py-4 rounded-[5px] text-sm font-medium hover:bg-[#243570] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         <ShoppingCartIcon className="w-4 h-4" />
         Add to Cart
@@ -553,7 +553,7 @@ function MobileSummaryBar({
         <div className="flex-1 min-w-0">
           <p className="text-[#1a1a1a] text-[13px] font-medium truncate">{productName}</p>
         </div>
-        <span className="text-[#E8670A] font-semibold text-sm shrink-0">{formatPrice(total)}</span>
+        <span className="text-[#C9A84C] font-semibold text-sm shrink-0">{formatPrice(total)}</span>
         <ChevronDownIcon className={`w-4 h-4 text-[#6b7280] transition-transform shrink-0 ${expanded ? "rotate-180" : ""}`} />
       </button>
 
@@ -585,7 +585,7 @@ function MobileSummaryBar({
             </div>
           ))}
           <div className="flex justify-between font-semibold border-t border-[#e5e7eb] pt-1.5">
-            <span>Total</span><span className="text-[#E8670A]">{formatPrice(total)}</span>
+            <span>Total</span><span className="text-[#C9A84C]">{formatPrice(total)}</span>
           </div>
         </div>
       )}

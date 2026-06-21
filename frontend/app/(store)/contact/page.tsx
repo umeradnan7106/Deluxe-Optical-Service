@@ -49,6 +49,8 @@ const INFO_BLOCKS = [
   },
 ];
 
+const inputCls = "w-full bg-white border border-[#e2e8f0] rounded-lg px-3 py-2.5 min-h-[44px] text-[#0F172A] text-sm focus:outline-none focus:border-[#1B2B5E] transition-colors";
+
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", phone: "", email: "", subject: "", message: "" });
   const [sent, setSent] = useState(false);
@@ -65,11 +67,12 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-[#111111] border-b border-[#2a2a2a] py-12 md:py-20">
-        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
-          <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Get in Touch</p>
-          <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">Contact Us</h1>
-          <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto">
+      <section className="bg-[#1B2B5E] py-12 md:py-20 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none" />
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center relative">
+          <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-[.14em] mb-3">Get in Touch</p>
+          <h1 className="font-playfair text-3xl md:text-5xl lg:text-6xl text-white font-bold mb-4">Contact Us</h1>
+          <p className="text-white/60 text-base md:text-lg max-w-xl mx-auto">
             Have a question about your order or need help choosing the right frames? We&apos;re here for you.
           </p>
         </div>
@@ -80,74 +83,51 @@ export default function ContactPage() {
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
             {/* Form */}
-            <div className="bg-white rounded-xl p-5 md:p-8 border border-gray-200 shadow-sm">
-              <h2 className="text-gray-900 text-xl font-semibold mb-6">Send us a Message</h2>
+            <div className="bg-white rounded-xl p-5 md:p-8 border border-[#e2e8f0]">
+              <h2 className="font-playfair text-[#1B2B5E] text-xl font-bold mb-6">Send us a Message</h2>
               {sent ? (
                 <div className="text-center py-12">
-                  <p className="text-[#E8670A] text-2xl font-semibold mb-2">Message Sent!</p>
-                  <p className="text-gray-600">We&apos;ll get back to you within 24 hours.</p>
+                  <div className="w-16 h-16 bg-[#EEF1FA] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <EnvelopeIcon className="w-8 h-8 text-[#1B2B5E]" />
+                  </div>
+                  <p className="text-[#1B2B5E] text-xl font-playfair font-bold mb-2">Message Sent!</p>
+                  <p className="text-[#64748b]">We&apos;ll get back to you within 24 hours.</p>
                 </div>
               ) : (
                 <form className="space-y-4" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-700 text-sm mb-1">Full Name *</label>
-                      <input
-                        name="name"
-                        value={form.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 min-h-[44px] text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
-                      />
+                      <label className="block text-[#64748b] text-xs font-medium mb-1">Full Name *</label>
+                      <input name="name" value={form.name} onChange={handleChange} required className={inputCls} />
                     </div>
                     <div>
-                      <label className="block text-gray-700 text-sm mb-1">Phone</label>
-                      <input
-                        name="phone"
-                        value={form.phone}
-                        onChange={handleChange}
-                        type="tel"
-                        className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 min-h-[44px] text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
-                      />
+                      <label className="block text-[#64748b] text-xs font-medium mb-1">Phone</label>
+                      <input name="phone" value={form.phone} onChange={handleChange} type="tel" className={inputCls} />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-gray-700 text-sm mb-1">Email *</label>
-                    <input
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      type="email"
-                      required
-                      className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 min-h-[44px] text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
-                    />
+                    <label className="block text-[#64748b] text-xs font-medium mb-1">Email *</label>
+                    <input name="email" value={form.email} onChange={handleChange} type="email" required className={inputCls} />
                   </div>
                   <div>
-                    <label className="block text-gray-700 text-sm mb-1">Subject</label>
-                    <select
-                      name="subject"
-                      value={form.subject}
-                      onChange={handleChange}
-                      className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 min-h-[44px] text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
-                    >
+                    <label className="block text-[#64748b] text-xs font-medium mb-1">Subject</label>
+                    <select name="subject" value={form.subject} onChange={handleChange} className={inputCls}>
                       <option value="">Select a subject…</option>
-                      {SUBJECTS.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
+                      {SUBJECTS.map((s) => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-gray-700 text-sm mb-1">Message *</label>
+                    <label className="block text-[#64748b] text-xs font-medium mb-1">Message *</label>
                     <textarea
                       name="message"
                       value={form.message}
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full bg-white border border-gray-300 rounded px-3 py-2.5 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A] resize-none"
+                      className="w-full bg-white border border-[#e2e8f0] rounded-lg px-3 py-2.5 text-[#0F172A] text-sm focus:outline-none focus:border-[#1B2B5E] resize-none transition-colors"
                     />
                   </div>
-                  <Button variant="primary" size="md" fullWidth type="submit">Send Message</Button>
+                  <Button variant="dark" size="md" fullWidth type="submit">Send Message</Button>
                 </form>
               )}
             </div>
@@ -155,20 +135,20 @@ export default function ContactPage() {
             {/* Info blocks */}
             <div className="space-y-4">
               {INFO_BLOCKS.map(({ Icon, label, value, sub, href }) => (
-                <div key={label} className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-full bg-[#E8670A]/10 flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-[#E8670A]" />
+                <div key={label} className="bg-white rounded-xl p-6 border border-[#e2e8f0] flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-full bg-[#EEF1FA] flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-[#1B2B5E]" />
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs uppercase tracking-widest mb-0.5">{label}</p>
+                    <p className="text-[#64748b] text-xs uppercase tracking-widest mb-0.5">{label}</p>
                     {href ? (
-                      <a href={href} className="text-gray-900 font-medium hover:text-[#E8670A] transition-colors">
+                      <a href={href} className="text-[#1B2B5E] font-medium hover:text-[#C9A84C] transition-colors">
                         {value}
                       </a>
                     ) : (
-                      <p className="text-gray-900 font-medium">{value}</p>
+                      <p className="text-[#1B2B5E] font-medium">{value}</p>
                     )}
-                    <p className="text-gray-500 text-sm mt-0.5">{sub}</p>
+                    <p className="text-[#64748b] text-sm mt-0.5">{sub}</p>
                   </div>
                 </div>
               ))}

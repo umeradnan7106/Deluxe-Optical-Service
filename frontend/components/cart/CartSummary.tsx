@@ -46,7 +46,7 @@ export default function CartSummary() {
 
   return (
     <div className="bg-white border border-[#e5e7eb] rounded-lg p-5 space-y-5">
-      <h3 className="font-['Cormorant_Garamond'] text-[20px] text-[#1a1a1a] font-semibold">Order Summary</h3>
+      <h3 className="font-playfair text-[20px] text-[#1B2B5E] font-bold">Order Summary</h3>
 
       {/* Coupon */}
       <div>
@@ -55,12 +55,12 @@ export default function CartSummary() {
             value={couponInput}
             onChange={(e) => setCouponInput(e.target.value)}
             placeholder="Enter coupon code"
-            className="flex-1 bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded-[5px] outline-none focus:border-[#E8670A]"
+            className="flex-1 bg-white border border-[#e2e8f0] text-[#1a1a1a] text-sm px-3 py-2 rounded-[5px] outline-none focus:border-[#1B2B5E]"
           />
           <button
             onClick={handleApplyCoupon}
             disabled={applyingCoupon}
-            className="bg-[#E8670A] text-white text-sm px-4 py-2 rounded-[5px] hover:bg-[#d45e09] disabled:opacity-50 transition-colors"
+            className="bg-[#1B2B5E] text-white text-sm px-4 py-2 rounded-[5px] hover:bg-[#243570] disabled:opacity-50 transition-colors"
           >
             {applyingCoupon ? "…" : "Apply"}
           </button>
@@ -97,7 +97,7 @@ export default function CartSummary() {
         </div>
         <div className="flex justify-between font-semibold border-t border-[#e5e7eb] pt-2 mt-2">
           <span className="text-[#1a1a1a]">Total</span>
-          <span className="text-[#E8670A] text-lg">{formatPrice(total)}</span>
+          <span className="text-[#1B2B5E] text-lg">{formatPrice(total)}</span>
         </div>
       </div>
 
@@ -111,8 +111,8 @@ export default function CartSummary() {
               onClick={() => setPaymentMethod(value)}
               className={`w-full flex items-center justify-between rounded border p-3 text-left text-sm transition-colors ${
                 paymentMethod === value
-                  ? "border-[#E8670A] bg-[#FFF0E6]"
-                  : "border-[#e5e7eb] hover:border-[#E8670A]/50"
+                  ? "border-[#1B2B5E] bg-[#EEF1FA]"
+                  : "border-[#e2e8f0] hover:border-[#1B2B5E]/50"
               }`}
             >
               <span className="text-[#1a1a1a] font-medium">{label}</span>
@@ -127,7 +127,7 @@ export default function CartSummary() {
       </div>
 
       <Link href="/checkout" className="block">
-        <button className="w-full bg-[#0F0F0F] text-white text-[15px] font-medium py-3 rounded-[5px] hover:bg-[#1a1a1a] transition-colors">
+        <button className="w-full bg-[#1B2B5E] text-white text-[15px] font-medium py-3 rounded-lg hover:bg-[#243570] transition-colors">
           Proceed to Checkout
         </button>
       </Link>

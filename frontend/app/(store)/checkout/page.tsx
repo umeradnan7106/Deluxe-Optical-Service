@@ -30,8 +30,8 @@ const BANK_DETAILS: Record<string, string> = {
 };
 
 const inputCls = (error?: string) =>
-  `w-full bg-white border text-[#1a1a1a] text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#E8670A] transition-colors ${
-    error ? "border-red-400" : "border-[#e5e7eb]"
+  `w-full bg-white border text-[#1a1a1a] text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#1B2B5E] transition-colors ${
+    error ? "border-red-400" : "border-[#e2e8f0]"
   }`;
 const labelCls = "text-[#6b7280] text-xs font-medium block mb-1";
 
@@ -102,13 +102,13 @@ export default function CheckoutPage() {
   return (
     <div className="bg-[#f9fafb] min-h-screen">
       <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-24 md:pb-8">
-        <h1 className="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-[#1a1a1a] font-semibold mb-5 md:mb-6">Checkout</h1>
+        <h1 className="font-playfair text-2xl md:text-3xl text-[#1B2B5E] font-bold mb-5 md:mb-6">Checkout</h1>
 
         {/* Step indicator — compact on mobile, full dots on desktop */}
         <div className="mb-6 md:mb-8">
           {/* Mobile: text indicator */}
           <div className="md:hidden flex items-center gap-2 text-sm text-[#6b7280]">
-            <span className="text-[#E8670A] font-medium">Step {step + 1} of {STEPS.length}</span>
+            <span className="text-[#1B2B5E] font-medium">Step {step + 1} of {STEPS.length}</span>
             <span>—</span>
             <span className="text-[#1a1a1a] font-medium">{STEPS[step]}</span>
           </div>
@@ -122,11 +122,11 @@ export default function CheckoutPage() {
                 <div key={s} className="flex items-center">
                   <div className="flex items-center gap-2">
                     <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                      completed ? "bg-green-500 text-white" : current ? "bg-[#E8670A] text-white" : "bg-[#e5e7eb] text-[#6b7280]"
+                      completed ? "bg-green-500 text-white" : current ? "bg-[#1B2B5E] text-white" : "bg-[#e2e8f0] text-[#64748b]"
                     }`}>
                       {completed ? <CheckCircleIcon className="w-5 h-5" /> : i + 1}
                     </div>
-                    <span className={`text-sm font-medium ${current ? "text-[#E8670A]" : completed ? "text-green-600" : "text-[#6b7280]"}`}>{s}</span>
+                    <span className={`text-sm font-medium ${current ? "text-[#1B2B5E]" : completed ? "text-green-600" : "text-[#64748b]"}`}>{s}</span>
                   </div>
                   {i < STEPS.length - 1 && (
                     <div className={`mx-3 h-0.5 w-20 rounded ${i < step ? "bg-green-500" : "bg-[#e5e7eb]"}`} />
@@ -143,7 +143,7 @@ export default function CheckoutPage() {
             <div className="bg-white border border-[#e5e7eb] rounded-lg p-6">
               {step === 0 && (
                 <div className="space-y-4">
-                  <h2 className="font-['Cormorant_Garamond'] text-xl text-[#1a1a1a] font-semibold mb-4">Delivery Details</h2>
+                  <h2 className="font-playfair text-xl text-[#1B2B5E] font-bold mb-4">Delivery Details</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className={labelCls}>Full Name <span className="text-red-400">*</span></label>
@@ -219,7 +219,7 @@ export default function CheckoutPage() {
                       onChange={(e) => setForm({ ...form, notes: e.target.value })}
                       placeholder="Special instructions for delivery…"
                       rows={3}
-                      className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#E8670A] resize-none"
+                      className="w-full bg-white border border-[#e2e8f0] text-[#1a1a1a] text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#1B2B5E] resize-none"
                     />
                   </div>
                   <Button variant="primary" size="lg" onClick={() => { if (validateStep0()) setStep(1); }}>
@@ -230,14 +230,14 @@ export default function CheckoutPage() {
 
               {step === 1 && (
                 <div className="space-y-4">
-                  <h2 className="font-['Cormorant_Garamond'] text-xl text-[#1a1a1a] font-semibold mb-4">Payment Method</h2>
+                  <h2 className="font-playfair text-xl text-[#1B2B5E] font-bold mb-4">Payment Method</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {PAYMENT_METHODS.map(({ value, label, discount }) => (
                       <button
                         key={value}
                         onClick={() => setPaymentMethod(value)}
                         className={`rounded-lg border p-4 text-left transition-colors ${
-                          paymentMethod === value ? "border-[#E8670A] bg-[#FFF0E6]" : "border-[#e5e7eb] bg-white hover:border-[#E8670A]/50"
+                          paymentMethod === value ? "border-[#1B2B5E] bg-[#EEF1FA]" : "border-[#e5e7eb] bg-white hover:border-[#1B2B5E]/50"
                         }`}
                       >
                         <p className="text-[#1a1a1a] font-medium text-sm">{label}</p>
@@ -257,7 +257,7 @@ export default function CheckoutPage() {
 
               {step === 2 && (
                 <div className="space-y-4">
-                  <h2 className="font-['Cormorant_Garamond'] text-xl text-[#1a1a1a] font-semibold mb-4">Review Your Order</h2>
+                  <h2 className="font-playfair text-xl text-[#1B2B5E] font-bold mb-4">Review Your Order</h2>
                   <div className="bg-[#f9fafb] border border-[#e5e7eb] rounded-lg p-4 text-sm space-y-2">
                     <h3 className="text-[#1a1a1a] font-semibold mb-2">Delivery Details</h3>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-[13px]">
@@ -306,7 +306,7 @@ export default function CheckoutPage() {
           {/* Order summary sidebar */}
           <div className="lg:w-[320px] shrink-0">
             <div className="bg-white border border-[#e5e7eb] rounded-lg p-5 sticky top-24 space-y-3">
-              <h3 className="font-['Cormorant_Garamond'] text-[20px] text-[#1a1a1a] font-semibold">Order Summary</h3>
+              <h3 className="font-playfair text-[20px] text-[#1B2B5E] font-bold">Order Summary</h3>
               <div className="space-y-2 text-sm">
                 {items.map((item) => (
                   <div key={`${item.product_id}-${item.variant_id}`} className="flex justify-between items-start">
@@ -340,7 +340,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between font-semibold border-t border-[#e5e7eb] pt-2 mt-1">
                   <span className="text-[#1a1a1a]">Total</span>
-                  <span className="text-[#E8670A] text-lg">{formatPrice(total)}</span>
+                  <span className="text-[#1B2B5E] text-lg font-bold">{formatPrice(total)}</span>
                 </div>
               </div>
             </div>
@@ -354,7 +354,7 @@ export default function CheckoutPage() {
           <button
             onClick={handlePlaceOrder}
             disabled={submitting}
-            className="w-full bg-[#E8670A] hover:bg-[#C45408] text-white rounded-[5px] py-3.5 text-sm font-medium transition-colors disabled:opacity-50 min-h-[44px]"
+            className="w-full bg-[#1B2B5E] hover:bg-[#243570] text-white rounded-lg py-3.5 text-sm font-medium transition-colors disabled:opacity-50 min-h-[44px]"
           >
             {submitting ? "Placing Order…" : `Place Order — ${formatPrice(total)}`}
           </button>

@@ -109,8 +109,8 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
             className={cn(
               "rounded-lg border p-4 text-left transition-colors",
               method === m
-                ? "border-[#E8670A] bg-[#FFF0E6]"
-                : "border-[#e5e7eb] bg-white hover:border-[#E8670A]/40"
+                ? "border-[#C9A84C] bg-[#EEF1FA]"
+                : "border-[#e5e7eb] bg-white hover:border-[#C9A84C]/40"
             )}
           >
             <p className="text-[#1a1a1a] font-medium text-sm">{m === "upload" ? "Upload a Photo" : "Fill it out myself"}</p>
@@ -130,7 +130,7 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
           onClick={() => !uploading && fileInputRef.current?.click()}
           className={cn(
             "border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer",
-            dragOver ? "border-[#E8670A] bg-[#FFF0E6]" : "border-[#e5e7eb] bg-[#f9fafb] hover:border-[#E8670A]/50"
+            dragOver ? "border-[#C9A84C] bg-[#EEF1FA]" : "border-[#e5e7eb] bg-[#f9fafb] hover:border-[#C9A84C]/50"
           )}
         >
           <input
@@ -142,7 +142,7 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
           />
           {uploading ? (
             <div className="flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
-              <div className="w-8 h-8 border-2 border-[#E8670A] border-t-transparent rounded-full animate-spin mb-3" />
+              <div className="w-8 h-8 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mb-3" />
               <p className="text-[#6b7280] text-sm">Uploading…</p>
             </div>
           ) : uploadUrl ? (
@@ -172,9 +172,9 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
       {method === "manual" && (
         <div className="space-y-4">
           {warning && (
-            <div className="flex items-start gap-2 bg-orange-50 border border-[#E8670A]/30 rounded p-3">
-              <ExclamationTriangleIcon className="w-5 h-5 text-[#E8670A] shrink-0 mt-0.5" />
-              <p className="text-[#E8670A] text-xs">{warning}</p>
+            <div className="flex items-start gap-2 bg-orange-50 border border-[#C9A84C]/30 rounded p-3">
+              <ExclamationTriangleIcon className="w-5 h-5 text-[#C9A84C] shrink-0 mt-0.5" />
+              <p className="text-[#C9A84C] text-xs">{warning}</p>
             </div>
           )}
 
@@ -202,7 +202,7 @@ export default function LensStep2Prescription({ prescription, onChange }: LensSt
 
       <button
         onClick={() => onChange({ method: "later" })}
-        className="text-[#6b7280] hover:text-[#E8670A] text-sm underline"
+        className="text-[#6b7280] hover:text-[#C9A84C] text-sm underline"
       >
         Skip — I&apos;ll provide prescription via WhatsApp
       </button>

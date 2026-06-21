@@ -37,11 +37,11 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold text-center mb-2">
+        <h1 className="font-playfair text-3xl text-[#1B2B5E] font-bold text-center mb-2">
           Sign In
         </h1>
         <p className="text-gray-600 text-sm text-center mb-8">
-          Welcome back to <span className="text-[#E8670A]">Deluxe<strong>Opt</strong></span>
+          Welcome back to <span className="text-[#C9A84C]">Deluxe<strong>Opt</strong></span>
         </p>
 
         <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 space-y-4">
@@ -58,14 +58,14 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2.5 min-h-[44px] rounded-[5px] outline-none focus:border-[#E8670A]"
+              className="w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2.5 min-h-[44px] rounded-[5px] outline-none focus:border-[#C9A84C]"
             />
           </div>
 
           <div>
             <div className="flex justify-between mb-1">
               <label className="text-gray-700 text-xs font-medium">Password</label>
-              <Link href="/auth/forgot-password" className="text-[#E8670A] text-xs hover:underline">
+              <Link href="/auth/forgot-password" className="text-[#C9A84C] text-xs hover:underline">
                 Forgot password?
               </Link>
             </div>
@@ -74,7 +74,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2.5 min-h-[44px] rounded-[5px] outline-none focus:border-[#E8670A]"
+              className="w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2.5 min-h-[44px] rounded-[5px] outline-none focus:border-[#C9A84C]"
             />
           </div>
 
@@ -85,7 +85,7 @@ export default function LoginPage() {
 
         <p className="text-center text-gray-600 text-sm mt-4">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/register" className="text-[#E8670A] hover:underline">
+          <Link href="/auth/register" className="text-[#C9A84C] hover:underline">
             Create one
           </Link>
         </p>

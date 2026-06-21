@@ -2,54 +2,47 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
+import Image from "next/image";
+import heroImage1 from "@/app/public/hero-image-1.jpg";
+import heroImage2 from "@/app/public/hero-image-2.jpg";
+import heroImage3 from "@/app/public/hero-image-3.jpeg";
 
 const SLIDES = [
   {
-    eyebrow: "Pakistan's Premium Eyewear Store",
+    eyebrow: "Pakistan's Premium Eyewear Destination",
     titlePre: "See the World in ",
-    titleOrange: "Style",
-    subtitle: "Premium frames with prescription lens customization. Delivered anywhere in Pakistan with Cash on Delivery.",
+    titleGold: "Pure Style",
+    subtitle: "Premium frames with custom prescription lens crafting. Delivered anywhere in Pakistan. Open parcel — check before you pay.",
     cta1: { label: "Shop Frames", href: "/products" },
-    cta2: { label: "Build Your Lenses", href: "/products?category=prescription" },
-    gradient: "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)",
+    cta2: { label: "Build Your Lenses →", href: "/products?category=prescription" },
+    image: heroImage1,
   },
   {
     eyebrow: "Custom Prescription Lenses",
     titlePre: "Your ",
-    titleOrange: "Perfect Vision",
+    titleGold: "Perfect Vision",
     titlePost: " Starts Here",
     subtitle: "Single Vision, Progressive, Blue Cut, Transition — all crafted to your exact prescription.",
     cta1: { label: "Shop Prescription", href: "/products?category=prescription" },
-    cta2: { label: "Learn More", href: "/products" },
-    gradient: "linear-gradient(135deg, #0f1f3d 0%, #1a3a6e 100%)",
+    cta2: { label: "Learn More →", href: "/products" },
+    image: heroImage2,
   },
   {
-    eyebrow: "Seasonal Sale",
+    eyebrow: "Seasonal Sale — Limited Stock",
     titlePre: "Unbeatable Prices on ",
-    titleOrange: "Premium Frames",
+    titleGold: "Premium Frames",
     subtitle: "Shop our seasonal sale — limited stock. Pay online and save an extra 15%.",
     cta1: { label: "Shop Sale", href: "/products?sale=true" },
-    cta2: { label: "View All", href: "/products" },
-    gradient: "linear-gradient(135deg, #1a1a2e 0%, #2d1a4e 100%)",
+    cta2: { label: "View All →", href: "/products" },
+    image: heroImage3,
   },
 ];
 
-const GlassesPlaceholder = () => (
-  <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" className="w-24 h-24 md:w-32 md:h-32 opacity-20">
-    <rect x="5" y="15" width="70" height="50" rx="12" fill="none" stroke="white" strokeWidth="3" />
-    <rect x="125" y="15" width="70" height="50" rx="12" fill="none" stroke="white" strokeWidth="3" />
-    <path d="M75 40 Q100 28 125 40" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" />
-    <line x1="5" y1="30" x2="0" y2="30" stroke="white" strokeWidth="3" strokeLinecap="round" />
-    <line x1="195" y1="30" x2="200" y2="30" stroke="white" strokeWidth="3" strokeLinecap="round" />
-  </svg>
-);
-
 const STATS = [
-  { value: "2,400+", label: "Customers" },
-  { value: "500+", label: "Styles" },
-  { value: "3-5 Day", label: "Delivery" },
-  { value: "7-Day", label: "Returns" },
+  { value: "2,400+", label: "Happy Customers" },
+  { value: "500+", label: "Frame Styles" },
+  { value: "3–5 Day", label: "Delivery" },
+  { value: "15%", label: "Online Discount" },
 ];
 
 export default function HeroSlider() {
@@ -63,73 +56,84 @@ export default function HeroSlider() {
   const slide = SLIDES[active];
 
   return (
-    <section className="bg-[#0F0F0F] overflow-hidden">
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 w-full">
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-center pt-6 pb-4 lg:py-12 lg:min-h-[480px]">
+    <section className="bg-[#1B2B5E] overflow-hidden relative">
+      {/* subtle gold gradient overlay top-right */}
+      <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none" />
 
-          {/* Image — order-first on mobile (top), order-last on desktop (right) */}
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 w-full relative">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-center pt-8 pb-4 lg:py-16 lg:min-h-[520px]">
+
+          {/* Image */}
           <div className="w-full order-1 lg:order-2 lg:w-1/2 shrink-0">
-            <div
-              className="aspect-video lg:aspect-[4/3] rounded-lg overflow-hidden flex items-center justify-center"
-              style={{ background: slide.gradient }}
-            >
-              <GlassesPlaceholder />
+            <div className="aspect-video lg:aspect-[5/3] rounded-2xl overflow-hidden relative border border-[#C9A84C]/20">
+              <Image
+                key={active}
+                src={slide.image}
+                alt={slide.eyebrow}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority={active === 0}
+              />
             </div>
           </div>
 
-          {/* Text — order-second on mobile (below image), order-first on desktop (left) */}
+          {/* Text */}
           <div className="flex-1 order-2 lg:order-1 lg:w-1/2 text-center lg:text-left pb-4 lg:pb-0">
-            <span className="inline-block border border-[#E8670A] text-[#E8670A] text-[10px] md:text-xs px-3 py-1 rounded-full mb-3 md:mb-4">
+            <div className="inline-flex items-center gap-2 bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#C9A84C] text-[11px] font-semibold px-4 py-1.5 rounded-full mb-5 uppercase tracking-widest">
               {slide.eyebrow}
-            </span>
+            </div>
 
             <h1
-              className="font-['Cormorant_Garamond'] text-white font-semibold leading-tight mb-3 md:mb-4"
-              style={{ fontSize: "clamp(24px, 6vw, 52px)" }}
+              className="font-playfair text-white font-bold leading-[1.05] mb-4"
+              style={{ fontSize: "clamp(28px, 5vw, 56px)" }}
             >
               {slide.titlePre}
-              <span className="text-[#E8670A]">{slide.titleOrange}</span>
+              <em className="text-[#C9A84C] not-italic">{slide.titleGold}</em>
               {"titlePost" in slide && slide.titlePost}
             </h1>
 
-            <p className="text-[#6b7280] text-[13px] leading-relaxed mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0">
+            <p className="text-white/60 text-[14px] md:text-[15px] leading-[1.75] mb-7 max-w-[460px] mx-auto lg:mx-0">
               {slide.subtitle}
             </p>
 
-            {/* Buttons: full-width stacked on mobile, auto on desktop */}
             <div className="flex flex-col sm:flex-row gap-3 mb-8 md:mb-10">
-              <Link href={slide.cta1.href} className="w-full sm:w-auto">
-                <Button variant="primary" size="lg" className="w-full sm:w-auto">{slide.cta1.label}</Button>
+              <Link
+                href={slide.cta1.href}
+                className="inline-flex items-center justify-center bg-[#C9A84C] hover:bg-[#A8893A] text-white px-7 py-3.5 rounded-lg text-[14px] font-semibold transition-colors min-h-[44px]"
+              >
+                {slide.cta1.label}
               </Link>
-              <Link href={slide.cta2.href} className="w-full sm:w-auto">
-                <button className="w-full sm:w-auto px-6 py-3 border border-white text-white rounded-[5px] text-sm font-medium hover:bg-white/10 transition-colors min-h-[44px]">
-                  {slide.cta2.label}
-                </button>
+              <Link
+                href={slide.cta2.href}
+                className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/30 text-white px-7 py-3.5 rounded-lg text-[14px] font-medium transition-colors min-h-[44px]"
+              >
+                {slide.cta2.label}
               </Link>
             </div>
 
-            {/* Stats: always 2x2 */}
-            <div className="border-t border-[#2a2a2a] pt-5">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {STATS.map(({ value, label }) => (
-                  <div key={label}>
-                    <p className="font-['Cormorant_Garamond'] text-[#E8670A] text-lg md:text-xl font-bold">{value}</p>
-                    <p className="text-[#6b7280] text-xs mt-0.5">{label}</p>
-                  </div>
-                ))}
-              </div>
+            {/* Stats */}
+            <div className="border-t border-white/10 pt-6 flex flex-wrap gap-0">
+              {STATS.map(({ value, label }, i) => (
+                <div key={label} className={`flex-1 min-w-[80px] ${i > 0 ? "border-l border-white/10 pl-5" : ""} pr-5`}>
+                  <p className="font-playfair text-white text-[26px] font-bold leading-none">
+                    <span className="text-[#C9A84C]">{value}</span>
+                  </p>
+                  <p className="text-white/40 text-[10px] uppercase tracking-widest mt-1">{label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
       {/* Dots */}
-      <div className="flex gap-2 justify-center py-4 md:pb-6">
+      <div className="flex gap-2 justify-center py-4 md:pb-6 relative">
         {SLIDES.map((_, i) => (
           <button
             key={i}
             onClick={() => setActive(i)}
-            className={`rounded-full transition-all ${i === active ? "w-6 h-2 bg-[#E8670A]" : "w-2 h-2 bg-[#3a3a3a] hover:bg-gray-500"}`}
+            className={`rounded-full transition-all ${i === active ? "w-6 h-2 bg-[#C9A84C]" : "w-2 h-2 bg-white/20 hover:bg-white/40"}`}
             aria-label={`Slide ${i + 1}`}
           />
         ))}

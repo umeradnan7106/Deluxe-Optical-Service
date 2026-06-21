@@ -42,7 +42,7 @@ export default function StickyBar({
   const displayPrice = salePrice ?? price;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t-2 border-[#E8670A] shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t-2 border-[#C9A84C] shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
       <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-3 flex items-center gap-4">
         {/* Thumbnail */}
         <div className="relative w-10 h-10 shrink-0 rounded overflow-hidden bg-white border border-[#e5e7eb]">
@@ -57,7 +57,7 @@ export default function StickyBar({
         <div className="flex-1 min-w-0">
           <p className="text-[#1a1a1a] text-[13px] font-medium truncate">{productName}</p>
           {variantName && <p className="text-[#6b7280] text-[11px]">{variantName}</p>}
-          <p className="text-[#E8670A] text-[16px] font-semibold">{formatPrice(displayPrice)}</p>
+          <p className="text-[#1B2B5E] text-[16px] font-bold">{formatPrice(displayPrice)}</p>
         </div>
 
         {/* Actions */}

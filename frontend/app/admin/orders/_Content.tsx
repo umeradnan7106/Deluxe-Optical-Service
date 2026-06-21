@@ -66,9 +66,9 @@ export default function AdminOrdersPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Orders</h1>
+        <h1 className="font-playfair text-3xl text-gray-900 font-semibold">Orders</h1>
         <button onClick={() => router.push("/admin/orders/new")}
-          className="flex items-center gap-1.5 bg-[#E8670A] text-white text-sm px-4 py-2 rounded hover:bg-[#C45408] transition-colors">
+          className="flex items-center gap-1.5 bg-[#C9A84C] text-white text-sm px-4 py-2 rounded hover:bg-[#C45408] transition-colors">
           + Create Draft Order
         </button>
       </div>
@@ -77,7 +77,7 @@ export default function AdminOrdersPage() {
       <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-none pb-1">
         {STATUS_TABS.map((tab) => (
           <button key={tab} onClick={() => changeTab(tab)}
-            className={`shrink-0 px-4 py-2 rounded text-sm capitalize transition-colors ${activeTab === tab ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
+            className={`shrink-0 px-4 py-2 rounded text-sm capitalize transition-colors ${activeTab === tab ? "bg-[#C9A84C] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
             {tab}
           </button>
         ))}
@@ -86,7 +86,7 @@ export default function AdminOrdersPage() {
       {/* Search */}
       <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
         placeholder="Search by order #, name, or phone…"
-        className="w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded mb-4 outline-none focus:border-[#E8670A] min-h-[44px]" />
+        className="w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded mb-4 outline-none focus:border-[#C9A84C] min-h-[44px]" />
 
       {/* Mobile card list */}
       <div className="md:hidden space-y-3 mb-4">
@@ -99,17 +99,17 @@ export default function AdminOrdersPage() {
         )) : orders.map((o) => (
           <div key={o.id} className="bg-white border border-gray-200 rounded-lg p-4">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="font-mono text-[#E8670A] font-bold text-sm">{o.order_number}</span>
+              <span className="font-mono text-[#C9A84C] font-bold text-sm">{o.order_number}</span>
               <Badge variant={STATUS_BADGE[o.status] ?? "gray"}>{o.status}</Badge>
             </div>
             <p className="text-gray-900 text-sm font-medium">{o.customer_name}</p>
             <p className="text-gray-500 text-xs mb-1.5">{o.customer_phone} · {formatDate(o.created_at)}</p>
             <div className="flex items-center justify-between mb-3">
               <span className="text-gray-600 text-xs">{o.item_count} item{o.item_count !== 1 ? "s" : ""} · {PM_LABELS[o.payment_method] ?? o.payment_method}</span>
-              <span className="text-[#E8670A] font-bold text-sm">{formatPrice(o.total)}</span>
+              <span className="text-[#C9A84C] font-bold text-sm">{formatPrice(o.total)}</span>
             </div>
             <Link href={`/admin/orders/${o.id}`}
-              className="w-full text-center bg-[#E8670A] text-white text-sm font-medium py-2.5 rounded min-h-[44px] flex items-center justify-center">
+              className="w-full text-center bg-[#C9A84C] text-white text-sm font-medium py-2.5 rounded min-h-[44px] flex items-center justify-center">
               View Details
             </Link>
           </div>
@@ -123,8 +123,10 @@ export default function AdminOrdersPage() {
             <tr className="border-b border-gray-200 text-gray-500 text-left">
               <th className="px-4 py-3">Order ID</th>
               <th className="px-4 py-3">Customer</th>
+              <th className="px-4 py-3 hidden lg:table-cell">Location</th>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Items</th>
+              <th className="px-4 py-3 hidden xl:table-cell">Lens</th>
               <th className="px-4 py-3">Payment</th>
               <th className="px-4 py-3">Total</th>
               <th className="px-4 py-3">Status</th>
@@ -138,20 +140,28 @@ export default function AdminOrdersPage() {
               </tr>
             )) : orders.map((o) => (
               <tr key={o.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 font-mono text-[#E8670A] text-xs">{o.order_number}</td>
+                <td className="px-4 py-3 font-playfair font-bold text-[#1B2B5E] text-xs">{o.order_number}</td>
                 <td className="px-4 py-3 text-gray-900">
-                  <p>{o.customer_name}</p>
+                  <p className="font-medium text-sm">{o.customer_name}</p>
                   <p className="text-gray-500 text-xs">{o.customer_phone}</p>
+                </td>
+                <td className="px-4 py-3 text-gray-600 text-xs hidden lg:table-cell">
+                  {(o as AdminOrder & { city?: string }).city ?? "—"}
                 </td>
                 <td className="px-4 py-3 text-gray-500 text-xs">{formatDate(o.created_at)}</td>
                 <td className="px-4 py-3 text-gray-700">{o.item_count} item{o.item_count !== 1 ? "s" : ""}</td>
+                <td className="px-4 py-3 hidden xl:table-cell">
+                  {(o as AdminOrder & { has_prescription?: boolean }).has_prescription
+                    ? <span className="inline-block bg-[#EEF1FA] text-[#1B2B5E] text-[10px] font-bold px-2 py-0.5 rounded">Rx ✓</span>
+                    : <span className="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-bold px-2 py-0.5 rounded">No Rx</span>}
+                </td>
                 <td className="px-4 py-3 text-gray-700 text-xs">{PM_LABELS[o.payment_method] ?? o.payment_method}</td>
-                <td className="px-4 py-3 text-[#E8670A]">{formatPrice(o.total)}</td>
+                <td className="px-4 py-3 font-bold text-[#1B2B5E]">{formatPrice(o.total)}</td>
                 <td className="px-4 py-3">
                   <Badge variant={STATUS_BADGE[o.status] ?? "gray"}>{o.status}</Badge>
                 </td>
                 <td className="px-4 py-3">
-                  <Link href={`/admin/orders/${o.id}`} className="text-[#E8670A] text-xs hover:underline">View</Link>
+                  <Link href={`/admin/orders/${o.id}`} className="text-[#1B2B5E] text-xs hover:underline font-medium">View</Link>
                 </td>
               </tr>
             ))}

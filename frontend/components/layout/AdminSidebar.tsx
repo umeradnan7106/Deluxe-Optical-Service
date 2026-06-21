@@ -17,66 +17,112 @@ import {
   UsersIcon,
   Cog6ToothIcon,
   ExclamationTriangleIcon,
+  DocumentTextIcon,
+  RectangleGroupIcon,
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 
-const NAV_SECTIONS = [
-  { href: "/admin", label: "Dashboard", icon: Squares2X2Icon, exact: true },
-  { href: "/admin/orders", label: "Orders", icon: ShoppingBagIcon },
-  { href: "/admin/abandoned-carts", label: "Abandoned Carts", icon: ExclamationTriangleIcon },
-  { href: "/admin/products", label: "Products", icon: TagIcon },
-  { href: "/admin/analytics", label: "Analytics", icon: ChartBarIcon },
-  { href: "/admin/customers", label: "Customers", icon: UsersIcon },
-  { href: "/admin/reviews", label: "Reviews", icon: StarIcon },
-  { href: "/admin/inventory", label: "Inventory", icon: ArchiveBoxIcon },
-  { href: "/admin/promo-codes", label: "Promo Codes", icon: TicketIcon },
-  { href: "/admin/blogs", label: "Blogs", icon: BookOpenIcon },
-  { href: "/admin/lens-options", label: "Lens Options", icon: EyeDropperIcon },
-  { href: "/admin/faqs", label: "FAQs", icon: QuestionMarkCircleIcon },
-  { href: "/admin/settings", label: "Settings", icon: Cog6ToothIcon },
+const NAV_STRUCTURE = [
+  {
+    label: "Overview",
+    items: [
+      { href: "/admin", label: "Dashboard", icon: Squares2X2Icon, exact: true },
+    ],
+  },
+  {
+    label: "Sales",
+    items: [
+      { href: "/admin/orders", label: "Orders", icon: ShoppingBagIcon },
+      { href: "/admin/abandoned-carts", label: "Abandoned Carts", icon: ExclamationTriangleIcon },
+      { href: "/admin/orders/new", label: "Draft Orders", icon: DocumentTextIcon },
+    ],
+  },
+  {
+    label: "Catalog",
+    items: [
+      { href: "/admin/products", label: "Products", icon: TagIcon },
+      { href: "/admin/inventory", label: "Inventory", icon: ArchiveBoxIcon },
+      { href: "/admin/categories", label: "Categories", icon: RectangleGroupIcon },
+    ],
+  },
+  {
+    label: "Marketing",
+    items: [
+      { href: "/admin/promo-codes", label: "Promo Codes", icon: TicketIcon },
+      { href: "/admin/blogs", label: "Blogs", icon: BookOpenIcon },
+    ],
+  },
+  {
+    label: "Content",
+    items: [
+      { href: "/admin/lens-options", label: "Lens Options", icon: EyeDropperIcon },
+      { href: "/admin/faqs", label: "FAQs", icon: QuestionMarkCircleIcon },
+    ],
+  },
+  {
+    label: "People",
+    items: [
+      { href: "/admin/customers", label: "Customers", icon: UsersIcon },
+      { href: "/admin/reviews", label: "Reviews", icon: StarIcon },
+    ],
+  },
+  {
+    label: "System",
+    items: [
+      { href: "/admin/analytics", label: "Analytics", icon: ChartBarIcon },
+      { href: "/admin/settings", label: "Settings", icon: Cog6ToothIcon },
+    ],
+  },
 ];
 
 function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[220px] shrink-0 bg-[#0F0F0F] border-r border-[#1a1a1a] min-h-screen flex flex-col">
+    <aside className="w-[240px] shrink-0 bg-[#0f1829] border-r border-[#1e293b] min-h-screen flex flex-col">
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-[#1a1a1a] flex items-center justify-between">
+      <div className="px-5 py-5 border-b border-[#1e293b] flex items-center justify-between">
         <div>
-          <span className="font-['Cormorant_Garamond'] text-lg text-white font-semibold">
-            Deluxe<span className="text-[#E8670A]">Opt</span>
-          </span>
-          <p className="text-gray-500 text-xs mt-0.5">Admin Panel</p>
+          <div className="font-playfair text-[18px] text-white font-bold">
+            Deluxe<span className="text-[#C9A84C]">Opt</span>
+          </div>
+          <p className="text-[#334155] text-[10px] mt-0.5 uppercase tracking-widest font-semibold">Admin Panel</p>
         </div>
         {onClose && (
-          <button onClick={onClose} className="md:hidden p-1 text-gray-400 hover:text-white">
+          <button onClick={onClose} className="md:hidden p-1 text-white/50 hover:text-white">
             <XMarkIcon className="w-5 h-5" />
           </button>
         )}
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 py-4 overflow-y-auto">
-        {NAV_SECTIONS.map(({ href, label, icon: Icon, exact }) => {
-          const isActive = exact ? pathname === href : pathname.startsWith(href) && href !== "/admin";
-          return (
-            <Link
-              key={href}
-              href={href}
-              onClick={onClose}
-              className={cn(
-                "flex items-center gap-3 px-5 py-2.5 text-sm transition-colors border-l-2",
-                isActive
-                  ? "border-[#E8670A] text-white bg-[#1a1a1a]"
-                  : "border-transparent text-gray-400 hover:text-white hover:bg-[#1a1a1a]/50"
-              )}
-            >
-              <Icon className="w-4 h-4 shrink-0" />
-              {label}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 py-2 overflow-y-auto">
+        {NAV_STRUCTURE.map((section) => (
+          <div key={section.label} className="py-3 border-b border-[#1e293b] last:border-b-0">
+            <p className="text-[9px] font-bold uppercase tracking-[.12em] text-[#334155] px-4 mb-2">{section.label}</p>
+            {section.items.map(({ href, label, icon: Icon, exact }) => {
+              const isActive = exact
+                ? pathname === href
+                : pathname === href || (pathname.startsWith(href + "/") && href !== "/admin");
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onClose}
+                  className={cn(
+                    "flex items-center gap-2.5 px-4 py-[9px] text-[12.5px] transition-all border-l-[3px]",
+                    isActive
+                      ? "border-[#C9A84C] text-white bg-[#1a2540]"
+                      : "border-transparent text-[#64748b] hover:text-white hover:bg-[#1a2540]"
+                  )}
+                >
+                  <Icon className="w-[18px] h-[18px] shrink-0" />
+                  {label}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
     </aside>
   );

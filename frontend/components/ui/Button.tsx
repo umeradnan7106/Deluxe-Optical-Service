@@ -11,11 +11,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary: "bg-[#E8670A] hover:bg-[#C45408] text-white",
-  dark: "bg-[#0F0F0F] hover:bg-[#1a1a1a] text-white",
-  outline: "border border-[#E8670A] text-[#E8670A] hover:bg-[#FFF0E6] bg-transparent",
+  primary: "bg-[#C9A84C] hover:bg-[#A8893A] text-white",
+  dark: "bg-[#1B2B5E] hover:bg-[#243570] text-white",
+  outline: "border border-[#C9A84C] text-[#C9A84C] hover:bg-[#FDF6E3] bg-transparent",
   whatsapp: "bg-[#25d366] hover:bg-[#1ebe5d] text-white",
-  white: "bg-white hover:bg-gray-100 text-[#0F0F0F]",
+  white: "bg-white hover:bg-gray-100 text-[#1B2B5E]",
 };
 
 const sizeClasses: Record<Size, string> = {

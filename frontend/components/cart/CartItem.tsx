@@ -24,7 +24,7 @@ export default function CartItem({ item }: CartItemProps) {
     <div className="bg-white border border-[#e5e7eb] rounded-lg p-4 mb-3">
       <div className="flex gap-4">
         {/* Image */}
-        <div className="relative shrink-0 rounded overflow-hidden bg-white border border-[#e5e7eb] w-16 h-14 md:w-[90px] md:h-20">
+        <div className="relative shrink-0 rounded-lg overflow-hidden bg-white border border-[#e5e7eb] w-24 h-24 md:w-28 md:h-28">
           {item.thumbnail_url ? (
             <Image src={item.thumbnail_url} alt={item.product_name} fill className="object-contain" sizes="90px" />
           ) : (
@@ -42,7 +42,7 @@ export default function CartItem({ item }: CartItemProps) {
             <div className="mt-1.5 bg-[#f9fafb] border border-[#e5e7eb] rounded px-2 py-1.5 text-[11px] text-[#6b7280]">
               <span className="font-medium text-[#1a1a1a]">Lenses: </span>
               {item.lens_option_labels.join(" · ")}
-              {item.lens_options_price > 0 && <span className="ml-1 text-[#E8670A]">(+{formatPrice(item.lens_options_price)})</span>}
+              {item.lens_options_price > 0 && <span className="ml-1 text-[#C9A84C]">(+{formatPrice(item.lens_options_price)})</span>}
             </div>
           )}
 
@@ -82,7 +82,7 @@ export default function CartItem({ item }: CartItemProps) {
                 +
               </button>
             </div>
-            <span className="text-[#E8670A] font-semibold text-sm">{formatPrice(itemTotal)}</span>
+            <span className="text-[#1B2B5E] font-bold text-sm">{formatPrice(itemTotal)}</span>
           </div>
 
           {/* Remove link */}

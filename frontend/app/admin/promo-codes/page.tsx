@@ -158,7 +158,11 @@ export default function PromoCodesPage() {
                 {codes.map((pc) => (
                   <tr key={pc.id} className="border-t border-gray-200 hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3 text-gray-900 font-mono font-medium">{pc.code}</td>
-                    <td className="px-4 py-3 text-gray-500 capitalize">{pc.discount_type}</td>
+                    <td className="px-4 py-3">
+                      {pc.discount_type === "percentage"
+                        ? <span className="inline-block bg-[#EEF1FA] text-[#1B2B5E] text-[10px] font-bold px-2 py-0.5 rounded">Percentage</span>
+                        : <span className="inline-block bg-[#FDF6E3] text-[#A8893A] text-[10px] font-bold px-2 py-0.5 rounded">Fixed Amount</span>}
+                    </td>
                     <td className="px-4 py-3 text-gray-700">
                       {pc.discount_type === "percentage" ? `${pc.discount_value}%` : `Rs. ${pc.discount_value}`}
                     </td>
@@ -207,14 +211,14 @@ export default function PromoCodesPage() {
               <div>
                 <label className="block text-gray-500 text-xs mb-1">Code</label>
                 <input name="code" value={form.code} onChange={fld}
-                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm uppercase focus:outline-none focus:border-[#E8670A] min-h-[44px]"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm uppercase focus:outline-none focus:border-[#C9A84C] min-h-[44px]"
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Type</label>
                   <select name="discount_type" value={form.discount_type} onChange={fld}
-                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#E8670A] min-h-[44px]">
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#C9A84C] min-h-[44px]">
                     <option value="percentage">Percentage</option>
                     <option value="fixed">Fixed Amount</option>
                   </select>
@@ -222,7 +226,7 @@ export default function PromoCodesPage() {
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Value</label>
                   <input name="discount_value" type="number" value={form.discount_value} onChange={fld}
-                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#E8670A] min-h-[44px]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#C9A84C] min-h-[44px]"
                   />
                 </div>
               </div>
@@ -230,24 +234,24 @@ export default function PromoCodesPage() {
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Min Order (Rs.)</label>
                   <input name="min_order" type="number" value={form.min_order ?? ""} onChange={(e) => setForm((f) => ({ ...f, min_order: e.target.value ? Number(e.target.value) : null }))}
-                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#E8670A] min-h-[44px]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#C9A84C] min-h-[44px]"
                   />
                 </div>
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Max Uses</label>
                   <input name="max_uses" type="number" value={form.max_uses ?? ""} onChange={(e) => setForm((f) => ({ ...f, max_uses: e.target.value ? Number(e.target.value) : null }))}
-                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#E8670A] min-h-[44px]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#C9A84C] min-h-[44px]"
                   />
                 </div>
               </div>
               <div>
                 <label className="block text-gray-500 text-xs mb-1">Expires At</label>
                 <input name="expires_at" type="datetime-local" value={form.expires_at?.slice(0, 16) ?? ""} onChange={(e) => setForm((f) => ({ ...f, expires_at: e.target.value || null }))}
-                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#E8670A] min-h-[44px]"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-[16px] md:text-sm focus:outline-none focus:border-[#C9A84C] min-h-[44px]"
                 />
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" name="is_active" checked={form.is_active} onChange={fld} className="accent-[#E8670A]" />
+                <input type="checkbox" name="is_active" checked={form.is_active} onChange={fld} className="accent-[#C9A84C]" />
                 <span className="text-gray-700 text-sm">Active</span>
               </label>
             </div>

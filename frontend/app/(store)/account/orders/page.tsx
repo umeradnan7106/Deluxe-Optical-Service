@@ -43,7 +43,7 @@ export default function AccountOrdersPage() {
             {orders.map((order) => (
               <div key={order.id} className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-4">
                 <div className="flex items-start justify-between mb-3">
-                  <span className="font-mono text-[#E8670A] text-sm">{order.order_number}</span>
+                  <span className="font-mono text-[#C9A84C] text-sm">{order.order_number}</span>
                   <Badge variant={STATUS_COLORS[order.status] ?? "gray"} className="capitalize">
                     {order.status}
                   </Badge>
@@ -85,7 +85,7 @@ export default function AccountOrdersPage() {
               <tbody>
                 {orders.map((order) => (
                   <tr key={order.id} className="border-b border-[#1a1a1a] hover:bg-[#1a1a1a] transition-colors">
-                    <td className="py-3 pr-4 font-mono text-[#E8670A]">{order.order_number}</td>
+                    <td className="py-3 pr-4 font-mono text-[#C9A84C]">{order.order_number}</td>
                     <td className="py-3 pr-4 text-gray-300">{formatDate(order.created_at)}</td>
                     <td className="py-3 pr-4 text-white font-medium">{formatPrice(order.total)}</td>
                     <td className="py-3 pr-4 text-gray-300 capitalize">{order.payment_method.replace("_", " ")}</td>

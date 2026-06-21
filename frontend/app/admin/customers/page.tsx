@@ -57,22 +57,27 @@ export default function CustomersPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Customers</h1>
-        <p className="text-[#6b7280] text-sm">{total} total</p>
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h1 className="font-playfair text-2xl md:text-[26px] text-[#1B2B5E] font-bold">Customers</h1>
+          <p className="text-[#64748b] text-xs mt-0.5">{total} registered customers</p>
+        </div>
+        <button className="flex items-center gap-1.5 px-3 py-2 border-[1.5px] border-[#E2E8F0] rounded-lg text-sm text-[#64748b] hover:border-[#1B2B5E] hover:text-[#1B2B5E] transition-colors bg-white">
+          📥 Export
+        </button>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-[#e5e7eb] mb-5">
+      <div className="flex gap-1 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-1 w-fit mb-5">
         {(["registered", "guest"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-5 py-3 text-sm font-medium border-b-2 -mb-px capitalize transition-colors ${
-              tab === t ? "border-[#E8670A] text-[#E8670A]" : "border-transparent text-[#6b7280] hover:text-[#1a1a1a]"
+            className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+              tab === t ? "bg-white text-[#1B2B5E] shadow-sm" : "text-[#64748b] hover:text-[#1B2B5E]"
             }`}
           >
-            {t === "registered" ? "Registered" : "Guest"}
+            {t === "registered" ? `Registered (${total})` : "Guest Orders"}
           </button>
         ))}
       </div>
@@ -148,6 +153,11 @@ export default function CustomersPage() {
       )}
 
       {tab === "guest" && (
+        <>
+        <div className="bg-[#FDF6E3] border-[1.5px] border-[rgba(201,168,76,.3)] rounded-xl p-4 mb-4 text-sm">
+          <strong className="text-[#1B2B5E]">💡 Guest → Registered Linking:</strong>{" "}
+          <span className="text-[#64748b]">When a guest customer registers with the same phone number or email used in a previous guest order, their past orders are automatically linked to their new account. They can see all previous orders in My Account.</span>
+        </div>
         <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-x-auto">
           <table className="w-full text-sm min-w-[600px]">
             <thead>
@@ -172,7 +182,7 @@ export default function CustomersPage() {
                     <p>{o.customer_email || "—"}</p>
                     <p className="text-xs">{o.customer_phone}</p>
                   </td>
-                  <td className="px-4 py-3 font-mono text-[#E8670A] text-xs">{o.order_number}</td>
+                  <td className="px-4 py-3 font-mono text-[#C9A84C] text-xs">{o.order_number}</td>
                   <td className="px-4 py-3 text-[#1a1a1a]">{formatPrice(o.total)}</td>
                   <td className="px-4 py-3">
                     <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded capitalize">{o.status}</span>
@@ -192,6 +202,7 @@ export default function CustomersPage() {
             </div>
           )}
         </div>
+        </>
       )}
     </div>
   );

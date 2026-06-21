@@ -91,16 +91,46 @@ export default function AdminInventoryPage() {
     }
   }
 
+  const lowStockCount = items.filter((i) => i.status === "low_stock" || i.status === "out_of_stock").length;
+  const [threshold, setThreshold] = useState(5);
+  const [thresholdSaved, setThresholdSaved] = useState(false);
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Inventory</h1>
-        {selected.size > 0 && (
-          <Button variant="primary" size="sm" onClick={() => setBulkModalOpen(true)}>
-            Update Selected ({selected.size})
-          </Button>
-        )}
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h1 className="font-playfair text-2xl md:text-[26px] text-[#1B2B5E] font-bold">Inventory</h1>
+          <p className="text-[#64748b] text-xs mt-0.5">{items.length} total variants</p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={() => {}}>📥 Export</Button>
+          {selected.size > 0 && (
+            <Button variant="primary" size="sm" onClick={() => setBulkModalOpen(true)}>
+              Update Selected ({selected.size})
+            </Button>
+          )}
+        </div>
       </div>
+
+      {/* Low stock alert banner */}
+      {!loading && lowStockCount > 0 && (
+        <div className="mb-5 rounded-xl p-4 flex items-center justify-between gap-4" style={{ background: "linear-gradient(135deg, #dc2626, #b91c1c)", color: "#fff" }}>
+          <div className="flex items-center gap-3">
+            <span className="text-xl">⚠️</span>
+            <div>
+              <div className="font-semibold text-sm">{lowStockCount} item{lowStockCount !== 1 ? "s" : ""} are LOW STOCK (below threshold: {threshold} units)</div>
+              <div className="text-xs opacity-80 mt-0.5">Review and restock before running out</div>
+            </div>
+          </div>
+          <button
+            onClick={() => setFilter("low_stock")}
+            className="shrink-0 text-xs font-medium px-3 py-1.5 rounded-lg"
+            style={{ background: "rgba(255,255,255,.15)", border: "1px solid rgba(255,255,255,.3)" }}
+          >
+            View Low Stock Only
+          </button>
+        </div>
+      )}
 
       {/* Filter tabs */}
       <div className="flex gap-2 mb-6 overflow-x-auto scrollbar-none pb-1">
@@ -110,7 +140,7 @@ export default function AdminInventoryPage() {
           { value: "out_of_stock", label: "Out of Stock" },
         ].map(({ value, label }) => (
           <button key={value} onClick={() => setFilter(value)}
-            className={`shrink-0 px-4 py-2 rounded text-sm transition-colors ${filter === value ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
+            className={`shrink-0 px-4 py-2 rounded text-sm transition-colors ${filter === value ? "bg-[#C9A84C] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
             {label}
           </button>
         ))}
@@ -124,11 +154,11 @@ export default function AdminInventoryPage() {
             <div className="h-3 bg-gray-100 rounded w-1/2" />
           </div>
         )) : items.map((item) => (
-          <div key={item.variant_id} className={`bg-white border rounded-lg p-3 ${selected.has(item.variant_id) ? "border-[#E8670A] bg-orange-50" : "border-gray-200"}`}>
+          <div key={item.variant_id} className={`bg-white border rounded-lg p-3 ${selected.has(item.variant_id) ? "border-[#C9A84C] bg-orange-50" : "border-gray-200"}`}>
             <div className="flex items-start justify-between mb-1.5">
               <div className="flex items-center gap-2 min-w-0">
                 <input type="checkbox" checked={selected.has(item.variant_id)}
-                  onChange={() => toggleSelect(item.variant_id)} className="accent-[#E8670A] shrink-0" />
+                  onChange={() => toggleSelect(item.variant_id)} className="accent-[#C9A84C] shrink-0" />
                 <div className="min-w-0">
                   <p className="text-gray-900 font-medium text-sm truncate">{item.product_name}</p>
                   <p className="text-gray-500 text-xs">{item.color_name}{item.size_label ? ` · ${item.size_label}` : ""}</p>
@@ -140,7 +170,7 @@ export default function AdminInventoryPage() {
             {editingId === item.variant_id ? (
               <div className="flex gap-2 items-center">
                 <input type="number" value={editStock} onChange={(e) => setEditStock(e.target.value)}
-                  className="flex-1 bg-white border border-[#E8670A] text-gray-900 text-[16px] px-3 py-2 rounded min-h-[44px]" autoFocus />
+                  className="flex-1 bg-white border border-[#C9A84C] text-gray-900 text-[16px] px-3 py-2 rounded min-h-[44px]" autoFocus />
                 <button onClick={() => saveStock(item.variant_id)}
                   className="px-4 py-2 bg-green-500 text-white text-sm rounded min-h-[44px]">Save</button>
                 <button onClick={() => setEditingId(null)}
@@ -150,7 +180,7 @@ export default function AdminInventoryPage() {
               <div className="flex items-center justify-between">
                 <span className="font-mono text-2xl font-bold text-gray-900">{item.stock}</span>
                 <button onClick={() => { setEditingId(item.variant_id); setEditStock(String(item.stock)); }}
-                  className="flex items-center gap-1.5 px-3 py-2 border border-gray-200 rounded text-sm text-gray-600 hover:border-[#E8670A] hover:text-[#E8670A] min-h-[44px]">
+                  className="flex items-center gap-1.5 px-3 py-2 border border-gray-200 rounded text-sm text-gray-600 hover:border-[#C9A84C] hover:text-[#C9A84C] min-h-[44px]">
                   <PencilSquareIcon className="w-4 h-4" />
                   Edit Stock
                 </button>
@@ -167,7 +197,7 @@ export default function AdminInventoryPage() {
             <tr className="border-b border-gray-200 text-gray-500 text-left">
               <th className="px-4 py-3 w-8">
                 <input type="checkbox" checked={items.length > 0 && selected.size === items.length}
-                  onChange={toggleAll} className="accent-[#E8670A]" />
+                  onChange={toggleAll} className="accent-[#C9A84C]" />
               </th>
               <th className="px-4 py-3">Product</th>
               <th className="px-4 py-3">Color</th>
@@ -187,7 +217,7 @@ export default function AdminInventoryPage() {
               <tr key={item.variant_id} className={`border-b border-gray-200 hover:bg-gray-50 ${selected.has(item.variant_id) ? "bg-orange-50" : ""}`}>
                 <td className="px-4 py-3">
                   <input type="checkbox" checked={selected.has(item.variant_id)}
-                    onChange={() => toggleSelect(item.variant_id)} className="accent-[#E8670A]" />
+                    onChange={() => toggleSelect(item.variant_id)} className="accent-[#C9A84C]" />
                 </td>
                 <td className="px-4 py-3 text-gray-900">{item.product_name}</td>
                 <td className="px-4 py-3 text-gray-700">{item.color_name}</td>
@@ -196,7 +226,7 @@ export default function AdminInventoryPage() {
                   {editingId === item.variant_id ? (
                     <div className="flex gap-2 items-center">
                       <input type="number" value={editStock} onChange={(e) => setEditStock(e.target.value)}
-                        className="w-20 bg-white border border-[#E8670A] text-gray-900 text-sm px-2 py-1 rounded" autoFocus />
+                        className="w-20 bg-white border border-[#C9A84C] text-gray-900 text-sm px-2 py-1 rounded" autoFocus />
                       <button onClick={() => saveStock(item.variant_id)} className="text-green-500 text-xs hover:text-green-400">Save</button>
                       <button onClick={() => setEditingId(null)} className="text-gray-500 text-xs hover:text-gray-900">Cancel</button>
                     </div>
@@ -204,7 +234,7 @@ export default function AdminInventoryPage() {
                     <div className="flex items-center gap-2">
                       <span className="font-mono text-gray-900">{item.stock}</span>
                       <button onClick={() => { setEditingId(item.variant_id); setEditStock(String(item.stock)); }}
-                        className="text-gray-400 hover:text-[#E8670A] transition-colors">
+                        className="text-gray-400 hover:text-[#C9A84C] transition-colors">
                         <PencilSquareIcon className="w-4 h-4" />
                       </button>
                     </div>
@@ -217,6 +247,33 @@ export default function AdminInventoryPage() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Low Stock Threshold Settings */}
+      <div className="mt-5 bg-white border-[1.5px] border-[#E2E8F0] rounded-xl p-5">
+        <h2 className="font-playfair text-[16px] font-bold text-[#1B2B5E] mb-4 pb-3 border-b border-[#F1F5F9]">Low Stock Threshold Settings</h2>
+        <div className="flex flex-wrap items-end gap-4">
+          <div>
+            <label className="block text-[10px] font-semibold uppercase tracking-[.06em] text-[#64748b] mb-1.5">Low Stock Alert Threshold</label>
+            <div className="flex items-center gap-2">
+              <input
+                type="number" min={1} value={threshold}
+                onChange={(e) => setThreshold(Number(e.target.value))}
+                className="w-20 border-[1.5px] border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#0F172A] bg-white outline-none focus:border-[#1B2B5E] transition-colors"
+              />
+              <span className="text-sm text-[#64748b]">units or below = LOW STOCK</span>
+            </div>
+          </div>
+          <button
+            onClick={() => { setThresholdSaved(true); setTimeout(() => setThresholdSaved(false), 2000); }}
+            className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors ${thresholdSaved ? "bg-[#059669] text-white" : "bg-[#1B2B5E] hover:bg-[#243570] text-white"}`}
+          >
+            {thresholdSaved ? "Saved!" : "Save Threshold"}
+          </button>
+        </div>
+        <p className="text-[11px] text-[#64748b] mt-3 pt-3 border-t border-[#F1F5F9]">
+          📧 When stock reaches this threshold, email notifications will be sent to admin (email notification system coming soon)
+        </p>
       </div>
 
       {/* Bulk update modal */}
@@ -235,7 +292,7 @@ export default function AdminInventoryPage() {
             <div className="mb-4">
               <label className="text-gray-700 text-xs font-medium block mb-1">New Stock Value</label>
               <input type="number" value={bulkStock} onChange={(e) => setBulkStock(e.target.value)} min={0}
-                className="w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] min-h-[44px]"
+                className="w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#C9A84C] min-h-[44px]"
                 placeholder="e.g. 50" autoFocus />
             </div>
             <div className="flex flex-col sm:flex-row gap-3">

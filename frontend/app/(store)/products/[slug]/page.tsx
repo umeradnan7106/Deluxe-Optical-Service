@@ -12,9 +12,11 @@ import {
   ShoppingCartIcon,
   ArchiveBoxArrowDownIcon,
   XMarkIcon,
+  HeartIcon,
 } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import { productsApi, reviewsApi } from "@/lib/api";
-import type { Product } from "@/types";
+import type { Product, ProductListItem } from "@/types";
 import { formatPrice, getDiscountPercent } from "@/lib/utils";
 import { WHATSAPP_URL } from "@/lib/constants";
 import ProductGallery from "@/components/product/ProductGallery";
@@ -24,6 +26,14 @@ import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import StickyBar from "@/components/product/StickyBar";
 import useCartStore from "@/store/cartStore";
+import useWishlistStore from "@/store/wishlistStore";
+import ProductCard from "@/components/product/ProductCard";
+
+function parseSizeLabelEncoded(raw: string | null | undefined): { label: string; lw: string; br: string; tm: string } {
+  if (!raw) return { label: "", lw: "", br: "", tm: "" };
+  const [label = "", lw = "", br = "", tm = ""] = raw.split("|");
+  return { label, lw, br, tm };
+}
 
 type Tab = "features" | "description" | "lenses";
 
@@ -51,16 +61,16 @@ const SizeChartSVG = () => (
     <path d="M130 90 Q160 76 190 90" fill="none" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
     <line x1="20" y1="74" x2="0" y2="74" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
     <line x1="300" y1="74" x2="320" y2="74" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
-    <line x1="20" y1="32" x2="130" y2="32" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
-    <line x1="20" y1="27" x2="20" y2="37" stroke="#E8670A" strokeWidth="1.5" />
-    <line x1="130" y1="27" x2="130" y2="37" stroke="#E8670A" strokeWidth="1.5" />
+    <line x1="20" y1="32" x2="130" y2="32" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
+    <line x1="20" y1="27" x2="20" y2="37" stroke="#C9A84C" strokeWidth="1.5" />
+    <line x1="130" y1="27" x2="130" y2="37" stroke="#C9A84C" strokeWidth="1.5" />
     <text x="75" y="24" textAnchor="middle" fontSize="10" fill="#6b7280" fontFamily="sans-serif">Lens Width</text>
-    <line x1="130" y1="32" x2="190" y2="32" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
-    <line x1="190" y1="27" x2="190" y2="37" stroke="#E8670A" strokeWidth="1.5" />
+    <line x1="130" y1="32" x2="190" y2="32" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
+    <line x1="190" y1="27" x2="190" y2="37" stroke="#C9A84C" strokeWidth="1.5" />
     <text x="160" y="24" textAnchor="middle" fontSize="10" fill="#6b7280" fontFamily="sans-serif">Bridge</text>
-    <line x1="300" y1="160" x2="320" y2="160" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
-    <line x1="300" y1="74" x2="300" y2="164" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
-    <line x1="320" y1="74" x2="320" y2="164" stroke="#E8670A" strokeWidth="1" strokeDasharray="4,2" />
+    <line x1="300" y1="160" x2="320" y2="160" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
+    <line x1="300" y1="74" x2="300" y2="164" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
+    <line x1="320" y1="74" x2="320" y2="164" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
     <text x="310" y="174" textAnchor="middle" fontSize="10" fill="#6b7280" fontFamily="sans-serif">Temple</text>
   </svg>
 );
@@ -97,6 +107,8 @@ export default function ProductDetailPage() {
   const [reviewForm, setReviewForm] = useState({ name: "", email: "", rating: 5, title: "", body: "" });
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reviewSuccess, setReviewSuccess] = useState(false);
+  const [relatedProducts, setRelatedProducts] = useState<ProductListItem[]>([]);
+  const wishlist = useWishlistStore();
 
   useEffect(() => {
     async function load() {
@@ -117,6 +129,15 @@ export default function ProductDetailPage() {
       setReviewTotal(d.total);
     }).catch(() => {});
   }, [product, reviewPage]);
+
+  useEffect(() => {
+    if (!product) return;
+    productsApi.list({ category: product.category, per_page: 6 })
+      .then(({ data }) => {
+        const d = data as { items: ProductListItem[] };
+        setRelatedProducts((d.items || []).filter((p) => p.id !== product.id).slice(0, 4));
+      }).catch(() => {});
+  }, [product]);
 
   async function submitReview() {
     if (!product) return;
@@ -141,7 +162,7 @@ export default function ProductDetailPage() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
         <p className="text-[#1a1a1a] font-semibold mb-2">Unable to load product</p>
         <p className="text-[#6b7280] text-sm mb-4">{loadError}</p>
-        <Link href="/products" className="text-[#E8670A] text-sm hover:underline">Browse all products</Link>
+        <Link href="/products" className="text-[#C9A84C] text-sm hover:underline">Browse all products</Link>
       </div>
     );
   }
@@ -149,7 +170,7 @@ export default function ProductDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
         <p className="text-[#1a1a1a] font-semibold mb-2">Product not found</p>
-        <Link href="/products" className="text-[#E8670A] text-sm hover:underline">Browse all products</Link>
+        <Link href="/products" className="text-[#C9A84C] text-sm hover:underline">Browse all products</Link>
       </div>
     );
   }
@@ -160,21 +181,32 @@ export default function ProductDetailPage() {
   const discountPct = product.sale_price ? getDiscountPercent(product.base_price, product.sale_price) : 0;
 
   const frameSizeStr = (() => {
-    const lw = product.lens_width_mm;
-    const br = product.bridge_mm;
-    const tm = product.temple_mm;
-    if (!lw && !br && !tm) return null;
-    const sl = variant?.size_label;
-    const validLabel = sl && sl.toLowerCase() !== "null" ? sl : null;
-    const meas = [lw != null && `${lw}`, br != null && `□${br}`, tm != null && `-${tm}`]
-      .filter(Boolean).join("");
-    return validLabel ? `${validLabel} (${meas})` : meas;
+    const sz = parseSizeLabelEncoded(variant?.size_label);
+    const label = sz.label && sz.label.toLowerCase() !== "null" ? sz.label : null;
+    const lw = sz.lw || (product.lens_width_mm != null ? String(product.lens_width_mm) : "");
+    const br = sz.br || (product.bridge_mm != null ? String(product.bridge_mm) : "");
+    const tm = sz.tm || (product.temple_mm != null ? String(product.temple_mm) : "");
+    if (!label && !lw && !br && !tm) return null;
+    const meas = [lw && `${lw}`, br && `□${br}`, tm && `-${tm}`].filter(Boolean).join("");
+    return label && meas ? `${label} (${meas})` : label || meas || null;
   })();
 
   const shortDesc = (() => {
     const stripped = stripHtml(product.description);
     return stripped.length > 120 ? stripped.slice(0, 120) + "…" : stripped;
   })();
+
+  async function handleWishlist() {
+    try {
+      if (wishlist.has(product!.id)) {
+        await wishlist.remove(product!.id);
+      } else {
+        await wishlist.add(product!.id);
+      }
+    } catch {
+      router.push("/account/login");
+    }
+  }
 
   function handleAddToCart() {
     if (!variant) return;
@@ -201,9 +233,9 @@ export default function ProductDetailPage() {
       <div className="max-w-[1500px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-24 md:pb-8">
         {/* Breadcrumb */}
         <nav className="flex gap-2 text-xs text-[#6b7280] mb-6">
-          <Link href="/" className="hover:text-[#E8670A]">Home</Link>
+          <Link href="/" className="hover:text-[#C9A84C]">Home</Link>
           <span>/</span>
-          <Link href="/products" className="hover:text-[#E8670A]">Products</Link>
+          <Link href="/products" className="hover:text-[#C9A84C]">Products</Link>
           <span>/</span>
           <span className="text-[#1a1a1a]">{product.name}</span>
         </nav>
@@ -230,7 +262,7 @@ export default function ProductDetailPage() {
           <div className="lg:w-1/2">
             {/* Category label above title */}
             {product.category && (
-              <p className="text-[#E8670A] text-[11px] font-semibold uppercase tracking-widest mb-2">
+              <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-widest mb-2">
                 {product.category}
               </p>
             )}
@@ -244,7 +276,7 @@ export default function ProductDetailPage() {
             )}
 
             {/* Title + SKU */}
-            <h1 className="font-['Cormorant_Garamond'] text-3xl text-[#1a1a1a] font-semibold leading-tight mb-2">
+            <h1 className="font-playfair text-3xl text-[#1B2B5E] font-bold leading-tight mb-2">
               {product.name}
             </h1>
             <p className="text-[#6b7280] text-xs mb-4">SKU: {product.sku}</p>
@@ -256,7 +288,7 @@ export default function ProductDetailPage() {
 
             {/* Price */}
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[#E8670A] text-2xl font-bold">{formatPrice(displayPrice)}</span>
+              <span className="text-[#1B2B5E] text-2xl font-bold">{formatPrice(displayPrice)}</span>
               {product.sale_price && (
                 <>
                   <span className="text-[#6b7280] line-through text-lg">{formatPrice(product.base_price)}</span>
@@ -284,7 +316,7 @@ export default function ProductDetailPage() {
                           key={v.id}
                           onClick={() => setSelectedVariantIdx(firstIdx)}
                           title={v.color_name}
-                          className={`w-7 h-7 rounded-full border-2 transition-all ${isSelected ? "border-[#E8670A] scale-110" : "border-[#e5e7eb]"}`}
+                          className={`w-7 h-7 rounded-full border-2 transition-all ${isSelected ? "border-[#C9A84C] scale-110" : "border-[#e5e7eb]"}`}
                           style={{ backgroundColor: v.color_hex ?? "#ccc" }}
                         />
                       );
@@ -294,36 +326,64 @@ export default function ProductDetailPage() {
             )}
 
             {/* Frame size */}
-            {frameSizeStr && (
-              <div className="mb-4">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-[#6b7280] text-sm">Frame Size</p>
-                  <button
-                    onClick={() => setSizeChartOpen(true)}
-                    className="border border-[#E8670A] text-[#E8670A] rounded-[5px] px-3 py-1 text-xs hover:bg-[#FFF0E6] transition-colors"
-                  >
-                    Size Chart
-                  </button>
+            {(() => {
+              const selectedColor = product.variants[selectedVariantIdx]?.color_name;
+              const colorVariants = product.variants.filter((v) => v.color_name === selectedColor);
+              const sizedVariants = colorVariants.filter((v) => parseSizeLabelEncoded(v.size_label).label);
+              const showPills = sizedVariants.length > 0;
+              if (!showPills && !frameSizeStr) return null;
+              return (
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-[#6b7280] text-sm">Frame Size</p>
+                    <button onClick={() => setSizeChartOpen(true)} className="border border-[#C9A84C] text-[#C9A84C] rounded-[5px] px-3 py-1 text-xs hover:bg-[#EEF1FA] transition-colors font-medium">Size Chart</button>
+                  </div>
+                  {showPills ? (
+                    <div className="flex flex-wrap gap-2">
+                      {colorVariants.map((v) => {
+                        const sz = parseSizeLabelEncoded(v.size_label);
+                        if (!sz.label) return null;
+                        const idx = product.variants.findIndex((x) => x.id === v.id);
+                        const isSelected = idx === selectedVariantIdx;
+                        const lw = sz.lw || (product.lens_width_mm != null ? String(product.lens_width_mm) : "");
+                        const br = sz.br || (product.bridge_mm != null ? String(product.bridge_mm) : "");
+                        const tm = sz.tm || (product.temple_mm != null ? String(product.temple_mm) : "");
+                        const meas = [lw && `${lw}`, br && `□${br}`, tm && `-${tm}`].filter(Boolean).join("");
+                        return (
+                          <button key={v.id} onClick={() => setSelectedVariantIdx(idx)}
+                            className={`px-3 py-1.5 rounded border text-sm transition-colors ${isSelected ? "border-[#1B2B5E] text-[#1B2B5E] bg-[#EEF1FA] font-semibold" : "border-[#e2e8f0] text-[#64748b] hover:border-[#1B2B5E]"}`}>
+                            {sz.label}{meas ? ` (${meas})` : ""}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center bg-[#f9fafb] border border-[#e5e7eb] rounded px-3 py-1.5 text-sm text-[#1a1a1a] font-mono">{frameSizeStr}</div>
+                  )}
                 </div>
-                <div className="inline-flex items-center bg-[#f9fafb] border border-[#e5e7eb] rounded px-3 py-1.5 text-sm text-[#1a1a1a] font-mono">
-                  {frameSizeStr}
-                </div>
-              </div>
-            )}
+              );
+            })()}
 
             <hr className="border-[#e5e7eb] my-4" />
 
             {/* Select Lenses CTA — immediately after frame size divider */}
-            <Link href={`/products/${product.slug}/select-lenses`} className="block w-full mb-1">
-              <Button variant="primary" size="lg" fullWidth>Select Your Lenses</Button>
-            </Link>
+            <div className="flex gap-2 mb-1">
+              <Link href={`/products/${product.slug}/select-lenses`} className="flex-1">
+                <Button variant="primary" size="lg" fullWidth>Select Your Lenses</Button>
+              </Link>
+              <button onClick={handleWishlist}
+                className="border border-[#e5e7eb] rounded-[5px] px-3 flex items-center justify-center hover:border-[#C9A84C] transition-colors min-w-[44px]"
+                title={wishlist.has(product.id) ? "Remove from wishlist" : "Add to wishlist"}>
+                {wishlist.has(product.id) ? <HeartSolidIcon className="w-5 h-5 text-red-500" /> : <HeartIcon className="w-5 h-5 text-[#6b7280]" />}
+              </button>
+            </div>
             <p className="text-[#6b7280] text-xs text-center mb-4">No prescription? You can still add frame-only.</p>
 
             {/* Payment box */}
-            <div className="bg-[#FFF0E6] border border-[#fddbb4] rounded-[5px] p-3 mb-4 flex items-start gap-2">
-              <TagIcon className="w-5 h-5 text-[#E8670A] shrink-0 mt-0.5" />
+            <div className="bg-[#EEF1FA] border border-[#C9A84C]/30 rounded-[5px] p-3 mb-4 flex items-start gap-2">
+              <TagIcon className="w-5 h-5 text-[#C9A84C] shrink-0 mt-0.5" />
               <div>
-                <p className="text-[13px] font-semibold text-[#C45408]">Save 15% with online payment</p>
+                <p className="text-[13px] font-semibold text-[#1B2B5E]">Save 15% with online payment</p>
                 <p className="text-[11px] text-[#6b7280] mt-0.5">EasyPaisa, JazzCash, or Bank Transfer — 15% instant discount</p>
               </div>
             </div>
@@ -348,7 +408,7 @@ export default function ProductDetailPage() {
               <button
                 onClick={handleAddToCart}
                 disabled={!variant || variant.stock === 0}
-                className="flex items-center justify-center gap-2 bg-[#0F0F0F] hover:bg-[#1a1a1a] text-white rounded-[5px] text-sm font-medium transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 bg-[#1B2B5E] hover:bg-[#243570] text-white rounded-[5px] text-sm font-medium transition-colors disabled:opacity-50"
                 style={{ flex: "1" }}
               >
                 <ShoppingCartIcon className="w-4 h-4" />
@@ -358,7 +418,7 @@ export default function ProductDetailPage() {
 
             {/* Stock badge */}
             {variant && variant.stock <= 5 && variant.stock > 0 && (
-              <p className="text-[#E8670A] text-xs mb-3">Only {variant.stock} left in stock</p>
+              <p className="text-[#C9A84C] text-xs mb-3">Only {variant.stock} left in stock</p>
             )}
 
             {/* WhatsApp button */}
@@ -376,8 +436,8 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-2 gap-2">
               {USP_ITEMS.map(({ Icon, title, sub }) => (
                 <div key={title} className="bg-white border border-[#e5e7eb] rounded-lg p-3 text-center">
-                  <div className="w-8 h-8 rounded-full bg-[#FFF0E6] flex items-center justify-center mx-auto mb-2">
-                    <Icon className="w-[22px] h-[22px] text-[#E8670A]" />
+                  <div className="w-8 h-8 rounded-full bg-[#EEF1FA] flex items-center justify-center mx-auto mb-2">
+                    <Icon className="w-[22px] h-[22px] text-[#C9A84C]" />
                   </div>
                   <p className="text-[12px] font-semibold text-[#1a1a1a] leading-tight">{title}</p>
                   <p className="text-[10px] text-[#6b7280] mt-0.5">{sub}</p>
@@ -395,7 +455,7 @@ export default function ProductDetailPage() {
                 key={t}
                 onClick={() => setTab(t)}
                 className={`shrink-0 px-4 md:px-6 py-3 text-sm font-medium border-b-2 -mb-px transition-colors min-h-[44px] ${
-                  tab === t ? "border-[#E8670A] text-[#E8670A]" : "border-transparent text-[#6b7280] hover:text-[#1a1a1a]"
+                  tab === t ? "border-[#1B2B5E] text-[#1B2B5E]" : "border-transparent text-[#64748b] hover:text-[#1B2B5E]"
                 }`}
               >
                 {t === "features" ? "Features & Size" : t === "lenses" ? "Lens Recommendation" : "Description"}
@@ -411,9 +471,9 @@ export default function ProductDetailPage() {
               {/* Left: spec table */}
               <div>
                 <div className="space-y-3 text-[13px]">
-                  <h3 className="text-[#1a1a1a] font-bold text-[15px] pb-2 border-b border-[#e5e7eb]">Frame Specifications</h3>
+                  <h3 className="text-[#1B2B5E] font-bold text-[18px] pb-2 border-b border-[#e5e7eb]">Frame Specifications</h3>
                   {[
-                    { label: "Size", value: frameSizeStr, bold: true },
+                    { label: "Size", value: frameSizeStr },
                     { label: "Color", value: variant?.color_name },
                     { label: "Material", value: product.material },
                     { label: "Shape", value: product.frame_shape },
@@ -422,10 +482,10 @@ export default function ProductDetailPage() {
                     { label: "Lens Width", value: product.lens_width_mm ? `${product.lens_width_mm}mm` : null },
                     { label: "Bridge", value: product.bridge_mm ? `${product.bridge_mm}mm` : null },
                     { label: "Temple Length", value: product.temple_mm ? `${product.temple_mm}mm` : null },
-                  ].filter(({ value }) => value).map(({ label, value, bold }) => (
+                  ].filter(({ value }) => value).map(({ label, value }) => (
                     <div key={label} className="flex items-start gap-2 border-b border-[#f3f4f6] pb-3">
                       <span className="text-[#6b7280] w-[100px] shrink-0">{label}</span>
-                      <span className={`${bold ? "font-bold" : "font-medium"} text-[#1a1a1a] capitalize`}>{value}</span>
+                      <span className="font-bold text-[#1a1a1a] capitalize">{value}</span>
                     </div>
                   ))}
                 </div>
@@ -434,14 +494,14 @@ export default function ProductDetailPage() {
                   <ul className="mt-5 space-y-2 text-sm text-[#6b7280]">
                     {product.bullets.map((b, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#E8670A] mt-0.5">•</span>
+                        <span className="text-[#C9A84C] mt-0.5">•</span>
                         {b}
                       </li>
                     ))}
                   </ul>
                 )}
 
-                <Link href="/shipping-returns" className="inline-block mt-4 text-[#E8670A] text-xs hover:underline">
+                <Link href="/shipping-returns" className="inline-block mt-4 text-[#C9A84C] text-xs hover:underline">
                   Not sure about your size? Size Guide &rsaquo;
                 </Link>
               </div>
@@ -454,7 +514,7 @@ export default function ProductDetailPage() {
                     <div className="flex gap-0 border-b border-[#e5e7eb]">
                       {(["front", "side"] as const).map((view) => (
                         <button key={view} onClick={() => setImageView(view)}
-                          className={`px-4 py-1.5 text-xs font-medium border-b-2 -mb-px capitalize transition-colors ${imageView === view ? "border-[#E8670A] text-[#E8670A]" : "border-transparent text-[#6b7280] hover:text-[#1a1a1a]"}`}>
+                          className={`px-4 py-1.5 text-xs font-medium border-b-2 -mb-px capitalize transition-colors ${imageView === view ? "border-[#1B2B5E] text-[#1B2B5E]" : "border-transparent text-[#64748b] hover:text-[#1B2B5E]"}`}>
                           {view}
                         </button>
                       ))}
@@ -479,8 +539,8 @@ export default function ProductDetailPage() {
                               <line x1="35" y1="40" x2="165" y2="40" stroke="#9ca3af" strokeWidth="1" strokeDasharray="4,2" />
                               <line x1="35" y1="37" x2="35" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
                               <line x1="165" y1="37" x2="165" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
-                              <rect x="63" y="20" width="74" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
-                              <text x="100" y="32" textAnchor="middle" fontSize="10" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.lens_width_mm}mm</text>
+                              <rect x="63" y="20" width="74" height="16" rx="3" fill="white" stroke="#C9A84C" strokeWidth="0.75" />
+                              <text x="100" y="32" textAnchor="middle" fontSize="10" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{product.lens_width_mm}mm</text>
                             </>
                           )}
                           {product.bridge_mm && (
@@ -489,8 +549,8 @@ export default function ProductDetailPage() {
                               <line x1="170" y1="40" x2="230" y2="40" stroke="#9ca3af" strokeWidth="1" strokeDasharray="3,2" />
                               <line x1="170" y1="37" x2="170" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
                               <line x1="230" y1="37" x2="230" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
-                              <rect x="183" y="20" width="34" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
-                              <text x="200" y="32" textAnchor="middle" fontSize="9" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.bridge_mm}mm</text>
+                              <rect x="183" y="20" width="34" height="16" rx="3" fill="white" stroke="#C9A84C" strokeWidth="0.75" />
+                              <text x="200" y="32" textAnchor="middle" fontSize="9" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{product.bridge_mm}mm</text>
                             </>
                           )}
                           {product.lens_height_mm && (
@@ -499,8 +559,8 @@ export default function ProductDetailPage() {
                               <line x1="350" y1="55" x2="350" y2="145" stroke="#9ca3af" strokeWidth="1" strokeDasharray="4,2" />
                               <line x1="347" y1="55" x2="353" y2="55" stroke="#9ca3af" strokeWidth="1.5" />
                               <line x1="347" y1="145" x2="353" y2="145" stroke="#9ca3af" strokeWidth="1.5" />
-                              <rect x="296" y="92" width="48" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
-                              <text x="320" y="104" textAnchor="middle" fontSize="10" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.lens_height_mm}mm</text>
+                              <rect x="296" y="92" width="48" height="16" rx="3" fill="white" stroke="#C9A84C" strokeWidth="0.75" />
+                              <text x="320" y="104" textAnchor="middle" fontSize="10" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{product.lens_height_mm}mm</text>
                             </>
                           )}
                         </svg>
@@ -511,8 +571,8 @@ export default function ProductDetailPage() {
                           <line x1="40" y1="60" x2="280" y2="60" stroke="#9ca3af" strokeWidth="1" strokeDasharray="6,4" />
                           <line x1="40" y1="57" x2="40" y2="63" stroke="#9ca3af" strokeWidth="1.5" />
                           <line x1="280" y1="57" x2="280" y2="63" stroke="#9ca3af" strokeWidth="1.5" />
-                          <rect x="126" y="43" width="48" height="16" rx="3" fill="white" stroke="#E8670A" strokeWidth="0.75" />
-                          <text x="150" y="55" textAnchor="middle" fontSize="10" fontWeight="600" fill="#E8670A" fontFamily="sans-serif">{product.temple_mm}mm</text>
+                          <rect x="126" y="43" width="48" height="16" rx="3" fill="white" stroke="#C9A84C" strokeWidth="0.75" />
+                          <text x="150" y="55" textAnchor="middle" fontSize="10" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{product.temple_mm}mm</text>
                         </svg>
                       )}
                     </div>
@@ -560,11 +620,23 @@ export default function ProductDetailPage() {
           )}
         </div>
 
+        {/* Related Products */}
+        {relatedProducts.length > 0 && (
+          <div className="mt-12 border-t border-[#e5e7eb] pt-10">
+            <h2 className="font-playfair text-2xl text-[#1B2B5E] font-bold mb-6">You May Also Like</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {relatedProducts.map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Reviews Section */}
         <div className="mt-12 border-t border-[#e5e7eb] pt-10">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="font-['Cormorant_Garamond'] text-2xl text-[#1a1a1a] font-semibold">Customer Reviews</h2>
+              <h2 className="font-playfair text-2xl text-[#1B2B5E] font-bold">Customer Reviews</h2>
               {reviewTotal > 0 && product.average_rating !== null && (
                 <div className="flex items-center gap-2 mt-1">
                   <StarRating rating={product.average_rating} size="md" />
@@ -605,7 +677,7 @@ export default function ProductDetailPage() {
                 </div>
               ))}
               {reviews.length < reviewTotal && (
-                <button onClick={() => setReviewPage((p) => p + 1)} className="text-[#E8670A] text-sm hover:underline">
+                <button onClick={() => setReviewPage((p) => p + 1)} className="text-[#C9A84C] text-sm hover:underline">
                   Load more reviews ({reviewTotal - reviews.length} remaining)
                 </button>
               )}
@@ -622,7 +694,7 @@ export default function ProductDetailPage() {
         >
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-['Cormorant_Garamond'] text-xl text-[#1a1a1a] font-semibold">Size Chart</h3>
+              <h3 className="font-playfair text-xl text-[#1B2B5E] font-bold">Size Chart</h3>
               <button onClick={() => setSizeChartOpen(false)} className="text-[#6b7280] hover:text-[#1a1a1a]">
                 <XMarkIcon className="w-6 h-6" />
               </button>
@@ -648,7 +720,7 @@ export default function ProductDetailPage() {
       {showReviewModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-            <h3 className="font-['Cormorant_Garamond'] text-xl text-[#1a1a1a] font-semibold mb-4">Write a Review</h3>
+            <h3 className="font-playfair text-xl text-[#1B2B5E] font-bold mb-4">Write a Review</h3>
             {reviewSuccess ? (
               <div className="text-center py-6">
                 <p className="text-green-600 font-medium">Review submitted!</p>
@@ -660,12 +732,12 @@ export default function ProductDetailPage() {
                   <div>
                     <label className="text-xs text-[#6b7280] block mb-1">Your Name *</label>
                     <input value={reviewForm.name} onChange={(e) => setReviewForm((f) => ({ ...f, name: e.target.value }))}
-                      className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]" />
+                      className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded outline-none focus:border-[#1B2B5E]" />
                   </div>
                   <div>
                     <label className="text-xs text-[#6b7280] block mb-1">Email *</label>
                     <input type="email" value={reviewForm.email} onChange={(e) => setReviewForm((f) => ({ ...f, email: e.target.value }))}
-                      className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]" />
+                      className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded outline-none focus:border-[#1B2B5E]" />
                   </div>
                 </div>
                 <div>
@@ -673,7 +745,7 @@ export default function ProductDetailPage() {
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((s) => (
                       <button key={s} type="button" onClick={() => setReviewForm((f) => ({ ...f, rating: s }))}>
-                        <span className={`text-xl ${s <= reviewForm.rating ? "text-[#E8670A]" : "text-[#e5e7eb]"}`}>★</span>
+                        <span className={`text-xl ${s <= reviewForm.rating ? "text-[#C9A84C]" : "text-[#e5e7eb]"}`}>★</span>
                       </button>
                     ))}
                   </div>
@@ -681,14 +753,14 @@ export default function ProductDetailPage() {
                 <div>
                   <label className="text-xs text-[#6b7280] block mb-1">Title *</label>
                   <input value={reviewForm.title} onChange={(e) => setReviewForm((f) => ({ ...f, title: e.target.value }))}
-                    className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A]"
+                    className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded outline-none focus:border-[#1B2B5E]"
                     placeholder="Summarize your experience" />
                 </div>
                 <div>
                   <label className="text-xs text-[#6b7280] block mb-1">Review *</label>
                   <textarea value={reviewForm.body} onChange={(e) => setReviewForm((f) => ({ ...f, body: e.target.value }))}
                     rows={4}
-                    className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] resize-none"
+                    className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] text-sm px-3 py-2 rounded outline-none focus:border-[#1B2B5E] resize-none"
                     placeholder="Share your experience…" />
                 </div>
                 <div className="flex gap-2 pt-2">

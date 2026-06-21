@@ -24,7 +24,7 @@ const BLANK = {
   description: "",
   bullets: [""],
   price_from: 0,
-  color_dot: "#E8670A",
+  color_dot: "#C9A84C",
   is_active: true,
   sort_order: 0,
 };
@@ -174,7 +174,7 @@ export default function LensCollectionPage() {
                   <td className="px-4 py-3">
                     <div className="w-6 h-6 rounded-full border border-gray-200" style={{ backgroundColor: item.color_dot }} />
                   </td>
-                  <td className="px-4 py-3 text-[#E8670A]">{formatPrice(item.price_from)}</td>
+                  <td className="px-4 py-3 text-[#C9A84C]">{formatPrice(item.price_from)}</td>
                   <td className="px-4 py-3 text-gray-500 text-xs">
                     {item.video_url ? (
                       <span className="text-green-400">Set</span>
@@ -220,7 +220,7 @@ export default function LensCollectionPage() {
               <div>
                 <label className="block text-gray-500 text-xs mb-1">Name</label>
                 <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#C9A84C]"
                 />
               </div>
               <div>
@@ -228,7 +228,7 @@ export default function LensCollectionPage() {
                 <div className="flex gap-2 items-center">
                   <input value={form.video_url} onChange={(e) => setForm((f) => ({ ...f, video_url: e.target.value }))}
                     placeholder="Video URL or upload below"
-                    className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                    className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#C9A84C]"
                   />
                   <button
                     onClick={() => videoRef.current?.click()}
@@ -244,7 +244,7 @@ export default function LensCollectionPage() {
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Price From (Rs.)</label>
                   <input type="number" value={form.price_from} onChange={(e) => setForm((f) => ({ ...f, price_from: Number(e.target.value) }))}
-                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#C9A84C]"
                   />
                 </div>
                 <div>
@@ -254,7 +254,7 @@ export default function LensCollectionPage() {
                       className="w-10 h-9 rounded cursor-pointer bg-transparent border-0"
                     />
                     <input value={form.color_dot} onChange={(e) => setForm((f) => ({ ...f, color_dot: e.target.value }))}
-                      className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm font-mono focus:outline-none focus:border-[#E8670A]"
+                      className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm font-mono focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
                 </div>
@@ -262,7 +262,7 @@ export default function LensCollectionPage() {
               <div>
                 <label className="block text-gray-500 text-xs mb-1">Description</label>
                 <textarea value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} rows={3}
-                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A] resize-none"
+                  className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#C9A84C] resize-none"
                 />
               </div>
               <div>
@@ -271,26 +271,26 @@ export default function LensCollectionPage() {
                   {form.bullets.map((b, i) => (
                     <div key={i} className="flex gap-2">
                       <input value={b} onChange={(e) => setBullet(i, e.target.value)}
-                        className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                        className="flex-1 bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#C9A84C]"
                       />
                       <button onClick={() => removeBullet(i)} className="text-gray-500 hover:text-red-400">
                         <XMarkIcon className="w-4 h-4" />
                       </button>
                     </div>
                   ))}
-                  <button onClick={addBullet} className="text-[#E8670A] text-xs hover:underline">+ Add bullet</button>
+                  <button onClick={addBullet} className="text-[#C9A84C] text-xs hover:underline">+ Add bullet</button>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-gray-500 text-xs mb-1">Sort Order</label>
                   <input type="number" value={form.sort_order} onChange={(e) => setForm((f) => ({ ...f, sort_order: Number(e.target.value) }))}
-                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#E8670A]"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-gray-900 text-sm focus:outline-none focus:border-[#C9A84C]"
                   />
                 </div>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={form.is_active} onChange={(e) => setForm((f) => ({ ...f, is_active: e.target.checked }))} className="accent-[#E8670A]" />
+                <input type="checkbox" checked={form.is_active} onChange={(e) => setForm((f) => ({ ...f, is_active: e.target.checked }))} className="accent-[#C9A84C]" />
                 <span className="text-gray-700 text-sm">Active</span>
               </label>
             </div>

@@ -70,7 +70,7 @@ export default function TrackOrderContent() {
 
   return (
     <div className="max-w-[700px] mx-auto px-4 py-10">
-      <h1 className="font-['Cormorant_Garamond'] text-2xl md:text-4xl text-[#1a1a1a] font-semibold mb-2">Track Your Order</h1>
+      <h1 className="font-playfair text-2xl md:text-4xl text-[#1B2B5E] font-bold mb-2">Track Your Order</h1>
       <p className="text-[#6b7280] text-sm mb-8">Enter your order number or phone to see real-time status.</p>
 
       {/* Search card */}
@@ -81,7 +81,7 @@ export default function TrackOrderContent() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleTrack()}
             placeholder="DOS-2026-0001 or 03001234567"
-            className="flex-1 bg-white border border-[#e5e7eb] text-[#1a1a1a] px-4 py-2.5 rounded-[5px] outline-none focus:border-[#E8670A] text-sm"
+            className="flex-1 bg-white border border-[#e2e8f0] text-[#1a1a1a] px-4 py-2.5 rounded-[5px] outline-none focus:border-[#1B2B5E] text-sm"
           />
           <Button variant="primary" size="md" onClick={handleTrack} disabled={loading}>
             {loading ? "Tracking…" : "Track Order"}
@@ -143,7 +143,7 @@ export default function TrackOrderContent() {
                   <div key={step.status} className="flex items-start gap-4 relative">
                     <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 z-10 ${
                       step.current
-                        ? "bg-[#E8670A] animate-pulse"
+                        ? "bg-[#C9A84C] animate-pulse"
                         : step.completed
                         ? "bg-green-500"
                         : "bg-white border-2 border-[#e5e7eb]"
@@ -157,7 +157,7 @@ export default function TrackOrderContent() {
                     </div>
                     <div className="pt-1">
                       <p className={`text-sm font-medium ${
-                        step.current ? "text-[#E8670A]"
+                        step.current ? "text-[#1B2B5E] font-semibold"
                         : step.completed ? "text-[#1a1a1a]"
                         : "text-[#6b7280]"
                       }`}>

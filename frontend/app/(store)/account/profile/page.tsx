@@ -26,7 +26,7 @@ function passwordStrength(pw: string): { label: string; color: string; pct: numb
   return { label: "Strong", color: "bg-green-400", pct: 100 };
 }
 
-const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#E8670A] transition-colors";
+const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2.5 rounded-[5px] outline-none focus:border-[#C9A84C] transition-colors";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -100,7 +100,7 @@ export default function ProfilePage() {
     <div className="max-w-lg space-y-5">
       {/* Header with avatar */}
       <div className="flex items-center gap-4">
-        <div className="w-16 h-16 rounded-full bg-[#E8670A] flex items-center justify-center shrink-0">
+        <div className="w-16 h-16 rounded-full bg-[#C9A84C] flex items-center justify-center shrink-0">
           <span className="text-white font-bold text-xl">{initials}</span>
         </div>
         <div>

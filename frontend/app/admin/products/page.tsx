@@ -41,7 +41,7 @@ export default function AdminProductsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Products</h1>
+        <h1 className="font-playfair text-3xl text-gray-900 font-semibold">Products</h1>
         <Link href="/admin/products/new">
           <Button variant="primary" size="md">
             <PlusIcon className="w-4 h-4" />
@@ -56,7 +56,7 @@ export default function AdminProductsPage() {
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search by name or SKU…"
-          className="flex-1 bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded-[5px] outline-none focus:border-[#E8670A]"
+          className="flex-1 bg-white border border-gray-300 text-gray-900 text-sm px-3 py-2 rounded-[5px] outline-none focus:border-[#C9A84C]"
         />
       </div>
 
@@ -97,7 +97,7 @@ export default function AdminProductsPage() {
               </div>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs text-gray-500 capitalize">{p.category}</span>
-                <span className="text-[#E8670A] text-sm font-medium">{formatPrice(p.sale_price ?? p.base_price)}</span>
+                <span className="text-[#C9A84C] text-sm font-medium">{formatPrice(p.sale_price ?? p.base_price)}</span>
                 {p.is_featured && <Badge variant="orange">Featured</Badge>}
               </div>
             </div>
@@ -131,7 +131,7 @@ export default function AdminProductsPage() {
                 <td className="px-4 py-3 text-gray-500 font-mono text-xs">{p.sku}</td>
                 <td className="px-4 py-3 text-gray-700 capitalize">{p.category}</td>
                 <td className="px-4 py-3">
-                  <span className="text-[#E8670A]">{formatPrice(p.sale_price ?? p.base_price)}</span>
+                  <span className="text-[#C9A84C]">{formatPrice(p.sale_price ?? p.base_price)}</span>
                   {p.sale_price && <span className="text-gray-500 line-through ml-2 text-xs">{formatPrice(p.base_price)}</span>}
                 </td>
                 <td className="px-4 py-3">

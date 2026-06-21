@@ -18,13 +18,14 @@ export default function ShippingReturnsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-[#111111] border-b border-[#2a2a2a] py-12 md:py-20">
-        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
-          <p className="text-[#E8670A] text-sm font-medium uppercase tracking-widest mb-3">Policies</p>
-          <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl lg:text-6xl text-white font-semibold mb-4">
+      <section className="bg-[#1B2B5E] py-12 md:py-20 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none" />
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center relative">
+          <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-[.14em] mb-3">Policies</p>
+          <h1 className="font-playfair text-3xl md:text-5xl lg:text-6xl text-white font-bold mb-4">
             Shipping & Returns
           </h1>
-          <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto">
+          <p className="text-white/60 text-base md:text-lg max-w-xl mx-auto">
             Fast, tracked delivery across Pakistan — and a hassle-free returns policy if something isn&apos;t right.
           </p>
         </div>
@@ -34,23 +35,23 @@ export default function ShippingReturnsPage() {
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6 space-y-6 md:space-y-10">
 
           {/* Free Shipping Banner */}
-          <div className="bg-[#FFF0E6] rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4 border border-[#E8670A]/30">
-            <div className="w-12 h-12 rounded-full bg-[#E8670A]/20 flex items-center justify-center shrink-0">
-              <TruckIcon className="w-6 h-6 text-[#E8670A]" />
+          <div className="bg-[#EEF1FA] rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4 border border-[#1B2B5E]/20">
+            <div className="w-12 h-12 rounded-full bg-[#1B2B5E]/10 flex items-center justify-center shrink-0">
+              <TruckIcon className="w-6 h-6 text-[#1B2B5E]" />
             </div>
             <div>
-              <p className="text-[#C0510A] font-semibold text-lg">Free Delivery on Orders Over Rs. 3,000</p>
-              <p className="text-[#A0440A] text-sm">
+              <p className="text-[#1B2B5E] font-semibold text-lg">Free Delivery on Orders Over Rs. 3,000</p>
+              <p className="text-[#64748b] text-sm">
                 Orders below Rs. 3,000 are charged a flat shipping fee of Rs. 200, delivered within 3–5 business days anywhere in Pakistan.
               </p>
             </div>
           </div>
 
           {/* Delivery Policy */}
-          <div className="bg-white rounded-xl p-5 md:p-8 border border-gray-200 shadow-sm">
+          <div className="bg-white rounded-xl p-5 md:p-8 border border-[#e2e8f0]">
             <div className="flex items-center gap-3 mb-6">
-              <TruckIcon className="w-6 h-6 text-[#E8670A]" />
-              <h2 className="text-gray-900 text-xl font-semibold">Delivery Policy</h2>
+              <TruckIcon className="w-6 h-6 text-[#1B2B5E]" />
+              <h2 className="font-playfair text-[#1B2B5E] text-xl font-bold">Delivery Policy</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -79,11 +80,11 @@ export default function ShippingReturnsPage() {
               <div className="space-y-6">
                 {DELIVERY_STEPS.map(({ step, title, desc }) => (
                   <div key={step} className="flex gap-4 relative">
-                    <div className="w-10 h-10 rounded-full bg-[#E8670A] flex items-center justify-center shrink-0 text-white text-sm font-bold z-10">
+                    <div className="w-10 h-10 rounded-full bg-[#1B2B5E] flex items-center justify-center shrink-0 text-white text-sm font-bold z-10">
                       {step}
                     </div>
                     <div className="pt-2">
-                      <p className="text-gray-900 font-medium text-sm">{title}</p>
+                      <p className="text-[#1B2B5E] font-medium text-sm">{title}</p>
                       <p className="text-gray-500 text-xs mt-0.5 leading-relaxed">{desc}</p>
                     </div>
                   </div>
@@ -93,10 +94,10 @@ export default function ShippingReturnsPage() {
           </div>
 
           {/* Returns Policy */}
-          <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+          <div className="bg-white rounded-xl p-8 border border-[#e2e8f0]">
             <div className="flex items-center gap-3 mb-6">
-              <ArrowPathIcon className="w-6 h-6 text-[#E8670A]" />
-              <h2 className="text-gray-900 text-xl font-semibold">Returns & Exchanges</h2>
+              <ArrowPathIcon className="w-6 h-6 text-[#1B2B5E]" />
+              <h2 className="font-playfair text-[#1B2B5E] text-xl font-bold">Returns & Exchanges</h2>
             </div>
             <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
               <p>
@@ -116,8 +117,8 @@ export default function ShippingReturnsPage() {
                 { Icon: CurrencyDollarIcon, label: "Full Refund", sub: "For defective items" },
                 { Icon: ShieldCheckIcon, label: "Free Exchange", sub: "Incorrect prescriptions" },
               ].map(({ Icon, label, sub }) => (
-                <div key={label} className="bg-gray-50 rounded-lg p-4 flex items-center gap-3 border border-gray-200">
-                  <Icon className="w-5 h-5 text-[#E8670A] shrink-0" />
+                <div key={label} className="bg-[#F5F7FF] rounded-lg p-4 flex items-center gap-3 border border-[#e2e8f0]">
+                  <Icon className="w-5 h-5 text-[#1B2B5E] shrink-0" />
                   <div>
                     <p className="text-gray-900 text-sm font-medium">{label}</p>
                     <p className="text-gray-500 text-xs">{sub}</p>

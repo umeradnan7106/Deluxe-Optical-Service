@@ -17,7 +17,7 @@ export default function StarRating({ rating, max = 5, size = "md", className }: 
       {Array.from({ length: max }, (_, i) => {
         const filled = i < Math.floor(rating);
         return filled ? (
-          <StarIcon key={i} className={cn(sizeClasses[size], "text-[#E8670A]")} />
+          <StarIcon key={i} className={cn(sizeClasses[size], "text-[#C9A84C]")} />
         ) : (
           <StarOutlineIcon key={i} className={cn(sizeClasses[size], "text-gray-300")} />
         );

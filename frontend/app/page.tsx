@@ -88,22 +88,22 @@ export default function HomePage() {
             {TRUST_ITEMS.map((item) =>
               item.href ? (
                 <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                  <div className="w-10 h-10 rounded-full bg-[#FFF0E6] flex items-center justify-center shrink-0">
-                    <item.Icon className="w-5 h-5 text-[#E8670A]" />
+                  <div className="w-10 h-10 rounded-full bg-[#EEF1FA] flex items-center justify-center shrink-0">
+                    <item.Icon className="w-5 h-5 text-[#1B2B5E]" />
                   </div>
                   <div>
-                    <p className="text-[#1a1a1a] text-sm font-semibold">{item.label}</p>
-                    <p className="text-[#6b7280] text-xs">{item.sub}</p>
+                    <p className="text-[#1B2B5E] text-sm font-semibold">{item.label}</p>
+                    <p className="text-[#64748b] text-xs">{item.sub}</p>
                   </div>
                 </a>
               ) : (
                 <div key={item.label} className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#FFF0E6] flex items-center justify-center shrink-0">
-                    <item.Icon className="w-5 h-5 text-[#E8670A]" />
+                  <div className="w-10 h-10 rounded-full bg-[#EEF1FA] flex items-center justify-center shrink-0">
+                    <item.Icon className="w-5 h-5 text-[#1B2B5E]" />
                   </div>
                   <div>
-                    <p className="text-[#1a1a1a] text-sm font-semibold">{item.label}</p>
-                    <p className="text-[#6b7280] text-xs">{item.sub}</p>
+                    <p className="text-[#1B2B5E] text-sm font-semibold">{item.label}</p>
+                    <p className="text-[#64748b] text-xs">{item.sub}</p>
                   </div>
                 </div>
               )
@@ -123,10 +123,10 @@ export default function HomePage() {
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-6 md:mb-8">
             <div>
-              <p className="text-[#E8670A] text-xs font-semibold uppercase tracking-widest mb-1">Best Sellers</p>
-              <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-[#1a1a1a] font-semibold">Most Popular Frames</h2>
+              <p className="text-[#C9A84C] text-xs font-semibold uppercase tracking-widest mb-1">Best Sellers</p>
+              <h2 className="font-playfair text-[26px] md:text-4xl text-[#1B2B5E] font-bold">Most Popular Frames</h2>
             </div>
-            <Link href="/products?featured=true" className="text-[#E8670A] text-sm hover:underline font-medium shrink-0 ml-4">
+            <Link href="/products?featured=true" className="text-[#1B2B5E] text-sm hover:text-[#C9A84C] font-medium shrink-0 ml-4 transition-colors">
               View All
             </Link>
           </div>
@@ -139,15 +139,17 @@ export default function HomePage() {
       </section>
 
       {/* Prescription CTA Banner */}
-      <section className="bg-[#0F0F0F] py-10 md:py-16">
-        <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
+      <section className="bg-[#1B2B5E] py-10 md:py-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none"
+         />
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 relative">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
             <div className="text-center md:text-left">
-              <p className="text-[#E8670A] text-xs font-semibold uppercase tracking-widest mb-2">Custom Prescription</p>
-              <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-white font-semibold leading-tight mb-4">
-                Prescription Lenses <span className="text-[#E8670A]">Made Just for You</span>
+              <p className="text-[#C9A84C] text-xs font-semibold uppercase tracking-widest mb-2">Custom Prescription</p>
+              <h2 className="font-playfair text-[26px] md:text-4xl text-white font-bold leading-tight mb-4">
+                Prescription Lenses <span className="text-[#C9A84C]">Made Just for You</span>
               </h2>
-              <p className="text-[#6b7280] text-sm leading-relaxed mb-6">
+              <p className="text-white/50 text-sm leading-relaxed mb-6">
                 Upload your prescription or enter it manually during checkout. Our optical team verifies every order for your comfort and safety.
               </p>
               <Link href="/products?category=prescription">
@@ -155,22 +157,22 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="hidden md:grid grid-cols-2 gap-4">
-              <div className="aspect-[4/3] bg-[#1a1a1a] rounded-lg" />
-              <div className="aspect-[4/3] bg-[#1a1a1a] rounded-lg mt-8" />
+              <div className="aspect-[4/3] bg-[#243570] rounded-lg" />
+              <div className="aspect-[4/3] bg-[#243570] rounded-lg mt-8" />
             </div>
           </div>
         </div>
       </section>
 
       {/* New Arrivals */}
-      <section className="bg-[#f9fafb] py-10 md:py-16">
+      <section className="bg-[#F5F7FF] py-10 md:py-16">
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-6 md:mb-8">
             <div>
-              <p className="text-[#E8670A] text-xs font-semibold uppercase tracking-widest mb-1">New Drops</p>
-              <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-[#1a1a1a] font-semibold">New Arrivals</h2>
+              <p className="text-[#C9A84C] text-xs font-semibold uppercase tracking-widest mb-1">New Drops</p>
+              <h2 className="font-playfair text-[26px] md:text-4xl text-[#1B2B5E] font-bold">New Arrivals</h2>
             </div>
-            <Link href="/products" className="text-[#E8670A] text-sm hover:underline font-medium shrink-0 ml-4">
+            <Link href="/products" className="text-[#1B2B5E] text-sm hover:text-[#C9A84C] font-medium shrink-0 ml-4 transition-colors">
               View All
             </Link>
           </div>
@@ -183,23 +185,23 @@ export default function HomePage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="bg-[#f9fafb] py-10 md:py-16 border-t border-[#e5e7eb]">
+      <section className="bg-white py-10 md:py-16 border-t border-[#e5e7eb]">
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
           <div className="text-center">
-            <p className="text-[#E8670A] text-[10px] font-semibold uppercase tracking-widest mb-1">Our Promise</p>
-            <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-[32px] text-[#1a1a1a] font-semibold">Why Choose DeluxeOpt?</h2>
-            <p className="text-[#6b7280] text-[13px] md:text-[14px] max-w-lg mx-auto mt-2 leading-relaxed">
+            <p className="text-[#C9A84C] text-[10px] font-semibold uppercase tracking-widest mb-1">Our Promise</p>
+            <h2 className="font-playfair text-[26px] md:text-[32px] text-[#1B2B5E] font-bold">Why Choose DeluxeOpt?</h2>
+            <p className="text-[#64748b] text-[13px] md:text-[14px] max-w-lg mx-auto mt-2 leading-relaxed">
               We&apos;re committed to making quality eyewear accessible to everyone in Pakistan
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8 md:mt-10">
             {WHY_ITEMS.map(({ Icon, title, text }) => (
-              <div key={title} className="bg-white border border-[#e5e7eb] rounded-lg p-4 md:p-6 text-center">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-[#FFF0E6] rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-                  <Icon className="w-6 h-6 md:w-9 md:h-9 text-[#E8670A]" />
+              <div key={title} className="bg-[#F5F7FF] border border-[#e2e8f0] rounded-xl p-4 md:p-6 text-center">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-[#EEF1FA] rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                  <Icon className="w-6 h-6 md:w-9 md:h-9 text-[#1B2B5E]" />
                 </div>
-                <h3 className="font-['Cormorant_Garamond'] text-[16px] md:text-[20px] text-[#1a1a1a] font-medium mb-1 md:mb-2">{title}</h3>
-                <p className="text-[12px] md:text-[13px] text-[#6b7280] leading-[1.65]">{text}</p>
+                <h3 className="font-playfair text-[16px] md:text-[20px] text-[#1B2B5E] font-semibold mb-1 md:mb-2">{title}</h3>
+                <p className="text-[12px] md:text-[13px] text-[#64748b] leading-[1.65]">{text}</p>
               </div>
             ))}
           </div>
@@ -213,20 +215,22 @@ export default function HomePage() {
       <ReviewsStrip />
 
       {/* Final CTA */}
-      <section className="bg-[#E8670A] py-10 md:py-16">
-        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center">
-          <h2 className="font-['Cormorant_Garamond'] text-[26px] md:text-4xl text-white font-semibold mb-3">
+      <section className="bg-[#1B2B5E] py-10 md:py-16 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse at 70% 50%, rgba(201,168,76,.1) 0%, transparent 70%)" }} />
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 text-center relative">
+          <h2 className="font-playfair text-[26px] md:text-4xl text-white font-bold mb-3">
             Ready to Find Your Perfect Frames?
           </h2>
-          <p className="text-orange-100 mb-6 md:mb-8 max-w-md mx-auto text-sm">
+          <p className="text-white/60 mb-6 md:mb-8 max-w-md mx-auto text-sm">
             Shop hundreds of styles from Pakistan&apos;s top eyewear destination.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <Link href="/products">
-              <Button variant="dark" size="lg">Browse All Frames</Button>
+              <Button variant="primary" size="lg">Browse All Frames</Button>
             </Link>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <button className="px-6 py-3 border border-white text-white rounded-[5px] text-sm font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
+              <button className="px-6 py-3 border border-white/40 text-white rounded-lg text-sm font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
                 <WaIcon className="w-4 h-4" />
                 Chat on WhatsApp
               </button>

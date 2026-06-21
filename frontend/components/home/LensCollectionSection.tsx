@@ -38,7 +38,7 @@ const LENSES: Lens[] = [
     colorDot: "#93c5fd",
     price: "From Rs. 500",
     description: "Filters harmful blue light from screens. Reduces eye strain and improves sleep.",
-    bullets: ["Blocks harmful blue light (380-500nm)", "Reduces digital eye strain", "Improves sleep quality"],
+    bullets: ["Blocks harmful blue light (380–500nm)", "Reduces digital eye strain", "Improves sleep quality"],
     videoUrl: null,
   },
   {
@@ -75,31 +75,24 @@ export default function LensCollectionSection() {
   const active = LENSES[activeIdx];
 
   return (
-    <section className="bg-white py-10 md:py-16">
+    <section className="bg-white py-12 md:py-20">
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
-        <div className="mb-10 text-center">
-          <p className="text-[#E8670A] text-[10px] font-semibold uppercase tracking-widest mb-1">Our Lens Technology</p>
-          <h2 className="font-['Cormorant_Garamond'] text-[32px] text-[#1a1a1a] font-semibold">Choose Your Lens</h2>
+        <div className="text-center mb-10 md:mb-14">
+          <p className="text-[#C9A84C] text-[10px] font-semibold uppercase tracking-[.12em] mb-2">Our Lens Technology</p>
+          <h2 className="font-playfair text-[28px] md:text-[38px] text-[#1B2B5E] font-bold">Choose Your Lens</h2>
+          <p className="text-[#64748b] text-sm mt-2 max-w-md mx-auto">Select a lens type to learn how it benefits your vision</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 items-start">
           {/* Left: Video + pills */}
           <div>
-            <div className="relative aspect-video rounded-lg overflow-hidden bg-[#0F0F0F] mb-4">
+            <div className="relative aspect-video rounded-xl overflow-hidden bg-[#0f1829] mb-5 border border-[#C9A84C]/20">
               {active.videoUrl ? (
-                <video
-                  key={active.videoUrl}
-                  src={active.videoUrl}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
+                <video key={active.videoUrl} src={active.videoUrl} autoPlay muted loop playsInline className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-[#6b7280]">
-                  <PlayIcon className="w-10 h-10 opacity-40" />
-                  <p className="text-sm opacity-60">Video coming soon</p>
+                <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#475569]">
+                  <PlayIcon className="w-12 h-12 opacity-30 text-[#C9A84C]" />
+                  <p className="text-sm opacity-50 text-white">Video — {active.name}</p>
                 </div>
               )}
             </div>
@@ -111,8 +104,8 @@ export default function LensCollectionSection() {
                   onClick={() => setActiveIdx(i)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all border ${
                     i === activeIdx
-                      ? "bg-[#E8670A] text-white border-[#E8670A]"
-                      : "bg-white text-[#6b7280] border-[#e5e7eb] hover:border-[#E8670A] hover:text-[#E8670A]"
+                      ? "bg-[#1B2B5E] text-white border-[#1B2B5E]"
+                      : "bg-white text-[#64748b] border-[#e2e8f0] hover:border-[#1B2B5E] hover:text-[#1B2B5E]"
                   }`}
                 >
                   <span className="w-3 h-3 rounded-full shrink-0 border border-[#e5e7eb]" style={{ backgroundColor: lens.colorDot }} />
@@ -124,39 +117,41 @@ export default function LensCollectionSection() {
 
           {/* Right: Active detail + other lenses */}
           <div>
-            <div className="bg-[#FFF0E6] border border-[#fddbb4] rounded-lg p-4 mb-3">
-              <div className="flex items-center justify-between mb-2">
+            <div className="bg-[#EEF1FA] border border-[#C9A84C]/30 rounded-xl p-5 mb-3">
+              <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <span className="w-3.5 h-3.5 rounded-full shrink-0 border border-[#e5e7eb]" style={{ backgroundColor: active.colorDot }} />
-                  <h3 className="font-['Cormorant_Garamond'] text-[18px] text-[#C45408] font-semibold">{active.name}</h3>
+                  <h3 className="font-playfair text-[20px] text-[#1B2B5E] font-semibold">{active.name}</h3>
                 </div>
-                <span className="text-[11px] text-[#E8670A] font-medium">{active.price}</span>
+                <span className="text-[12px] text-[#A8893A] font-semibold">{active.price}</span>
               </div>
-              <p className="text-[#6b7280] text-[13px] leading-relaxed mb-3">{active.description}</p>
+              <p className="text-[#64748b] text-[13px] leading-relaxed mb-3">{active.description}</p>
               <ul className="space-y-1.5 mb-4">
                 {active.bullets.map((b, i) => (
-                  <li key={i} className="flex items-start gap-2 text-[13px] text-[#1a1a1a]">
+                  <li key={i} className="flex items-start gap-2 text-[13px] text-[#0F172A]">
                     <CheckIcon className="w-4 h-4 text-green-600 mt-0.5 shrink-0" />
                     {b}
                   </li>
                 ))}
               </ul>
-              <Link href="/products?category=prescription" className="block w-full bg-[#E8670A] hover:bg-[#C45408] text-white text-sm font-medium py-2.5 px-4 rounded-[5px] text-center transition-colors">
+              <Link
+                href="/products?category=prescription"
+                className="block w-full bg-[#1B2B5E] hover:bg-[#243570] text-white text-sm font-semibold py-2.5 px-4 rounded-lg text-center transition-colors"
+              >
                 Shop {active.name} Frames
               </Link>
             </div>
 
-            {/* Other lenses */}
             <div className="space-y-2">
               {LENSES.filter((_, i) => i !== activeIdx).map((lens) => (
                 <button
                   key={lens.id}
                   onClick={() => setActiveIdx(LENSES.indexOf(lens))}
-                  className="w-full flex items-center gap-3 p-3 bg-white border border-[#e5e7eb] rounded-md hover:border-[#E8670A] transition-colors text-left"
+                  className="w-full flex items-center gap-3 p-3 bg-white border border-[#e2e8f0] rounded-lg hover:border-[#1B2B5E] hover:bg-[#F5F7FF] transition-colors text-left"
                 >
                   <span className="w-3 h-3 rounded-full shrink-0 border border-[#e5e7eb]" style={{ backgroundColor: lens.colorDot }} />
-                  <span className="text-[#1a1a1a] text-sm flex-1 font-medium">{lens.name}</span>
-                  <span className="text-[#6b7280] text-xs shrink-0">{lens.price}</span>
+                  <span className="text-[#0F172A] text-sm flex-1 font-medium">{lens.name}</span>
+                  <span className="text-[#C9A84C] text-xs shrink-0 font-semibold">{lens.price}</span>
                 </button>
               ))}
             </div>
@@ -164,16 +159,16 @@ export default function LensCollectionSection() {
         </div>
 
         {/* CTA strip */}
-        <div className="bg-[#0F0F0F] rounded-lg p-5 mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="bg-[#1B2B5E] rounded-xl p-5 md:p-6 mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <p className="text-white text-[14px] font-semibold">Not sure which lens is right for you?</p>
-            <p className="text-[#6b7280] text-[12px] mt-0.5">Our optical experts are ready to help you choose</p>
+            <p className="text-white text-[15px] font-semibold">Not sure which lens is right for you?</p>
+            <p className="text-white/50 text-[12px] mt-0.5">Our optical experts are ready to help you choose</p>
           </div>
           <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-[#25d366] hover:bg-[#1ebe5d] text-white text-sm font-medium px-5 py-2.5 rounded-[5px] transition-colors shrink-0"
+            className="flex items-center gap-2 bg-[#C9A84C] hover:bg-[#A8893A] text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors shrink-0"
           >
             <WaIcon className="w-4 h-4" />
             Chat on WhatsApp

@@ -16,6 +16,8 @@ interface AdminBlog {
   is_published: boolean;
   published_at: string | null;
   created_at: string;
+  view_count?: number;
+  seo_score?: number;
 }
 
 export default function AdminBlogsPage() {
@@ -56,7 +58,7 @@ export default function AdminBlogsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold">Blogs</h1>
+        <h1 className="font-playfair text-3xl text-gray-900 font-semibold">Blogs</h1>
         <Link href="/admin/blogs/new">
           <Button variant="primary" size="md"><PlusIcon className="w-4 h-4" />New Blog</Button>
         </Link>
@@ -104,8 +106,11 @@ export default function AdminBlogsPage() {
             <tr className="border-b border-gray-200 text-gray-500 text-left">
               <th className="px-4 py-3">Title</th>
               <th className="px-4 py-3">Category</th>
-              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3 hidden lg:table-cell">Author</th>
               <th className="px-4 py-3">Published</th>
+              <th className="px-4 py-3 hidden xl:table-cell">Views</th>
+              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3 hidden xl:table-cell">SEO Score</th>
               <th className="px-4 py-3">Actions</th>
             </tr>
           </thead>
@@ -116,16 +121,38 @@ export default function AdminBlogsPage() {
               </tr>
             )) : blogs.map((b) => (
               <tr key={b.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 text-gray-900 font-medium">{b.title}</td>
-                <td className="px-4 py-3 text-gray-700 capitalize text-sm">{b.category.replace(/-/g, " ")}</td>
+                <td className="px-4 py-3 text-gray-900 font-medium max-w-[200px]">
+                  <p className="line-clamp-2 text-sm">{b.title}</p>
+                </td>
+                <td className="px-4 py-3 text-gray-700 capitalize text-xs">
+                  <span className="inline-block bg-[#EEF1FA] text-[#1B2B5E] px-2 py-0.5 rounded font-semibold text-[10px]">
+                    {b.category.replace(/-/g, " ")}
+                  </span>
+                </td>
+                <td className="px-4 py-3 text-gray-500 text-xs hidden lg:table-cell">Admin</td>
+                <td className="px-4 py-3 text-gray-500 text-xs">{b.published_at ? formatDate(b.published_at) : "—"}</td>
+                <td className="px-4 py-3 font-semibold text-gray-700 hidden xl:table-cell">{b.view_count ?? "—"}</td>
                 <td className="px-4 py-3">
                   <Badge variant={b.is_published ? "green" : "gray"}>{b.is_published ? "Published" : "Draft"}</Badge>
                 </td>
-                <td className="px-4 py-3 text-gray-500 text-xs">{b.published_at ? formatDate(b.published_at) : "—"}</td>
+                <td className="px-4 py-3 hidden xl:table-cell">
+                  {b.is_published ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-14 h-1.5 bg-[#E2E8F0] rounded-full overflow-hidden">
+                        <div className="h-full rounded-full" style={{ width: `${b.seo_score ?? 0}%`, backgroundColor: (b.seo_score ?? 0) >= 80 ? "#059669" : (b.seo_score ?? 0) >= 60 ? "#D97706" : "#dc2626" }} />
+                      </div>
+                      <span className="text-[11px] font-semibold" style={{ color: (b.seo_score ?? 0) >= 80 ? "#059669" : (b.seo_score ?? 0) >= 60 ? "#D97706" : "#dc2626" }}>
+                        {b.seo_score ?? "—"}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-gray-400">Not published</span>
+                  )}
+                </td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2">
                     <button onClick={() => handlePublish(b)}
-                      className={`text-xs px-2 py-1 rounded border transition-colors ${b.is_published ? "border-gray-300 text-gray-500 hover:text-gray-900" : "border-green-500 text-green-400 hover:bg-green-500/10"}`}>
+                      className={`text-xs px-2 py-1 rounded border transition-colors ${b.is_published ? "border-gray-300 text-gray-500 hover:text-gray-900" : "border-[#059669] text-[#059669] hover:bg-green-50"}`}>
                       {b.is_published ? "Unpublish" : "Publish"}
                     </button>
                     <Link href={`/admin/blogs/${b.id}/edit`}>

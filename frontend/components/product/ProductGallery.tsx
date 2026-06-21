@@ -51,7 +51,7 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
                 key={img.id}
                 onClick={() => setActiveIdx(idx)}
                 className={`relative shrink-0 rounded-md overflow-hidden border-2 bg-white transition-colors ${
-                  idx === activeIdx ? "border-[#E8670A]" : "border-[#e5e7eb] hover:border-[#E8670A]/50"
+                  idx === activeIdx ? "border-[#C9A84C]" : "border-[#e5e7eb] hover:border-[#C9A84C]/50"
                 }`}
                 style={{ width: 60, height: 52 }}
               >
@@ -90,7 +90,7 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
                 key={img.id}
                 onClick={(e) => { e.stopPropagation(); setActiveIdx(idx); }}
                 className={`relative rounded overflow-hidden border-2 bg-white transition-colors ${
-                  idx === activeIdx ? "border-[#E8670A]" : "border-white/30"
+                  idx === activeIdx ? "border-[#C9A84C]" : "border-white/30"
                 }`}
                 style={{ width: 48, height: 40 }}
               >

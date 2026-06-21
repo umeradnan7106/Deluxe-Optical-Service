@@ -77,12 +77,12 @@ export default function AdminReviewsPage() {
 
   return (
     <div>
-      <h1 className="font-['Cormorant_Garamond'] text-3xl text-gray-900 font-semibold mb-6">Reviews</h1>
+      <h1 className="font-playfair text-3xl text-gray-900 font-semibold mb-6">Reviews</h1>
 
       <div className="flex gap-2 mb-6 overflow-x-auto scrollbar-none pb-1">
         {TABS.map(({ key, label }) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`shrink-0 px-4 py-2 rounded text-sm transition-colors ${tab === key ? "bg-[#E8670A] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
+            className={`shrink-0 px-4 py-2 rounded text-sm transition-colors ${tab === key ? "bg-[#C9A84C] text-white" : "bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-gray-900"}`}>
             {label}
           </button>
         ))}
@@ -103,7 +103,7 @@ export default function AdminReviewsPage() {
               <p className="text-gray-500 text-xs shrink-0 ml-2">{formatDate(r.created_at)}</p>
             </div>
             <p className="text-gray-500 text-xs mb-1">{r.product_name}</p>
-            <p className="text-[#E8670A] text-sm mb-1">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</p>
+            <p className="text-[#C9A84C] text-sm mb-1">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</p>
             <p className="text-gray-700 text-xs font-medium">{r.title}</p>
             <p className="text-gray-500 text-xs mb-3 line-clamp-2">{r.body}</p>
             <div className="flex gap-2">
@@ -152,7 +152,7 @@ export default function AdminReviewsPage() {
                 </td>
                 <td className="px-4 py-3 text-gray-700 text-sm">{r.product_name}</td>
                 <td className="px-4 py-3">
-                  <span className="text-[#E8670A]">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
+                  <span className="text-[#C9A84C]">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
                 </td>
                 <td className="px-4 py-3 text-gray-500 text-xs max-w-[200px]">
                   <p className="font-medium text-gray-700">{r.title}</p>
@@ -161,13 +161,13 @@ export default function AdminReviewsPage() {
                 <td className="px-4 py-3 text-gray-500 text-xs">{formatDate(r.created_at)}</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-1 flex-wrap">
-                    <button onClick={() => setSelectedReview(r)} className="text-xs text-[#E8670A] hover:underline px-2 py-1">View</button>
+                    <button onClick={() => setSelectedReview(r)} className="text-xs text-[#C9A84C] hover:underline px-2 py-1">View</button>
                     {!r.is_approved && (
                       <button onClick={() => approve(r.id)} className="text-xs text-green-400 hover:text-green-300 px-2 py-1">Approve</button>
                     )}
                     <button onClick={() => reject(r.id)} className="text-xs text-red-400 hover:text-red-300 px-2 py-1">Reject</button>
                     {r.is_approved && (
-                      <button onClick={() => toggleFeature(r.id)} className={`text-xs px-2 py-1 ${r.is_featured ? "text-[#E8670A]" : "text-gray-500 hover:text-gray-900"}`}>
+                      <button onClick={() => toggleFeature(r.id)} className={`text-xs px-2 py-1 ${r.is_featured ? "text-[#C9A84C]" : "text-gray-500 hover:text-gray-900"}`}>
                         {r.is_featured ? "★ Featured" : "Feature"}
                       </button>
                     )}
@@ -191,9 +191,9 @@ export default function AdminReviewsPage() {
               </button>
             </div>
             <div className="space-y-2 text-sm mb-4">
-              <p className="text-[#E8670A]">{"★".repeat(selectedReview.rating)}{"☆".repeat(5 - selectedReview.rating)}</p>
+              <p className="text-[#C9A84C]">{"★".repeat(selectedReview.rating)}{"☆".repeat(5 - selectedReview.rating)}</p>
               <p className="text-gray-500">By <span className="text-gray-900">{selectedReview.customer_name}</span> · {selectedReview.customer_email}</p>
-              <p className="text-gray-500">Product: <span className="text-[#E8670A]">{selectedReview.product_name}</span></p>
+              <p className="text-gray-500">Product: <span className="text-[#C9A84C]">{selectedReview.product_name}</span></p>
               <p className="text-gray-500">Date: {formatDate(selectedReview.created_at)}</p>
               {selectedReview.order_id && <Badge variant="green">Verified Purchase</Badge>}
             </div>

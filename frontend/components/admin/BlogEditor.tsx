@@ -31,12 +31,15 @@ interface AdminBlogData {
   meta_title: string | null;
   meta_description: string | null;
   is_published: boolean;
+  excerpt?: string;
+  tags?: string[];
+  focus_keyword?: string;
 }
 
 function TbBtn({ active, onClick, children }: { active?: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button type="button" onMouseDown={(e) => { e.preventDefault(); onClick(); }}
-      className={`min-w-[36px] min-h-[36px] px-2 py-1 text-xs rounded ${active ? "bg-[#E8670A] text-white" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}>
+      className={`min-w-[36px] min-h-[36px] px-2 py-1 text-xs rounded ${active ? "bg-[#C9A84C] text-white" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"}`}>
       {children}
     </button>
   );
@@ -58,6 +61,11 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
   const [slugAuto, setSlugAuto] = useState(!isEdit);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [excerpt, setExcerpt] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
+  const [focusKeyword, setFocusKeyword] = useState("");
+  const [showOnProducts, setShowOnProducts] = useState({ prescription: false, blueCut: false, sunglasses: false });
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -78,6 +86,9 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
       setMetaDesc(b.meta_description ?? "");
       setCoverUrl(b.cover_image_url);
       setIsPublished(b.is_published);
+      if (b.excerpt) setExcerpt(b.excerpt);
+      if (b.tags) setTags(b.tags);
+      if (b.focus_keyword) setFocusKeyword(b.focus_keyword);
       setSlugAuto(false);
       if (editor && b.content) editor.commands.setContent(b.content);
     }).catch(() => {});
@@ -112,6 +123,9 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
         meta_title: metaTitle || null,
         meta_description: metaDesc || null,
         is_published: publish,
+        excerpt: excerpt || null,
+        tags: tags.length ? tags : [],
+        focus_keyword: focusKeyword || null,
       };
 
       if (isEdit && blogId) {
@@ -129,7 +143,7 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
     }
   }
 
-  const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#E8670A] transition-colors min-h-[44px]";
+  const inputCls = "w-full bg-white border border-gray-300 text-gray-900 text-[16px] md:text-sm px-3 py-2 rounded outline-none focus:border-[#C9A84C] transition-colors min-h-[44px]";
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 items-start">
@@ -139,13 +153,13 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
         <input
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
-          className="w-full bg-transparent text-gray-900 text-3xl font-['Cormorant_Garamond'] outline-none border-b border-gray-300 pb-3 placeholder-gray-400 focus:border-[#E8670A] transition-colors"
+          className="w-full bg-transparent text-gray-900 text-3xl font-playfair outline-none border-b border-gray-300 pb-3 placeholder-gray-400 focus:border-[#C9A84C] transition-colors"
           placeholder="Blog Title…"
         />
 
         {/* Cover Image */}
         <div
-          className="border-2 border-dashed border-gray-300 rounded overflow-hidden cursor-pointer hover:border-[#E8670A] transition-colors relative"
+          className="border-2 border-dashed border-gray-300 rounded overflow-hidden cursor-pointer hover:border-[#C9A84C] transition-colors relative"
           style={{ minHeight: 200 }}
           onClick={() => fileRef.current?.click()}
           onDragOver={(e) => e.preventDefault()}
@@ -211,15 +225,91 @@ export default function BlogEditor({ blogId }: BlogEditorProps) {
         </div>
 
         <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">Excerpt / Summary</h3>
+          <p className="text-xs text-gray-400 mb-2">Shown on blog card preview</p>
+          <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)}
+            className={inputCls + " !h-20 resize-none"} placeholder="Short summary of this post…" />
+        </div>
+
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">Tags</h3>
+          <input value={tagInput} onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={(e) => {
+              if ((e.key === "Enter" || e.key === ",") && tagInput.trim()) {
+                e.preventDefault();
+                const t = tagInput.trim().toLowerCase().replace(/,$/, "");
+                if (t && !tags.includes(t)) setTags((prev) => [...prev, t]);
+                setTagInput("");
+              }
+            }}
+            className={inputCls} placeholder="blue cut, lens guide… (Enter to add)" />
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {tags.map((t) => (
+                <span key={t} className="inline-flex items-center gap-1 bg-[#EEF1FA] text-[#1B2B5E] text-xs font-medium px-2 py-0.5 rounded">
+                  {t}
+                  <button type="button" onClick={() => setTags((prev) => prev.filter((x) => x !== t))} className="opacity-60 hover:opacity-100 leading-none">×</button>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">Show on Products</h3>
+          <div className="space-y-2">
+            {([
+              { key: "prescription" as const, label: "Prescription Products" },
+              { key: "blueCut" as const, label: "Blue Cut Products" },
+              { key: "sunglasses" as const, label: "Sunglasses" },
+            ] as { key: keyof typeof showOnProducts; label: string }[]).map(({ key, label }) => (
+              <label key={key} className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={showOnProducts[key]}
+                  onChange={(e) => setShowOnProducts((s) => ({ ...s, [key]: e.target.checked }))}
+                  className="accent-[#1B2B5E]" />
+                <span className="text-sm text-gray-700">{label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
           <h3 className="text-gray-900 font-semibold text-sm mb-3">SEO</h3>
           <div className="space-y-3">
             <div>
-              <label className="text-xs text-gray-500 block mb-1">Meta Title</label>
+              <label className="text-xs text-gray-500 block mb-1">Focus Keyword</label>
+              <input value={focusKeyword} onChange={(e) => setFocusKeyword(e.target.value)} className={inputCls} placeholder="e.g. blue cut glasses" />
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs text-gray-500">Meta Title</label>
+                <span className={`text-[10px] font-medium ${metaTitle.length > 60 ? "text-red-500" : "text-gray-400"}`}>{metaTitle.length}/60</span>
+              </div>
               <input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className={inputCls} placeholder={title || "Blog title"} />
             </div>
             <div>
-              <label className="text-xs text-gray-500 block mb-1">Meta Description</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs text-gray-500">Meta Description</label>
+                <span className={`text-[10px] font-medium ${metaDesc.length > 160 ? "text-red-500" : "text-gray-400"}`}>{metaDesc.length}/160</span>
+              </div>
               <textarea value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)} className={inputCls + " !h-20 resize-none"} placeholder="Short description…" />
+            </div>
+          </div>
+        </div>
+
+        {/* OG / Social Preview */}
+        <div className="bg-white border border-gray-200 shadow-sm rounded p-4">
+          <h3 className="text-gray-900 font-semibold text-sm mb-3">OG / Social Preview</h3>
+          <div className="border border-gray-200 rounded overflow-hidden text-xs">
+            {coverUrl && (
+              <div className="relative h-24 bg-gray-100">
+                <Image src={coverUrl} alt="" fill className="object-cover" sizes="256px" unoptimized={!!coverFile} />
+              </div>
+            )}
+            <div className="p-2 bg-[#F8FAFC]">
+              <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-0.5">deluxeopt.com</p>
+              <p className="font-semibold text-gray-900 line-clamp-1 text-xs">{metaTitle || title || "Blog Title"}</p>
+              <p className="text-gray-500 line-clamp-2 mt-0.5 text-[11px]">{metaDesc || "Meta description will appear here."}</p>
             </div>
           </div>
         </div>

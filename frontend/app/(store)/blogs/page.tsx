@@ -40,15 +40,16 @@ export default function BlogsPage() {
     <div className="max-w-[1500px] mx-auto px-4 sm:px-6 py-8 md:py-10">
       {/* Hero */}
       <div className="text-center mb-8 md:mb-10">
-        <h1 className="font-['Cormorant_Garamond'] text-3xl md:text-5xl text-white font-semibold mb-3">Optical Blog</h1>
-        <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto">Expert insights on lenses, frames, eye health, and more.</p>
+        <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-[.14em] mb-2">Our Blog</p>
+        <h1 className="font-playfair text-3xl md:text-5xl text-[#1B2B5E] font-bold mb-3">Optical Blog</h1>
+        <p className="text-[#64748b] text-base md:text-lg max-w-xl mx-auto">Expert insights on lenses, frames, eye health, and more.</p>
       </div>
 
       {/* Category pills — horizontal scroll on mobile */}
       <div className="flex gap-2 overflow-x-auto scrollbar-none justify-start md:justify-center mb-6 md:mb-8 -mx-4 px-4 sm:mx-0 sm:px-0 pb-1">
         {CATEGORIES.map(({ value, label }) => (
           <button key={value} onClick={() => { setCategory(value); setPage(1); }}
-            className={`shrink-0 px-5 py-2 rounded-full text-sm transition-colors ${category === value ? "bg-[#E8670A] text-white" : "bg-[#1a1a1a] text-gray-400 hover:text-white"}`}>
+            className={`shrink-0 px-5 py-2 rounded-full text-sm transition-colors border ${category === value ? "bg-[#1B2B5E] text-white border-[#1B2B5E]" : "bg-white text-[#64748b] border-[#e2e8f0] hover:border-[#1B2B5E] hover:text-[#1B2B5E]"}`}>
             {label}
           </button>
         ))}
@@ -57,30 +58,30 @@ export default function BlogsPage() {
       {/* Blog grid */}
       <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
         {loading ? Array.from({ length: 6 }, (_, i) => (
-          <div key={i} className="bg-[#1a1a1a] rounded overflow-hidden animate-pulse">
-            <div className="aspect-video bg-[#2a2a2a]" />
+          <div key={i} className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden animate-pulse">
+            <div className="aspect-video bg-[#EEF1FA]" />
             <div className="p-4 space-y-2">
-              <div className="h-4 bg-[#2a2a2a] rounded w-1/3" />
-              <div className="h-5 bg-[#2a2a2a] rounded" />
-              <div className="h-4 bg-[#2a2a2a] rounded w-2/3" />
+              <div className="h-4 bg-[#EEF1FA] rounded w-1/3" />
+              <div className="h-5 bg-[#EEF1FA] rounded" />
+              <div className="h-4 bg-[#EEF1FA] rounded w-2/3" />
             </div>
           </div>
         )) : blogs.map((blog) => (
-          <Link key={blog.id} href={`/blogs/${blog.slug}`} className="group bg-[#1a1a1a] rounded overflow-hidden hover:bg-[#222] transition-colors">
-            <div className="aspect-video relative bg-[#0a0a0a]">
+          <Link key={blog.id} href={`/blogs/${blog.slug}`} className="group bg-white border border-[#e2e8f0] rounded-xl overflow-hidden hover:shadow-md transition-all hover:border-[#1B2B5E]/20">
+            <div className="aspect-video relative bg-[#EEF1FA]">
               {blog.cover_image_url ? (
                 <Image src={blog.cover_image_url} alt={blog.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="400px" />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-gray-700">No cover image</div>
+                <div className="absolute inset-0 flex items-center justify-center text-[#64748b] text-sm">No cover image</div>
               )}
             </div>
             <div className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant={CAT_BADGE[blog.category] ?? "gray"}>{blog.category.replace(/-/g, " ")}</Badge>
-                <span className="text-gray-600 text-xs">{(blog as unknown as { read_time_minutes: number }).read_time_minutes ?? 3} min read</span>
+                <span className="text-[#64748b] text-xs">{(blog as unknown as { read_time_minutes: number }).read_time_minutes ?? 3} min read</span>
               </div>
-              <h2 className="text-white font-medium group-hover:text-[#E8670A] transition-colors line-clamp-2 mb-2">{blog.title}</h2>
-              <p className="text-gray-500 text-xs">{formatDate(blog.created_at as unknown as string)}</p>
+              <h2 className="text-[#1B2B5E] font-semibold group-hover:text-[#C9A84C] transition-colors line-clamp-2 mb-2">{blog.title}</h2>
+              <p className="text-[#64748b] text-xs">{formatDate(blog.created_at as unknown as string)}</p>
             </div>
           </Link>
         ))}
@@ -93,7 +94,7 @@ export default function BlogsPage() {
       {total > blogs.length && (
         <div className="text-center mt-8">
           <button onClick={() => setPage((p) => p + 1)}
-            className="px-6 py-2 bg-[#1a1a1a] text-[#E8670A] rounded hover:bg-[#2a2a2a] transition-colors text-sm">
+            className="px-6 py-2 bg-[#1B2B5E] hover:bg-[#243570] text-white rounded-lg transition-colors text-sm">
             Load more
           </button>
         </div>
