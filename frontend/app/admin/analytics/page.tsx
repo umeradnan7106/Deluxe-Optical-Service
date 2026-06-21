@@ -5,7 +5,7 @@ import { adminApi } from "@/lib/api";
 import { formatPrice } from "@/lib/utils";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend,
+  PieChart, Pie, Cell,
 } from "recharts";
 
 interface DailyStats { date: string; orders: number; revenue: number }

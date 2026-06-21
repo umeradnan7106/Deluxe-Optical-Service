@@ -270,10 +270,10 @@ export default function AdminOrderDetailPage() {
                             </div>
                           );
                         })}
-                        {(prescriptionData.add || prescriptionData.pd) && (
+                        {(!!(prescriptionData.add) || !!(prescriptionData.pd)) && (
                           <div className="flex gap-4 mt-2 pt-2 border-t border-[#E2E8F0] text-xs">
-                            {prescriptionData.add && <span><strong>ADD:</strong> {String(prescriptionData.add)}</span>}
-                            {prescriptionData.pd && <span><strong>PD:</strong> {String(prescriptionData.pd)}mm</span>}
+                            {!!(prescriptionData.add) && <span><strong>ADD:</strong> {String(prescriptionData.add)}</span>}
+                            {!!(prescriptionData.pd) && <span><strong>PD:</strong> {String(prescriptionData.pd)}mm</span>}
                           </div>
                         )}
                       </div>

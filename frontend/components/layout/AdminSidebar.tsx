@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -22,7 +23,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 
-const NAV_STRUCTURE = [
+type NavItem = { href: string; label: string; icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; exact?: boolean };
+
+const NAV_STRUCTURE: { label: string; items: NavItem[] }[] = [
   {
     label: "Overview",
     items: [
@@ -100,7 +103,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
         {NAV_STRUCTURE.map((section) => (
           <div key={section.label} className="py-3 border-b border-[#1e293b] last:border-b-0">
             <p className="text-[9px] font-bold uppercase tracking-[.12em] text-[#334155] px-4 mb-2">{section.label}</p>
-            {section.items.map(({ href, label, icon: Icon, exact }) => {
+            {section.items.map(({ href, label, icon: Icon, exact = false }) => {
               const isActive = exact
                 ? pathname === href
                 : pathname === href || (pathname.startsWith(href + "/") && href !== "/admin");
