@@ -24,11 +24,10 @@ const DRAWER_LINKS = [
   { href: "/products?gender=men", label: "Men" },
   { href: "/products?gender=women", label: "Women" },
   { href: "/products?category=sunglasses", label: "Sunglasses" },
-  { href: "/products?category=eyeglasses&prescription=true", label: "Prescription" },
-  { href: "/lens-guide#blue-cut", label: "Blue Cut" },
-  { href: "/lens-guide#screen", label: "Screen" },
-  { href: "/lens-guide#transition", label: "Transition" },
-  { href: "/products?sale=true", label: "Sale", orange: true },
+  { href: "/products?category=prescription", label: "Prescription" },
+  { href: "/products?category=blue-cut", label: "Blue Cut" },
+  { href: "/products?category=transition", label: "Transition" },
+  { href: "/products?sale=true", label: "Sale", gold: true },
   { href: "/tracking", label: "Track Order" },
 ];
 
@@ -111,7 +110,7 @@ export default function Header() {
         <button
           key={p.id}
           onClick={() => handleSuggestionClick(p.slug)}
-          className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#f9fafb] transition-colors text-left"
+          className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#EEF1FA] transition-colors text-left"
         >
           <div className="relative w-10 h-8 shrink-0 bg-white border border-[#e5e7eb] rounded overflow-hidden">
             {p.thumbnail_url ? (
@@ -123,14 +122,14 @@ export default function Header() {
           <div className="flex-1 min-w-0">
             <p className="text-[#1a1a1a] text-sm font-medium truncate">{p.name}</p>
           </div>
-          <span className="text-[#E8670A] text-sm font-semibold shrink-0">
+          <span className="text-[#1B2B5E] text-sm font-semibold shrink-0">
             {formatPrice(p.sale_price ?? p.base_price)}
           </span>
         </button>
       ))}
       <button
         onClick={() => { setShowSuggestions(false); if (query.trim()) router.push(`/products?q=${encodeURIComponent(query)}`); }}
-        className="w-full text-center py-2 text-[#E8670A] text-xs hover:bg-[#FFF0E6] transition-colors border-t border-[#e5e7eb]"
+        className="w-full text-center py-2 text-[#1B2B5E] text-xs hover:bg-[#EEF1FA] transition-colors border-t border-[#e5e7eb]"
       >
         See all results for &ldquo;{query}&rdquo;
       </button>
@@ -139,7 +138,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-white border-b border-[#e5e7eb] sticky top-0 z-50">
+      <header className="bg-white border-b border-[#e5e7eb] sticky top-0 z-50 shadow-sm">
         {/* ── MOBILE LAYOUT (< md) ─────────────────────────────── */}
         <div className="md:hidden">
           {/* Row 1: hamburger | logo (centered) | account + cart */}
@@ -147,34 +146,34 @@ export default function Header() {
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
-              className="text-[#1a1a1a] p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className="text-[#1B2B5E] p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               <Bars3Icon className="w-6 h-6" />
             </button>
 
             <Link
               href="/"
-              className="absolute left-1/2 -translate-x-1/2 text-[#0F0F0F] font-['Cormorant_Garamond'] text-2xl font-semibold tracking-wide whitespace-nowrap"
+              className="absolute left-1/2 -translate-x-1/2 font-playfair text-[#1B2B5E] text-2xl font-bold tracking-wide whitespace-nowrap"
             >
-              Deluxe<span className="text-[#E8670A]">Opt</span>
+              Deluxe<span className="text-[#C9A84C]">Opt</span>
             </Link>
 
             <div className="ml-auto flex items-center gap-1">
               <Link
                 href={accountHref}
                 aria-label="Account"
-                className="text-[#1a1a1a] hover:text-[#E8670A] transition-colors p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="text-[#1B2B5E] hover:text-[#C9A84C] transition-colors p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
               >
                 <UserIcon className="w-6 h-6" />
               </Link>
               <Link
                 href="/cart"
                 aria-label="Cart"
-                className="relative text-[#1a1a1a] hover:text-[#E8670A] transition-colors p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="relative text-[#1B2B5E] hover:text-[#C9A84C] transition-colors p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
               >
                 <ShoppingCartIcon className="w-6 h-6" />
                 {itemCount > 0 && (
-                  <span className="absolute top-1 right-1 bg-[#E8670A] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute top-1 right-1 bg-[#C9A84C] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     {itemCount > 9 ? "9+" : itemCount}
                   </span>
                 )}
@@ -190,19 +189,19 @@ export default function Header() {
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
                 placeholder="Search for frames, sunglasses…"
-                className="flex-1 h-11 bg-white border border-[#e5e7eb] text-[#1a1a1a] placeholder-[#9ca3af] text-sm px-4 rounded-l-[5px] outline-none focus:ring-1 focus:ring-[#E8670A]"
+                className="flex-1 h-11 bg-[#F8FAFC] border border-[#e2e8f0] text-[#1a1a1a] placeholder-[#94a3b8] text-sm px-4 rounded-l-lg outline-none focus:ring-1 focus:ring-[#1B2B5E] focus:border-[#1B2B5E]"
                 autoComplete="off"
               />
               <button
                 type="submit"
                 aria-label="Search"
-                className="bg-[#E8670A] hover:bg-[#C45408] h-11 px-3 rounded-r-[5px] text-white"
+                className="bg-[#1B2B5E] hover:bg-[#243570] h-11 px-3 rounded-r-lg text-white transition-colors"
               >
                 <MagnifyingGlassIcon className="w-5 h-5" />
               </button>
 
               {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#e5e7eb] rounded-lg shadow-lg overflow-hidden z-50">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#e2e8f0] rounded-lg shadow-lg overflow-hidden z-50">
                   <SuggestionsList />
                 </div>
               )}
@@ -214,9 +213,9 @@ export default function Header() {
         <div className="hidden md:flex max-w-[1500px] mx-auto px-4 md:px-6 h-16 items-center gap-4">
           <Link
             href="/"
-            className="flex-shrink-0 text-[#0F0F0F] font-['Cormorant_Garamond'] text-2xl font-semibold tracking-wide"
+            className="flex-shrink-0 font-playfair text-[#1B2B5E] text-2xl font-bold tracking-wide"
           >
-            Deluxe<span className="text-[#E8670A]">Opt</span>
+            Deluxe<span className="text-[#C9A84C]">Opt</span>
           </Link>
 
           <div className="flex flex-1 max-w-xl mx-auto relative" ref={desktopSearchRef}>
@@ -226,20 +225,20 @@ export default function Header() {
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
                 placeholder="Search for frames, sunglasses…"
-                className="flex-1 bg-white border border-[#e5e7eb] text-[#1a1a1a] placeholder-[#9ca3af] text-sm px-4 py-2 rounded-l-[5px] outline-none focus:ring-1 focus:ring-[#E8670A]"
+                className="flex-1 bg-[#F8FAFC] border border-[#e2e8f0] text-[#1a1a1a] placeholder-[#94a3b8] text-sm px-4 py-2.5 rounded-l-lg outline-none focus:ring-1 focus:ring-[#1B2B5E] focus:border-[#1B2B5E]"
                 autoComplete="off"
               />
               <button
                 type="submit"
                 aria-label="Search"
-                className="bg-[#E8670A] hover:bg-[#C45408] px-3 rounded-r-[5px] text-white"
+                className="bg-[#1B2B5E] hover:bg-[#243570] px-4 rounded-r-lg text-white transition-colors"
               >
                 <MagnifyingGlassIcon className="w-5 h-5" />
               </button>
             </form>
 
             {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#e5e7eb] rounded-lg shadow-lg overflow-hidden z-50">
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#e2e8f0] rounded-lg shadow-lg overflow-hidden z-50">
                 <SuggestionsList />
               </div>
             )}
@@ -250,11 +249,11 @@ export default function Header() {
               href="/account/wishlist"
               onClick={handleWishlistClick}
               aria-label="Wishlist"
-              className="relative text-[#1a1a1a] hover:text-[#E8670A] transition-colors"
+              className="relative w-10 h-10 bg-[#F8FAFC] border border-[#e2e8f0] rounded-lg flex items-center justify-center text-[#1B2B5E] hover:border-[#1B2B5E] hover:bg-[#EEF1FA] transition-colors"
             >
-              <HeartIcon className="w-6 h-6" />
+              <HeartIcon className="w-5 h-5" />
               {isAuthenticated && wishlistCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-[#E8670A] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-1.5 bg-[#C9A84C] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {wishlistCount > 9 ? "9+" : wishlistCount}
                 </span>
               )}
@@ -263,7 +262,7 @@ export default function Header() {
             {isAdmin && (
               <Link
                 href="/admin"
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-[#E8670A] border border-[#E8670A]/40 px-3 py-1.5 rounded hover:bg-[#E8670A]/10 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-[#1B2B5E] border border-[#1B2B5E]/40 px-3 py-1.5 rounded-lg hover:bg-[#EEF1FA] transition-colors"
               >
                 Admin Panel
               </Link>
@@ -272,19 +271,19 @@ export default function Header() {
             <Link
               href={accountHref}
               aria-label="Account"
-              className="text-[#1a1a1a] hover:text-[#E8670A] transition-colors"
+              className="w-10 h-10 bg-[#F8FAFC] border border-[#e2e8f0] rounded-lg flex items-center justify-center text-[#1B2B5E] hover:border-[#1B2B5E] hover:bg-[#EEF1FA] transition-colors"
             >
-              <UserIcon className="w-6 h-6" />
+              <UserIcon className="w-5 h-5" />
             </Link>
 
             <Link
               href="/cart"
               aria-label="Cart"
-              className="relative text-[#1a1a1a] hover:text-[#E8670A] transition-colors"
+              className="relative w-10 h-10 bg-[#F8FAFC] border border-[#e2e8f0] rounded-lg flex items-center justify-center text-[#1B2B5E] hover:border-[#1B2B5E] hover:bg-[#EEF1FA] transition-colors"
             >
-              <ShoppingCartIcon className="w-6 h-6" />
+              <ShoppingCartIcon className="w-5 h-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-[#E8670A] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-1.5 bg-[#C9A84C] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {itemCount > 9 ? "9+" : itemCount}
                 </span>
               )}
@@ -296,27 +295,25 @@ export default function Header() {
       {/* ── MOBILE DRAWER ──────────────────────────────────────── */}
       {drawerOpen && (
         <div className="fixed inset-0 z-[60] md:hidden" onClick={() => setDrawerOpen(false)}>
-          {/* Overlay */}
           <div className="absolute inset-0 bg-black/50" />
 
-          {/* Drawer panel */}
           <div
             className="absolute left-0 top-0 h-full w-[280px] bg-white flex flex-col shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Drawer header */}
-            <div className="flex items-center justify-between px-5 h-14 border-b border-[#e5e7eb] shrink-0">
+            <div className="flex items-center justify-between px-5 h-14 border-b border-[#e2e8f0] shrink-0 bg-[#1B2B5E]">
               <Link
                 href="/"
                 onClick={() => setDrawerOpen(false)}
-                className="text-[#0F0F0F] font-['Cormorant_Garamond'] text-xl font-semibold tracking-wide"
+                className="font-playfair text-white text-xl font-bold tracking-wide"
               >
-                Deluxe<span className="text-[#E8670A]">Opt</span>
+                Deluxe<span className="text-[#C9A84C]">Opt</span>
               </Link>
               <button
                 onClick={() => setDrawerOpen(false)}
                 aria-label="Close menu"
-                className="text-[#6b7280] hover:text-[#1a1a1a] p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="text-white/60 hover:text-white p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
               >
                 <XMarkIcon className="w-6 h-6" />
               </button>
@@ -325,15 +322,15 @@ export default function Header() {
             {/* Nav links */}
             <nav className="flex-1 overflow-y-auto py-2">
               <ul>
-                {DRAWER_LINKS.map(({ href, label, orange }) => (
+                {DRAWER_LINKS.map(({ href, label, gold }) => (
                   <li key={href}>
                     <Link
                       href={href}
                       onClick={() => setDrawerOpen(false)}
-                      className={`block px-5 py-3.5 text-sm font-medium transition-colors min-h-[44px] flex items-center ${
-                        orange
-                          ? "text-[#E8670A]"
-                          : "text-[#1a1a1a] hover:bg-[#f9fafb] hover:text-[#E8670A]"
+                      className={`block px-5 py-3.5 text-sm font-medium transition-colors min-h-[44px] flex items-center border-l-4 ${
+                        gold
+                          ? "text-[#C9A84C] border-transparent"
+                          : "text-[#1a1a1a] hover:bg-[#EEF1FA] hover:text-[#1B2B5E] hover:border-[#1B2B5E] border-transparent"
                       }`}
                     >
                       {label}
@@ -342,19 +339,19 @@ export default function Header() {
                 ))}
               </ul>
 
-              <div className="border-t border-[#e5e7eb] mt-3 pt-3 px-5 space-y-1">
+              <div className="border-t border-[#e2e8f0] mt-3 pt-3 px-5 space-y-1">
                 <Link
                   href="/account/wishlist"
                   onClick={(e) => {
                     if (!isAuthenticated) { e.preventDefault(); router.push("/auth/login"); }
                     setDrawerOpen(false);
                   }}
-                  className="flex items-center gap-3 py-3 text-sm text-[#1a1a1a] hover:text-[#E8670A] transition-colors min-h-[44px]"
+                  className="flex items-center gap-3 py-3 text-sm text-[#1a1a1a] hover:text-[#1B2B5E] transition-colors min-h-[44px]"
                 >
                   <HeartIcon className="w-5 h-5 shrink-0" />
                   Wishlist
                   {isAuthenticated && wishlistCount > 0 && (
-                    <span className="ml-auto bg-[#E8670A] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                    <span className="ml-auto bg-[#C9A84C] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
                       {wishlistCount > 9 ? "9+" : wishlistCount}
                     </span>
                   )}
@@ -362,7 +359,7 @@ export default function Header() {
                 <Link
                   href={accountHref}
                   onClick={() => setDrawerOpen(false)}
-                  className="flex items-center gap-3 py-3 text-sm text-[#1a1a1a] hover:text-[#E8670A] transition-colors min-h-[44px]"
+                  className="flex items-center gap-3 py-3 text-sm text-[#1a1a1a] hover:text-[#1B2B5E] transition-colors min-h-[44px]"
                 >
                   <UserIcon className="w-5 h-5 shrink-0" />
                   {isAuthenticated ? "My Account" : "Login / Register"}

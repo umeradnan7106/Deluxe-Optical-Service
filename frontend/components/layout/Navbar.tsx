@@ -9,32 +9,31 @@ const NAV_LINKS = [
   { href: "/products?gender=men", label: "Men" },
   { href: "/products?gender=women", label: "Women" },
   { href: "/products?category=sunglasses", label: "Sunglasses" },
-  { href: "/products?category=eyeglasses&prescription=true", label: "Prescription" },
-  { href: "/lens-guide#blue-cut", label: "Blue Cut" },
-  { href: "/lens-guide#screen", label: "Screen" },
-  { href: "/lens-guide#transition", label: "Transition" },
-  { href: "/products?sale=true", label: "Sale", orange: true },
+  { href: "/products?category=prescription", label: "Prescription" },
+  { href: "/products?category=blue-cut", label: "Blue Cut" },
+  { href: "/products?category=transition", label: "Transition" },
+  { href: "/products?sale=true", label: "Sale", gold: true },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-[#1a1a1a] border-b border-[#2a2a2a] hidden md:block">
+    <nav className="bg-[#1B2B5E] border-b-2 border-[#C9A84C] hidden md:block">
       <div className="max-w-[1500px] mx-auto px-6 flex items-center justify-between h-11 overflow-x-auto scrollbar-none">
         <ul className="flex items-center gap-1 flex-nowrap">
-          {NAV_LINKS.map(({ href, label, orange }) => {
+          {NAV_LINKS.map(({ href, label, gold }) => {
             const isActive = pathname === href || (href !== "/" && pathname.startsWith(href.split("?")[0]));
             return (
               <li key={href}>
                 <Link
                   href={href}
                   className={cn(
-                    "px-3 py-2 text-sm font-medium transition-colors rounded-sm",
-                    orange
-                      ? "text-[#E8670A] hover:text-[#C45408]"
-                      : "text-gray-300 hover:text-white",
-                    isActive && !orange && "text-white border-b-2 border-[#E8670A]"
+                    "px-3 py-2 text-sm font-medium transition-colors border-b-2 -mb-px inline-block",
+                    gold
+                      ? "text-[#C9A84C] hover:text-[#A8893A] border-transparent"
+                      : "text-white/75 hover:text-white border-transparent",
+                    isActive && !gold && "text-white border-[#C9A84C]"
                   )}
                 >
                   {label}
@@ -46,9 +45,9 @@ export default function Navbar() {
 
         <Link
           href="/tracking"
-          className="text-sm text-gray-400 hover:text-[#E8670A] transition-colors"
+          className="text-sm text-white/50 hover:text-white transition-colors flex items-center gap-1"
         >
-          Track Order
+          Track Order ›
         </Link>
       </div>
     </nav>

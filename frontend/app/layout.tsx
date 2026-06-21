@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { Cormorant_Garamond, Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import AnnounceBar from "@/components/layout/AnnounceBar";
 import Header from "@/components/layout/Header";
@@ -21,6 +21,14 @@ const outfit = Outfit({
   display: "swap",
 });
 
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Deluxe Opt Service — Premium Eyewear Pakistan",
@@ -34,7 +42,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${outfit.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${outfit.variable} ${playfair.variable}`}>
       <body className="antialiased">
         <AnnounceBar />
         <Header />
