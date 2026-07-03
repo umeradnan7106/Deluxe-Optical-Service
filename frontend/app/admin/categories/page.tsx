@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+
+const STORAGE_KEY = "admin-custom-categories";
 
 const DEFAULT_CATEGORIES = [
   { icon: "👓", name: "Eyeglasses", slug: "eyeglasses" },
@@ -20,13 +22,26 @@ const labelCls = "block text-[10px] font-semibold uppercase tracking-[.06em] tex
 const inputCls = "w-full border-[1.5px] border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#0F172A] bg-white outline-none focus:border-[#1B2B5E] transition-colors";
 
 export default function CategoriesPage() {
-  const [customCategories, setCustomCategories] = useState<CustomCategory[]>([
-    { id: 1, name: "Kids Glasses", slug: "kids-glasses", showInNavbar: true, productCount: 12 },
-    { id: 2, name: "Sports Eyewear", slug: "sports-eyewear", showInNavbar: true, productCount: 8 },
-  ]);
+  const [customCategories, setCustomCategories] = useState<CustomCategory[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? (JSON.parse(saved) as CustomCategory[]) : [];
+    } catch {
+      return [];
+    }
+  });
   const [newName, setNewName] = useState("");
   const [newSlug, setNewSlug] = useState("");
   const [newNavbar, setNewNavbar] = useState(true);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(customCategories));
+    } catch {
+      // storage full or unavailable — ignore
+    }
+  }, [customCategories]);
 
   function handleAdd() {
     if (!newName.trim()) return;

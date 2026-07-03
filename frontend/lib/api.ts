@@ -118,7 +118,7 @@ export const cartApi = {
 
 export const wishlistApi = {
   get: () => api.get<ProductListItem[]>("/api/wishlist"),
-  add: (product_id: number) => api.post("/api/wishlist", { product_id }),
+  add: (product_id: number) => api.post("/api/wishlist", null, { params: { product_id } }),
   remove: (product_id: number) => api.delete(`/api/wishlist/${product_id}`),
 };
 
@@ -177,6 +177,7 @@ export const adminApi = {
     recentOrders: () => api.get("/api/admin/recent-orders"),
     pendingReviews: () => api.get("/api/admin/pending-reviews"),
     lowStock: () => api.get("/api/admin/low-stock"),
+    topProducts: () => api.get("/api/admin/top-products"),
   },
 
   // Products

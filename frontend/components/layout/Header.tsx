@@ -173,8 +173,8 @@ export default function Header() {
               >
                 <ShoppingCartIcon className="w-6 h-6" />
                 {itemCount > 0 && (
-                  <span className="absolute top-1 right-1 bg-[#C9A84C] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    {itemCount > 9 ? "9+" : itemCount}
+                  <span className="absolute top-1 right-1 bg-[#C9A84C] text-white text-[10px] font-bold min-w-[16px] h-4 px-[3px] rounded-full flex items-center justify-center">
+                    {itemCount}
                   </span>
                 )}
               </Link>
@@ -283,8 +283,8 @@ export default function Header() {
             >
               <ShoppingCartIcon className="w-5 h-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-[#C9A84C] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                  {itemCount > 9 ? "9+" : itemCount}
+                <span className="absolute -top-1.5 -right-1.5 bg-[#C9A84C] text-white text-[10px] font-bold min-w-[16px] h-4 px-[3px] rounded-full flex items-center justify-center">
+                  {itemCount}
                 </span>
               )}
             </Link>

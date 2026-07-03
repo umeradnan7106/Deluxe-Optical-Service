@@ -7,7 +7,14 @@ import type { ProductListItem, PaginatedResponse } from "@/types";
 import { PRODUCT_CATEGORIES, PRODUCT_GENDERS } from "@/lib/constants";
 import ProductCard from "@/components/product/ProductCard";
 import Button from "@/components/ui/Button";
-import { AdjustmentsHorizontalIcon, XMarkIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import {
+  AdjustmentsHorizontalIcon,
+  XMarkIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDownIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
 
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest First" },
@@ -15,25 +22,75 @@ const SORT_OPTIONS = [
   { value: "price_desc", label: "Price: High → Low" },
 ];
 
-const FRAME_SHAPES = ["Round", "Square", "Oval", "Cat-Eye", "Aviator", "Wayfarer"];
-const MATERIALS = ["Acetate", "Metal", "Titanium", "Plastic"];
+const FRAME_SHAPES = [
+  "Round", "Square", "Oval", "Cat-Eye", "Aviator",
+  "Wayfarer", "Rectangular", "Browline", "Hexagonal", "Rimless",
+];
 
-function FilterCard({ title, children }: { title: string; children: React.ReactNode }) {
+const MATERIALS = ["Acetate", "Metal", "Titanium", "Plastic", "TR90", "Wood"];
+
+function FilterSection({
+  title,
+  activeCount,
+  children,
+  defaultOpen = true,
+}: {
+  title: string;
+  activeCount?: number;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="bg-white border border-[#e2e8f0] rounded-lg p-4">
-      <h3 className="text-[#1B2B5E] font-semibold text-sm mb-3">{title}</h3>
-      {children}
+    <div className="border-b border-[#EEF1FA] last:border-b-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-3.5 text-left"
+      >
+        <div className="flex items-center gap-2">
+          <span className="text-[#0F172A] font-semibold text-[13px]">{title}</span>
+          {!!activeCount && (
+            <span className="bg-[#1B2B5E] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shrink-0">
+              {activeCount}
+            </span>
+          )}
+        </div>
+        <ChevronDownIcon
+          className={`w-3.5 h-3.5 text-[#94a3b8] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && <div className="pb-4 space-y-0.5">{children}</div>}
     </div>
   );
 }
 
-function CheckboxFilter({ label, checked, onChange }: {
-  value: string; label: string; checked: boolean; onChange: () => void;
+function FilterCheckbox({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
 }) {
   return (
-    <label className="flex items-center gap-2 text-[#64748b] hover:text-[#1B2B5E] cursor-pointer mb-2 text-[13px] min-h-[32px]">
-      <input type="checkbox" checked={checked} onChange={onChange} className="accent-[#C9A84C] w-4 h-4" />
-      {label}
+    <label className="flex items-center gap-2.5 py-[5px] cursor-pointer group" onClick={onChange}>
+      <div
+        className={`w-[15px] h-[15px] rounded-[3px] border flex items-center justify-center shrink-0 transition-all ${
+          checked
+            ? "bg-[#1B2B5E] border-[#1B2B5E]"
+            : "border-[#CBD5E1] bg-white group-hover:border-[#1B2B5E]"
+        }`}
+      >
+        {checked && <CheckIcon className="w-2.5 h-2.5 text-white" strokeWidth={3} />}
+      </div>
+      <span
+        className={`text-[13px] leading-none transition-colors ${
+          checked ? "text-[#1B2B5E] font-semibold" : "text-[#475569] group-hover:text-[#1B2B5E]"
+        }`}
+      >
+        {label}
+      </span>
     </label>
   );
 }
@@ -78,7 +135,6 @@ export default function ProductsPage() {
 
   useEffect(() => { fetchProducts(); }, [fetchProducts]);
 
-  // Lock body scroll when sheet open
   useEffect(() => {
     document.body.style.overflow = sheetOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -94,8 +150,9 @@ export default function ProductsPage() {
     setMinPrice(""); setMaxPrice(""); setSort("newest"); setPage(1);
   }
 
-  const activeFilterCount = categories.length + genders.length + frameShapes.length + materials.length
-    + (minPrice ? 1 : 0) + (maxPrice ? 1 : 0);
+  const activeFilterCount =
+    categories.length + genders.length + frameShapes.length + materials.length +
+    (minPrice ? 1 : 0) + (maxPrice ? 1 : 0);
 
   const activeFilterTags = [
     ...categories.map((v) => ({ label: v, clear: () => setCategories(categories.filter((c) => c !== v)) })),
@@ -107,80 +164,129 @@ export default function ProductsPage() {
   ];
 
   const FilterContent = () => (
-    <div className="space-y-3 text-sm">
-      <FilterCard title="Sort By">
-        <select
-          value={sort}
-          onChange={(e) => { setSort(e.target.value); setPage(1); }}
-          className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] px-3 py-2 rounded-[5px] text-sm"
-        >
-          {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
-      </FilterCard>
-
-      <FilterCard title="Category">
-        {PRODUCT_CATEGORIES.map(({ value, label }) => (
-          <CheckboxFilter key={value} value={value} label={label}
-            checked={categories.includes(value)}
-            onChange={() => toggleFilter(categories, value, setCategories)}
-          />
-        ))}
-      </FilterCard>
-
-      <FilterCard title="Gender">
-        {PRODUCT_GENDERS.map(({ value, label }) => (
-          <CheckboxFilter key={value} value={value} label={label}
-            checked={genders.includes(value)}
-            onChange={() => toggleFilter(genders, value, setGenders)}
-          />
-        ))}
-      </FilterCard>
-
-      <FilterCard title="Frame Shape">
-        {FRAME_SHAPES.map((s) => (
-          <CheckboxFilter key={s} value={s} label={s}
-            checked={frameShapes.includes(s)}
-            onChange={() => toggleFilter(frameShapes, s, setFrameShapes)}
-          />
-        ))}
-      </FilterCard>
-
-      <FilterCard title="Material">
-        {MATERIALS.map((m) => (
-          <CheckboxFilter key={m} value={m} label={m}
-            checked={materials.includes(m)}
-            onChange={() => toggleFilter(materials, m, setMaterials)}
-          />
-        ))}
-      </FilterCard>
-
-      <FilterCard title="Price Range">
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <p className="text-[#6b7280] text-[10px] mb-1">Min Rs.</p>
-            <input type="number" placeholder="0" value={minPrice}
-              onChange={(e) => { setMinPrice(e.target.value); setPage(1); }}
-              className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] px-2 py-2 rounded text-xs h-9"
-            />
-          </div>
-          <div className="flex-1">
-            <p className="text-[#6b7280] text-[10px] mb-1">Max Rs.</p>
-            <input type="number" placeholder="Any" value={maxPrice}
-              onChange={(e) => { setMaxPrice(e.target.value); setPage(1); }}
-              className="w-full bg-white border border-[#e5e7eb] text-[#1a1a1a] px-2 py-2 rounded text-xs h-9"
-            />
-          </div>
+    <div className="bg-white border border-[#E2E8F0] rounded-xl overflow-hidden shadow-sm">
+      {/* Sidebar header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#1B2B5E] to-[#243570]">
+        <div className="flex items-center gap-2">
+          <AdjustmentsHorizontalIcon className="w-4 h-4 text-[#C9A84C]" />
+          <span className="text-white font-bold text-[13px] tracking-wide">FILTERS</span>
+          {activeFilterCount > 0 && (
+            <span className="bg-[#C9A84C] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              {activeFilterCount}
+            </span>
+          )}
         </div>
-      </FilterCard>
+        {activeFilterCount > 0 && (
+          <button
+            onClick={clearAll}
+            className="text-[#C9A84C] hover:text-white text-[11px] font-semibold transition-colors"
+          >
+            Clear All
+          </button>
+        )}
+      </div>
 
-      {activeFilterCount > 0 && (
-        <button
-          onClick={clearAll}
-          className="w-full border border-[#e2e8f0] text-[#64748b] py-2 rounded-[5px] text-sm hover:border-[#1B2B5E] hover:text-[#1B2B5E] transition-colors"
+      {/* Filter sections */}
+      <div className="px-4">
+        {/* Sort By */}
+        <FilterSection title="Sort By">
+          <div className="space-y-0.5">
+            {SORT_OPTIONS.map((o) => (
+              <button
+                key={o.value}
+                onClick={() => { setSort(o.value); setPage(1); }}
+                className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] text-left transition-colors ${
+                  sort === o.value
+                    ? "bg-[#EEF1FA] text-[#1B2B5E] font-semibold"
+                    : "text-[#475569] hover:bg-[#F8FAFC] hover:text-[#1B2B5E]"
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${sort === o.value ? "bg-[#C9A84C]" : "bg-transparent"}`} />
+                {o.label}
+              </button>
+            ))}
+          </div>
+        </FilterSection>
+
+        {/* Category */}
+        <FilterSection title="Category" activeCount={categories.length}>
+          {PRODUCT_CATEGORIES.map(({ value, label }) => (
+            <FilterCheckbox
+              key={value}
+              label={label}
+              checked={categories.includes(value)}
+              onChange={() => toggleFilter(categories, value, setCategories)}
+            />
+          ))}
+        </FilterSection>
+
+        {/* Gender */}
+        <FilterSection title="Gender" activeCount={genders.length}>
+          {PRODUCT_GENDERS.map(({ value, label }) => (
+            <FilterCheckbox
+              key={value}
+              label={label}
+              checked={genders.includes(value)}
+              onChange={() => toggleFilter(genders, value, setGenders)}
+            />
+          ))}
+        </FilterSection>
+
+        {/* Frame Shape */}
+        <FilterSection title="Frame Shape" activeCount={frameShapes.length} defaultOpen={false}>
+          {FRAME_SHAPES.map((s) => (
+            <FilterCheckbox
+              key={s}
+              label={s}
+              checked={frameShapes.includes(s)}
+              onChange={() => toggleFilter(frameShapes, s, setFrameShapes)}
+            />
+          ))}
+        </FilterSection>
+
+        {/* Material */}
+        <FilterSection title="Material" activeCount={materials.length} defaultOpen={false}>
+          {MATERIALS.map((m) => (
+            <FilterCheckbox
+              key={m}
+              label={m}
+              checked={materials.includes(m)}
+              onChange={() => toggleFilter(materials, m, setMaterials)}
+            />
+          ))}
+        </FilterSection>
+
+        {/* Price Range */}
+        <FilterSection
+          title="Price Range"
+          activeCount={(minPrice ? 1 : 0) + (maxPrice ? 1 : 0)}
+          defaultOpen={false}
         >
-          Clear All Filters
-        </button>
-      )}
+          <div className="flex items-center gap-2 mt-1">
+            <div className="flex-1">
+              <p className="text-[10px] text-[#94a3b8] font-medium mb-1">Min (Rs.)</p>
+              <input
+                type="number"
+                placeholder="0"
+                value={minPrice}
+                onChange={(e) => { setMinPrice(e.target.value); setPage(1); }}
+                className="w-full border border-[#E2E8F0] focus:border-[#1B2B5E] rounded-lg px-2.5 py-2 text-[13px] text-[#0F172A] outline-none transition-colors"
+              />
+            </div>
+            <span className="text-[#CBD5E1] text-sm mt-4 shrink-0">—</span>
+            <div className="flex-1">
+              <p className="text-[10px] text-[#94a3b8] font-medium mb-1">Max (Rs.)</p>
+              <input
+                type="number"
+                placeholder="Any"
+                value={maxPrice}
+                onChange={(e) => { setMaxPrice(e.target.value); setPage(1); }}
+                className="w-full border border-[#E2E8F0] focus:border-[#1B2B5E] rounded-lg px-2.5 py-2 text-[13px] text-[#0F172A] outline-none transition-colors"
+              />
+            </div>
+          </div>
+        </FilterSection>
+      </div>
     </div>
   );
 
@@ -231,7 +337,6 @@ export default function ProductsPage() {
             className="absolute inset-x-0 bottom-0 bg-white rounded-t-2xl max-h-[85vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Sheet header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-[#e5e7eb] shrink-0">
               <button onClick={clearAll} className="text-[#6b7280] text-sm min-h-[44px] pr-2">
                 Clear All
@@ -245,13 +350,9 @@ export default function ProductsPage() {
                 <XMarkIcon className="w-5 h-5" />
               </button>
             </div>
-
-            {/* Scrollable filter list */}
             <div className="flex-1 overflow-y-auto p-4">
               <FilterContent />
             </div>
-
-            {/* Sticky Apply button */}
             <div className="p-4 border-t border-[#e5e7eb] shrink-0">
               <button
                 onClick={() => setSheetOpen(false)}
@@ -265,8 +366,8 @@ export default function ProductsPage() {
       )}
 
       <div className="flex gap-6">
-        {/* Desktop sidebar — 220px fixed */}
-        <div className="hidden md:block w-[220px] shrink-0">
+        {/* Desktop sidebar */}
+        <div className="hidden md:block w-[230px] shrink-0">
           <FilterContent />
         </div>
 
@@ -287,7 +388,10 @@ export default function ProductsPage() {
           {activeFilterTags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {activeFilterTags.map((tag) => (
-                <span key={tag.label} className="inline-flex items-center gap-1 bg-[#EEF1FA] text-[#1B2B5E] text-xs font-medium px-2.5 py-1 rounded-full">
+                <span
+                  key={tag.label}
+                  className="inline-flex items-center gap-1 bg-[#EEF1FA] text-[#1B2B5E] text-xs font-medium px-2.5 py-1 rounded-full"
+                >
                   {tag.label}
                   <button onClick={tag.clear} className="hover:text-[#C9A84C]">
                     <XMarkIcon className="w-3 h-3" />
@@ -322,7 +426,7 @@ export default function ProductsPage() {
                 {data?.items.map((p) => <ProductCard key={p.id} product={p} />)}
               </div>
 
-              {/* Mobile pagination: prev/next only */}
+              {/* Mobile pagination */}
               {data && data.pages > 1 && (
                 <div className="flex md:hidden items-center justify-between mt-8 gap-3">
                   <button
@@ -333,9 +437,7 @@ export default function ProductsPage() {
                     <ChevronLeftIcon className="w-4 h-4" />
                     Previous
                   </button>
-                  <span className="text-[#6b7280] text-sm shrink-0">
-                    {page} / {data.pages}
-                  </span>
+                  <span className="text-[#6b7280] text-sm shrink-0">{page} / {data.pages}</span>
                   <button
                     onClick={() => setPage(page + 1)}
                     disabled={page === data.pages}
@@ -347,7 +449,7 @@ export default function ProductsPage() {
                 </div>
               )}
 
-              {/* Desktop pagination: all pages */}
+              {/* Desktop pagination */}
               {data && data.pages > 1 && (
                 <div className="hidden md:flex justify-center gap-2 mt-8">
                   {Array.from({ length: data.pages }, (_, i) => i + 1).map((p) => (

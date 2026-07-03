@@ -58,13 +58,6 @@ interface ProductFormState {
   is_prescription_required: boolean;
   base_price: string;
   sale_price: string;
-  // Frame specs
-  frame_width_mm: string;
-  lens_width_mm: string;
-  bridge_mm: string;
-  temple_mm: string;
-  lens_height_mm: string;
-  weight_grams: string;
   rim_type: string;
   // Sidebar
   is_active: boolean;
@@ -177,8 +170,6 @@ export default function ProductForm({ productId }: ProductFormProps) {
     name: "", sku: "", brand: "", category: "eyeglasses", gender: "unisex",
     frame_shape: "", material: "", is_prescription_required: false,
     base_price: "", sale_price: "",
-    frame_width_mm: "", lens_width_mm: "", bridge_mm: "", temple_mm: "", lens_height_mm: "",
-    weight_grams: "",
     rim_type: "full-rim",
     is_active: true, is_on_sale: false, is_featured: false,
     slug: "", focus_keywords: "", meta_title: "", meta_description: "",
@@ -230,12 +221,6 @@ export default function ProductForm({ productId }: ProductFormProps) {
         is_prescription_required: p.is_prescription_required,
         base_price: String(p.base_price),
         sale_price: p.sale_price ? String(p.sale_price) : "",
-        frame_width_mm: p.frame_width_mm ? String(p.frame_width_mm) : "",
-        lens_width_mm: p.lens_width_mm ? String(p.lens_width_mm) : "",
-        bridge_mm: p.bridge_mm ? String(p.bridge_mm) : "",
-        temple_mm: p.temple_mm ? String(p.temple_mm) : "",
-        lens_height_mm: p.lens_height_mm ? String(p.lens_height_mm) : "",
-        weight_grams: (p as AdminProductData & { weight_grams?: number }).weight_grams ? String((p as AdminProductData & { weight_grams?: number }).weight_grams) : "",
         rim_type: p.rim_type ?? "full-rim",
         is_active: p.is_active,
         is_on_sale: !!(p as AdminProductData & { is_on_sale?: boolean }).is_on_sale,
@@ -417,12 +402,6 @@ export default function ProductForm({ productId }: ProductFormProps) {
         sale_price: form.sale_price ? parseFloat(form.sale_price) : null,
         description: editor?.getHTML() ?? "",
         rim_type: form.rim_type || null,
-        frame_width_mm: form.frame_width_mm ? parseInt(form.frame_width_mm) : null,
-        lens_width_mm: form.lens_width_mm ? parseInt(form.lens_width_mm) : null,
-        bridge_mm: form.bridge_mm ? parseInt(form.bridge_mm) : null,
-        temple_mm: form.temple_mm ? parseInt(form.temple_mm) : null,
-        lens_height_mm: form.lens_height_mm ? parseInt(form.lens_height_mm) : null,
-        weight_grams: form.weight_grams ? parseInt(form.weight_grams) : null,
         is_active: form.is_active,
         is_on_sale: form.is_on_sale,
         is_featured: form.is_featured,
@@ -881,33 +860,7 @@ export default function ProductForm({ productId }: ProductFormProps) {
           </div>
         </Section>
 
-        {/* 6. Frame Specs */}
-        <Section title="Frame Specifications (mm)">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
-            {([
-              ["frame_width_mm", "Frame Width"],
-              ["lens_width_mm", "Lens Width"],
-              ["bridge_mm", "Bridge"],
-              ["temple_mm", "Temple Length"],
-              ["lens_height_mm", "Lens Height"],
-            ] as [keyof ProductFormState, string][]).map(([field, label]) => (
-              <Field key={field} label={label}>
-                <input type="number" value={form[field] as string}
-                  onChange={(e) => setField(field, e.target.value)}
-                  className={inputCls} placeholder="mm" min="0" />
-              </Field>
-            ))}
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <Field label="Weight (grams)">
-              <input type="number" value={form.weight_grams}
-                onChange={(e) => setField("weight_grams", e.target.value)}
-                className={inputCls} placeholder="e.g. 28" min="0" />
-            </Field>
-          </div>
-        </Section>
-
-        {/* 7. Lens Options */}
+        {/* 6. Lens Options */}
         <Section title="Lens Options">
           {lensOptions.length === 0 ? (
             <p className="text-gray-500 text-sm">No lens options configured yet.</p>

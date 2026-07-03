@@ -64,7 +64,14 @@ export default function ProductCard({ product, wishlisted: wishlistedProp, onWis
       onWishlistToggle(product.id);
       return;
     }
-    await toggle(product.id, isAuthenticated);
+    try {
+      await toggle(product.id, isAuthenticated);
+    } catch (err) {
+      const status = (err as { response?: { status?: number } })?.response?.status;
+      if (!status || status === 401 || status === 403) {
+        router.push(`/auth/login?redirect=${encodeURIComponent(pathname)}`);
+      }
+    }
   }
 
   return (

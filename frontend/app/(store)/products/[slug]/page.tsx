@@ -13,11 +13,13 @@ import {
   ArchiveBoxArrowDownIcon,
   XMarkIcon,
   HeartIcon,
+  CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
-import { productsApi, reviewsApi } from "@/lib/api";
+import { productsApi, reviewsApi, adminApi } from "@/lib/api";
 import type { Product, ProductListItem } from "@/types";
 import { formatPrice, getDiscountPercent } from "@/lib/utils";
+import sizeGuideImage from "@/app/public/size-guide.jpg";
 import { WHATSAPP_URL } from "@/lib/constants";
 import ProductGallery from "@/components/product/ProductGallery";
 import WidthGuide from "@/components/product/WidthGuide";
@@ -27,6 +29,7 @@ import Badge from "@/components/ui/Badge";
 import StickyBar from "@/components/product/StickyBar";
 import useCartStore from "@/store/cartStore";
 import useWishlistStore from "@/store/wishlistStore";
+import useAuthStore from "@/store/authStore";
 import ProductCard from "@/components/product/ProductCard";
 
 function parseSizeLabelEncoded(raw: string | null | undefined): { label: string; lw: string; br: string; tm: string } {
@@ -54,27 +57,6 @@ const WaIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const SizeChartSVG = () => (
-  <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-[300px] mx-auto">
-    <rect x="20" y="50" width="110" height="80" rx="14" fill="none" stroke="#1a1a1a" strokeWidth="2.5" />
-    <rect x="190" y="50" width="110" height="80" rx="14" fill="none" stroke="#1a1a1a" strokeWidth="2.5" />
-    <path d="M130 90 Q160 76 190 90" fill="none" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
-    <line x1="20" y1="74" x2="0" y2="74" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
-    <line x1="300" y1="74" x2="320" y2="74" stroke="#1a1a1a" strokeWidth="2.5" strokeLinecap="round" />
-    <line x1="20" y1="32" x2="130" y2="32" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
-    <line x1="20" y1="27" x2="20" y2="37" stroke="#C9A84C" strokeWidth="1.5" />
-    <line x1="130" y1="27" x2="130" y2="37" stroke="#C9A84C" strokeWidth="1.5" />
-    <text x="75" y="24" textAnchor="middle" fontSize="10" fill="#6b7280" fontFamily="sans-serif">Lens Width</text>
-    <line x1="130" y1="32" x2="190" y2="32" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
-    <line x1="190" y1="27" x2="190" y2="37" stroke="#C9A84C" strokeWidth="1.5" />
-    <text x="160" y="24" textAnchor="middle" fontSize="10" fill="#6b7280" fontFamily="sans-serif">Bridge</text>
-    <line x1="300" y1="160" x2="320" y2="160" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
-    <line x1="300" y1="74" x2="300" y2="164" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
-    <line x1="320" y1="74" x2="320" y2="164" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4,2" />
-    <text x="310" y="174" textAnchor="middle" fontSize="10" fill="#6b7280" fontFamily="sans-serif">Temple</text>
-  </svg>
-);
-
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
 }
@@ -98,6 +80,7 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState<Tab>("features");
   const [sizeChartOpen, setSizeChartOpen] = useState(false);
+  const [cartAdded, setCartAdded] = useState(false);
   const [imageView, setImageView] = useState<"front" | "side">("front");
 
   const [reviews, setReviews] = useState<ReviewData[]>([]);
@@ -113,7 +96,24 @@ export default function ProductDetailPage() {
   useEffect(() => {
     async function load() {
       const pRes = await productsApi.detail(slug);
-      setProduct(pRes.data as Product);
+      const pub = pRes.data as Product;
+
+      // Supplement variant size_labels from admin API (public API omits them)
+      const isAdmin = useAuthStore.getState().isAdmin;
+      if (isAdmin && pub.id && pub.variants?.length) {
+        try {
+          const admRes = await adminApi.products.detail(pub.id);
+          const adm = admRes.data as Product;
+          if (adm.variants?.length) {
+            pub.variants = pub.variants.map((v) => {
+              const av = adm.variants.find((x) => x.id === v.id);
+              return av?.size_label ? { ...v, size_label: av.size_label } : v;
+            });
+          }
+        } catch { /* admin API unavailable — skip */ }
+      }
+
+      setProduct(pub);
     }
     load().catch((err) => {
       const msg = err?.response?.data?.detail ?? err?.message ?? "Failed to load product";
@@ -180,14 +180,17 @@ export default function ProductDetailPage() {
   const displayPrice = product.sale_price ?? product.base_price;
   const discountPct = product.sale_price ? getDiscountPercent(product.base_price, product.sale_price) : 0;
 
+  const variantSz = parseSizeLabelEncoded(variant?.size_label);
+
+  // Fallback to product-level fields for products not yet re-saved with encoded size_label
+  const szLw = variantSz.lw || (product.lens_width_mm != null ? String(product.lens_width_mm) : "");
+  const szBr = variantSz.br || (product.bridge_mm != null ? String(product.bridge_mm) : "");
+  const szTm = variantSz.tm || (product.temple_mm != null ? String(product.temple_mm) : "");
+
   const frameSizeStr = (() => {
-    const sz = parseSizeLabelEncoded(variant?.size_label);
-    const label = sz.label && sz.label.toLowerCase() !== "null" ? sz.label : null;
-    const lw = sz.lw || (product.lens_width_mm != null ? String(product.lens_width_mm) : "");
-    const br = sz.br || (product.bridge_mm != null ? String(product.bridge_mm) : "");
-    const tm = sz.tm || (product.temple_mm != null ? String(product.temple_mm) : "");
-    if (!label && !lw && !br && !tm) return null;
-    const meas = [lw && `${lw}`, br && `□${br}`, tm && `-${tm}`].filter(Boolean).join("");
+    const label = variantSz.label && variantSz.label.toLowerCase() !== "null" ? variantSz.label : null;
+    if (!label && !szLw && !szBr && !szTm) return null;
+    const meas = [szLw && `${szLw}`, szBr && `□${szBr}`, szTm && `-${szTm}`].filter(Boolean).join("");
     return label && meas ? `${label} (${meas})` : label || meas || null;
   })();
 
@@ -197,14 +200,22 @@ export default function ProductDetailPage() {
   })();
 
   async function handleWishlist() {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (!isAuthenticated) {
+      router.push(`/auth/login?redirect=${encodeURIComponent(`/products/${product!.slug}`)}`);
+      return;
+    }
     try {
       if (wishlist.has(product!.id)) {
         await wishlist.remove(product!.id);
       } else {
         await wishlist.add(product!.id);
       }
-    } catch {
-      router.push("/account/login");
+    } catch (err) {
+      const status = (err as { response?: { status?: number } })?.response?.status;
+      if (!status || status === 401 || status === 403) {
+        router.push(`/auth/login?redirect=${encodeURIComponent(`/products/${product!.slug}`)}`);
+      }
     }
   }
 
@@ -225,7 +236,8 @@ export default function ProductDetailPage() {
       lens_options_price: 0,
       prescription: null,
     });
-    router.push("/cart");
+    setCartAdded(true);
+    setTimeout(() => setCartAdded(false), 3000);
   }
 
   return (
@@ -245,27 +257,36 @@ export default function ProductDetailPage() {
           <div className="lg:w-1/2 space-y-4">
             <ProductGallery images={allImages} productName={product.name} />
             <WidthGuide
-              sizeLabel={variant?.size_label ?? null}
+              sizeLabel={variantSz.label || null}
               colorName={variant?.color_name ?? null}
               material={product.material}
               frameShape={product.frame_shape}
               rimType={product.rim_type}
-              frameWidthMm={product.frame_width_mm}
-              lensWidthMm={product.lens_width_mm}
-              bridgeMm={product.bridge_mm}
-              templeMm={product.temple_mm}
-              lensHeightMm={product.lens_height_mm}
+              lensWidthMm={szLw ? parseFloat(szLw) : null}
+              bridgeMm={szBr ? parseFloat(szBr) : null}
+              templeMm={szTm ? parseFloat(szTm) : null}
             />
           </div>
 
           {/* Right: Details */}
           <div className="lg:w-1/2">
-            {/* Category label above title */}
-            {product.category && (
-              <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-widest mb-2">
-                {product.category}
-              </p>
-            )}
+            {/* Category label + wishlist heart */}
+            <div className="flex items-center justify-between mb-2">
+              {product.category ? (
+                <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-widest">
+                  {product.category}
+                </p>
+              ) : <span />}
+              <button
+                onClick={handleWishlist}
+                className="w-9 h-9 flex items-center justify-center rounded-full border border-[#e5e7eb] hover:border-[#C9A84C] transition-colors"
+                title={wishlist.has(product.id) ? "Remove from wishlist" : "Add to wishlist"}
+              >
+                {wishlist.has(product.id)
+                  ? <HeartSolidIcon className="w-5 h-5 text-red-500" />
+                  : <HeartIcon className="w-5 h-5 text-[#6b7280]" />}
+              </button>
+            </div>
 
             {/* Rating */}
             {product.average_rating !== null && (
@@ -329,7 +350,10 @@ export default function ProductDetailPage() {
             {(() => {
               const selectedColor = product.variants[selectedVariantIdx]?.color_name;
               const colorVariants = product.variants.filter((v) => v.color_name === selectedColor);
-              const sizedVariants = colorVariants.filter((v) => parseSizeLabelEncoded(v.size_label).label);
+              const sizedVariants = colorVariants.filter((v) => {
+                const sz = parseSizeLabelEncoded(v.size_label);
+                return sz.label || sz.lw || sz.br || sz.tm;
+              });
               const showPills = sizedVariants.length > 0;
               if (!showPills && !frameSizeStr) return null;
               return (
@@ -342,17 +366,17 @@ export default function ProductDetailPage() {
                     <div className="flex flex-wrap gap-2">
                       {colorVariants.map((v) => {
                         const sz = parseSizeLabelEncoded(v.size_label);
-                        if (!sz.label) return null;
-                        const idx = product.variants.findIndex((x) => x.id === v.id);
-                        const isSelected = idx === selectedVariantIdx;
                         const lw = sz.lw || (product.lens_width_mm != null ? String(product.lens_width_mm) : "");
                         const br = sz.br || (product.bridge_mm != null ? String(product.bridge_mm) : "");
                         const tm = sz.tm || (product.temple_mm != null ? String(product.temple_mm) : "");
                         const meas = [lw && `${lw}`, br && `□${br}`, tm && `-${tm}`].filter(Boolean).join("");
+                        if (!sz.label && !meas) return null;
+                        const idx = product.variants.findIndex((x) => x.id === v.id);
+                        const isSelected = idx === selectedVariantIdx;
                         return (
                           <button key={v.id} onClick={() => setSelectedVariantIdx(idx)}
                             className={`px-3 py-1.5 rounded border text-sm transition-colors ${isSelected ? "border-[#1B2B5E] text-[#1B2B5E] bg-[#EEF1FA] font-semibold" : "border-[#e2e8f0] text-[#64748b] hover:border-[#1B2B5E]"}`}>
-                            {sz.label}{meas ? ` (${meas})` : ""}
+                            {sz.label && meas ? `${sz.label} (${meas})` : sz.label || meas}
                           </button>
                         );
                       })}
@@ -366,18 +390,25 @@ export default function ProductDetailPage() {
 
             <hr className="border-[#e5e7eb] my-4" />
 
-            {/* Select Lenses CTA — immediately after frame size divider */}
-            <div className="flex gap-2 mb-1">
-              <Link href={`/products/${product.slug}/select-lenses`} className="flex-1">
-                <Button variant="primary" size="lg" fullWidth>Select Your Lenses</Button>
-              </Link>
-              <button onClick={handleWishlist}
-                className="border border-[#e5e7eb] rounded-[5px] px-3 flex items-center justify-center hover:border-[#C9A84C] transition-colors min-w-[44px]"
-                title={wishlist.has(product.id) ? "Remove from wishlist" : "Add to wishlist"}>
-                {wishlist.has(product.id) ? <HeartSolidIcon className="w-5 h-5 text-red-500" /> : <HeartIcon className="w-5 h-5 text-[#6b7280]" />}
-              </button>
-            </div>
-            <p className="text-[#6b7280] text-xs text-center mb-4">No prescription? You can still add frame-only.</p>
+            {/* Select Lenses CTA — only shown when product has lens options */}
+            {(() => {
+              const lo = product.lens_options;
+              const hasLensOptions = (lo?.lens_type?.length ?? 0) > 0 || (lo?.coating?.length ?? 0) > 0 || (lo?.addon?.length ?? 0) > 0;
+              return (
+                <>
+                  {hasLensOptions && (
+                    <>
+                      <div className="mb-1">
+                        <Link href={`/products/${product.slug}/select-lenses`}>
+                          <Button variant="primary" size="lg" fullWidth>Select Your Lenses</Button>
+                        </Link>
+                      </div>
+                      <p className="text-[#6b7280] text-xs text-center mb-4">No prescription? You can still add frame-only.</p>
+                    </>
+                  )}
+                </>
+              );
+            })()}
 
             {/* Payment box */}
             <div className="bg-[#EEF1FA] border border-[#C9A84C]/30 rounded-[5px] p-3 mb-4 flex items-start gap-2">
@@ -387,6 +418,14 @@ export default function ProductDetailPage() {
                 <p className="text-[11px] text-[#6b7280] mt-0.5">EasyPaisa, JazzCash, or Bank Transfer — 15% instant discount</p>
               </div>
             </div>
+
+            {/* Cart success message */}
+            {cartAdded && (
+              <div className="flex items-center gap-2 bg-[#f0fdf4] border border-[#86efac] text-[#15803d] text-sm px-3 py-2 rounded-lg mb-2">
+                <CheckCircleIcon className="w-4 h-4 shrink-0" />
+                <span>Product added to cart successfully!</span>
+              </div>
+            )}
 
             {/* Qty + Add to Cart — 20% / 80% */}
             <div className="flex gap-2 mb-3">
@@ -478,10 +517,8 @@ export default function ProductDetailPage() {
                     { label: "Material", value: product.material },
                     { label: "Shape", value: product.frame_shape },
                     { label: "Rim Type", value: product.rim_type },
-                    { label: "Frame Width", value: product.frame_width_mm ? `${product.frame_width_mm}mm` : null },
-                    { label: "Lens Width", value: product.lens_width_mm ? `${product.lens_width_mm}mm` : null },
-                    { label: "Bridge", value: product.bridge_mm ? `${product.bridge_mm}mm` : null },
-                    { label: "Temple Length", value: product.temple_mm ? `${product.temple_mm}mm` : null },
+                    { label: "Bridge", value: szBr ? `${szBr}mm` : null },
+                    { label: "Temple Length", value: szTm ? `${szTm}mm` : null },
                   ].filter(({ value }) => value).map(({ label, value }) => (
                     <div key={label} className="flex items-start gap-2 border-b border-[#f3f4f6] pb-3">
                       <span className="text-[#6b7280] w-[100px] shrink-0">{label}</span>
@@ -522,68 +559,58 @@ export default function ProductDetailPage() {
                   )}
 
                   {/* Image box with optional SVG overlay */}
-                  <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden p-2">
-                    <div className="relative" style={{ paddingTop: "50%" }}>
+                  <div className="bg-white border border-[#e5e7eb] rounded-lg overflow-hidden">
+                    <div className="relative" style={{ paddingTop: "60%" }}>
                       <Image
                         src={(imageView === "side" && allImages[1]) ? allImages[1].url : allImages[0].url}
                         alt={(imageView === "side" && allImages[1]) ? (allImages[1].alt_text || `${product.name} side view`) : (allImages[0].alt_text || product.name)}
                         fill
-                        className="object-contain"
+                        className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
-                      {imageView === "front" && (product.lens_width_mm || product.bridge_mm || product.lens_height_mm) && (
+                      {imageView === "front" && (szLw || szBr) && (
                         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 200" overflow="visible">
-                          {product.lens_width_mm && (
+                          {szLw && (
                             <>
                               <line x1="35" y1="40" x2="165" y2="40" stroke="white" strokeWidth="2.5" />
                               <line x1="35" y1="40" x2="165" y2="40" stroke="#9ca3af" strokeWidth="1" strokeDasharray="4,2" />
                               <line x1="35" y1="37" x2="35" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
                               <line x1="165" y1="37" x2="165" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
                               <rect x="63" y="20" width="74" height="16" rx="3" fill="white" stroke="#C9A84C" strokeWidth="0.75" />
-                              <text x="100" y="32" textAnchor="middle" fontSize="10" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{product.lens_width_mm}mm</text>
+                              <text x="100" y="32" textAnchor="middle" fontSize="10" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{szLw}mm</text>
                             </>
                           )}
-                          {product.bridge_mm && (
+                          {szBr && (
                             <>
                               <line x1="170" y1="40" x2="230" y2="40" stroke="white" strokeWidth="2.5" />
                               <line x1="170" y1="40" x2="230" y2="40" stroke="#9ca3af" strokeWidth="1" strokeDasharray="3,2" />
                               <line x1="170" y1="37" x2="170" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
                               <line x1="230" y1="37" x2="230" y2="43" stroke="#9ca3af" strokeWidth="1.5" />
                               <rect x="183" y="20" width="34" height="16" rx="3" fill="white" stroke="#C9A84C" strokeWidth="0.75" />
-                              <text x="200" y="32" textAnchor="middle" fontSize="9" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{product.bridge_mm}mm</text>
-                            </>
-                          )}
-                          {product.lens_height_mm && (
-                            <>
-                              <line x1="350" y1="55" x2="350" y2="145" stroke="white" strokeWidth="2.5" />
-                              <line x1="350" y1="55" x2="350" y2="145" stroke="#9ca3af" strokeWidth="1" strokeDasharray="4,2" />
-                              <line x1="347" y1="55" x2="353" y2="55" stroke="#9ca3af" strokeWidth="1.5" />
-                              <line x1="347" y1="145" x2="353" y2="145" stroke="#9ca3af" strokeWidth="1.5" />
-                              <rect x="296" y="92" width="48" height="16" rx="3" fill="white" stroke="#C9A84C" strokeWidth="0.75" />
-                              <text x="320" y="104" textAnchor="middle" fontSize="10" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{product.lens_height_mm}mm</text>
+                              <text x="200" y="32" textAnchor="middle" fontSize="9" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{szBr}mm</text>
                             </>
                           )}
                         </svg>
                       )}
-                      {imageView === "side" && product.temple_mm && (
+                      {imageView === "side" && szTm && (
                         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 200">
                           <line x1="40" y1="60" x2="280" y2="60" stroke="white" strokeWidth="2.5" />
                           <line x1="40" y1="60" x2="280" y2="60" stroke="#9ca3af" strokeWidth="1" strokeDasharray="6,4" />
                           <line x1="40" y1="57" x2="40" y2="63" stroke="#9ca3af" strokeWidth="1.5" />
                           <line x1="280" y1="57" x2="280" y2="63" stroke="#9ca3af" strokeWidth="1.5" />
                           <rect x="126" y="43" width="48" height="16" rx="3" fill="white" stroke="#C9A84C" strokeWidth="0.75" />
-                          <text x="150" y="55" textAnchor="middle" fontSize="10" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{product.temple_mm}mm</text>
+                          <text x="150" y="55" textAnchor="middle" fontSize="10" fontWeight="600" fill="#C9A84C" fontFamily="sans-serif">{szTm}mm</text>
                         </svg>
                       )}
                     </div>
                   </div>
 
-                  {(product.lens_width_mm || product.bridge_mm || product.temple_mm) && (
+                  {(szLw || szBr || szTm) && (
                     <p className="text-[#6b7280] text-[11px] text-center">
                       {[
-                        product.lens_width_mm && `${product.lens_width_mm}mm lens`,
-                        product.bridge_mm && `${product.bridge_mm}mm bridge`,
-                        product.temple_mm && `${product.temple_mm}mm temple`,
+                        szLw && `${szLw}mm lens`,
+                        szBr && `${szBr}mm bridge`,
+                        szTm && `${szTm}mm temple`,
                       ].filter(Boolean).join(" · ")}
                     </p>
                   )}
@@ -606,7 +633,7 @@ export default function ProductDetailPage() {
                       src={(allImages[2] ?? allImages[1]).url}
                       alt={(allImages[2] ?? allImages[1]).alt_text || product.name}
                       fill
-                      className="object-contain"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
@@ -686,32 +713,27 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
-      {/* Size Chart Modal (FIX 4) */}
+      {/* Size Chart Modal */}
       {sizeChartOpen && (
         <div
           className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
           onClick={() => setSizeChartOpen(false)}
         >
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-playfair text-xl text-[#1B2B5E] font-bold">Size Chart</h3>
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl flex flex-col" style={{ maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#e5e7eb]">
+              <h3 className="font-playfair text-xl text-[#1B2B5E] font-bold">Size Guide</h3>
               <button onClick={() => setSizeChartOpen(false)} className="text-[#6b7280] hover:text-[#1a1a1a]">
                 <XMarkIcon className="w-6 h-6" />
               </button>
             </div>
-            <SizeChartSVG />
-            {frameSizeStr && (
-              <p className="text-center text-[#1a1a1a] font-mono text-sm mt-4 bg-[#f9fafb] border border-[#e5e7eb] rounded px-3 py-2">
-                {frameSizeStr}
-              </p>
-            )}
-            <p className="text-[#6b7280] text-xs mt-3 text-center">
-              {[
-                product.lens_width_mm && `Lens: ${product.lens_width_mm}mm`,
-                product.bridge_mm && `Bridge: ${product.bridge_mm}mm`,
-                product.temple_mm && `Temple: ${product.temple_mm}mm`,
-              ].filter(Boolean).join(" · ")}
-            </p>
+            <div className="overflow-y-auto rounded-b-xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={sizeGuideImage.src}
+                alt="Size Guide"
+                className="w-full h-auto block"
+              />
+            </div>
           </div>
         </div>
       )}

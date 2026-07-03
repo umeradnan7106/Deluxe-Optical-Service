@@ -5,14 +5,19 @@
 body {
   background-color: #ffffff;
   color: #1a1a1a;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
   min-width: 365px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 input, textarea, select {
   background-color: #ffffff !important;
   color: #1a1a1a !important;
   border-color: #e5e7eb !important;
+  font-family: var(--font-inter), 'Inter', sans-serif;
 }
 
 input::placeholder, textarea::placeholder {
@@ -20,7 +25,7 @@ input::placeholder, textarea::placeholder {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-playfair), 'Playfair Display', serif;
 }
 
 * {

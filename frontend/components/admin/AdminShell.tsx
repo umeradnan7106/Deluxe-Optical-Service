@@ -19,7 +19,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     <div className="flex min-h-screen bg-[#F1F5F9]">
       <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-[52px] bg-white border-b border-[#E2E8F0] flex items-center justify-between px-4 md:px-6 shrink-0 sticky top-0 z-[100]">
+        <header className="h-[52px] bg-white border-b border-[#E2E8F0] flex items-center justify-between px-4 md:px-6 shrink-0 sticky top-0 ">
           {/* Left: hamburger + title */}
           <div className="flex items-center gap-3">
             <button

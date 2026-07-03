@@ -67,13 +67,13 @@ function ColSection({ title, links }: { title: string; links: { href: string; la
         aria-expanded={open}
       >
         <h5 className="text-[#C9A84C] font-semibold text-[10px] uppercase tracking-widest">{title}</h5>
-        <ChevronDownIcon className={cn("w-4 h-4 text-[#475569] transition-transform", open && "rotate-180")} />
+        <ChevronDownIcon className={cn("w-4 h-4 text-white/55 transition-transform", open && "rotate-180")} />
       </button>
       <h5 className="hidden md:block text-[#C9A84C] font-semibold text-[10px] uppercase tracking-widest mb-4">{title}</h5>
       <ul className={cn("space-y-2 pb-4 md:pb-0", !open && "hidden md:block")}>
         {links.map(({ href, label }) => (
           <li key={href}>
-            <Link href={href} className="text-[#475569] hover:text-[#C9A84C] text-[13px] transition-colors block">
+            <Link href={href} className="text-white/55 hover:text-[#C9A84C] text-[13px] transition-colors block">
               {label}
             </Link>
           </li>
@@ -96,13 +96,13 @@ export default function Footer() {
             <span className="font-playfair text-white text-2xl font-bold">
               Deluxe<span className="text-[#C9A84C]">Opt</span>
             </span>
-            <p className="mt-2 text-[#475569] text-[13px] leading-relaxed">
+            <p className="mt-2 text-white/55 text-[13px] leading-relaxed">
               Premium eyewear for every face. Pakistan-wide delivery with 7-day easy returns.
             </p>
             <div className="flex gap-3 mt-4">
               {SOCIALS.map(({ label, href, icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                  className="w-8 h-8 bg-[#1e293b] rounded-lg flex items-center justify-center text-[#475569] hover:bg-[#1B2B5E] hover:text-[#C9A84C] transition-all">
+                  className="w-8 h-8 bg-[#1e293b] rounded-lg flex items-center justify-center text-white/55 hover:bg-[#1B2B5E] hover:text-[#C9A84C] transition-all">
                   {icon}
                 </a>
               ))}
@@ -120,11 +120,11 @@ export default function Footer() {
               aria-expanded={newsletterOpen}
             >
               <h5 className="text-[#C9A84C] font-semibold text-[10px] uppercase tracking-widest">Stay Updated</h5>
-              <ChevronDownIcon className={cn("w-4 h-4 text-[#475569] transition-transform", newsletterOpen && "rotate-180")} />
+              <ChevronDownIcon className={cn("w-4 h-4 text-white/55 transition-transform", newsletterOpen && "rotate-180")} />
             </button>
             {newsletterOpen && (
               <div className="pb-4">
-                <p className="text-[#475569] text-[13px] mb-3">Get deals and new arrivals in your inbox.</p>
+                <p className="text-white/55 text-[13px] mb-3">Get deals and new arrivals in your inbox.</p>
                 <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
                   <input
                     type="email"
@@ -141,7 +141,7 @@ export default function Footer() {
 
           <div className="flex justify-center gap-2 pt-6 flex-wrap">
             {["EasyPaisa", "JazzCash", "Bank Transfer", "COD"].map((m) => (
-              <span key={m} className="text-[10px] bg-[#1e293b] text-[#475569] px-3 py-1 rounded border border-[#334155] font-semibold">
+              <span key={m} className="text-[10px] bg-[#1e293b] text-white/55 px-3 py-1 rounded border border-[#334155] font-semibold">
                 {m}
               </span>
             ))}
@@ -154,13 +154,13 @@ export default function Footer() {
             <span className="font-playfair text-white text-2xl font-bold">
               Deluxe<span className="text-[#C9A84C]">Opt</span>
             </span>
-            <p className="mt-3 text-[#475569] text-sm leading-relaxed">
+            <p className="mt-3 text-white/55 text-sm leading-relaxed">
               Premium eyewear for every face. Pakistan-wide delivery with 7-day easy returns.
             </p>
             <div className="flex gap-2 mt-4">
               {SOCIALS.map(({ label, href, icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                  className="w-8 h-8 bg-[#1e293b] rounded-lg flex items-center justify-center text-[#475569] hover:bg-[#1B2B5E] hover:text-[#C9A84C] transition-all">
+                  className="w-8 h-8 bg-[#1e293b] rounded-lg flex items-center justify-center text-white/55 hover:bg-[#1B2B5E] hover:text-[#C9A84C] transition-all">
                   {icon}
                 </a>
               ))}
@@ -171,7 +171,7 @@ export default function Footer() {
             <h5 className="text-[#C9A84C] font-semibold text-[10px] uppercase tracking-widest mb-4">Shop</h5>
             <ul className="space-y-2">
               {SHOP_LINKS.map(({ href, label }) => (
-                <li key={href}><Link href={href} className="text-[#475569] hover:text-[#C9A84C] text-sm transition-colors">{label}</Link></li>
+                <li key={href}><Link href={href} className="text-white/55 hover:text-[#C9A84C] text-sm transition-colors">{label}</Link></li>
               ))}
             </ul>
           </div>
@@ -180,7 +180,7 @@ export default function Footer() {
             <h5 className="text-[#C9A84C] font-semibold text-[10px] uppercase tracking-widest mb-4">Help</h5>
             <ul className="space-y-2">
               {HELP_LINKS.map(({ href, label }) => (
-                <li key={href}><Link href={href} className="text-[#475569] hover:text-[#C9A84C] text-sm transition-colors">{label}</Link></li>
+                <li key={href}><Link href={href} className="text-white/55 hover:text-[#C9A84C] text-sm transition-colors">{label}</Link></li>
               ))}
             </ul>
           </div>
@@ -189,14 +189,14 @@ export default function Footer() {
             <h5 className="text-[#C9A84C] font-semibold text-[10px] uppercase tracking-widest mb-4">Company</h5>
             <ul className="space-y-2">
               {COMPANY_LINKS.map(({ href, label }) => (
-                <li key={href}><Link href={href} className="text-[#475569] hover:text-[#C9A84C] text-sm transition-colors">{label}</Link></li>
+                <li key={href}><Link href={href} className="text-white/55 hover:text-[#C9A84C] text-sm transition-colors">{label}</Link></li>
               ))}
             </ul>
           </div>
 
           <div>
             <h5 className="text-[#C9A84C] font-semibold text-[10px] uppercase tracking-widest mb-4">Stay Updated</h5>
-            <p className="text-[#475569] text-sm mb-3">Get deals and new arrivals in your inbox.</p>
+            <p className="text-white/55 text-sm mb-3">Get deals and new arrivals in your inbox.</p>
             <form className="flex flex-col gap-2" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
@@ -209,7 +209,7 @@ export default function Footer() {
             </form>
             <div className="flex gap-2 mt-4 flex-wrap">
               {["EasyPaisa", "JazzCash", "COD"].map((m) => (
-                <span key={m} className="text-[10px] bg-[#1e293b] text-[#475569] px-2 py-1 rounded border border-[#334155] font-semibold">
+                <span key={m} className="text-[10px] bg-[#1e293b] text-white/55 px-2 py-1 rounded border border-[#334155] font-semibold">
                   {m}
                 </span>
               ))}
@@ -219,7 +219,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-[#1e293b] py-4 px-4">
-        <p className="text-center text-[#334155] text-xs">
+        <p className="text-center text-white/40 text-xs">
           © {new Date().getFullYear()} Deluxe Opt Service. All rights reserved.
         </p>
       </div>

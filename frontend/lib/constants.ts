@@ -67,8 +67,12 @@ export const ORDER_STATUS_LABELS: Record<string, string> = {
 export const PRODUCT_CATEGORIES = [
   { value: "eyeglasses", label: "Eyeglasses" },
   { value: "sunglasses", label: "Sunglasses" },
+  { value: "prescription", label: "Prescription" },
+  { value: "blue-cut", label: "Blue Cut" },
+  { value: "transition", label: "Transition" },
   { value: "contact-lenses", label: "Contact Lenses" },
   { value: "accessories", label: "Accessories" },
+  { value: "sale", label: "Sale" },
 ] as const;
 
 export const PRODUCT_GENDERS = [

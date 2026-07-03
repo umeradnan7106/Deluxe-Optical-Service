@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { adminApi } from "@/lib/api";
 import { formatPrice } from "@/lib/utils";
@@ -12,6 +12,7 @@ import {
 import {
   PlusIcon, ClipboardDocumentListIcon, StarIcon,
   BanknotesIcon, ShoppingBagIcon, UserGroupIcon, ExclamationTriangleIcon,
+  ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 
 interface DailyStats { date: string; orders: number; revenue: number }
@@ -29,6 +30,7 @@ interface DashboardStats {
 interface RecentOrder { id: number; order_number: string; customer_name: string; total_amount: number; status: string; payment_method: string; created_at: string }
 interface PendingReview { id: number; product_name: string; customer_name: string; rating: number; body: string; created_at: string }
 interface LowStockItem { variant_id: number; product_name: string; sku_variant: string | null; color_name: string; stock: number; low_stock_threshold: number }
+interface TopProduct { product_id: number; product_name: string; units_sold: number; revenue: number; avg_rating: number | null }
 
 const STATUS_COLORS_PIE: Record<string, string> = {
   pending: "#C9A84C", confirmed: "#3b82f6", processing: "#8b5cf6",
@@ -44,13 +46,28 @@ export default function AdminDashboard() {
   const [recentOrders, setRecentOrders] = useState<RecentOrder[]>([]);
   const [pendingReviews, setPendingReviews] = useState<PendingReview[]>([]);
   const [lowStock, setLowStock] = useState<LowStockItem[]>([]);
+  const [topProducts, setTopProducts] = useState<TopProduct[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  const fetchAll = useCallback(async () => {
+    setRefreshing(true);
+    await Promise.allSettled([
+      adminApi.dashboard.stats().then(({ data }) => setStats(data as DashboardStats)),
+      adminApi.dashboard.recentOrders().then(({ data }) => setRecentOrders(data as RecentOrder[])),
+      adminApi.dashboard.pendingReviews().then(({ data }) => setPendingReviews(data as PendingReview[])),
+      adminApi.dashboard.lowStock().then(({ data }) => setLowStock(data as LowStockItem[])),
+      adminApi.dashboard.topProducts().then(({ data }) => setTopProducts(data as TopProduct[])),
+    ]);
+    setLastUpdated(new Date());
+    setRefreshing(false);
+  }, []);
 
   useEffect(() => {
-    adminApi.dashboard.stats().then(({ data }) => setStats(data as DashboardStats)).catch(() => {});
-    adminApi.dashboard.recentOrders().then(({ data }) => setRecentOrders(data as RecentOrder[])).catch(() => {});
-    adminApi.dashboard.pendingReviews().then(({ data }) => setPendingReviews(data as PendingReview[])).catch(() => {});
-    adminApi.dashboard.lowStock().then(({ data }) => setLowStock(data as LowStockItem[])).catch(() => {});
-  }, []);
+    fetchAll();
+    const interval = setInterval(fetchAll, 60_000);
+    return () => clearInterval(interval);
+  }, [fetchAll]);
 
   const pieData = stats
     ? Object.entries(stats.orders_by_status).map(([name, value]) => ({ name, value }))
@@ -62,9 +79,21 @@ export default function AdminDashboard() {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h1 className="font-playfair text-2xl md:text-[26px] text-[#1B2B5E] font-bold">Dashboard</h1>
-          <p className="text-[#64748b] text-xs mt-0.5">Welcome back, Admin</p>
+          <p className="text-[#64748b] text-xs mt-0.5">
+            {lastUpdated
+              ? `Last updated: ${lastUpdated.toLocaleTimeString()}`
+              : "Loading…"}
+          </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <button
+            onClick={fetchAll}
+            disabled={refreshing}
+            className="flex items-center gap-1.5 px-3 py-2 border border-[#E2E8F0] text-[#64748b] text-xs font-semibold rounded-lg hover:bg-[#F8FAFC] transition-colors disabled:opacity-50"
+          >
+            <ArrowPathIcon className={`w-3.5 h-3.5 ${refreshing ? "animate-spin" : ""}`} />
+            Refresh
+          </button>
           <Link href="/admin/products/new">
             <button className="flex items-center gap-1.5 px-3 py-2 bg-[#1B2B5E] hover:bg-[#243570] text-white text-xs font-semibold rounded-lg transition-colors">
               <PlusIcon className="w-3.5 h-3.5" />Add Product
@@ -111,7 +140,7 @@ export default function AdminDashboard() {
           },
           {
             label: "Low Stock Items", value: stats.low_stock_items,
-            sub: "need restocking",
+            sub: stats.low_stock_items === 0 ? "All well stocked" : "need restocking",
             Icon: ExclamationTriangleIcon,
             iconBg: stats.low_stock_items > 0 ? "bg-[#fee2e2]" : "bg-[#d1fae5]",
             iconColor: stats.low_stock_items > 0 ? "text-[#dc2626]" : "text-[#059669]",
@@ -199,7 +228,9 @@ export default function AdminDashboard() {
                     <td className="py-2.5"><Badge variant={STATUS_BADGE[o.status] ?? "gray"}>{o.status}</Badge></td>
                   </tr>
                 ))}
-                {recentOrders.length === 0 && <tr><td colSpan={4} className="py-6 text-[#94a3b8] text-center">No orders yet</td></tr>}
+                {recentOrders.length === 0 && (
+                  <tr><td colSpan={4} className="py-6 text-[#94a3b8] text-center">No orders yet</td></tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -252,24 +283,41 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Top Products placeholder */}
+      {/* Top Products — This Month */}
       <div className="bg-white border-[1.5px] border-[#E2E8F0] rounded-xl p-5">
-        <p className="font-playfair text-[16px] font-bold text-[#1B2B5E] mb-4">Top Products — This Month</p>
+        <div className="flex items-center justify-between mb-4">
+          <p className="font-playfair text-[16px] font-bold text-[#1B2B5E]">Top Products — This Month</p>
+          <Link href="/admin/products" className="text-[#C9A84C] text-xs hover:underline font-semibold">View all →</Link>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
               <tr className="text-left border-b border-[#F1F5F9]">
-                {["#", "Product", "Units Sold", "Revenue", "Avg Rating", ""].map((h) => (
+                {["#", "Product", "Units Sold", "Revenue", "Avg Rating"].map((h) => (
                   <th key={h} className="pb-2 pr-4 font-semibold uppercase tracking-wider text-[10px] text-[#64748b]">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colSpan={6} className="py-6 text-[#94a3b8] text-center text-xs">
-                  Top product data will appear here once orders are placed
-                </td>
-              </tr>
+              {topProducts.length > 0 ? topProducts.map((p, i) => (
+                <tr key={p.product_id} className="border-b border-[#F8FAFC] hover:bg-[#F8FAFC] transition-colors">
+                  <td className="py-2.5 pr-4 text-[#94a3b8] font-semibold">{i + 1}</td>
+                  <td className="py-2.5 pr-4 text-[#374151] font-medium max-w-[200px] truncate">{p.product_name}</td>
+                  <td className="py-2.5 pr-4 font-bold text-[#1B2B5E]">{p.units_sold}</td>
+                  <td className="py-2.5 pr-4 font-bold text-[#059669]">{formatPrice(p.revenue)}</td>
+                  <td className="py-2.5 pr-4">
+                    {p.avg_rating != null
+                      ? <span className="text-[#C9A84C] font-bold">★ {p.avg_rating}</span>
+                      : <span className="text-[#94a3b8]">—</span>}
+                  </td>
+                </tr>
+              )) : (
+                <tr>
+                  <td colSpan={5} className="py-6 text-[#94a3b8] text-center text-xs">
+                    No orders placed this month yet
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

@@ -12,9 +12,8 @@ const config: Config = {
         xs: "365px",
       },
       fontFamily: {
-        cormorant: ["var(--font-cormorant)", "serif"],
-        playfair: ["var(--font-playfair)", "serif"],
-        outfit: ["var(--font-outfit)", "sans-serif"],
+        inter: ["var(--font-inter)", "'Inter'", "sans-serif"],
+        playfair: ["var(--font-playfair)", "'Playfair Display'", "serif"],
       },
       colors: {
         brand: {

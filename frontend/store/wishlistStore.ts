@@ -32,8 +32,9 @@ const useWishlistStore = create<WishlistState>()(
         set((s) => ({ ids: [...s.ids, id] }));
         try {
           await wishlistApi.add(id);
-        } catch {
+        } catch (err) {
           set((s) => ({ ids: s.ids.filter((i) => i !== id) }));
+          throw err;
         }
       },
 
@@ -41,8 +42,9 @@ const useWishlistStore = create<WishlistState>()(
         set((s) => ({ ids: s.ids.filter((i) => i !== id) }));
         try {
           await wishlistApi.remove(id);
-        } catch {
+        } catch (err) {
           set((s) => ({ ids: [...s.ids, id] }));
+          throw err;
         }
       },
 
